@@ -1,84 +1,46 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
+# Environment variables
 .env
-backend/.env
-*.local
-
-# Python virtual environments
-venv/
-.env
-__pycache__/
-*.py[cod]
-
-# Python packaging files
-pipfile.lock
-pipfile
-
-# Lock files (choose one depending on your package manager)
-yarn.lock
-pnpm-lock.yaml
-package-lock.json
-.yarn/*
-
-
-# Build outputs
-dist/
-build/
-
-# Logs
-*.log
-
-# TypeScript
-*.tsbuildinfo
-
-# Config files that may contain secrets or environment-specific data
 .env.local
 .env.*.local
 
-# Vite cache
-.vite/
-
-# Editor folders/files
-.vscode/
-.vscode/*
-!.vscode/extensions.json
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-
-# Django
-*.sqlite3
-*.db
-db.sqlite3
-media/
-staticfiles/
-static/
-
-# Django cache
+# Python
 __pycache__/
+*.py[cod]
 *.pyc
 *.pyo
 
-# Docker
-# .dockerignore - keep this file in git
+# Django
+*.sqlite3
+db.sqlite3
 
-# Keep migrations but ignore specific ones if needed
-# migrations/
-# backend/products/migrations/0002_*.py
+# Editor folders/files
+.vscode/
+.DS_Store
+*.swp
+*.swo
+*~
 
-# Static or generated files you don't want in git
-fixtures/
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Future additions (commented out until needed)
+# Node.js (when frontend is added)
+# node_modules/
+# npm-debug.log*
+# yarn-debug.log*
+# package-lock.json
+
+# Django (when these directories exist)
+# media/
+# staticfiles/
+# static/
+
+# Python virtual environments (if used locally)
+# venv/
+# .venv/

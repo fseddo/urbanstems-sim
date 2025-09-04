@@ -67,6 +67,21 @@ class Product(models.Model):
         """Convert discounted price from cents to dollars"""
         return self.discounted_price / 100 if self.discounted_price else None
 
+    @property
+    def categories(self):
+        """Get all categories for this product"""
+        return Category.objects.filter(productcategory__product=self)
+    
+    @property
+    def collections(self):
+        """Get all collections for this product"""
+        return Collection.objects.filter(productcollection__product=self)
+    
+    @property
+    def occasions(self):
+        """Get all occasions for this product"""
+        return Occasion.objects.filter(productoccasion__product=self)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)

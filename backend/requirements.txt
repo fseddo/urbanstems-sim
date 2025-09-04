@@ -1,10 +1,4 @@
-asgiref
-Django
-django-cors-headers
-djangorestframework
-djangorestframework-simplejwt
-PyJWT
-pytz
-sqlparse
-psycopg2-binary
-python-dotenv
+Django==5.0.8
+psycopg2-binary==2.9.9
+python-decouple==3.8
+dj-database-url==2.1.0

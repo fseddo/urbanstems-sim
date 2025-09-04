@@ -60,7 +60,25 @@ build/
 *.sw?
 
 
-# Static or generated files you don’t want in git
+# Django
+*.sqlite3
+*.db
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# Django cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Docker
+# .dockerignore - keep this file in git
+
+# Keep migrations but ignore specific ones if needed
+# migrations/
+# backend/products/migrations/0002_*.py
+
+# Static or generated files you don't want in git
 fixtures/
-migrations/
-.db.sqlite3

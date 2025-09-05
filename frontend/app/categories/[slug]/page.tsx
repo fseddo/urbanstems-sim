@@ -17,33 +17,22 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     ]);
 
     return (
-      <div className='min-h-screen bg-gray-50'>
+      <div className='min-h-screen'>
         {/* Header */}
-        <header className='border-b bg-white shadow-sm'>
+        <header className='border-b shadow-sm'>
           <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
             <div className='flex items-center justify-between py-6'>
               <div>
-                <Link
-                  href='/'
-                  className='text-3xl font-bold text-gray-900 hover:text-gray-700'
-                >
+                <Link href='/' className='text-3xl font-bold'>
                   Urban Stems
                 </Link>
-                <p className='text-gray-600'>
-                  Beautiful flowers delivered fresh
-                </p>
+                <p className=''>Beautiful flowers delivered fresh</p>
               </div>
               <nav className='flex space-x-8'>
-                <Link
-                  href='/products'
-                  className='text-gray-700 hover:text-gray-900'
-                >
+                <Link href='/products' className=''>
                   All Products
                 </Link>
-                <Link
-                  href='/categories'
-                  className='text-gray-700 hover:text-gray-900'
-                >
+                <Link href='/categories' className=''>
                   Categories
                 </Link>
               </nav>
@@ -56,7 +45,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <nav className='mb-8 flex' aria-label='Breadcrumb'>
             <ol className='flex items-center space-x-4'>
               <li>
-                <Link href='/' className='text-gray-500 hover:text-gray-700'>
+                <Link href='/' className=''>
                   Home
                 </Link>
               </li>
@@ -64,26 +53,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 <span className='text-gray-500'>/</span>
               </li>
               <li>
-                <Link
-                  href='/categories'
-                  className='text-gray-500 hover:text-gray-700'
-                >
+                <Link href='/categories' className=''>
                   Categories
                 </Link>
               </li>
               <li>
-                <span className='text-gray-500'>/</span>
+                <span className=''>/</span>
               </li>
-              <li className='font-medium text-gray-900'>{category.name}</li>
+              <li className='font-medium'>{category.name}</li>
             </ol>
           </nav>
 
           {/* Category Header */}
           <div className='mb-8'>
-            <h1 className='mb-2 text-3xl font-bold text-gray-900'>
-              {category.name}
-            </h1>
-            <p className='text-gray-600'>
+            <h1 className='mb-2 text-3xl font-bold'>{category.name}</h1>
+            <p className=''>
               Discover our beautiful selection of {category.name.toLowerCase()}
             </p>
           </div>
@@ -97,15 +81,15 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             </div>
           ) : (
             <div className='py-12 text-center'>
-              <p className='text-lg text-gray-500'>
+              <p className='text-lg'>
                 No products found in the {category.name} category.
               </p>
-              <p className='mt-2 text-sm text-gray-400'>
+              <p className='mt-2 text-sm'>
                 Please check back later or browse other categories.
               </p>
               <Link
                 href='/'
-                className='mt-4 inline-block rounded-lg bg-black px-6 py-3 text-white transition-colors duration-200 hover:bg-gray-800'
+                className='mt-4 inline-block rounded-lg transition-colors duration-200'
               >
                 Back to Home
               </Link>

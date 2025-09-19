@@ -7,13 +7,13 @@ export const Navbar = () => {
     <header className='border-b'>
       <div className='bg-brand-primary font-crimson w-full justify-center pt-1.5 pb-[7px] text-center text-base text-white'>
         <div className='mt-[3px]'>
-          Fall Florals Have Arrived. Shop New Season Bouquets Today!{' '}
-          <span className='underline'>Shop Now</span>
+          Make Your Gift Unforgettable! Add A Free Video Message Using Code
+          FREEVIDEO At Checkout.
         </div>
       </div>
-      <div className='relative mx-auto flex items-center justify-between px-11 py-5.5'>
+      <div className='relative mx-auto flex items-center justify-between px-[clamp(34px,15.3vw,40px)] py-[19px]'>
         {/* Left Navigation - Hidden on mobile, shown as dropdown */}
-        <div className='font-crimson text-brand-primary hidden gap-5.5 text-sm lg:flex xl:text-lg'>
+        <div className='font-crimson text-brand-primary hidden gap-[clamp(18px,15.3vw,19px)] text-sm text-[clamp(13px,1.2vw,18px)] lg:flex'>
           <div className='flex items-center gap-1.5'>
             <div>Shop</div>{' '}
             <div>
@@ -39,19 +39,19 @@ export const Navbar = () => {
             height={100}
             alt='logo'
             src='/logo.svg'
-            className='w-[167px] lg:w-[167px] 2xl:w-[214px]'
+            className='w-[clamp(167px,15.3vw,214px)]'
           />
         </div>
 
         {/* Right Navigation - Hidden on mobile, shown as dropdown */}
-        <div className='font-crimson text-brand-primary hidden items-center gap-4 text-sm lg:flex xl:text-lg'>
+        <div className='font-crimson text-brand-primary hidden items-center gap-4.5 text-[clamp(13px,1.2vw,18px)] lg:flex'>
           <div>Subscriptions</div>
           <div>Rewards</div>
           <div>
-            <PiMagnifyingGlass size={16} />
+            <PiMagnifyingGlass size={19} />
           </div>
           <div>
-            <PiUser size={16} />
+            <PiUser size={19} />
           </div>
           <div>
             <CartIcon />

@@ -14,6 +14,7 @@
   --color-brand-primary: var(--brand-primary);
   --default-font-family: var(--font-mulish);
   --font-crimson: var(--font-crimson);
+  --font-mulish: var(--font-mulish);
   --breakpoint-2xl: 87.5rem;
 }
 

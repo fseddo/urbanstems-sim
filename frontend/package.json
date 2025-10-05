@@ -12,6 +12,7 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@react-spring/web": "^10.0.3",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",

@@ -1,8 +1,11 @@
+'use client';
+
+import { useRef } from 'react';
 import { apiClient } from '@/lib/api';
 import { Footer } from '@/components/Footer';
-import { Navbar } from '@/components/Navbar';
-import { HomeContent } from '@/components/HomeContent';
+import { Navbar } from '@/components/navbar/Navbar';
 import { Category, Product } from '@/types/api';
+import { HomeContent } from '@/components/HomeContent';
 
 const Home = ({
   products,
@@ -11,15 +14,13 @@ const Home = ({
   products: Product[];
   categories: Category[];
 }) => {
+  const navbarRef = useRef<HTMLElement>(null);
+
   return (
-    <div className='min-h-screen'>
-      <Navbar />
-      <main className='mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8'>
-        <div className='min-h-0 overflow-y-scroll'>
-          <div className='h-[2000px]'>
-            {/* <HomeContent products={products} categories={categories} /> */}
-          </div>
-        </div>
+    <div>
+      <Navbar ref={navbarRef} />
+      <main>
+        <HomeContent navbarRef={navbarRef} />
       </main>
       <Footer />
     </div>

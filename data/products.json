@@ -7,8 +7,8 @@
     "url": "https://urbanstems.com/products/the-margot",
     "price": 9000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Margot_MainImage_PDP_bc77aebd-b79c-45c4-8c5f-28a4b3dd8fa7.jpg?v=1729624620&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Margot_SupportingImage_1_PDP.jpg?v=1727916898&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Margot_MainImage_PDP_bc77aebd-b79c-45c4-8c5f-28a4b3dd8fa7.jpg?v=1729624620",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Margot_SupportingImage_1_PDP.jpg?v=1727916898",
     "badge_text": "Best Seller",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -18,8 +18,8 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/001060e770974c659f6828b1167d44b2/001060e770974c659f6828b1167d44b2.HD-1080p-3.3Mbps-48675817.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_2_690d36b4-2fc9-45a7-a9c4-acbd0b1f8a89.jpg?v=1748882561&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_3_5811ae31-6727-47d6-aec6-ca640656411a.jpg?v=1748882561&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_2_690d36b4-2fc9-45a7-a9c4-acbd0b1f8a89.jpg?v=1748882561",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_3_5811ae31-6727-47d6-aec6-ca640656411a.jpg?v=1748882561",
     "collections": [],
     "occasions": [
       "birthday",
@@ -28,9 +28,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "32"
   },
   {
@@ -41,8 +39,8 @@
     "url": "https://urbanstems.com/products/the-honeycrisp",
     "price": 6800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Honeycrisp_MainImage_PDP_1.jpg?v=1756858554&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Honeycrisp_SupportingImage_1_PDP_15e53617-9ede-4ec5-a40f-9216c332aead.jpg?v=1756858554&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Honeycrisp_MainImage_PDP_1.jpg?v=1756858554",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Honeycrisp_SupportingImage_1_PDP_15e53617-9ede-4ec5-a40f-9216c332aead.jpg?v=1756858554",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -50,22 +48,13 @@
     "reviews_count": 40,
     "description": "<p><span data-sheets-root=\"1\">Introducing \"The Honeycrisp\" – a vibrant bouquet inspired by the joyful tradition of apple picking. Featuring red, yellow, and orange spray roses, this arrangement captures the warm, inviting hues of ripe apples hanging in the orchard. Just like the beloved Honeycrisp apple, these roses bring a burst of color and a fresh, cheerful ambiance to any space.</span><br></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_1.jpg?v=1728948570&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_1.jpg?v=1728948570",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_2.jpg?v=1728948570&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_3.jpg?v=1728948570&width=768",
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "friendship",
-      "just because",
-      "miss you",
-      "self send"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_2.jpg?v=1728948570",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_3.jpg?v=1728948570",
+    "collections": ["the fall collection"],
+    "occasions": ["friendship", "just because", "miss you", "self send"],
+    "categories": ["flowers"],
     "double_variation": "34",
     "triple_variation": "55"
   },
@@ -77,8 +66,8 @@
     "url": "https://urbanstems.com/products/the-sunflower-field",
     "price": 7800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_MainImage_PDP_d9b04056-cb7c-45f9-bf7f-84e82c1d2e76.jpg?v=1729712456&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_SupportingImage_1_PDP_6c96a4ba-cffa-4619-b4df-6c2147d867de.jpg?v=1729196448&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_MainImage_PDP_d9b04056-cb7c-45f9-bf7f-84e82c1d2e76.jpg?v=1729712456",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_SupportingImage_1_PDP_6c96a4ba-cffa-4619-b4df-6c2147d867de.jpg?v=1729196448",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -86,22 +75,13 @@
     "reviews_count": 10,
     "description": "<p><span data-sheets-root=\"1\">Experience the essence of autumn with the rich tapestry of vibrant yellows, deep reds, and fiery oranges. Honor the beauty of fall with this exquisite bouquet, you won't regret it.</span></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_1_e6a17cc8-8e75-44a8-9be4-0b99adb6e658.jpg?v=1728962449&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_1_e6a17cc8-8e75-44a8-9be4-0b99adb6e658.jpg?v=1728962449",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_2_71ccb2cf-792d-4720-89b1-dfd42db2c65e.jpg?v=1728962449&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_2_71ccb2cf-792d-4720-89b1-dfd42db2c65e.jpg?v=1728962449",
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "birthday",
-      "friendship",
-      "entertaining",
-      "self send"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection"],
+    "occasions": ["birthday", "friendship", "entertaining", "self send"],
+    "categories": ["flowers"],
     "double_variation": "36"
   },
   {
@@ -112,8 +92,8 @@
     "url": "https://urbanstems.com/products/the-mariposa",
     "price": 6800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Sorbet_MainImage_PDP_9a10d550-774a-4207-878c-1c0e645f6eba.jpg?v=1729624788&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1727919472&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Sorbet_MainImage_PDP_9a10d550-774a-4207-878c-1c0e645f6eba.jpg?v=1729624788",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1727919472",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -123,11 +103,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/102256faab384e7696c783b324af17e4/102256faab384e7696c783b324af17e4.HD-1080p-2.5Mbps-36399669.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&width=768",
-    "collections": [
-      "the classics collection"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311",
+    "collections": ["the classics collection"],
     "occasions": [
       "birthday",
       "thank you",
@@ -139,9 +117,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "33",
     "triple_variation": "52"
   },
@@ -153,8 +129,8 @@
     "url": "https://urbanstems.com/products/autumn-birthday-bundle",
     "price": 15000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Fall_Levain_MainImage_PDP.jpg?v=1756828615&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Fall_Levain_SupportingImage_2_PDP.jpg?v=1756828615&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Fall_Levain_MainImage_PDP.jpg?v=1756828615",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Fall_Levain_SupportingImage_2_PDP.jpg?v=1756828615",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -166,14 +142,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "flowers",
-      "gifts"
-    ]
+    "categories": ["flowers", "gifts"]
   },
   {
     "id": "5",
@@ -183,8 +154,8 @@
     "url": "https://urbanstems.com/products/the-unicorn",
     "price": 6000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Unicorn_MainImage_PDP_fd0824ee-0b14-48e0-9610-e004a7120c3a.jpg?v=1751896604&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/dw85054ed7_Spring24_Unicorn_2024_Unicorn_top_2024.jpg?v=1754312049&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Unicorn_MainImage_PDP_fd0824ee-0b14-48e0-9610-e004a7120c3a.jpg?v=1751896604",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/dw85054ed7_Spring24_Unicorn_2024_Unicorn_top_2024.jpg?v=1754312049",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -192,13 +163,11 @@
     "reviews_count": 250,
     "description": "<p data-pm-slice=\"1 1 []\">For a recipient as rare and special as this bouquet's namesake, the Unicorn's sweet lavender roses dance among shades of lacy pink and white. Delicate delphinium floats above, adding a touch of blue and a touch of elegance, making this bouquet perfect for any celebration — from babies to birthdays and beyond.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_1_d816670d-51e1-4d63-8cfc-d02ab33d936a.jpg?v=1748881401&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_1_d816670d-51e1-4d63-8cfc-d02ab33d936a.jpg?v=1748881401",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_2_c3e3fe58-a833-4014-b939-53f095a3aeac.jpg?v=1748881401&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_2_c3e3fe58-a833-4014-b939-53f095a3aeac.jpg?v=1748881401",
     "detail_image_2_src": null,
-    "collections": [
-      "the classics collection"
-    ],
+    "collections": ["the classics collection"],
     "occasions": [
       "birthday",
       "thank you",
@@ -207,9 +176,7 @@
       "self send",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "40",
     "triple_variation": "53"
   },
@@ -221,8 +188,8 @@
     "url": "https://urbanstems.com/products/the-zucca",
     "price": 7000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Zucca_MainImage_color__PDP.jpg?v=1753968746&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Zucca_SupportingImage_1_PDP.jpg?v=1753968746&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Zucca_MainImage_color__PDP.jpg?v=1753968746",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Zucca_SupportingImage_1_PDP.jpg?v=1753968746",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -230,22 +197,13 @@
     "reviews_count": 17,
     "description": "<p>We’re not fluent in Italian, but we do know “zucca” means pumpkin. So meet our take on The Zucca, a seasonal bouquet that delivers a striking mix of seasonal blooms in rich, autumnal hues. The perfect blend of sophistication and natural beauty, this arrangement makes a gorgeous accent for everyday life or making a special occasion even sweeter.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_1.jpg?v=1754334372&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_1.jpg?v=1754334372",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_2_6c27e413-f613-417c-8b30-6c1f05fbed04.jpg?v=1754334373&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_2_6c27e413-f613-417c-8b30-6c1f05fbed04.jpg?v=1754334373",
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "friendship",
-      "just because",
-      "self send",
-      "wedding"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection"],
+    "occasions": ["friendship", "just because", "self send", "wedding"],
+    "categories": ["flowers"],
     "double_variation": "35"
   },
   {
@@ -256,8 +214,8 @@
     "url": "https://urbanstems.com/products/the-juliet",
     "price": 6800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/GoodVibes_MainImage_PDP_dae333bb-2232-4b7d-945f-8373fdfe0e9c.jpg?v=1729624248&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/GoodVibes_SupportingImage_1_PDP.jpg?v=1727916702&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/GoodVibes_MainImage_PDP_dae333bb-2232-4b7d-945f-8373fdfe0e9c.jpg?v=1729624248",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/GoodVibes_SupportingImage_1_PDP.jpg?v=1727916702",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -269,10 +227,7 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "the classics collection"
-    ],
+    "collections": ["the fall collection", "the classics collection"],
     "occasions": [
       "birthday",
       "friendship",
@@ -280,9 +235,7 @@
       "congratulations",
       "miss you"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "43",
     "triple_variation": "54"
   },
@@ -294,8 +247,8 @@
     "url": "https://urbanstems.com/products/the-golden-moment",
     "price": 8800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/GoldenMoment_MainImage_color_PDP_dde1bac1-23d5-45b2-ab05-dbea0845a0ed.jpg?v=1755641043&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/GoldenMoment_SupportingImage_PDP.jpg?v=1755641043&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/GoldenMoment_MainImage_color_PDP_dde1bac1-23d5-45b2-ab05-dbea0845a0ed.jpg?v=1755641043",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/GoldenMoment_SupportingImage_PDP.jpg?v=1755641043",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -307,17 +260,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "thank you",
-      "just because",
-      "congratulations"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection"],
+    "occasions": ["thank you", "just because", "congratulations"],
+    "categories": ["flowers"],
     "double_variation": "47"
   },
   {
@@ -328,8 +273,8 @@
     "url": "https://urbanstems.com/products/the-autumn-sun",
     "price": 6800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnSun_MainImage_PDP.jpg?v=1753804696&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnSun_SupportingImage_PDP.jpg?v=1753804696&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnSun_MainImage_PDP.jpg?v=1753804696",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnSun_SupportingImage_PDP.jpg?v=1753804696",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -337,20 +282,13 @@
     "reviews_count": null,
     "description": "<p><span data-sheets-root=\"1\">Bold, bright, and unapologetically fall—The Autumn Sun captures everything you love about the season in one expertly designed arrangement. Featuring sunflowers, mums, and orange spray roses, this bouquet is our floral designer's love letter to the season's most vibrant moments. Perfect for birthdays that call for celebration, or simply because some days deserve a little extra sunshine. </span></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_1.jpg?v=1754334508&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_1.jpg?v=1754334508",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_2.jpg?v=1754334507&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_3.jpg?v=1754334508&width=768",
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "birthday",
-      "friendship"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_2.jpg?v=1754334507",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_3.jpg?v=1754334508",
+    "collections": ["the fall collection"],
+    "occasions": ["birthday", "friendship"],
+    "categories": ["flowers"],
     "double_variation": "46"
   },
   {
@@ -361,8 +299,8 @@
     "url": "https://urbanstems.com/products/the-spice",
     "price": 8800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Spice_MainImage_PDP_7e91cabd-3510-459e-97f1-ee4c9ed1363d.jpg?v=1729697752&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Spice_SupportingImage_1_PDP_9ab82115-0735-4273-85c9-8cd1f360f705.jpg?v=1729199224&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Spice_MainImage_PDP_7e91cabd-3510-459e-97f1-ee4c9ed1363d.jpg?v=1729697752",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Spice_SupportingImage_1_PDP_9ab82115-0735-4273-85c9-8cd1f360f705.jpg?v=1729199224",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -374,18 +312,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "thank you",
-      "congratulations",
-      "miss you",
-      "self send"
-    ],
-    "categories": [
-      "flowers"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["thank you", "congratulations", "miss you", "self send"],
+    "categories": ["flowers"]
   },
   {
     "id": "11",
@@ -395,8 +324,8 @@
     "url": "https://urbanstems.com/products/the-autumn-sky",
     "price": 9200,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnSky_MainImage_color_PDP.jpg?v=1753724487&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnSky_SupportingImage_PDP.jpg?v=1753725312&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnSky_MainImage_color_PDP.jpg?v=1753724487",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnSky_SupportingImage_PDP.jpg?v=1753725312",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -408,16 +337,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "congratulations",
-      "new baby"
-    ],
-    "categories": [
-      "flowers"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["congratulations", "new baby"],
+    "categories": ["flowers"]
   },
   {
     "id": "12",
@@ -427,8 +349,8 @@
     "url": "https://urbanstems.com/products/the-firecracker",
     "price": 7400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Firecracker_MainImage_PDP_3d3fee8b-1e15-4a05-9957-67cfdf0a5c5b.jpg?v=1731601910&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Firecracker_SupportingImage_1_PDP_ac774926-bf5f-452a-ba81-b0061e2f1cff.jpg?v=1731601910&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Firecracker_MainImage_PDP_3d3fee8b-1e15-4a05-9957-67cfdf0a5c5b.jpg?v=1731601910",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Firecracker_SupportingImage_1_PDP_ac774926-bf5f-452a-ba81-b0061e2f1cff.jpg?v=1731601910",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -438,12 +360,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/fca4366458fd460ca0500976d7571145/fca4366458fd460ca0500976d7571145.HD-1080p-3.3Mbps-48675926.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_2_d26b4b3c-9a95-46b1-b4a5-243450d93989.jpg?v=1748882658&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_3_62d47a8a-c7b4-4a95-aeb6-d4ae852f580b.jpg?v=1748882658&width=768",
-    "collections": [
-      "the fall collection",
-      "the classics collection"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_2_d26b4b3c-9a95-46b1-b4a5-243450d93989.jpg?v=1748882658",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_3_62d47a8a-c7b4-4a95-aeb6-d4ae852f580b.jpg?v=1748882658",
+    "collections": ["the fall collection", "the classics collection"],
     "occasions": [
       "birthday",
       "thank you",
@@ -452,9 +371,7 @@
       "miss you",
       "self send"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "39",
     "triple_variation": "56"
   },
@@ -466,8 +383,8 @@
     "url": "https://urbanstems.com/products/the-dove",
     "price": 7400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Peace_MainImage_PDP_dcb04153-6187-45df-af46-222f861c32cd.jpg?v=1729627763&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Peace_SupportingImage_1_PDP.jpg?v=1727920080&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Peace_MainImage_PDP_dcb04153-6187-45df-af46-222f861c32cd.jpg?v=1729627763",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Peace_SupportingImage_1_PDP.jpg?v=1727920080",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -477,11 +394,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/b598f5145dd54bb8a9fd4efcb2cf683a/b598f5145dd54bb8a9fd4efcb2cf683a.HD-1080p-7.2Mbps-48674812.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_2_8a36cc97-e4be-45ad-adf3-9db29b8b00fb.jpg?v=1748881273&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_3.jpg?v=1748881272&width=768",
-    "collections": [
-      "the classics collection"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_2_8a36cc97-e4be-45ad-adf3-9db29b8b00fb.jpg?v=1748881273",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_3.jpg?v=1748881272",
+    "collections": ["the classics collection"],
     "occasions": [
       "sympathy",
       "thank you",
@@ -489,9 +404,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "41",
     "triple_variation": "58"
   },
@@ -503,8 +416,8 @@
     "url": "https://urbanstems.com/products/the-verona",
     "price": 7200,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Verona_MainImage_PDP_26ca8e8e-a3c4-4587-9ccf-3e5b945289af.jpg?v=1729623910&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Verona_SupportingImage_1_PDP.jpg?v=1727919082&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Verona_MainImage_PDP_26ca8e8e-a3c4-4587-9ccf-3e5b945289af.jpg?v=1729623910",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Verona_SupportingImage_1_PDP.jpg?v=1727919082",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -514,11 +427,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/4f680a6cd7ee4d02b2a7c3300c936e61/4f680a6cd7ee4d02b2a7c3300c936e61.HD-1080p-2.5Mbps-36443436.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_2_e5d00db8-60d7-4212-b5d6-049912d25d68.jpg?v=1729167720&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_3.jpg?v=1729167720&width=768",
-    "collections": [
-      "the classics collection"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_2_e5d00db8-60d7-4212-b5d6-049912d25d68.jpg?v=1729167720",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_3.jpg?v=1729167720",
+    "collections": ["the classics collection"],
     "occasions": [
       "birthday",
       "just because",
@@ -527,9 +438,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "42",
     "triple_variation": "57"
   },
@@ -541,8 +450,8 @@
     "url": "https://urbanstems.com/products/the-alaskan-peony",
     "price": 9400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_MainImage_PDP.jpg?v=1746470821&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_SupportingImage_PDP.jpg?v=1746470821&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_MainImage_PDP.jpg?v=1746470821",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_SupportingImage_PDP.jpg?v=1746470821",
     "badge_text": "Limited Edition!",
     "delivery_lead_time": null,
     "stock": 0,
@@ -552,18 +461,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/91d54f33d2aa4f13a07bb23de0463bdc/91d54f33d2aa4f13a07bb23de0463bdc.HD-1080p-2.5Mbps-47925598.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_2.jpg?v=1747767679&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_3.jpg?v=1747767679&width=768",
-    "collections": [
-      "the classics collection"
-    ],
-    "occasions": [
-      "just because",
-      "congratulations"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_2.jpg?v=1747767679",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_3.jpg?v=1747767679",
+    "collections": ["the classics collection"],
+    "occasions": ["just because", "congratulations"],
+    "categories": ["flowers"],
     "double_variation": "37",
     "triple_variation": "59"
   },
@@ -575,8 +477,8 @@
     "url": "https://urbanstems.com/products/the-peony",
     "price": 9000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Peony_V2_MainImage_PDP.jpg?v=1737972145&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Peony__SupportingImage_Lifestyle_PDP.jpg?v=1753278501&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Peony_V2_MainImage_PDP.jpg?v=1737972145",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Peony__SupportingImage_Lifestyle_PDP.jpg?v=1753278501",
     "badge_text": null,
     "delivery_lead_time": null,
     "stock": 0,
@@ -586,8 +488,8 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/0801fa1bb5064e25ba89669ec609db4c/0801fa1bb5064e25ba89669ec609db4c.HD-1080p-4.8Mbps-48675975.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_2_ec8e7fdd-85a5-452f-8f39-75e0d503305a.jpg?v=1748882731&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_3_c9155fb8-fdfc-4e8b-9424-6e71c862cf44.jpg?v=1748882731&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_2_ec8e7fdd-85a5-452f-8f39-75e0d503305a.jpg?v=1748882731",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_3_c9155fb8-fdfc-4e8b-9424-6e71c862cf44.jpg?v=1748882731",
     "collections": [],
     "occasions": [
       "birthday",
@@ -599,9 +501,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "38",
     "triple_variation": "60"
   },
@@ -613,8 +513,8 @@
     "url": "https://urbanstems.com/products/the-pearl",
     "price": 9000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/SnowPeony_MainImage_PDP.jpg?v=1729717666&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/PeonyClouds_SupportingImage_1_PDP.jpg?v=1729198666&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/SnowPeony_MainImage_PDP.jpg?v=1729717666",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/PeonyClouds_SupportingImage_1_PDP.jpg?v=1729198666",
     "badge_text": null,
     "delivery_lead_time": 5,
     "stock": 100,
@@ -622,10 +522,10 @@
     "reviews_count": 132,
     "description": "<p><span style=\"font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; font-size: 0.875rem;\"><span data-sheets-root=\"1\">Add warmth and purity to any space courtesy of the blissful and aptly named Pearl bouquet. Featuring lush white peonies, each with a delicate pink center, the arrangement is a special treat for the warmer months. They arrive in compact bulb form, eventually thriving and developing into the pillow-like blooms. Read more about the meaning of the white peony. Choose from three bouquet sizes of lush peonies, a 10-stem Single, a 20-stem Double, or a 30-stem Triple.<br><br>Please Note: Your peonies may arrive in bud form but will open in 1-2 days, meaning you can enjoy your blooms longer! Flower color may vary slightly from the pictured bouquet and may gradually change as your flowers bloom.<br>If your foliage looks slightly dehydrated upon arrival, place the stems in some water to revive them. (Pro tip: remove any foliage near or below the waterline for a longer-lasting bouquet!)</span>looms.&nbsp;</span><span style=\"font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; font-size: 0.875rem;\"> If the foliage looks a bit parched upon arrival, simply place the stems in water to refresh them.</span></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_1.jpg?v=1728948120&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_1.jpg?v=1728948120",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_2.jpg?v=1728948120&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_3.jpg?v=1728948119&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_2.jpg?v=1728948120",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_3.jpg?v=1728948119",
     "collections": [],
     "occasions": [
       "sympathy",
@@ -634,9 +534,7 @@
       "anniversary",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "double_variation": "44",
     "triple_variation": "61"
   },
@@ -648,8 +546,8 @@
     "url": "https://urbanstems.com/products/the-warm-embrace",
     "price": 9500,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_MainImage_PDP_368d7c0f-0219-4b9f-bb64-bff5710deae7.jpg?v=1729609266&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_SupportingImage_1_PDP_5018940f-ac98-4c57-8293-ab96e75238aa.jpg?v=1729202097&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_MainImage_PDP_368d7c0f-0219-4b9f-bb64-bff5710deae7.jpg?v=1729609266",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_SupportingImage_1_PDP_5018940f-ac98-4c57-8293-ab96e75238aa.jpg?v=1729202097",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -657,21 +555,13 @@
     "reviews_count": 19,
     "description": "<p><span data-sheets-root=\"1\">A bouquet that knows just how to comfort when words fall short. It's a gentle hug in floral form, with pristine anemones that stand as a beacon of hope and solace.</span><br></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_Lifestyle_1.jpg?v=1729608942&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_Lifestyle_1.jpg?v=1729608942",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_Lifestyle_2.jpg?v=1729608942&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_Lifestyle_3.jpg?v=1729608942&width=768",
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "sympathy",
-      "wedding",
-      "new baby"
-    ],
-    "categories": [
-      "flowers"
-    ]
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_Lifestyle_2.jpg?v=1729608942",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/WarmEmbrace_Lifestyle_3.jpg?v=1729608942",
+    "collections": ["the fall collection"],
+    "occasions": ["sympathy", "wedding", "new baby"],
+    "categories": ["flowers"]
   },
   {
     "id": "19",
@@ -681,8 +571,8 @@
     "url": "https://urbanstems.com/products/the-mulberry",
     "price": 6500,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Mulberry_MainImage_color_PDP.jpg?v=1753724598&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Mulberry_SupportingImage_PDP.jpg?v=1754326402&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Mulberry_MainImage_color_PDP.jpg?v=1753724598",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Mulberry_SupportingImage_PDP.jpg?v=1754326402",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -694,16 +584,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "birthday",
-      "anniversary"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection"],
+    "occasions": ["birthday", "anniversary"],
+    "categories": ["flowers"],
     "double_variation": "48"
   },
   {
@@ -714,8 +597,8 @@
     "url": "https://urbanstems.com/products/the-selene",
     "price": 7400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Starlight_MainImage_PDP_33e945a1-b2bb-46c1-a4c0-c796a9f59e17.jpg?v=1729697988&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Starlight_SupportingImage_1_PDP.jpg?v=1738170557&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Starlight_MainImage_PDP_33e945a1-b2bb-46c1-a4c0-c796a9f59e17.jpg?v=1729697988",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Starlight_SupportingImage_1_PDP.jpg?v=1738170557",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -723,20 +606,13 @@
     "reviews_count": 122,
     "description": "<p><span data-sheets-root=\"1\">More than anything, you deserve an enchanting arrangement that is designed to dazzle and delight. You’ve come to the right place. Meet our captivating blend of cream, purple, and whimsical blue florals that are perfect for any occasion and evoke the serene beauty of a starry night.</span></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Starlight__Lifestyle_2.jpg?v=1728585020&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Starlight__Lifestyle_2.jpg?v=1728585020",
     "is_main_detail_video": false,
     "detail_image_1_src": null,
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Starlight_Lifestyle_3.jpg?v=1728585019&width=768",
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "birthday",
-      "anniversary"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Starlight_Lifestyle_3.jpg?v=1728585019",
+    "collections": ["the fall collection"],
+    "occasions": ["birthday", "anniversary"],
+    "categories": ["flowers"],
     "double_variation": "49"
   },
   {
@@ -747,8 +623,8 @@
     "url": "https://urbanstems.com/products/the-fiery-rose",
     "price": 9500,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/FieryRose_MainImage_PDP.jpg?v=1754325541&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/FieryRose_SupportingImage_PDP.jpg?v=1754325541&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/FieryRose_MainImage_PDP.jpg?v=1754325541",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/FieryRose_SupportingImage_PDP.jpg?v=1754325541",
     "badge_text": "New!",
     "delivery_lead_time": 11,
     "stock": 100,
@@ -760,15 +636,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "entertaining"
-    ],
-    "categories": [
-      "flowers"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["entertaining"],
+    "categories": ["flowers"]
   },
   {
     "id": "22",
@@ -778,8 +648,8 @@
     "url": "https://urbanstems.com/products/the-new-moon",
     "price": 8400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/NewMoon_MainImage_color_PDP.jpg?v=1753819003&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/NewMoon_SupportingImage_PDP.jpg?v=1753819016&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/NewMoon_MainImage_color_PDP.jpg?v=1753819003",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/NewMoon_SupportingImage_PDP.jpg?v=1753819016",
     "badge_text": "New!",
     "delivery_lead_time": 11,
     "stock": 100,
@@ -791,16 +661,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "birthday",
-      "anniversary"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection"],
+    "occasions": ["birthday", "anniversary"],
+    "categories": ["flowers"],
     "double_variation": "51"
   },
   {
@@ -811,8 +674,8 @@
     "url": "https://urbanstems.com/products/the-pomegranate",
     "price": 6800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Pomegranate_MainImage_PDP_b8c5998d-9a29-4f3a-8ad9-de579cd4ad3d.jpg?v=1729719741&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Pomegranate_SupportingImage_1_PDP.jpg?v=1727920479&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Pomegranate_MainImage_PDP_b8c5998d-9a29-4f3a-8ad9-de579cd4ad3d.jpg?v=1729719741",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Pomegranate_SupportingImage_1_PDP.jpg?v=1727920479",
     "badge_text": "New!",
     "delivery_lead_time": 11,
     "stock": 100,
@@ -824,16 +687,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "entertaining",
-      "self send"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection"],
+    "occasions": ["entertaining", "self send"],
+    "categories": ["flowers"],
     "double_variation": "50"
   },
   {
@@ -844,8 +700,8 @@
     "url": "https://urbanstems.com/products/the-fall-edit",
     "price": 14000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/FrontRow_Color_MainImage.jpg?v=1753882827&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/FrontRow_SupportingImage_1_PDP.jpg?v=1753882846&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/FrontRow_Color_MainImage.jpg?v=1753882827",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/FrontRow_SupportingImage_1_PDP.jpg?v=1753882846",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -857,18 +713,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "anniversary",
-      "entertaining"
-    ],
-    "categories": [
-      "flowers",
-      "gifts",
-      "centerpieces"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["anniversary", "entertaining"],
+    "categories": ["flowers", "gifts", "centerpieces"]
   },
   {
     "id": "25",
@@ -878,8 +725,8 @@
     "url": "https://urbanstems.com/products/the-autumnal-palette",
     "price": 13000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_MainImage_color_PDP.jpg?v=1754325637&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_SupportingImage_1_PDP_141b9603-ec19-4131-b1f4-7c1034c8dd75.jpg?v=1754325708&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_MainImage_color_PDP.jpg?v=1754325637",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_SupportingImage_1_PDP_141b9603-ec19-4131-b1f4-7c1034c8dd75.jpg?v=1754325708",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -889,20 +736,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/69ee2360d33647929b71ce24f5009939/69ee2360d33647929b71ce24f5009939.HD-1080p-2.5Mbps-54269646.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_Lifestyle_2_cf7fe8cf-ba6b-4677-9f8b-f0e5740f62f6.jpg?v=1754325658&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_Lifestyle_3_9badc64d-beca-4ff0-bae6-ff500ac67ba7.jpg?v=1754325659&width=768",
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "congratulations",
-      "entertaining"
-    ],
-    "categories": [
-      "flowers",
-      "gifts",
-      "centerpieces"
-    ]
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_Lifestyle_2_cf7fe8cf-ba6b-4677-9f8b-f0e5740f62f6.jpg?v=1754325658",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AutumnalPalette_Lifestyle_3_9badc64d-beca-4ff0-bae6-ff500ac67ba7.jpg?v=1754325659",
+    "collections": ["the fall collection"],
+    "occasions": ["congratulations", "entertaining"],
+    "categories": ["flowers", "gifts", "centerpieces"]
   },
   {
     "id": "26",
@@ -912,8 +750,8 @@
     "url": "https://urbanstems.com/products/the-crisp-breeze",
     "price": 7800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/CrispBreeze_MainImage_color_PDP_c403767e-4a1f-41e7-bc91-1d8346e136ee.jpg?v=1756405594&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/CrispBreeze_SupportingImage_PDP.jpg?v=1756405594&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/CrispBreeze_MainImage_color_PDP_c403767e-4a1f-41e7-bc91-1d8346e136ee.jpg?v=1756405594",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/CrispBreeze_SupportingImage_PDP.jpg?v=1756405594",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -921,20 +759,13 @@
     "reviews_count": null,
     "description": "<p>Like the first cool breeze after a long summer, this arrangement signals the start of something new. Crisp white blooms and airy blue delphinium come together in a bouquet that feels refreshing, modern, and just a little unexpected. It's fall, but make it light.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_1.jpg?v=1754334460&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_1.jpg?v=1754334460",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_2.jpg?v=1754334458&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_3.jpg?v=1754334456&width=768",
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "thank you",
-      "new baby"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_2.jpg?v=1754334458",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_3.jpg?v=1754334456",
+    "collections": ["the fall collection"],
+    "occasions": ["thank you", "new baby"],
+    "categories": ["flowers"],
     "double_variation": "45"
   },
   {
@@ -945,8 +776,8 @@
     "url": "https://urbanstems.com/products/the-tranquility",
     "price": 10000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Tranquility_MainImage.jpg?v=1754325883&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Tranquility_SupportingImage_1_PDP.jpg?v=1754325883&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Tranquility_MainImage.jpg?v=1754325883",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Tranquility_SupportingImage_1_PDP.jpg?v=1754325883",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -958,18 +789,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "sympathy",
-      "thank you"
-    ],
-    "categories": [
-      "flowers",
-      "gifts",
-      "centerpieces"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["sympathy", "thank you"],
+    "categories": ["flowers", "gifts", "centerpieces"]
   },
   {
     "id": "28",
@@ -979,8 +801,8 @@
     "url": "https://urbanstems.com/products/the-hearth",
     "price": 11000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Hearth_MainImage_PDP_72d87e03-0c8a-4b6c-bfd7-0884a4a354cb.jpg?v=1754500050&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Hearth_SupportingImage_PDP_91f6bbe6-6d52-456c-82c0-5016b5bbed57.jpg?v=1754500055&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Hearth_MainImage_PDP_72d87e03-0c8a-4b6c-bfd7-0884a4a354cb.jpg?v=1754500050",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Hearth_SupportingImage_PDP_91f6bbe6-6d52-456c-82c0-5016b5bbed57.jpg?v=1754500055",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -992,17 +814,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "entertaining"
-    ],
-    "categories": [
-      "flowers",
-      "gifts",
-      "centerpieces"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["entertaining"],
+    "categories": ["flowers", "gifts", "centerpieces"]
   },
   {
     "id": "29",
@@ -1012,8 +826,8 @@
     "url": "https://urbanstems.com/products/the-evening-ember",
     "price": 10000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/EveningEmber_MainImage_PDP.jpg?v=1755614648&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Spice_SupportingImage_1_PDP_ffcfc575-9f81-45d2-b152-c7ac639fe695.jpg?v=1756227346&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/EveningEmber_MainImage_PDP.jpg?v=1755614648",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Spice_SupportingImage_1_PDP_ffcfc575-9f81-45d2-b152-c7ac639fe695.jpg?v=1756227346",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1025,17 +839,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "birthday",
-      "thank you"
-    ],
-    "categories": [
-      "flowers",
-      "gifts"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["birthday", "thank you"],
+    "categories": ["flowers", "gifts"]
   },
   {
     "id": "30",
@@ -1045,8 +851,8 @@
     "url": "https://urbanstems.com/products/the-dinner-party",
     "price": 12000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/DinnerParty_Color_MainImage.jpg?v=1754326130&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/DinnerParty_SupportingImage_1_PDP_245f1b93-93e0-4f0e-b049-408dd67a3ce9.jpg?v=1754326130&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/DinnerParty_Color_MainImage.jpg?v=1754326130",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/DinnerParty_SupportingImage_1_PDP_245f1b93-93e0-4f0e-b049-408dd67a3ce9.jpg?v=1754326130",
     "badge_text": "New!",
     "delivery_lead_time": 12,
     "stock": 100,
@@ -1056,20 +862,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/def835c9f69d44fe950fcbff2d52108f/def835c9f69d44fe950fcbff2d52108f.HD-1080p-2.5Mbps-36010703.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/DinnerParty_Lifestyle_2_894c4948-6e37-4100-b013-a59826479d12.jpg?v=1728996324&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/DinnerParty_Lifestyle_3.jpg?v=1728421316&width=768",
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "thank you",
-      "entertaining"
-    ],
-    "categories": [
-      "flowers",
-      "gifts",
-      "centerpieces"
-    ]
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/DinnerParty_Lifestyle_2_894c4948-6e37-4100-b013-a59826479d12.jpg?v=1728996324",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/DinnerParty_Lifestyle_3.jpg?v=1728421316",
+    "collections": ["the fall collection"],
+    "occasions": ["thank you", "entertaining"],
+    "categories": ["flowers", "gifts", "centerpieces"]
   },
   {
     "id": "31",
@@ -1079,8 +876,8 @@
     "url": "https://urbanstems.com/products/the-virgo",
     "price": 10000,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/FallAstrology_MainImage.jpg?v=1754326402&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Mulberry_SupportingImage_PDP.jpg?v=1754326402&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/FallAstrology_MainImage.jpg?v=1754326402",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Mulberry_SupportingImage_PDP.jpg?v=1754326402",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1092,16 +889,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "birthday"
-    ],
-    "categories": [
-      "flowers",
-      "gifts"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["birthday"],
+    "categories": ["flowers", "gifts"]
   },
   {
     "id": "32",
@@ -1111,8 +901,8 @@
     "url": "https://urbanstems.com/products/double-the-margot",
     "price": 16200,
     "discounted_price": 18000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Margot_MainImage_PDP_90749c65-6263-4693-be5e-30b57888023b.jpg?v=1729626519&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Margot_SupportingImage_1_PDP.jpg?v=1727921744&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Margot_MainImage_PDP_90749c65-6263-4693-be5e-30b57888023b.jpg?v=1729626519",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Margot_SupportingImage_1_PDP.jpg?v=1727921744",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1122,20 +912,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/001060e770974c659f6828b1167d44b2/001060e770974c659f6828b1167d44b2.HD-1080p-3.3Mbps-48675817.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_2_690d36b4-2fc9-45a7-a9c4-acbd0b1f8a89.jpg?v=1748882561&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_3_5811ae31-6727-47d6-aec6-ca640656411a.jpg?v=1748882561&width=768",
-    "collections": [
-      "sale"
-    ],
-    "occasions": [
-      "birthday",
-      "just because",
-      "wedding",
-      "new baby"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_2_690d36b4-2fc9-45a7-a9c4-acbd0b1f8a89.jpg?v=1748882561",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Margot_Lifestyle_3_5811ae31-6727-47d6-aec6-ca640656411a.jpg?v=1748882561",
+    "collections": ["sale"],
+    "occasions": ["birthday", "just because", "wedding", "new baby"],
+    "categories": ["flowers"],
     "single_variation": "0",
     "double_variation": "32"
   },
@@ -1147,8 +928,8 @@
     "url": "https://urbanstems.com/products/double-the-mariposa",
     "price": 12200,
     "discounted_price": 13600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Sorbet_MainImage_PDP_72362116-3dbd-41ac-9f49-708a9606d5fd.jpg?v=1729625925&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Sorbet_SupportingImage_1_PDP.jpg?v=1727923027&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Sorbet_MainImage_PDP_72362116-3dbd-41ac-9f49-708a9606d5fd.jpg?v=1729625925",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Sorbet_SupportingImage_1_PDP.jpg?v=1727923027",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1158,12 +939,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/102256faab384e7696c783b324af17e4/102256faab384e7696c783b324af17e4.HD-1080p-2.5Mbps-36399669.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&width=768",
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311",
+    "collections": ["the classics collection", "sale"],
     "occasions": [
       "birthday",
       "sympathy",
@@ -1174,9 +952,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "3",
     "double_variation": "33",
     "triple_variation": "52"
@@ -1189,8 +965,8 @@
     "url": "https://urbanstems.com/products/double-the-honeycrisp",
     "price": 12200,
     "discounted_price": 13600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Honeycrisp_MainImage_PDP_e2b1dd50-4281-4c3f-93e1-3dc2159f90c6.jpg?v=1729699171&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Honeycrisp_SupportingImage_1_PDP.jpg?v=1727922952&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Honeycrisp_MainImage_PDP_e2b1dd50-4281-4c3f-93e1-3dc2159f90c6.jpg?v=1729699171",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Honeycrisp_SupportingImage_1_PDP.jpg?v=1727922952",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1198,18 +974,13 @@
     "reviews_count": 40,
     "description": "<p>Introducing \"The Honeycrisp\" – a vibrant bouquet inspired by the joyful tradition of apple picking. Featuring red, yellow, and orange spray roses, this arrangement captures the warm, inviting hues of ripe apples hanging in the orchard. Just like the beloved Honeycrisp apple, these roses bring a burst of color and a fresh, cheerful ambiance to any space.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_1.jpg?v=1728948570&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_1.jpg?v=1728948570",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_2.jpg?v=1728948570&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_3.jpg?v=1728948570&width=768",
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_2.jpg?v=1728948570",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_3.jpg?v=1728948570",
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "1",
     "double_variation": "34",
     "triple_variation": "55"
@@ -1222,8 +993,8 @@
     "url": "https://urbanstems.com/products/double-the-zucca",
     "price": 12600,
     "discounted_price": 14000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Zucca_MainImage_PDP_d341e4ab-bc39-4893-ab7e-c78415138d2d.jpg?v=1729698676&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Zucca_SupportingImage_1_PDP.jpg?v=1727922629&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Zucca_MainImage_PDP_d341e4ab-bc39-4893-ab7e-c78415138d2d.jpg?v=1729698676",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Zucca_SupportingImage_1_PDP.jpg?v=1727922629",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1231,18 +1002,13 @@
     "reviews_count": 17,
     "description": "<p>We’re not fluent in Italian, but we do know “zucca” means pumpkin. So meet our take on The Zucca, a seasonal bouquet that delivers a striking mix of seasonal blooms in rich, autumnal hues. The perfect blend of sophistication and natural beauty, this arrangement makes a gorgeous accent for everyday life or making a special occasion even sweeter.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_1.jpg?v=1754334372&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_1.jpg?v=1754334372",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_2_6c27e413-f613-417c-8b30-6c1f05fbed04.jpg?v=1754334373&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Zucca_Lifestyle_2_6c27e413-f613-417c-8b30-6c1f05fbed04.jpg?v=1754334373",
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "6",
     "double_variation": "35"
   },
@@ -1254,8 +1020,8 @@
     "url": "https://urbanstems.com/products/double-the-sunflower-field",
     "price": 13300,
     "discounted_price": 15600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnHarvest_MainImage_PDP_da4d2e66-f65e-4398-8ac7-85286f10dfa7.jpg?v=1729712456&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnHarvest_SupportingImage_1_PDP.jpg?v=1729194568&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnHarvest_MainImage_PDP_da4d2e66-f65e-4398-8ac7-85286f10dfa7.jpg?v=1729712456",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnHarvest_SupportingImage_1_PDP.jpg?v=1729194568",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1263,20 +1029,13 @@
     "reviews_count": 10,
     "description": "<p><span data-sheets-root=\"1\">Experience the essence of autumn with the rich tapestry of vibrant yellows, burning bronzes, and delicate cream. Honor the beauty of fall with this exquisite bouquet, you won't regret it.</span><br></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_1_e6a17cc8-8e75-44a8-9be4-0b99adb6e658.jpg?v=1728962449&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_1_e6a17cc8-8e75-44a8-9be4-0b99adb6e658.jpg?v=1728962449",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_2_71ccb2cf-792d-4720-89b1-dfd42db2c65e.jpg?v=1728962449&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnHarvest_Lifestyle_2_71ccb2cf-792d-4720-89b1-dfd42db2c65e.jpg?v=1728962449",
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
-    "occasions": [
-      "entertaining"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection", "sale"],
+    "occasions": ["entertaining"],
+    "categories": ["flowers"],
     "single_variation": "2",
     "double_variation": "36"
   },
@@ -1288,8 +1047,8 @@
     "url": "https://urbanstems.com/products/double-the-alaskan-peony",
     "price": 16900,
     "discounted_price": 18800,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_AlaskanPeony_MainImage_PDP.jpg?v=1746470779&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_AlaskanPeony_SupportingImage_PDP.jpg?v=1746470778&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_AlaskanPeony_MainImage_PDP.jpg?v=1746470779",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_AlaskanPeony_SupportingImage_PDP.jpg?v=1746470778",
     "badge_text": "Sale",
     "delivery_lead_time": null,
     "stock": 0,
@@ -1299,18 +1058,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/91d54f33d2aa4f13a07bb23de0463bdc/91d54f33d2aa4f13a07bb23de0463bdc.HD-1080p-2.5Mbps-47925598.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_2.jpg?v=1747767679&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_3.jpg?v=1747767679&width=768",
-    "collections": [
-      "sale"
-    ],
-    "occasions": [
-      "anniversary",
-      "new baby"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_2.jpg?v=1747767679",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_3.jpg?v=1747767679",
+    "collections": ["sale"],
+    "occasions": ["anniversary", "new baby"],
+    "categories": ["flowers"],
     "single_variation": "15",
     "double_variation": "37",
     "triple_variation": "59"
@@ -1323,8 +1075,8 @@
     "url": "https://urbanstems.com/products/double-the-peony",
     "price": 16200,
     "discounted_price": 18000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Peony_v2_MainImage_PDP.jpg?v=1737972187&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Peony_v2_SupportingImage_PDP.jpg?v=1737972187&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Peony_v2_MainImage_PDP.jpg?v=1737972187",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Peony_v2_SupportingImage_PDP.jpg?v=1737972187",
     "badge_text": "Sale",
     "delivery_lead_time": null,
     "stock": 0,
@@ -1334,11 +1086,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/0801fa1bb5064e25ba89669ec609db4c/0801fa1bb5064e25ba89669ec609db4c.HD-1080p-4.8Mbps-48675975.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_2_ec8e7fdd-85a5-452f-8f39-75e0d503305a.jpg?v=1748882731&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_3_c9155fb8-fdfc-4e8b-9424-6e71c862cf44.jpg?v=1748882731&width=768",
-    "collections": [
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_2_ec8e7fdd-85a5-452f-8f39-75e0d503305a.jpg?v=1748882731",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_3_c9155fb8-fdfc-4e8b-9424-6e71c862cf44.jpg?v=1748882731",
+    "collections": ["sale"],
     "occasions": [
       "birthday",
       "thank you",
@@ -1347,9 +1097,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "16",
     "double_variation": "38",
     "triple_variation": "60"
@@ -1362,8 +1110,8 @@
     "url": "https://urbanstems.com/products/double-the-firecracker",
     "price": 13300,
     "discounted_price": 14800,
-    "main_image": "https://urbanstems.com/cdn/shop/files/DoubleFirecracker_MainImage_PDP.jpg?v=1731601883&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/DoubleFirecracker_SupportingImage_1_PDP.jpg?v=1731601883&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/DoubleFirecracker_MainImage_PDP.jpg?v=1731601883",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/DoubleFirecracker_SupportingImage_1_PDP.jpg?v=1731601883",
     "badge_text": "Sale",
     "delivery_lead_time": 4,
     "stock": 100,
@@ -1373,22 +1121,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/fca4366458fd460ca0500976d7571145/fca4366458fd460ca0500976d7571145.HD-1080p-3.3Mbps-48675926.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_2_d26b4b3c-9a95-46b1-b4a5-243450d93989.jpg?v=1748882658&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_3_62d47a8a-c7b4-4a95-aeb6-d4ae852f580b.jpg?v=1748882658&width=768",
-    "collections": [
-      "the fall collection",
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "birthday",
-      "just because",
-      "congratulations",
-      "miss you"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_2_d26b4b3c-9a95-46b1-b4a5-243450d93989.jpg?v=1748882658",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_3_62d47a8a-c7b4-4a95-aeb6-d4ae852f580b.jpg?v=1748882658",
+    "collections": ["the fall collection", "the classics collection", "sale"],
+    "occasions": ["birthday", "just because", "congratulations", "miss you"],
+    "categories": ["flowers"],
     "single_variation": "12",
     "double_variation": "39",
     "triple_variation": "56"
@@ -1401,8 +1138,8 @@
     "url": "https://urbanstems.com/products/double-the-unicorn",
     "price": 10800,
     "discounted_price": 12000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Unicorn_MainImage_PDP_9443884c-ef17-4e58-9552-d982a14f783b.jpg?v=1729697164&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Unicorn_SupportingImage_1_PDP.jpg?v=1754312406&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Unicorn_MainImage_PDP_9443884c-ef17-4e58-9552-d982a14f783b.jpg?v=1729697164",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Unicorn_SupportingImage_1_PDP.jpg?v=1754312406",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1410,22 +1147,13 @@
     "reviews_count": 250,
     "description": "<p data-pm-slice=\"1 1 []\">For a recipient as rare and special as this bouquet's namesake, the Unicorn's sweet lavender roses dance among shades of lacy pink and white. Delicate delphinium floats above, adding a touch of blue and a touch of elegance, making this bouquet perfect for any celebration — from babies to birthdays and beyond.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_1_d816670d-51e1-4d63-8cfc-d02ab33d936a.jpg?v=1748881401&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_1_d816670d-51e1-4d63-8cfc-d02ab33d936a.jpg?v=1748881401",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_2_c3e3fe58-a833-4014-b939-53f095a3aeac.jpg?v=1748881401&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_2_c3e3fe58-a833-4014-b939-53f095a3aeac.jpg?v=1748881401",
     "detail_image_2_src": null,
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "birthday",
-      "congratulations",
-      "miss you"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the classics collection", "sale"],
+    "occasions": ["birthday", "congratulations", "miss you"],
+    "categories": ["flowers"],
     "single_variation": "5",
     "double_variation": "40",
     "triple_variation": "53"
@@ -1438,8 +1166,8 @@
     "url": "https://urbanstems.com/products/double-the-dove",
     "price": 13300,
     "discounted_price": 14800,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Peace_MainImage_PDP_d3a9e415-5a3b-4273-a301-6e20dbaca85b.jpg?v=1729627434&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Peace_SupportingImage_1_PDP.jpg?v=1727920404&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Peace_MainImage_PDP_d3a9e415-5a3b-4273-a301-6e20dbaca85b.jpg?v=1729627434",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Peace_SupportingImage_1_PDP.jpg?v=1727920404",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1449,12 +1177,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/b598f5145dd54bb8a9fd4efcb2cf683a/b598f5145dd54bb8a9fd4efcb2cf683a.HD-1080p-7.2Mbps-48674812.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_2_8a36cc97-e4be-45ad-adf3-9db29b8b00fb.jpg?v=1748881273&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_3.jpg?v=1748881272&width=768",
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_2_8a36cc97-e4be-45ad-adf3-9db29b8b00fb.jpg?v=1748881273",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_3.jpg?v=1748881272",
+    "collections": ["the classics collection", "sale"],
     "occasions": [
       "sympathy",
       "thank you",
@@ -1462,9 +1187,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "13",
     "double_variation": "41",
     "triple_variation": "58"
@@ -1477,8 +1200,8 @@
     "url": "https://urbanstems.com/products/double-the-verona",
     "price": 12900,
     "discounted_price": 14400,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Verona_MainImage_PDP_f484855a-5e53-4151-ba17-4623125083b7.jpg?v=1729626059&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Verona_SupportingImage_1_PDP.jpg?v=1727920776&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Verona_MainImage_PDP_f484855a-5e53-4151-ba17-4623125083b7.jpg?v=1729626059",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Verona_SupportingImage_1_PDP.jpg?v=1727920776",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1488,12 +1211,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/4f680a6cd7ee4d02b2a7c3300c936e61/4f680a6cd7ee4d02b2a7c3300c936e61.HD-1080p-2.5Mbps-36443436.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_2_e5d00db8-60d7-4212-b5d6-049912d25d68.jpg?v=1729167720&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_3.jpg?v=1729167720&width=768",
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_2_e5d00db8-60d7-4212-b5d6-049912d25d68.jpg?v=1729167720",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_3.jpg?v=1729167720",
+    "collections": ["the classics collection", "sale"],
     "occasions": [
       "birthday",
       "just because",
@@ -1502,9 +1222,7 @@
       "wedding",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "14",
     "double_variation": "42",
     "triple_variation": "57"
@@ -1517,8 +1235,8 @@
     "url": "https://urbanstems.com/products/double-the-juliet",
     "price": 12200,
     "discounted_price": 13600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_GoodVibes_MainImage_PDP_a0ff1351-31c3-43d3-80e9-106d5c360e84.jpg?v=1729875014&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_GoodVibes_SupportingImage_1_PDP.jpg?v=1727922845&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_GoodVibes_MainImage_PDP_a0ff1351-31c3-43d3-80e9-106d5c360e84.jpg?v=1729875014",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_GoodVibes_SupportingImage_1_PDP.jpg?v=1727922845",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1530,19 +1248,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "birthday",
-      "congratulations",
-      "miss you"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection", "the classics collection", "sale"],
+    "occasions": ["birthday", "congratulations", "miss you"],
+    "categories": ["flowers"],
     "single_variation": "7",
     "double_variation": "43",
     "triple_variation": "54"
@@ -1555,8 +1263,8 @@
     "url": "https://urbanstems.com/products/double-the-pearl",
     "price": 16200,
     "discounted_price": 18000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_SnowPeony_MainImage_PDP.jpg?v=1729717666&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_PeonyClouds_SupportingImage_1_PDP.jpg?v=1729195877&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_SnowPeony_MainImage_PDP.jpg?v=1729717666",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_PeonyClouds_SupportingImage_1_PDP.jpg?v=1729195877",
     "badge_text": "Sale",
     "delivery_lead_time": 5,
     "stock": 100,
@@ -1564,13 +1272,11 @@
     "reviews_count": 132,
     "description": "<p><span data-sheets-root=\"1\">Add warmth and purity to any space courtesy of the blissful and aptly named Pearl bouquet. Featuring lush white peonies, each with a delicate pink center, the arrangement is a special treat for the warmer months. They arrive in compact bulb form, eventually thriving and developing into the pillow-like blooms. Read more about the meaning of the white peony. Choose from three bouquet sizes of lush peonies, a 10-stem Single, a 20-stem Double, or a 30-stem Triple.<br><br>Please Note: Your peonies may arrive in bud form but will open in 1-2 days, meaning you can enjoy your blooms longer! Flower color may vary slightly from the pictured bouquet and may gradually change as your flowers bloom.<br>If your foliage looks slightly dehydrated upon arrival, place the stems in some water to revive them. (Pro tip: remove any foliage near or below the waterline for a longer-lasting bouquet!)</span><br></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_1.jpg?v=1728948120&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_1.jpg?v=1728948120",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_2.jpg?v=1728948120&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_3.jpg?v=1728948119&width=768",
-    "collections": [
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_2.jpg?v=1728948120",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_3.jpg?v=1728948119",
+    "collections": ["sale"],
     "occasions": [
       "sympathy",
       "thank you",
@@ -1578,9 +1284,7 @@
       "anniversary",
       "new baby"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "17",
     "double_variation": "44",
     "triple_variation": "61"
@@ -1593,8 +1297,8 @@
     "url": "https://urbanstems.com/products/double-the-crisp-breeze",
     "price": 13300,
     "discounted_price": 15600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_CrispBreeze_MainImage_color_PDP.jpg?v=1753724713&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_CrispBreeze_SupportingImage_PDP.jpg?v=1753725327&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_CrispBreeze_MainImage_color_PDP.jpg?v=1753724713",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_CrispBreeze_SupportingImage_PDP.jpg?v=1753725327",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1602,20 +1306,13 @@
     "reviews_count": null,
     "description": "<p>Like the first cool breeze after a long summer, this arrangement signals the start of something new. Crisp white blooms and airy blue delphinium come together in a bouquet that feels refreshing, modern, and just a little unexpected. It's fall, but make it light.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_1.jpg?v=1754334460&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_1.jpg?v=1754334460",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_2.jpg?v=1754334458&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_3.jpg?v=1754334456&width=768",
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
-    "occasions": [
-      "sympathy"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_2.jpg?v=1754334458",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/CrispBreeze_Lifestyle_3.jpg?v=1754334456",
+    "collections": ["the fall collection", "sale"],
+    "occasions": ["sympathy"],
+    "categories": ["flowers"],
     "single_variation": "26",
     "double_variation": "45"
   },
@@ -1627,8 +1324,8 @@
     "url": "https://urbanstems.com/products/double-the-autumn-sun",
     "price": 12200,
     "discounted_price": 13600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnSun_MainImage_PDP.jpg?v=1753804727&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnSun_SupportingImage_PDP.jpg?v=1753804732&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnSun_MainImage_PDP.jpg?v=1753804727",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_AutumnSun_SupportingImage_PDP.jpg?v=1753804732",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1636,18 +1333,13 @@
     "reviews_count": null,
     "description": "<p>Bold, bright, and unapologetically fall—The Autumn Sun captures everything you love about the season in one expertly designed arrangement. Featuring sunflowers, mums, and orange spray roses, this bouquet is our floral designer's love letter to the season's most vibrant moments. Perfect for birthdays that call for celebration, or simply because some days deserve a little extra sunshine.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_1.jpg?v=1754334508&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_1.jpg?v=1754334508",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_2.jpg?v=1754334507&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_3.jpg?v=1754334508&width=768",
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_2.jpg?v=1754334507",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AutumnSun_Lifestyle_3.jpg?v=1754334508",
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "9",
     "double_variation": "46"
   },
@@ -1659,8 +1351,8 @@
     "url": "https://urbanstems.com/products/double-the-golden-moment",
     "price": 15800,
     "discounted_price": 17600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_GoldenMoment_MainImage_color_v2_PDP.jpg?v=1753725003&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_GoldenMoment_SupportingImage_PDP.jpg?v=1753725174&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_GoldenMoment_MainImage_color_v2_PDP.jpg?v=1753725003",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_GoldenMoment_SupportingImage_PDP.jpg?v=1753725174",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1672,14 +1364,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "8",
     "double_variation": "47"
   },
@@ -1691,8 +1378,8 @@
     "url": "https://urbanstems.com/products/double-the-mulberry",
     "price": 11700,
     "discounted_price": 13000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Mulberry_MainImage_color_PDP.jpg?v=1753725191&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Mulberry_SupportingImage_PDP.jpg?v=1753725199&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Mulberry_MainImage_color_PDP.jpg?v=1753725191",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Mulberry_SupportingImage_PDP.jpg?v=1753725199",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1704,14 +1391,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "19",
     "double_variation": "48"
   },
@@ -1723,8 +1405,8 @@
     "url": "https://urbanstems.com/products/double-the-selene",
     "price": 13300,
     "discounted_price": 14800,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Starlight_MainImage_PDP_0454281b-ce14-4430-b22f-f4642e750c4b.jpg?v=1729698328&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Starlight_SupportingImage_1_PDP.jpg?v=1738170798&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Starlight_MainImage_PDP_0454281b-ce14-4430-b22f-f4642e750c4b.jpg?v=1729698328",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Starlight_SupportingImage_1_PDP.jpg?v=1738170798",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1732,22 +1414,13 @@
     "reviews_count": 122,
     "description": "<p data-pm-slice=\"1 1 []\"><span data-sheets-root=\"1\">More than anything, you deserve an enchanting arrangement that is designed to dazzle and delight. You’ve come to the right place. Meet our captivating blend of cream, purple, and whimsical blue florals that are perfect for any occasion and evoke the serene beauty of a starry night.</span></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Starlight__Lifestyle_2.jpg?v=1728585020&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Starlight__Lifestyle_2.jpg?v=1728585020",
     "is_main_detail_video": false,
     "detail_image_1_src": null,
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Starlight_Lifestyle_3.jpg?v=1728585019&width=768",
-    "collections": [
-      "the fall collection",
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "congratulations",
-      "entertaining"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Starlight_Lifestyle_3.jpg?v=1728585019",
+    "collections": ["the fall collection", "the classics collection", "sale"],
+    "occasions": ["congratulations", "entertaining"],
+    "categories": ["flowers"],
     "single_variation": "20",
     "double_variation": "49"
   },
@@ -1759,8 +1432,8 @@
     "url": "https://urbanstems.com/products/double-the-pomegranate",
     "price": 12200,
     "discounted_price": 13600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Pomegranate_MainImage_PDP_b0895ba4-7c59-486f-8d08-4e8cee3946c1.jpg?v=1729719741&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Pomegranate_SupportingImage_1_PDP.jpg?v=1727922062&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_Pomegranate_MainImage_PDP_b0895ba4-7c59-486f-8d08-4e8cee3946c1.jpg?v=1729719741",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_Pomegranate_SupportingImage_1_PDP.jpg?v=1727922062",
     "badge_text": "New!",
     "delivery_lead_time": 11,
     "stock": 100,
@@ -1772,14 +1445,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "23",
     "double_variation": "50"
   },
@@ -1791,8 +1459,8 @@
     "url": "https://urbanstems.com/products/double-the-new-moon",
     "price": 15100,
     "discounted_price": 16800,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Double_NewMoon_MainImage_color_PDP.jpg?v=1753882400&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_NewMoon_SupportingImage_PDP.jpg?v=1753882408&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Double_NewMoon_MainImage_color_PDP.jpg?v=1753882400",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Double_NewMoon_SupportingImage_PDP.jpg?v=1753882408",
     "badge_text": "New!",
     "delivery_lead_time": 11,
     "stock": 100,
@@ -1804,14 +1472,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "22",
     "double_variation": "51"
   },
@@ -1823,8 +1486,8 @@
     "url": "https://urbanstems.com/products/triple-the-mariposa",
     "price": 17300,
     "discounted_price": 20400,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Sorbet_MainImage_PDP_036267c3-1d41-4b49-9b08-36d5f2e297af.jpg?v=1729625806&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Sorbet_SupportingImage_1_PDP.jpg?v=1727924831&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Sorbet_MainImage_PDP_036267c3-1d41-4b49-9b08-36d5f2e297af.jpg?v=1729625806",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Sorbet_SupportingImage_1_PDP.jpg?v=1727924831",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1834,21 +1497,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/102256faab384e7696c783b324af17e4/102256faab384e7696c783b324af17e4.HD-1080p-2.5Mbps-36399669.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&width=768",
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "sympathy",
-      "thank you",
-      "anniversary",
-      "miss you"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311",
+    "collections": ["the classics collection", "sale"],
+    "occasions": ["sympathy", "thank you", "anniversary", "miss you"],
+    "categories": ["flowers"],
     "single_variation": "3",
     "double_variation": "33",
     "triple_variation": "52"
@@ -1861,8 +1514,8 @@
     "url": "https://urbanstems.com/products/triple-the-unicorn",
     "price": 15300,
     "discounted_price": 18000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Unicorn_MainImage_PDP_18d6d922-27d4-4720-b1f2-2a0d736a5dcb.jpg?v=1729697317&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Unicorn_SupportingImage_1_PDP.jpg?v=1754312434&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Unicorn_MainImage_PDP_18d6d922-27d4-4720-b1f2-2a0d736a5dcb.jpg?v=1729697317",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Unicorn_SupportingImage_1_PDP.jpg?v=1754312434",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1870,21 +1523,13 @@
     "reviews_count": 250,
     "description": "<p data-pm-slice=\"1 1 []\">For a recipient as rare and special as this bouquet's namesake, the Unicorn's sweet lavender roses dance among shades of lacy pink and white. Delicate delphinium floats above, adding a touch of blue and a touch of elegance, making this bouquet perfect for any celebration — from babies to birthdays and beyond.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_1_d816670d-51e1-4d63-8cfc-d02ab33d936a.jpg?v=1748881401&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_1_d816670d-51e1-4d63-8cfc-d02ab33d936a.jpg?v=1748881401",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_2_c3e3fe58-a833-4014-b939-53f095a3aeac.jpg?v=1748881401&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Unicorn_Lifestyle_2_c3e3fe58-a833-4014-b939-53f095a3aeac.jpg?v=1748881401",
     "detail_image_2_src": null,
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "birthday",
-      "congratulations"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the classics collection", "sale"],
+    "occasions": ["birthday", "congratulations"],
+    "categories": ["flowers"],
     "single_variation": "5",
     "double_variation": "40",
     "triple_variation": "53"
@@ -1897,8 +1542,8 @@
     "url": "https://urbanstems.com/products/triple-the-juliet",
     "price": 17300,
     "discounted_price": 20400,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Goodvibes_MainImage_PDP_81331bdc-4d90-4530-8ec1-cacfe45ed194.jpg?v=1729710389&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_GoodVibes_SupportingImage_1_PDP.jpg?v=1727922208&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Goodvibes_MainImage_PDP_81331bdc-4d90-4530-8ec1-cacfe45ed194.jpg?v=1729710389",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_GoodVibes_SupportingImage_1_PDP.jpg?v=1727922208",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1910,18 +1555,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
-    "occasions": [
-      "birthday",
-      "congratulations",
-      "miss you"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "collections": ["the fall collection", "sale"],
+    "occasions": ["birthday", "congratulations", "miss you"],
+    "categories": ["flowers"],
     "single_variation": "7",
     "double_variation": "43",
     "triple_variation": "54"
@@ -1934,8 +1570,8 @@
     "url": "https://urbanstems.com/products/triple-the-honeycrisp",
     "price": 17300,
     "discounted_price": 20400,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Honeycrisp_MainImage_PDP.jpg?v=1753799431&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Honeycrisp_SupportingImage_PDP.jpg?v=1753799431&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Honeycrisp_MainImage_PDP.jpg?v=1753799431",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Honeycrisp_SupportingImage_PDP.jpg?v=1753799431",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -1943,18 +1579,13 @@
     "reviews_count": 40,
     "description": "<p>Introducing \"The Honeycrisp\" – a vibrant bouquet inspired by the joyful tradition of apple picking. Featuring red, yellow, and orange spray roses, this arrangement captures the warm, inviting hues of ripe apples hanging in the orchard. Just like the beloved Honeycrisp apple, these roses bring a burst of color and a fresh, cheerful ambiance to any space.</p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_1.jpg?v=1728948570&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_1.jpg?v=1728948570",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_2.jpg?v=1728948570&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_3.jpg?v=1728948570&width=768",
-    "collections": [
-      "the fall collection",
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_2.jpg?v=1728948570",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Honeycrisp_Lifestyle_3.jpg?v=1728948570",
+    "collections": ["the fall collection", "sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "1",
     "double_variation": "34",
     "triple_variation": "55"
@@ -1967,8 +1598,8 @@
     "url": "https://urbanstems.com/products/triple-the-firecracker",
     "price": 18800,
     "discounted_price": 22200,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Firecracker_MainImage_PDP_7f39180e-6c5b-45a5-b32e-b574469f52c4.jpg?v=1729625246&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Firecracker_SupportingImage_1_PDP.jpg?v=1727923620&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Firecracker_MainImage_PDP_7f39180e-6c5b-45a5-b32e-b574469f52c4.jpg?v=1729625246",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Firecracker_SupportingImage_1_PDP.jpg?v=1727923620",
     "badge_text": "Sale",
     "delivery_lead_time": 4,
     "stock": 100,
@@ -1978,22 +1609,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/fca4366458fd460ca0500976d7571145/fca4366458fd460ca0500976d7571145.HD-1080p-3.3Mbps-48675926.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_2_d26b4b3c-9a95-46b1-b4a5-243450d93989.jpg?v=1748882658&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_3_62d47a8a-c7b4-4a95-aeb6-d4ae852f580b.jpg?v=1748882658&width=768",
-    "collections": [
-      "the fall collection",
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "birthday",
-      "just because",
-      "congratulations",
-      "miss you"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_2_d26b4b3c-9a95-46b1-b4a5-243450d93989.jpg?v=1748882658",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Firecracker_Lifestyle_3_62d47a8a-c7b4-4a95-aeb6-d4ae852f580b.jpg?v=1748882658",
+    "collections": ["the fall collection", "the classics collection", "sale"],
+    "occasions": ["birthday", "just because", "congratulations", "miss you"],
+    "categories": ["flowers"],
     "single_variation": "12",
     "double_variation": "39",
     "triple_variation": "56"
@@ -2006,8 +1626,8 @@
     "url": "https://urbanstems.com/products/triple-the-verona",
     "price": 18300,
     "discounted_price": 21600,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Verona_MainImage_PDP_3ea17fc6-60d0-49a2-83d3-cccdc58cd024.jpg?v=1729626310&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Verona_SupportingImage_1_PDP.jpg?v=1727924735&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Verona_MainImage_PDP_3ea17fc6-60d0-49a2-83d3-cccdc58cd024.jpg?v=1729626310",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Verona_SupportingImage_1_PDP.jpg?v=1727924735",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2017,12 +1637,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/4f680a6cd7ee4d02b2a7c3300c936e61/4f680a6cd7ee4d02b2a7c3300c936e61.HD-1080p-2.5Mbps-36443436.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_2_e5d00db8-60d7-4212-b5d6-049912d25d68.jpg?v=1729167720&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_3.jpg?v=1729167720&width=768",
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_2_e5d00db8-60d7-4212-b5d6-049912d25d68.jpg?v=1729167720",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Verona_Lifestyle_3.jpg?v=1729167720",
+    "collections": ["the classics collection", "sale"],
     "occasions": [
       "birthday",
       "just because",
@@ -2030,9 +1647,7 @@
       "anniversary",
       "wedding"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "14",
     "double_variation": "42",
     "triple_variation": "57"
@@ -2045,8 +1660,8 @@
     "url": "https://urbanstems.com/products/triple-the-dove",
     "price": 18800,
     "discounted_price": 22200,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Peace_MainImage_PDP_08bb4844-c271-4f56-8042-3a5b98e4398c.jpg?v=1729627640&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Peace_SupportingImage_1_PDP.jpg?v=1727920995&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Peace_MainImage_PDP_08bb4844-c271-4f56-8042-3a5b98e4398c.jpg?v=1729627640",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Peace_SupportingImage_1_PDP.jpg?v=1727920995",
     "badge_text": "Sale",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2056,21 +1671,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/b598f5145dd54bb8a9fd4efcb2cf683a/b598f5145dd54bb8a9fd4efcb2cf683a.HD-1080p-7.2Mbps-48674812.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_2_8a36cc97-e4be-45ad-adf3-9db29b8b00fb.jpg?v=1748881273&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_3.jpg?v=1748881272&width=768",
-    "collections": [
-      "the classics collection",
-      "sale"
-    ],
-    "occasions": [
-      "sympathy",
-      "thank you",
-      "congratulations",
-      "wedding"
-    ],
-    "categories": [
-      "flowers"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_2_8a36cc97-e4be-45ad-adf3-9db29b8b00fb.jpg?v=1748881273",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peace_Lifestyle_3.jpg?v=1748881272",
+    "collections": ["the classics collection", "sale"],
+    "occasions": ["sympathy", "thank you", "congratulations", "wedding"],
+    "categories": ["flowers"],
     "single_variation": "13",
     "double_variation": "41",
     "triple_variation": "58"
@@ -2083,8 +1688,8 @@
     "url": "https://urbanstems.com/products/triple-the-alaskan-peony",
     "price": 23900,
     "discounted_price": 28200,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_AlaskanPeony_MainImage_PDP.jpg?v=1746470787&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_AlaskanPeony_SupportingImage_PDP.jpg?v=1746470787&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_AlaskanPeony_MainImage_PDP.jpg?v=1746470787",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_AlaskanPeony_SupportingImage_PDP.jpg?v=1746470787",
     "badge_text": "Sale",
     "delivery_lead_time": null,
     "stock": 0,
@@ -2094,15 +1699,11 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/91d54f33d2aa4f13a07bb23de0463bdc/91d54f33d2aa4f13a07bb23de0463bdc.HD-1080p-2.5Mbps-47925598.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_2.jpg?v=1747767679&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_3.jpg?v=1747767679&width=768",
-    "collections": [
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_2.jpg?v=1747767679",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/AlaskanPeony_Lifestyle_3.jpg?v=1747767679",
+    "collections": ["sale"],
     "occasions": [],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "15",
     "double_variation": "37",
     "triple_variation": "59"
@@ -2115,8 +1716,8 @@
     "url": "https://urbanstems.com/products/triple-the-peony",
     "price": 22900,
     "discounted_price": 27000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Peony_v2_MainImage_PDP.jpg?v=1737972231&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Peony_v2_SupportingImage_PDP.jpg?v=1737972231&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_Peony_v2_MainImage_PDP.jpg?v=1737972231",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_Peony_v2_SupportingImage_PDP.jpg?v=1737972231",
     "badge_text": "Sale",
     "delivery_lead_time": null,
     "stock": 0,
@@ -2126,11 +1727,9 @@
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
     "main_detail_src": "https://urbanstems.com/cdn/shop/videos/c/vp/0801fa1bb5064e25ba89669ec609db4c/0801fa1bb5064e25ba89669ec609db4c.HD-1080p-4.8Mbps-48675975.mp4?v=0",
     "is_main_detail_video": true,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_2_ec8e7fdd-85a5-452f-8f39-75e0d503305a.jpg?v=1748882731&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_3_c9155fb8-fdfc-4e8b-9424-6e71c862cf44.jpg?v=1748882731&width=768",
-    "collections": [
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_2_ec8e7fdd-85a5-452f-8f39-75e0d503305a.jpg?v=1748882731",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Peony_Lifestyle_3_c9155fb8-fdfc-4e8b-9424-6e71c862cf44.jpg?v=1748882731",
+    "collections": ["sale"],
     "occasions": [
       "birthday",
       "congratulations",
@@ -2138,9 +1737,7 @@
       "miss you",
       "wedding"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "16",
     "double_variation": "38",
     "triple_variation": "60"
@@ -2153,8 +1750,8 @@
     "url": "https://urbanstems.com/products/triple-the-pearl",
     "price": 22900,
     "discounted_price": 27000,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_SnowPeony_MainImage_PDP.jpg?v=1729717666&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_PeonyClouds_SupportingImage_1_PDP.jpg?v=1727923962&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Triple_SnowPeony_MainImage_PDP.jpg?v=1729717666",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Triple_PeonyClouds_SupportingImage_1_PDP.jpg?v=1727923962",
     "badge_text": "Sale",
     "delivery_lead_time": 5,
     "stock": 100,
@@ -2162,13 +1759,11 @@
     "reviews_count": 132,
     "description": "<p><span data-sheets-root=\"1\">Add warmth and purity to any space courtesy of the blissful and aptly named Pearl bouquet. Featuring lush white peonies, each with a delicate pink center, the arrangement is a special treat for the warmer months. They arrive in compact bulb form, eventually thriving and developing into the pillow-like blooms. Read more about the meaning of the white peony. Choose from three bouquet sizes of lush peonies, a 10-stem Single, a 20-stem Double, or a 30-stem Triple.<br><br>Please Note: Your peonies may arrive in bud form but will open in 1-2 days, meaning you can enjoy your blooms longer! Flower color may vary slightly from the pictured bouquet and may gradually change as your flowers bloom.<br>If your foliage looks slightly dehydrated upon arrival, place the stems in some water to revive them. (Pro tip: remove any foliage near or below the waterline for a longer-lasting bouquet!)</span><br></p>",
     "care_instructions": "<p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_1.jpg?v=1728948120&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_1.jpg?v=1728948120",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_2.jpg?v=1728948120&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_3.jpg?v=1728948119&width=768",
-    "collections": [
-      "sale"
-    ],
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_2.jpg?v=1728948120",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/PeonyClouds_Lifestyle_3.jpg?v=1728948119",
+    "collections": ["sale"],
     "occasions": [
       "thank you",
       "just because",
@@ -2176,9 +1771,7 @@
       "miss you",
       "wedding"
     ],
-    "categories": [
-      "flowers"
-    ],
+    "categories": ["flowers"],
     "single_variation": "17",
     "double_variation": "44",
     "triple_variation": "61"
@@ -2191,8 +1784,8 @@
     "url": "https://urbanstems.com/products/the-turmeric",
     "price": 8800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Turmeric_MainImage_PDP.jpg?v=1730386179&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Tumeric_SupportingImage_1_PDP.jpg?v=1727928066&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Turmeric_MainImage_PDP.jpg?v=1730386179",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Tumeric_SupportingImage_1_PDP.jpg?v=1727928066",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2200,19 +1793,13 @@
     "reviews_count": 9,
     "description": "<p>Many of us know turmeric as a delicious spice with numerous health benefits. While that remains true, it’s also our double yellow orchid elegantly displayed in a sleek, black ceramic vessel. Excellent for adding a touch of autumnal luxury to any space, these stunning turmeric-shade orchids exude poise and appeal. Upgrade your space or a loved one’s this fall, everyone deserves this refined beauty.</p>",
     "care_instructions": "<p><strong>Light:</strong> Orchids prefer bright, indirect light. Place your orchid about 1 - 3 feet back from a South or West facing window to ensure the plant gets bright light but doesn’t get burned by the direct sun.</p><p><strong>Water:</strong> Water your orchid with 3 ounces or 2 ice cubes of water every week. In most cases, this will work. Occasionally, you’ll want to check the dryness of the potting medium (the moss the orchid is planted in). If it’s very dry, give the plant a more thorough watering.</p><p><strong>Note:</strong> ALWAYS water below the leaves. If water flows into and sits and the center of the leaves, it will lead to crown rot and kill the orchid. If water does get between the leaves, soak it up with cotton buds or tissue. You can also blow gently into the meeting of the leaves to remove this water. Notes &amp; Tips: Keep me warm! Orchids are very sensitive to changes in temperature. If your orchid is exposed to cold (under 55 degrees) for more than 10 minutes, the unbloomed buds will begin to “blast” – turn yellow and shrivel up, and eventually fall off the plant. There’s no reversing this once it’s happened. Consider sending fresh flowers or another plant during the winter months. </p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Turmeric_Lifestyle_1.jpg?v=1730386188&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Turmeric_Lifestyle_1.jpg?v=1730386188",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Turmeric_Lifestyle_2.jpg?v=1730386188&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Turmeric_Lifestyle_2.jpg?v=1730386188",
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "self send"
-    ],
-    "categories": [
-      "plants"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["self send"],
+    "categories": ["plants"]
   },
   {
     "id": "63",
@@ -2222,8 +1809,8 @@
     "url": "https://urbanstems.com/products/the-good-omen",
     "price": 6400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Loe_MainImage_PDP.jpg?v=1741287526&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Loe_SupportingImage_PDP.jpg?v=1741287548&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Loe_MainImage_PDP.jpg?v=1741287526",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Loe_SupportingImage_PDP.jpg?v=1741287548",
     "badge_text": "Best Seller",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2231,10 +1818,10 @@
     "reviews_count": 40,
     "description": "<p data-pm-slice=\"1 1 []\">This elephant-shaped planter holds more than just a succulent, it carries meaning. In many cultures, elephants represent strength, wisdom, protection, and good luck. Whether it's a birthday, a moment of sympathy, or just because, this thoughtful gift is a small but powerful reminder that you're there.</p>",
     "care_instructions": "<p><strong>Light:</strong> Prefers, bright direct sun! Situate me in a bright west-facing window where I can get sun for 5+ hours per day please.</p><p><strong>Water:</strong> Water only when soil is completely dry to the touch. Err on the side of less water over more, as succulents will rot quickly when overwatered. If you think it’s too soon, it probably is.</p><p><strong>Notes &amp; Tips:</strong> Do not mist me please! The little hairs on my leaves can hold the water and create decay.</p><p><strong>Pet Safety:</strong> This plant is pet safe!</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Loe_Lifestyle_1.jpg?v=1741287570&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Loe_Lifestyle_1.jpg?v=1741287570",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Loe_Lifestyle_2.jpg?v=1741287575&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Loe_Lifestyle_3.jpg?v=1741287582&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Loe_Lifestyle_2.jpg?v=1741287575",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/Loe_Lifestyle_3.jpg?v=1741287582",
     "collections": [],
     "occasions": [
       "sympathy",
@@ -2243,9 +1830,7 @@
       "congratulations",
       "new baby"
     ],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "64",
@@ -2255,8 +1840,8 @@
     "url": "https://urbanstems.com/products/the-serenity",
     "price": 7200,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Serenity_MainImage_PDP_6b96c2b9-82d5-4161-a4d0-1a4c85aee109.jpg?v=1746548332&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Serenity_SupportingImage_1_PDP_ca0f61b2-d2ff-4579-8041-e0d898f8dd67.jpg?v=1746548332&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Serenity_MainImage_PDP_6b96c2b9-82d5-4161-a4d0-1a4c85aee109.jpg?v=1746548332",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Serenity_SupportingImage_1_PDP_ca0f61b2-d2ff-4579-8041-e0d898f8dd67.jpg?v=1746548332",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2268,17 +1853,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection",
-      "the classics collection"
-    ],
-    "occasions": [
-      "sympathy",
-      "new baby"
-    ],
-    "categories": [
-      "plants"
-    ]
+    "collections": ["the fall collection", "the classics collection"],
+    "occasions": ["sympathy", "new baby"],
+    "categories": ["plants"]
   },
   {
     "id": "65",
@@ -2288,8 +1865,8 @@
     "url": "https://urbanstems.com/products/the-crisp-morning",
     "price": 7400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/CrispMorning_MainImage_PDP_67c700d4-e736-4a66-8feb-91aac1bc2dbf.jpg?v=1729719995&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/CrispMorning_SupportingImage_1_PDP.jpg?v=1727928133&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/CrispMorning_MainImage_PDP_67c700d4-e736-4a66-8feb-91aac1bc2dbf.jpg?v=1729719995",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/CrispMorning_SupportingImage_1_PDP.jpg?v=1727928133",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2301,13 +1878,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "66",
@@ -2317,8 +1890,8 @@
     "url": "https://urbanstems.com/products/the-white-knight",
     "price": 6800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/WhiteKnight_MainImage_color_PDP.jpg?v=1754327470&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/WhiteKnight_SupportingImage_PDP.jpg?v=1754327505&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/WhiteKnight_MainImage_color_PDP.jpg?v=1754327470",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/WhiteKnight_SupportingImage_PDP.jpg?v=1754327505",
     "badge_text": "Rare Plant",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2330,13 +1903,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "67",
@@ -2346,8 +1915,8 @@
     "url": "https://urbanstems.com/products/the-signature-orchid",
     "price": 7200,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/SignatureOrchid_MainImage_PDP.jpg?v=1754327253&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/SignatureOrchid_SupportingImage_PDP.jpg?v=1754327253&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/SignatureOrchid_MainImage_PDP.jpg?v=1754327253",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/SignatureOrchid_SupportingImage_PDP.jpg?v=1754327253",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2359,13 +1928,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "68",
@@ -2375,8 +1940,8 @@
     "url": "https://urbanstems.com/products/the-neutral-orchids",
     "price": 8800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/NeutralOrchids_MainImage_color_PDP.jpg?v=1754327416&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/NeutralOrchids_SupportingImage_color_PDP.jpg?v=1754327416&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/NeutralOrchids_MainImage_color_PDP.jpg?v=1754327416",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/NeutralOrchids_SupportingImage_color_PDP.jpg?v=1754327416",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2388,13 +1953,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "69",
@@ -2404,8 +1965,8 @@
     "url": "https://urbanstems.com/products/the-dinero",
     "price": 7400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Canopy_MainImage_PDP_a6eefb36-8996-4dcb-bf2f-ac1a668f2035.jpg?v=1729716900&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Canopy_SupportingImage_1_PDP.jpg?v=1729204006&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Canopy_MainImage_PDP_a6eefb36-8996-4dcb-bf2f-ac1a668f2035.jpg?v=1729716900",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Canopy_SupportingImage_1_PDP.jpg?v=1729204006",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2418,13 +1979,8 @@
     "detail_image_1_src": null,
     "detail_image_2_src": null,
     "collections": [],
-    "occasions": [
-      "entertaining",
-      "self send"
-    ],
-    "categories": [
-      "plants"
-    ]
+    "occasions": ["entertaining", "self send"],
+    "categories": ["plants"]
   },
   {
     "id": "70",
@@ -2434,8 +1990,8 @@
     "url": "https://urbanstems.com/products/the-renewal",
     "price": 7200,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Renewal_MainImage_PDP.jpg?v=1753391754&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Renewal_SupportingImage_1_PDP.jpg?v=1753391753&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Renewal_MainImage_PDP.jpg?v=1753391754",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Renewal_SupportingImage_1_PDP.jpg?v=1753391753",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2447,16 +2003,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "thank you",
-      "new baby"
-    ],
-    "categories": [
-      "plants"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["thank you", "new baby"],
+    "categories": ["plants"]
   },
   {
     "id": "71",
@@ -2466,8 +2015,8 @@
     "url": "https://urbanstems.com/products/the-serpent",
     "price": 7500,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Serpent_MainImage_PDP_1c426ab2-5c6e-4585-ad95-1d09957730cb.jpg?v=1730389381&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Serpent_SupportingImage_1_PDP_67d49437-1a98-4b2f-a0dc-80b73cc36055.jpg?v=1730389381&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Serpent_MainImage_PDP_1c426ab2-5c6e-4585-ad95-1d09957730cb.jpg?v=1730389381",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Serpent_SupportingImage_1_PDP_67d49437-1a98-4b2f-a0dc-80b73cc36055.jpg?v=1730389381",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2475,20 +2024,13 @@
     "reviews_count": 2,
     "description": "<p>Add a symbol of resilience to your space this fall with a stylish snake plant, superbly set in a unique glazed pot. With striking, variegated leaves, this plant thrives effortlessly, which is ideal for a new plant parent. not only does it purify your space with style, it adds a touch of sophisticated greenery that demands minimal care. Just how we like it.</p>",
     "care_instructions": "<p><strong>Light:</strong> Snake plants thrives in a variety of light conditions from low to bright light. It will grow faster and survive longer in bright, indirect light. Direct sun will burn its leaves.</p><p><strong>Water:</strong> Water sparingly! Water only when the soil is completely dry to the touch. This could mean you’re only watering every 4 - 6 weeks, depending on the conditions in your home. Don’t panic, and err on the side of less over more.</p><p><strong>Fun Fact:</strong> Snake plants used to be their own Family of plants “Sansevieria,” but have been recategorized as dracaena! Also, Snake Plants are sometimes called “Mother In Law’s Tongue.”</p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Serpent_Lifestyle_1.jpg?v=1730389400&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/Serpent_Lifestyle_1.jpg?v=1730389400",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Serpent_Lifestyle_2.jpg?v=1730389401&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/Serpent_Lifestyle_2.jpg?v=1730389401",
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "entertaining",
-      "self send"
-    ],
-    "categories": [
-      "plants"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["entertaining", "self send"],
+    "categories": ["plants"]
   },
   {
     "id": "72",
@@ -2498,8 +2040,8 @@
     "url": "https://urbanstems.com/products/the-black-velvet",
     "price": 6500,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/BlackVelvet_MainImage_PDP_1.jpg?v=1754601407&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/BlackVelvet_SupportingImage_4_PDP_1.jpg?v=1754601409&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/BlackVelvet_MainImage_PDP_1.jpg?v=1754601407",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/BlackVelvet_SupportingImage_4_PDP_1.jpg?v=1754601409",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2511,16 +2053,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
-    "occasions": [
-      "entertaining",
-      "self send"
-    ],
-    "categories": [
-      "plants"
-    ]
+    "collections": ["the fall collection"],
+    "occasions": ["entertaining", "self send"],
+    "categories": ["plants"]
   },
   {
     "id": "73",
@@ -2530,8 +2065,8 @@
     "url": "https://urbanstems.com/products/the-raven",
     "price": 8500,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Raven_MainImage_color_PDP.jpg?v=1754327550&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Raven_SupportingImage_color_PDP.jpg?v=1754327589&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Raven_MainImage_color_PDP.jpg?v=1754327550",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Raven_SupportingImage_color_PDP.jpg?v=1754327589",
     "badge_text": "Rare Plant",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2543,13 +2078,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "74",
@@ -2559,8 +2090,8 @@
     "url": "https://urbanstems.com/products/the-shooting-star",
     "price": 6400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/ShootingStar_MainImage_PDP.jpg?v=1755537612&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/ShootingStar_SupportingImage_PDP.jpg?v=1755537612&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/ShootingStar_MainImage_PDP.jpg?v=1755537612",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/ShootingStar_SupportingImage_PDP.jpg?v=1755537612",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2572,13 +2103,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "75",
@@ -2588,8 +2115,8 @@
     "url": "https://urbanstems.com/products/the-spike",
     "price": 6400,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/Spike_MainImage_PDP_1.jpg?v=1755537781&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/Spike_SupportingImage_PDP_1.jpg?v=1755537781&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/Spike_MainImage_PDP_1.jpg?v=1755537781",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/Spike_SupportingImage_PDP_1.jpg?v=1755537781",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2601,13 +2128,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "76",
@@ -2617,8 +2140,8 @@
     "url": "https://urbanstems.com/products/the-earthen-orchid",
     "price": 8800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/EarthenOrchid_MainImage_PDP.jpg?v=1755614567&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/EarthenOrchid_SupportingImage_PDP.jpg?v=1755614567&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/EarthenOrchid_MainImage_PDP.jpg?v=1755614567",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/EarthenOrchid_SupportingImage_PDP.jpg?v=1755614567",
     "badge_text": "New!",
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2630,13 +2153,9 @@
     "is_main_detail_video": false,
     "detail_image_1_src": null,
     "detail_image_2_src": null,
-    "collections": [
-      "the fall collection"
-    ],
+    "collections": ["the fall collection"],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   },
   {
     "id": "77",
@@ -2646,8 +2165,8 @@
     "url": "https://urbanstems.com/products/the-lemon-drop",
     "price": 8800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/dw56fec516_VDAY_2021_LemonDrop_New_Carousel.jpg?v=1723790318&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/dw7edabaf6_VDAY_2021_LemonDrop_New_top.jpg?v=1723790318&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/dw56fec516_VDAY_2021_LemonDrop_New_Carousel.jpg?v=1723790318",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/dw7edabaf6_VDAY_2021_LemonDrop_New_top.jpg?v=1723790318",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2655,18 +2174,13 @@
     "reviews_count": 41,
     "description": "<p data-pm-slice=\"1 1 [&quot;list&quot;,{},&quot;list_item&quot;,{&quot;indent&quot;:3,&quot;type&quot;:&quot;bulleted&quot;}]\">With its delicate blooms bursting with bright color, this Phalaeonpsis orchid adds a new dimension of elegance to any home or office. Potted in a navy and white striped vessel, The Lemon Drop is unmatched in beauty.</p><p><em>The color of your orchid may vary slightly from what's pictured. The overall design and quality will still impress!</em></p><p><strong>Note:</strong> If you're sending orchids to a colder region, keep in mind that they are sensitive to cold weather and may not take well to being left outside.</p>",
     "care_instructions": "<p><strong>Light:</strong> Orchids prefer bright, indirect light. Place your orchid about 1 - 3 feet back from a South or West facing window to ensure the plant gets bright light but doesn’t get burned by the direct sun.</p><p><strong>Water:</strong> Water your orchid with 3 ounces or 2 ice cubes of water every week. In most cases, this will work. Occasionally, you’ll want to check the dryness of the potting medium (the moss the orchid is planted in). If it’s very dry, give the plant a more thorough watering.</p><p><strong>Note:</strong> ALWAYS water below the leaves. If water flows into and sits and the center of the leaves, it will lead to crown rot and kill the orchid. If water does get between the leaves, soak it up with cotton buds or tissue. You can also blow gently into the meeting of the leaves to remove this water. Notes &amp; Tips: Keep me warm! Orchids are very sensitive to changes in temperature. If your orchid is exposed to cold (under 55 degrees) for more than 10 minutes, the unbloomed buds will begin to “blast” – turn yellow and shrivel up, and eventually fall off the plant. There’s no reversing this once it’s happened. Consider sending fresh flowers or another plant during the winter months. </p>",
-    "main_detail_src": "https://urbanstems.com/cdn/shop/files/LemonDrop_Lifestyle_1_b2c7c6be-944d-4b8f-a8e0-2be41f32ec00.jpg?v=1744727289&width=768",
+    "main_detail_src": "https://urbanstems.com/cdn/shop/files/LemonDrop_Lifestyle_1_b2c7c6be-944d-4b8f-a8e0-2be41f32ec00.jpg?v=1744727289",
     "is_main_detail_video": false,
-    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/LemonDrop_Lifestyle_2_3e902e13-563e-44f9-821a-d02b1de7b9ca.jpg?v=1744727289&width=768",
-    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/LemonDrop_Lifestyle_3.jpg?v=1744727289&width=768",
+    "detail_image_1_src": "https://urbanstems.com/cdn/shop/files/LemonDrop_Lifestyle_2_3e902e13-563e-44f9-821a-d02b1de7b9ca.jpg?v=1744727289",
+    "detail_image_2_src": "https://urbanstems.com/cdn/shop/files/LemonDrop_Lifestyle_3.jpg?v=1744727289",
     "collections": [],
-    "occasions": [
-      "birthday",
-      "just because"
-    ],
-    "categories": [
-      "plants"
-    ]
+    "occasions": ["birthday", "just because"],
+    "categories": ["plants"]
   },
   {
     "id": "78",
@@ -2676,8 +2190,8 @@
     "url": "https://urbanstems.com/products/the-pink-princess",
     "price": 6800,
     "discounted_price": null,
-    "main_image": "https://urbanstems.com/cdn/shop/files/PinkPrincess_MainImage_PDP.jpg?v=1740143636&width=350",
-    "hover_image": "https://urbanstems.com/cdn/shop/files/PinkPrincess_SupportingImage_1.jpg?v=1740143642&width=350",
+    "main_image": "https://urbanstems.com/cdn/shop/files/PinkPrincess_MainImage_PDP.jpg?v=1740143636",
+    "hover_image": "https://urbanstems.com/cdn/shop/files/PinkPrincess_SupportingImage_1.jpg?v=1740143642",
     "badge_text": null,
     "delivery_lead_time": 1,
     "stock": 100,
@@ -2691,8 +2205,6 @@
     "detail_image_2_src": null,
     "collections": [],
     "occasions": [],
-    "categories": [
-      "plants"
-    ]
+    "categories": ["plants"]
   }
 ]

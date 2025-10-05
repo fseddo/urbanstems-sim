@@ -86,11 +86,12 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
-    
+    image_src = models.URLField(null=True, blank=True, help_text="Category image URL")
+
     class Meta:
         verbose_name_plural = "categories"
         ordering = ['name']
-    
+
     def __str__(self):
         return self.name
 
@@ -109,10 +110,11 @@ class Collection(models.Model):
 class Occasion(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
-    
+    image_src = models.URLField(null=True, blank=True, help_text="Occasion image URL")
+
     class Meta:
         ordering = ['name']
-    
+
     def __str__(self):
         return self.name
 

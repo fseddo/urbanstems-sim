@@ -1,7 +1,8 @@
+from typing import Any, cast
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.db.models import Q
+from rest_framework.request import Request
 from .models import Product, Category, Collection, Occasion
 from .serializers import (
     ProductListSerializer, ProductDetailSerializer,
@@ -19,44 +20,45 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ['name', 'base_name', 'description']
     ordering_fields = ['name', 'price', 'reviews_rating', 'created_at']
     ordering = ['name']
-    
-    def get_serializer_class(self):
+
+    def get_serializer_class(self) -> Any:
         if self.action == 'list':
             return ProductListSerializer
         return ProductDetailSerializer
-    
-    def get_queryset(self):
+
+    def get_queryset(self) -> Any:
         queryset = Product.objects.all()
+        request = cast(Request, self.request)
         
         # Filter by category
-        category = self.request.query_params.get('category')
+        category = request.query_params.get('category')
         if category:
             queryset = queryset.filter(
                 productcategory__category__slug=category
             )
         
         # Filter by collection
-        collection = self.request.query_params.get('collection')
+        collection = request.query_params.get('collection')
         if collection:
             queryset = queryset.filter(
                 productcollection__collection__slug=collection
             )
         
         # Filter by occasion
-        occasion = self.request.query_params.get('occasion')
+        occasion = request.query_params.get('occasion')
         if occasion:
             queryset = queryset.filter(
                 productoccasion__occasion__slug=occasion
             )
         
         # Filter by variant type
-        variant_type = self.request.query_params.get('variant_type')
+        variant_type = request.query_params.get('variant_type')
         if variant_type:
             queryset = queryset.filter(variant_type=variant_type)
         
         # Filter by price range
-        min_price = self.request.query_params.get('min_price')
-        max_price = self.request.query_params.get('max_price')
+        min_price = request.query_params.get('min_price')
+        max_price = request.query_params.get('max_price')
         if min_price:
             queryset = queryset.filter(price__gte=int(min_price) * 100)  # Convert to cents
         if max_price:
@@ -78,7 +80,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
         """Get all products in this category"""
         category = self.get_object()
         products = Product.objects.filter(productcategory__category=category)
-        
+
         # Apply same filtering as ProductViewSet
         variant_type = request.query_params.get('variant_type')
         if variant_type:

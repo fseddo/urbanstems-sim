@@ -1,23 +1,24 @@
 from rest_framework import serializers
-from .models import Product, Category, Collection, Occasion, VariantType
+from .models import Product, Category, Collection, Occasion
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'slug']
+        fields = ['id', 'name', 'slug', 'image_src']
 
 
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ['id', 'name', 'slug']
+        fields = ['id', 'name', 'slug', 'image_src']
+        
 
 
 class OccasionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occasion
-        fields = ['id', 'name', 'slug']
+        fields = ['id', 'name', 'slug', 'image_src']
 
 
 class ProductListSerializer(serializers.ModelSerializer):

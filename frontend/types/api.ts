@@ -2,6 +2,7 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
+  image_src?: string;
 }
 
 export interface Collection {
@@ -14,6 +15,7 @@ export interface Occasion {
   id: number;
   name: string;
   slug: string;
+  image_src?: string;
 }
 
 export interface Product {

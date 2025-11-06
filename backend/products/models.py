@@ -99,6 +99,8 @@ class Category(models.Model):
 class Collection(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
+    image_src = models.URLField(null=True, blank=True, help_text="Category image URL")
+
     
     class Meta:
         ordering = ['name']

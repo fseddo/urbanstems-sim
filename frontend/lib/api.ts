@@ -108,8 +108,8 @@ class ApiClient {
   }
 
   // Occasions
-  async getOccasions(): Promise<Occasion[]> {
-    return this.request<Occasion[]>('/occasions/');
+  async getOccasions(): Promise<PaginatedResponse<Occasion>> {
+    return this.request<PaginatedResponse<Occasion>>('/occasions/');
   }
 
   async getOccasion(slug: string): Promise<Occasion> {

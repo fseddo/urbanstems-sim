@@ -1,25 +1,49 @@
+'use client';
+
 import { Occasion } from '@/types/api';
+import { useRef } from 'react';
+import HorizontalScrollbar from '../HorizontalScrollbar';
 
 interface FlowersCarouselProps {
   occasions: Occasion[];
 }
 
+const capitalizeString = (string: string) =>
+  string
+    .split(' ')
+    .map((word) => word[0].toUpperCase().concat(word.slice(1)))
+    .join(' ');
+
 export default ({ occasions }: FlowersCarouselProps) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const carouselOccasions = occasions.filter((occasion) => occasion.image_src);
   return (
-    <section className='flex w-full flex-col'>
-      <header className='font-crimson pl-20 text-5xl font-medium'>
+    <section className='flex w-full flex-col gap-6 pl-20'>
+      <header className='font-crimson text-[52px] font-medium'>
         Flowers & Gifts For Every Occasion
       </header>
-      <div className='flex gap-4'>
-        {carouselOccasions.map((occasion) => (
-          <OccasionCard key={occasion.id} occasion={occasion} />
-        ))}
+      <div className='flex w-full flex-col gap-14'>
+        <div
+          className='hide-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden pr-20'
+          ref={scrollRef}
+        >
+          {carouselOccasions.map((occasion) => (
+            <OccasionCard key={occasion.id} occasion={occasion} />
+          ))}
+        </div>
+        <HorizontalScrollbar targetRef={scrollRef} />
       </div>
     </section>
   );
 };
 
 const OccasionCard = ({ occasion }: { occasion: Occasion }) => {
-  return <div>{occasion.name}</div>;
+  return (
+    <div className='flex flex-shrink-0 flex-col gap-6'>
+      <img className='w-[330px] rounded-lg' src={occasion.image_src} />
+      <div className='font-crimson flex items-center justify-center text-3xl'>
+        {capitalizeString(occasion.name)}
+      </div>
+    </div>
+  );
 };

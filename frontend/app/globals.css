@@ -2,6 +2,7 @@
 
 :root {
   --background: #f8f8f8;
+  --background-alt: #dfdfdf;
   --foreground: #171717;
   --brand-primary: #1e2934;
   --font-mulish: 'Mulish', sans-serif;
@@ -10,12 +11,47 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
   --color-foreground: var(--foreground);
   --color-brand-primary: var(--brand-primary);
   --default-font-family: var(--font-mulish);
   --font-crimson: var(--font-crimson);
   --font-mulish: var(--font-mulish);
   --breakpoint-2xl: 87.5rem;
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-scrollbar {
+    /* scrollbar-width: ; */
+    scrollbar-color: var(--brand-primary) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 8px;
+    width: '50%';
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(223, 223, 223);
+    border-radius: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #2c3a48;
+  }
 }
 
 @utility interactive-opacity {

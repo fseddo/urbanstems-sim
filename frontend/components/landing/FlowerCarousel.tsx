@@ -3,16 +3,11 @@
 import { Occasion } from '@/types/api';
 import { useRef } from 'react';
 import HorizontalScrollbar from '../HorizontalScrollbar';
+import { capitalizeString } from '@/utils/capitalizeString';
 
 interface FlowersCarouselProps {
   occasions: Occasion[];
 }
-
-const capitalizeString = (string: string) =>
-  string
-    .split(' ')
-    .map((word) => word[0].toUpperCase().concat(word.slice(1)))
-    .join(' ');
 
 export default ({ occasions }: FlowersCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);

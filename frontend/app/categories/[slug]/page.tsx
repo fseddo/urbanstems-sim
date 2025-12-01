@@ -11,10 +11,11 @@ interface CategoryPageProps {
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   try {
-    const [category, products] = await Promise.all([
+    const [category, productsResponse] = await Promise.all([
       apiClient.getCategory(params.slug),
-      apiClient.getCategoryProducts(params.slug),
+      apiClient.getProducts({ category: params.slug }),
     ]);
+    const products = productsResponse.results;
 
     return (
       <div className='min-h-screen'>

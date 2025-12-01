@@ -23,15 +23,65 @@ class ApiClient {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `API request failed: ${response.status} ${response.statusText}`
+        let errorMessage = `API request failed: ${response.status} ${response.statusText}`;
+        let errorDetails = '';
+
+        try {
+          const contentType = response.headers.get('content-type');
+          if (contentType?.includes('application/json')) {
+            const errorData = await response.json();
+            errorDetails = JSON.stringify(errorData, null, 2);
+          } else if (contentType?.includes('text/html')) {
+            const htmlText = await response.text();
+            // Extract error from Django debug page if present
+            const titleMatch = htmlText.match(/<title>(.+?)<\/title>/);
+            const exceptionMatch = htmlText.match(
+              /<pre class="exception_value">([\s\S]+?)<\/pre>/
+            );
+            if (titleMatch) {
+              errorDetails = titleMatch[1].replace(/\s+/g, ' ').trim();
+            }
+            if (exceptionMatch) {
+              errorDetails +=
+                '\n' +
+                exceptionMatch[1]
+                  .replace(/&#x27;/g, "'")
+                  .replace(/&quot;/g, '"')
+                  .replace(/<[^>]*>/g, '')
+                  .trim();
+            }
+          } else {
+            errorDetails = await response.text();
+          }
+        } catch (parseError) {
+          errorDetails = 'Unable to parse error response';
+        }
+
+        const detailedError = new Error(
+          `${errorMessage}\nURL: ${url}\nDetails: ${errorDetails}`
         );
+        console.error('API Error Details:', {
+          url,
+          status: response.status,
+          statusText: response.statusText,
+          details: errorDetails,
+        });
+        throw detailedError;
       }
 
       return response.json();
     } catch (error) {
-      console.error('API request error:', error);
-      throw error;
+      if (
+        error instanceof Error &&
+        error.message.includes('API request failed')
+      ) {
+        throw error;
+      }
+      const networkError = new Error(
+        `Network error while fetching ${url}: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
+      console.error('Network Error:', networkError);
+      throw networkError;
     }
   }
 
@@ -52,7 +102,12 @@ class ApiClient {
     if (filters.max_price)
       searchParams.append('max_price', filters.max_price.toString());
     if (filters.search) searchParams.append('search', filters.search);
-    if (filters.ordering) searchParams.append('ordering', filters.ordering);
+
+    if (filters.sortKey) {
+      const ordering =
+        filters.sortOrder === 'asc' ? filters.sortKey : `-${filters.sortKey}`;
+      searchParams.append('ordering', ordering);
+    }
 
     const queryString = searchParams.toString();
     const endpoint = `/products/${queryString ? `?${queryString}` : ''}`;
@@ -73,27 +128,6 @@ class ApiClient {
     return this.request<Category>(`/categories/${slug}/`);
   }
 
-  async getCategoryProducts(
-    slug: string,
-    filters: Omit<ProductFilters, 'category'> = {}
-  ): Promise<Product[]> {
-    const searchParams = new URLSearchParams();
-
-    if (filters.variant_type)
-      searchParams.append('variant_type', filters.variant_type);
-    if (filters.min_price)
-      searchParams.append('min_price', filters.min_price.toString());
-    if (filters.max_price)
-      searchParams.append('max_price', filters.max_price.toString());
-
-    const queryString = searchParams.toString();
-    const endpoint = `/categories/${slug}/products/${
-      queryString ? `?${queryString}` : ''
-    }`;
-
-    return this.request<Product[]>(endpoint);
-  }
-
   // Collections
   async getCollections(): Promise<Collection[]> {
     return this.request<Collection[]>('/collections/');
@@ -103,10 +137,6 @@ class ApiClient {
     return this.request<Collection>(`/collections/${slug}/`);
   }
 
-  async getCollectionProducts(slug: string): Promise<Product[]> {
-    return this.request<Product[]>(`/collections/${slug}/products/`);
-  }
-
   // Occasions
   async getOccasions(): Promise<PaginatedResponse<Occasion>> {
     return this.request<PaginatedResponse<Occasion>>('/occasions/');
@@ -114,10 +144,6 @@ class ApiClient {
 
   async getOccasion(slug: string): Promise<Occasion> {
     return this.request<Occasion>(`/occasions/${slug}/`);
-  }
-
-  async getOccasionProducts(slug: string): Promise<Product[]> {
-    return this.request<Product[]>(`/occasions/${slug}/products/`);
   }
 }
 

@@ -5,12 +5,14 @@ import './globals.css';
 const mulish = Mulish({
   variable: '--font-mulish',
   weight: ['400', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
   subsets: ['latin'],
 });
 
 const crimsonText = Crimson_Text({
   variable: '--font-crimson',
   weight: ['400', '600', '700'],
+  style: ['normal', 'italic'],
   subsets: ['latin'],
 });
 

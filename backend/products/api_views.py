@@ -1,7 +1,5 @@
 from typing import Any, cast
 from rest_framework import viewsets, filters
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework.request import Request
 from .models import Product, Category, Collection, Occasion
 from .serializers import (
@@ -18,8 +16,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'base_name', 'description']
-    ordering_fields = ['name', 'price', 'reviews_rating', 'created_at']
-    ordering = ['name']
+    ordering_fields = ['name', 'price', 'reviews_rating', 'created_at', 'external_id']
+    ordering = ['external_id']
 
     def get_serializer_class(self) -> Any:
         if self.action == 'list':
@@ -74,27 +72,6 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'slug'
-    
-    @action(detail=True, methods=['get'])
-    def products(self, request, slug=None):
-        """Get all products in this category"""
-        category = self.get_object()
-        products = Product.objects.filter(productcategory__category=category)
-
-        # Apply same filtering as ProductViewSet
-        variant_type = request.query_params.get('variant_type')
-        if variant_type:
-            products = products.filter(variant_type=variant_type)
-            
-        min_price = request.query_params.get('min_price')
-        max_price = request.query_params.get('max_price')
-        if min_price:
-            products = products.filter(price__gte=int(min_price) * 100)
-        if max_price:
-            products = products.filter(price__lte=int(max_price) * 100)
-        
-        serializer = ProductListSerializer(products, many=True)
-        return Response(serializer.data)
 
 
 class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -104,14 +81,6 @@ class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
     lookup_field = 'slug'
-    
-    @action(detail=True, methods=['get'])
-    def products(self, request, slug=None):
-        """Get all products in this collection"""
-        collection = self.get_object()
-        products = Product.objects.filter(productcollection__collection=collection)
-        serializer = ProductListSerializer(products, many=True)
-        return Response(serializer.data)
 
 
 class OccasionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -121,11 +90,3 @@ class OccasionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Occasion.objects.all()
     serializer_class = OccasionSerializer
     lookup_field = 'slug'
-    
-    @action(detail=True, methods=['get'])
-    def products(self, request, slug=None):
-        """Get all products for this occasion"""
-        occasion = self.get_object()
-        products = Product.objects.filter(productoccasion__occasion=occasion)
-        serializer = ProductListSerializer(products, many=True)
-        return Response(serializer.data)

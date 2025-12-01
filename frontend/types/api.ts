@@ -56,13 +56,23 @@ export interface PaginatedResponse<T> {
   results: T[];
 }
 
+export type ProductSortKey =
+  | 'name'
+  | 'price'
+  | 'reviews_rating'
+  | 'created_at'
+  | 'external_id';
+
+export type SortOrder = 'asc' | 'desc';
+
 export interface ProductFilters {
-  category?: string;
+  category?: 'plants' | 'flowers' | 'gifts' | 'centerpieces';
   collection?: string;
   occasion?: string;
   variant_type?: 'single' | 'double' | 'triple';
   min_price?: number;
   max_price?: number;
   search?: string;
-  ordering?: string;
+  sortKey?: ProductSortKey;
+  sortOrder?: SortOrder;
 }

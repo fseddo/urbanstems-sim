@@ -4,14 +4,15 @@ import { Occasion } from '@/types/api';
 import { useRef } from 'react';
 import HorizontalScrollbar from '../HorizontalScrollbar';
 import { capitalizeString } from '@/utils/capitalizeString';
+import { useQuery } from '@tanstack/react-query';
+import { occasionsQueries } from '@/lib/occasions/queries';
 
-interface FlowersCarouselProps {
-  occasions: Occasion[];
-}
-
-export default ({ occasions }: FlowersCarouselProps) => {
+export default () => {
+  const { data: occasions } = useQuery({ ...occasionsQueries });
+  const carouselOccasions = occasions?.results.filter(
+    (occasion) => occasion.image_src
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
-  const carouselOccasions = occasions.filter((occasion) => occasion.image_src);
   return (
     <section className='flex w-full flex-col gap-6 pl-20'>
       <header className='font-crimson text-[52px] font-medium'>
@@ -22,7 +23,7 @@ export default ({ occasions }: FlowersCarouselProps) => {
           className='hide-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden pr-20'
           ref={scrollRef}
         >
-          {carouselOccasions.map((occasion) => (
+          {carouselOccasions?.map((occasion) => (
             <OccasionCard key={occasion.id} occasion={occasion} />
           ))}
         </div>

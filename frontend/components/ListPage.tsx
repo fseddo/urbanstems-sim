@@ -1,4 +1,3 @@
-import { apiClient } from '@/lib/api';
 import { Category, Product } from '@/types/api';
 import Link from 'next/link';
 import { ProductCard } from './ProductCard';

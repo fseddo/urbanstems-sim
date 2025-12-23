@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-
 export default () => {
   return (
     <section className='flex w-full flex-col items-center gap-14 border-y-2 py-40'>

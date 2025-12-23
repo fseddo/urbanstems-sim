@@ -7,13 +7,15 @@ import { animated } from '@react-spring/web';
 import Image from 'next/image';
 import { capitalizeString } from '@/utils/capitalizeString';
 import { StarRating } from '../StarRating';
+import { useQuery } from '@tanstack/react-query';
+import { flowersQueries, plantsQueries } from '@/lib/products/queries';
 
-interface BestSellersProps {
-  flowers: Product[];
-  plants: Product[];
-}
+export default () => {
+  const { data: plantsData } = useQuery({ ...plantsQueries });
+  const { data: flowerData } = useQuery({ ...flowersQueries });
+  const plants = plantsData?.results.filter((plant) => plant.main_image);
+  const flowers = flowerData?.results.filter((flower) => flower.main_image);
 
-export default ({ flowers, plants }: BestSellersProps) => {
   const [selectedProductCategory, setSelectedProductCategory] =
     useState('flowers');
   const scrollRef = useRef<HTMLDivElement>(null);

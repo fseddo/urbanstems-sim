@@ -44,13 +44,45 @@ export default function HorizontalScrollbar({
       updateThumb();
     };
 
+    // Initial update
     updateThumb();
+
+    // Watch for content changes (images loading, etc.)
+    const resizeObserver = new ResizeObserver(() => {
+      updateThumb();
+    });
+
+    // Observe the container for size changes
+    resizeObserver.observe(container);
+
+    // Also observe all children for size changes
+    const observeChildren = () => {
+      Array.from(container.children).forEach((child) => {
+        resizeObserver.observe(child as Element);
+      });
+    };
+
+    observeChildren();
+
+    // MutationObserver to detect when new children are added
+    const mutationObserver = new MutationObserver(() => {
+      observeChildren();
+      updateThumb();
+    });
+
+    mutationObserver.observe(container, {
+      childList: true,
+      subtree: true,
+    });
+
     container.addEventListener('scroll', onScroll);
     window.addEventListener('resize', updateThumb);
 
     return () => {
       container.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', updateThumb);
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
       if (fadeTimeout.current) clearTimeout(fadeTimeout.current);
     };
   }, [targetRef]);

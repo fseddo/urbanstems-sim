@@ -7,6 +7,8 @@ import {
   ProductFilters,
 } from '@/types/api';
 
+//TODO: remove legacy api file
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 

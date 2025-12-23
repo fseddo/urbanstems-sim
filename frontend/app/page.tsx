@@ -1,22 +1,20 @@
-import { ClientPage } from '@/components/ClientPage';
-import { apiClient } from '@/lib/api';
+'use client';
 
-export default async function Home() {
-  const occasions = (await apiClient.getOccasions()).results;
-  const flowers = (
-    await apiClient.getProducts({
-      category: 'flowers',
-      sortKey: 'reviews_rating',
-      sortOrder: 'asc',
-    })
-  ).results;
-  const plants = (
-    await apiClient.getProducts({
-      category: 'plants',
-      sortKey: 'reviews_rating',
-      sortOrder: 'asc',
-    })
-  ).results;
+import { Footer } from '@/components/Footer';
+import HomeContent from '@/components/HomeContent';
+import { Navbar } from '@/components/navbar/Navbar';
+import { useRef } from 'react';
 
-  return <ClientPage occasions={occasions} flowers={flowers} plants={plants} />;
+export default function Home() {
+  const navbarRef = useRef<HTMLElement>(null);
+
+  return (
+    <div>
+      <Navbar ref={navbarRef} />
+      <main>
+        <HomeContent navbarRef={navbarRef} />
+      </main>
+      <Footer />
+    </div>
+  );
 }

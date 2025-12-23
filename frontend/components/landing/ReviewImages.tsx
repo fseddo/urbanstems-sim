@@ -4,17 +4,18 @@ import { Occasion } from '@/types/api';
 import { useRef } from 'react';
 import HorizontalScrollbar from '../HorizontalScrollbar';
 import Image from 'next/image';
+import { occasionsQueries } from '@/lib/occasions/queries';
+import { useQuery } from '@tanstack/react-query';
 
-interface ReviewImagesProps {
-  occasions: Occasion[];
-}
-
-export default ({ occasions }: ReviewImagesProps) => {
+export default () => {
+  const { data: occasions } = useQuery({ ...occasionsQueries });
+  const carouselOccasions = occasions?.results.filter(
+    (occasion) => occasion.image_src
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
-  const carouselOccasions = occasions.filter((occasion) => occasion.image_src);
-  const imgSrc1 = carouselOccasions[0].image_src as string;
-  const imgSrc2 = carouselOccasions[1].image_src as string;
-  const imgSrc3 = carouselOccasions[2].image_src as string;
+  const imgSrc1 = carouselOccasions?.[0].image_src as string;
+  const imgSrc2 = carouselOccasions?.[1].image_src as string;
+  const imgSrc3 = carouselOccasions?.[2].image_src as string;
 
   return (
     <section className='flex w-full flex-col gap-14 pl-20'>
@@ -26,7 +27,7 @@ export default ({ occasions }: ReviewImagesProps) => {
           className='hide-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden pr-20'
           ref={scrollRef}
         >
-          {carouselOccasions.map((occasion, idx) => (
+          {carouselOccasions?.map((occasion, idx) => (
             <ReviewCard
               key={occasion.id}
               occasion={occasion}

@@ -1,20 +1,22 @@
 'use client';
 
-import { Footer } from '@/components/Footer';
-import HomeContent from '@/components/HomeContent';
-import { Navbar } from '@/components/navbar/Navbar';
-import { useRef } from 'react';
+import AboutUs from '@/components/landing/AboutUs';
+import BestSellers from '@/components/landing/bestSellers/BestSellers';
+import { LandingVideo } from '@/components/landing/video/LandingVideo';
+import { OccasionCarousel } from '@/components/landing/occasionCarousel/OccasionCarousel';
+import { Reviews } from '@/components/landing/reviews/Reviews';
+import { useNavbar } from '@/contexts/NavbarContext';
 
 export default function Home() {
-  const navbarRef = useRef<HTMLElement>(null);
+  const navbarRef = useNavbar();
 
   return (
-    <div>
-      <Navbar ref={navbarRef} />
-      <main>
-        <HomeContent navbarRef={navbarRef} />
-      </main>
-      <Footer />
+    <div className='flex w-full flex-col gap-12'>
+      <LandingVideo navbarRef={navbarRef} />
+      <OccasionCarousel />
+      <Reviews />
+      <AboutUs />
+      <BestSellers />
     </div>
   );
 }

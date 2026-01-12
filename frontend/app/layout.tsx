@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Mulish, Crimson_Text } from 'next/font/google';
 import './globals.css';
 import QueryProvider from './QueryProvider';
+import LayoutContent from '@/app/LayoutContent';
 
 const mulish = Mulish({
   variable: '--font-mulish',
@@ -31,7 +32,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <QueryProvider>{children} </QueryProvider>
+        <QueryProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import { PiMagnifyingGlass, PiUser } from 'react-icons/pi';
 import { CartIcon } from '../icons/CartIcon';
 import { NavNotificationBanner } from './NavNotificationBanner';
 import { IconType } from 'react-icons';
+import Link from 'next/link';
 
 export type NavSectionItem = { label: string; Icon?: IconType };
 
@@ -44,13 +45,15 @@ export const Navbar = forwardRef<HTMLElement>((props, ref) => {
 
         {/* Centered Logo */}
         <div className='absolute left-1/2 -translate-x-1/2 transform'>
-          <Image
-            width={167}
-            height={100}
-            alt='logo'
-            src='/logo.svg'
-            className='w-[clamp(167px,15.3vw,214px)]'
-          />
+          <Link href='/'>
+            <Image
+              width={167}
+              height={100}
+              alt='logo'
+              src='/logo.svg'
+              className='w-[clamp(167px,15.3vw,214px)]'
+            />
+          </Link>
         </div>
 
         {/* Right Navigation - Hidden on mobile, shown as dropdown */}

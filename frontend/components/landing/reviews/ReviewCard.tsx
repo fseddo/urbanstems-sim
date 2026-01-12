@@ -1,49 +1,7 @@
-'use client';
-
 import { Occasion } from '@/types/api';
-import { useRef } from 'react';
-import HorizontalScrollbar from '../HorizontalScrollbar';
 import Image from 'next/image';
-import { occasionsQueries } from '@/lib/occasions/queries';
-import { useQuery } from '@tanstack/react-query';
 
-export default () => {
-  const { data: occasions } = useQuery({ ...occasionsQueries });
-  const carouselOccasions = occasions?.results.filter(
-    (occasion) => occasion.image_src
-  );
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const imgSrc1 = carouselOccasions?.[0].image_src as string;
-  const imgSrc2 = carouselOccasions?.[1].image_src as string;
-  const imgSrc3 = carouselOccasions?.[2].image_src as string;
-
-  return (
-    <section className='flex w-full flex-col gap-14 pl-20'>
-      <header className='font-crimson text-[52px] font-medium'>
-        More than 20,000 Five-Star Reviews
-      </header>
-      <div className='flex w-full flex-col gap-14'>
-        <div
-          className='hide-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden pr-20'
-          ref={scrollRef}
-        >
-          {carouselOccasions?.map((occasion, idx) => (
-            <ReviewCard
-              key={occasion.id}
-              occasion={occasion}
-              imgSrc1={imgSrc1}
-              imgSrc2={imgSrc2}
-              imgSrc3={imgSrc3}
-            />
-          ))}
-        </div>
-        <HorizontalScrollbar targetRef={scrollRef} />
-      </div>
-    </section>
-  );
-};
-
-const ReviewCard = ({
+export const ReviewCard = ({
   occasion,
   imgSrc1,
   imgSrc2,

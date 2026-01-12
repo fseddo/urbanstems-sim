@@ -1,6 +1,6 @@
 import { Category, Product } from '@/types/api';
 import Link from 'next/link';
-import { ProductCard } from './ProductCard';
+import { ProductCardOld } from './ProductCardOld';
 
 export const ListPage = ({
   products,
@@ -35,7 +35,7 @@ export const ListPage = ({
         {(products?.length ?? 0) > 0 ? (
           <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
             {products?.slice(0, 12).map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCardOld key={product.id} product={product} />
             ))}
           </div>
         ) : (

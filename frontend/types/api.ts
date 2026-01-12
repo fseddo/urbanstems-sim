@@ -65,7 +65,7 @@ export type ProductSortKey =
 
 export type SortOrder = 'asc' | 'desc';
 
-export interface ProductFilters {
+export type ProductFilters = {
   category?: 'plants' | 'flowers' | 'gifts' | 'centerpieces';
   collection?: string;
   occasion?: string;
@@ -75,4 +75,4 @@ export interface ProductFilters {
   search?: string;
   sortKey?: ProductSortKey;
   sortOrder?: SortOrder;
-}
+};

@@ -41,7 +41,10 @@ class Product(models.Model):
     is_main_detail_video = models.BooleanField(default=False)
     detail_image_1_src = models.URLField(null=True, blank=True)
     detail_image_2_src = models.URLField(null=True, blank=True)
-    
+
+    # Variants
+    variants = models.JSONField(default=list, blank=True, help_text="Array of variant objects with id, name, and main_image")
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

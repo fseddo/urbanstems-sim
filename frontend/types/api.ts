@@ -18,6 +18,12 @@ export interface Occasion {
   image_src?: string;
 }
 
+export interface ProductVariant {
+  id: number;
+  name: string;
+  main_image: string | null;
+}
+
 export interface Product {
   id: number;
   external_id: string;
@@ -45,6 +51,7 @@ export interface Product {
   categories?: Category[];
   collections?: Collection[];
   occasions?: Occasion[];
+  variants: ProductVariant[];
   created_at: string;
   updated_at?: string;
 }

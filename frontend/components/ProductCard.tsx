@@ -10,15 +10,25 @@ import { StarRating } from './StarRating';
 export const ProductCard = ({
   product,
   fixed = false,
+  detailedView,
 }: {
   product: Product;
   fixed?: boolean;
+  detailedView?: boolean;
 }) => {
   const [isHovering, setIsHovering] = useState(false);
 
+  const getDeliveryDate = (deliveryLeadTime: number | undefined) => {
+    if (!deliveryLeadTime) return undefined;
+    const date = new Date();
+    date.setDate(date.getDate() + deliveryLeadTime);
+
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
   return (
     product.main_image && (
-      <div className='flex flex-shrink-0 cursor-pointer flex-col gap-6'>
+      <div className='flex flex-shrink-0 cursor-pointer flex-col gap-4'>
         <animated.div
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
@@ -56,15 +66,26 @@ export const ProductCard = ({
               }
             />
           )}
+          {product.badge_text && detailedView && (
+            <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
+              {product.badge_text}
+            </div>
+          )}
         </animated.div>
-        <div className='flex flex-col items-center gap-1'>
-          <div className='font-crimson flex items-center justify-center text-3xl'>
+
+        <div className='flex flex-col items-center gap-1.5'>
+          {product.delivery_lead_time && (
+            <div className='border-brand-primary/10 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-semibold'>
+              Receive on {getDeliveryDate(product.delivery_lead_time)}
+            </div>
+          )}
+          <div className='font-crimson flex items-center justify-center text-[clamp(15px,1.5vw,30px)]'>
             {capitalizeString(product.name)}
           </div>
 
-          <div className='flex gap-2'>
-            <div className='text-lg'>{`$${product.price_dollars}`}</div>
-            <div className='text-lg line-through opacity-60'>
+          <div className='flex gap-2 text-[clamp(12px,1.5vw,18px)]'>
+            <div>{`$${product.price_dollars}`}</div>
+            <div className='line-through opacity-60'>
               {product.discounted_price_dollars != null &&
                 `$${product.discounted_price_dollars}`}
             </div>
@@ -73,11 +94,38 @@ export const ProductCard = ({
           <div className='flex items-center gap-2'>
             <StarRating rating={product.reviews_rating} />
             {product.reviews_count && (
-              <span className='text-foreground/60 text-xs'>
+              <span className='text-brand-primary text-xs'>
                 ({product.reviews_count})
               </span>
             )}
           </div>
+          {detailedView && product.variants && product.variants.length > 1 && (
+            <div className='flex gap-4 py-1'>
+              {product.variants.map(
+                (variant) =>
+                  variant.main_image && (
+                    <div
+                      className='flex flex-col items-center justify-center gap-2'
+                      key={variant.id}
+                    >
+                      <Image
+                        className={`aspect-square rounded-full ${variant.name.toLowerCase() === product.variant_type ? 'border-brand-primary border-2' : ''}`}
+                        alt={variant.name}
+                        src={variant.main_image}
+                        height={35}
+                        width={35}
+                      />
+                      <div
+                        key={variant.id}
+                        className={`text-[10px] ${variant.name.toLowerCase() === product.variant_type ? 'text-brand-primary font-bold' : 'opacity-60'}`}
+                      >
+                        {variant.name}
+                      </div>
+                    </div>
+                  )
+              )}
+            </div>
+          )}
         </div>
       </div>
     )

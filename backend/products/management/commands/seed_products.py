@@ -87,6 +87,7 @@ class Command(BaseCommand):
                     'is_main_detail_video': product_data.get('is_main_detail_video', False),
                     'detail_image_1_src': product_data.get('detail_image_1_src'),
                     'detail_image_2_src': product_data.get('detail_image_2_src'),
+                    'variants': product_data.get('variants', []),
                 }
             )
             

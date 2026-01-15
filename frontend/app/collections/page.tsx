@@ -1,3 +1,4 @@
+import { List } from '@/components/List';
 import { ReactNode } from 'react';
 
 export default function Collections() {
@@ -21,6 +22,7 @@ export default function Collections() {
           </HeaderBarItem>
           <HeaderBarItem className='border-r-0'>{''}</HeaderBarItem>
         </header>
+        <List />
       </main>
     </div>
   );

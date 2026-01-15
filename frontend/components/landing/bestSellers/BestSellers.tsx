@@ -51,7 +51,7 @@ export default () => {
       <HorizontalList scrollRef={scrollRef}>
         {visibleProducts?.flatMap((product, idx) =>
           idx < RESULT_LIMIT
-            ? [<ProductCard key={product.id} product={product} />]
+            ? [<ProductCard key={product.id} product={product} fixed />]
             : []
         )}
       </HorizontalList>

@@ -7,7 +7,13 @@ import { animated } from '@react-spring/web';
 import { useState } from 'react';
 import { StarRating } from './StarRating';
 
-export const ProductCard = ({ product }: { product: Product }) => {
+export const ProductCard = ({
+  product,
+  fixed = false,
+}: {
+  product: Product;
+  fixed?: boolean;
+}) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
@@ -16,26 +22,38 @@ export const ProductCard = ({ product }: { product: Product }) => {
         <animated.div
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
-          className='relative'
+          className='relative aspect-[43/49] w-full'
         >
           <Image
-            className='h-[490px] w-[430px] rounded-md object-cover'
+            className='rounded-md object-cover'
             src={product.main_image}
             alt={product.name}
-            width={430}
-            height={490}
+            fill={!fixed}
+            height={fixed ? 490 : undefined}
+            width={fixed ? 430 : undefined}
+            sizes={
+              !fixed
+                ? '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                : undefined
+            }
           />
           {product.hover_image && (
             <Image
-              className={`absolute inset-0 h-[490px] w-[430px] rounded-md object-cover transition-opacity duration-300 ${
+              className={`absolute inset-0 rounded-md object-cover transition-opacity duration-300 ${
                 isHovering ? 'opacity-100' : 'opacity-0'
               }`}
               //TODO: replace conditional css with tw classed logic
               src={product.hover_image}
               alt={`${product.name} hover`}
               loading='eager'
-              width={430}
-              height={490}
+              fill={!fixed}
+              height={fixed ? 490 : undefined}
+              width={fixed ? 430 : undefined}
+              sizes={
+                !fixed
+                  ? '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                  : undefined
+              }
             />
           )}
         </animated.div>

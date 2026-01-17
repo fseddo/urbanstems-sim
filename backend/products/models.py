@@ -43,7 +43,7 @@ class Product(models.Model):
     detail_image_2_src = models.URLField(null=True, blank=True)
 
     # Variants
-    variants = models.JSONField(default=list, blank=True, help_text="Array of variant objects with id, name, and main_image")
+    variants = models.JSONField(default=list, blank=True, help_text="Array of variant objects with id, name, variant_type, main_image, hover_image, delivery_lead_time, badge_text, price_dollars, and discounted_price_dollars")
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

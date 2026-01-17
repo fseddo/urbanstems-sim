@@ -21,7 +21,13 @@ export interface Occasion {
 export interface ProductVariant {
   id: number;
   name: string;
+  variant_type: 'single' | 'double' | 'triple';
   main_image: string | null;
+  hover_image: string | null;
+  delivery_lead_time: number | null;
+  badge_text: string | null;
+  price_dollars: number | null;
+  discounted_price_dollars: number | null;
 }
 
 export interface Product {

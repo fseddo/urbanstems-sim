@@ -1,6 +1,6 @@
 'use client';
 
-import { Product } from '@/types/api';
+import { Product, ProductVariant } from '@/types/api';
 import Image from 'next/image';
 import { capitalizeString } from '@/utils/capitalizeString';
 import { animated } from '@react-spring/web';
@@ -16,6 +16,10 @@ export const ProductCard = ({
   fixed?: boolean;
   detailedView?: boolean;
 }) => {
+  const [visibleProduct, setVisibleProduct] = useState<
+    Product | ProductVariant
+  >(product);
+
   const [isHovering, setIsHovering] = useState(false);
 
   const getDeliveryDate = (deliveryLeadTime: number | undefined) => {
@@ -27,17 +31,17 @@ export const ProductCard = ({
   };
 
   return (
-    product.main_image && (
+    visibleProduct.main_image && (
       <div className='flex flex-shrink-0 cursor-pointer flex-col gap-4'>
         <animated.div
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
-          className='relative aspect-[43/49] w-full'
+          className={`relative w-full ${!fixed ? 'aspect-[43/39]' : ''} `}
         >
           <Image
             className='rounded-md object-cover'
-            src={product.main_image}
-            alt={product.name}
+            src={visibleProduct.main_image}
+            alt={visibleProduct.name}
             fill={!fixed}
             height={fixed ? 490 : undefined}
             width={fixed ? 430 : undefined}
@@ -47,14 +51,14 @@ export const ProductCard = ({
                 : undefined
             }
           />
-          {product.hover_image && (
+          {visibleProduct.hover_image && (
             <Image
-              className={`absolute inset-0 rounded-md object-cover transition-opacity duration-300 ${
+              className={`absolute inset-0 h-full w-full rounded-md object-cover transition-opacity duration-300 ${
                 isHovering ? 'opacity-100' : 'opacity-0'
               }`}
               //TODO: replace conditional css with tw classed logic
-              src={product.hover_image}
-              alt={`${product.name} hover`}
+              src={visibleProduct.hover_image}
+              alt={`${visibleProduct.name} hover`}
               loading='eager'
               fill={!fixed}
               height={fixed ? 490 : undefined}
@@ -66,28 +70,28 @@ export const ProductCard = ({
               }
             />
           )}
-          {product.badge_text && detailedView && (
+          {visibleProduct.badge_text && detailedView && (
             <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
-              {product.badge_text}
+              {visibleProduct.badge_text}
             </div>
           )}
         </animated.div>
 
         <div className='flex flex-col items-center gap-1.5'>
-          {product.delivery_lead_time && (
+          {visibleProduct.delivery_lead_time && (
             <div className='border-brand-primary/10 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-semibold'>
-              Receive on {getDeliveryDate(product.delivery_lead_time)}
+              Receive on {getDeliveryDate(visibleProduct.delivery_lead_time)}
             </div>
           )}
           <div className='font-crimson flex items-center justify-center text-[clamp(15px,1.5vw,30px)]'>
-            {capitalizeString(product.name)}
+            {capitalizeString(visibleProduct.name)}
           </div>
 
           <div className='flex gap-2 text-[clamp(12px,1.5vw,18px)]'>
-            <div>{`$${product.price_dollars}`}</div>
+            <div>{`$${visibleProduct.price_dollars}`}</div>
             <div className='line-through opacity-60'>
-              {product.discounted_price_dollars != null &&
-                `$${product.discounted_price_dollars}`}
+              {visibleProduct.discounted_price_dollars != null &&
+                `$${visibleProduct.discounted_price_dollars}`}
             </div>
           </div>
 
@@ -101,29 +105,31 @@ export const ProductCard = ({
           </div>
           {detailedView && product.variants && product.variants.length > 1 && (
             <div className='flex gap-4 py-1'>
-              {product.variants.map(
-                (variant) =>
+              {product.variants.map((variant) => {
+                return (
                   variant.main_image && (
                     <div
                       className='flex flex-col items-center justify-center gap-2'
                       key={variant.id}
                     >
                       <Image
-                        className={`aspect-square rounded-full ${variant.name.toLowerCase() === product.variant_type ? 'border-brand-primary border-2' : ''}`}
-                        alt={variant.name}
+                        onClick={() => setVisibleProduct(variant)}
+                        className={`aspect-square rounded-full ${variant.variant_type === visibleProduct.variant_type ? 'border-brand-primary border-2' : ''}`}
+                        alt={variant.variant_type}
                         src={variant.main_image}
                         height={35}
                         width={35}
                       />
                       <div
                         key={variant.id}
-                        className={`text-[10px] ${variant.name.toLowerCase() === product.variant_type ? 'text-brand-primary font-bold' : 'opacity-60'}`}
+                        className={`text-[10px] ${variant.variant_type === visibleProduct.variant_type ? 'text-brand-primary font-bold' : 'opacity-60'}`}
                       >
-                        {variant.name}
+                        {variant.variant_type}
                       </div>
                     </div>
                   )
-              )}
+                );
+              })}
             </div>
           )}
         </div>

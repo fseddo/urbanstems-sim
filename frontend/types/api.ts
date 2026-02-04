@@ -18,10 +18,16 @@ export interface Occasion {
   image_src?: string;
 }
 
+export enum VariantType {
+  Single = 'single',
+  Double = 'double',
+  triple = 'triple',
+}
+
 export interface ProductVariant {
   id: number;
   name: string;
-  variant_type: 'single' | 'double' | 'triple';
+  variant_type: VariantType;
   main_image: string | null;
   hover_image: string | null;
   delivery_lead_time: number | null;
@@ -34,7 +40,7 @@ export interface Product {
   id: number;
   external_id: string;
   name: string;
-  variant_type: 'single' | 'double' | 'triple' | null;
+  variant_type: VariantType | null;
   base_name: string;
   url: string;
   price: number | null;
@@ -82,7 +88,7 @@ export type ProductFilters = {
   category?: 'plants' | 'flowers' | 'gifts' | 'centerpieces';
   collection?: string;
   occasion?: string;
-  variant_type?: 'single' | 'double' | 'triple';
+  variant_type?: VariantType;
   min_price?: number;
   max_price?: number;
   search?: string;

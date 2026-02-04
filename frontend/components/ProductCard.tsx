@@ -6,6 +6,7 @@ import { capitalizeString } from '@/utils/capitalizeString';
 import { animated } from '@react-spring/web';
 import { useState } from 'react';
 import { StarRating } from './StarRating';
+import Link from 'next/link';
 
 export const ProductCard = ({
   product,
@@ -33,33 +34,16 @@ export const ProductCard = ({
   return (
     visibleProduct.main_image && (
       <div className='flex flex-shrink-0 cursor-pointer flex-col gap-4'>
-        <animated.div
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-          className={`relative w-full ${!fixed ? 'aspect-[43/39]' : ''} `}
-        >
-          <Image
-            className='rounded-md object-cover'
-            src={visibleProduct.main_image}
-            alt={visibleProduct.name}
-            fill={!fixed}
-            height={fixed ? 490 : undefined}
-            width={fixed ? 430 : undefined}
-            sizes={
-              !fixed
-                ? '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                : undefined
-            }
-          />
-          {visibleProduct.hover_image && (
+        <Link href={`/products/${visibleProduct.id}`}>
+          <animated.div
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            className={`relative w-full ${!fixed ? 'aspect-[43/39]' : ''} `}
+          >
             <Image
-              className={`absolute inset-0 h-full w-full rounded-md object-cover transition-opacity duration-300 ${
-                isHovering ? 'opacity-100' : 'opacity-0'
-              }`}
-              //TODO: replace conditional css with tw classed logic
-              src={visibleProduct.hover_image}
-              alt={`${visibleProduct.name} hover`}
-              loading='eager'
+              className='rounded-md object-cover'
+              src={visibleProduct.main_image}
+              alt={visibleProduct.name}
               fill={!fixed}
               height={fixed ? 490 : undefined}
               width={fixed ? 430 : undefined}
@@ -69,13 +53,32 @@ export const ProductCard = ({
                   : undefined
               }
             />
-          )}
-          {visibleProduct.badge_text && detailedView && (
-            <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
-              {visibleProduct.badge_text}
-            </div>
-          )}
-        </animated.div>
+            {visibleProduct.hover_image && (
+              <Image
+                className={`absolute inset-0 h-full w-full rounded-md object-cover transition-opacity duration-300 ${
+                  isHovering ? 'opacity-100' : 'opacity-0'
+                }`}
+                //TODO: replace conditional css with tw classed logic
+                src={visibleProduct.hover_image}
+                alt={`${visibleProduct.name} hover`}
+                loading='eager'
+                fill={!fixed}
+                height={fixed ? 490 : undefined}
+                width={fixed ? 430 : undefined}
+                sizes={
+                  !fixed
+                    ? '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    : undefined
+                }
+              />
+            )}
+            {visibleProduct.badge_text && detailedView && (
+              <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
+                {visibleProduct.badge_text}
+              </div>
+            )}
+          </animated.div>
+        </Link>
 
         <div className='flex flex-col items-center gap-1.5'>
           {visibleProduct.delivery_lead_time && (

@@ -1,4 +1,4 @@
-import { Category, Product, ProductFilters } from '@/types/api';
+import { Product, ProductFilters } from '@/types/api';
 import { baseRequest } from '../request';
 import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { createQueryParams } from '../createQueryParams';
@@ -32,5 +32,17 @@ export const productsInfiniteQueries = (filters: ProductFilters) => {
     //TODO: remove need to split this to extract params
     getNextPageParam: (lastPage) => lastPage.next?.split('/api')[1],
     getPreviousPageParam: (firstPage) => firstPage?.previous?.split('/api')[1],
+  });
+};
+
+export const productQuery = (productId: string) => {
+  return queryOptions({
+    queryKey: ['product', productId],
+    queryFn: async () =>
+      baseRequest<Product>({
+        method: 'get',
+        path: `/products/${productId}`,
+        paginated: false,
+      }),
   });
 };

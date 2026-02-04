@@ -4,11 +4,11 @@ import { useElementHeight } from '@/hooks/useElementHeight';
 import Image from 'next/image';
 import { RefObject } from 'react';
 import { VideoActionButton } from './VideoActionButton';
+import { useNavbar } from '@/contexts/NavbarContext';
 
-export const LandingVideo = (props: {
-  navbarRef: RefObject<HTMLElement | null>;
-}) => {
-  const navbarHeight = useElementHeight(props.navbarRef);
+export const LandingVideo = () => {
+  const navbarRef = useNavbar();
+  const navbarHeight = useElementHeight(navbarRef);
   const videoHeight =
     navbarHeight > 0 ? `calc(100vh - ${navbarHeight}px)` : '100vh';
 

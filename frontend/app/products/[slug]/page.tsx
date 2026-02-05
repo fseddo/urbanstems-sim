@@ -9,8 +9,10 @@ import { capitalizeString } from '@/utils/capitalizeString';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { use } from 'react';
+import { use, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
+import { FiMinus, FiPlus } from 'react-icons/fi';
+import parse from 'html-react-parser';
 
 const getDeliveryDate = (deliveryLeadTime: number | undefined | null) => {
   if (!deliveryLeadTime) return undefined;
@@ -98,14 +100,21 @@ export default function ProductDetail({
           <ProductBackgroundImages product={product} />
           <ProductHeader product={product} />
         </div>
-
-        <ProductDetailPane product={product} navbarHeight={navbarHeight} />
-        {/* Product detail images grid */}
-        {product.main_detail_src && <ProductImageGrid product={product} />}
-        {/* description and care instructions expandable menus */}
-        <div className='flex flex-col gap-6'>
-          <div>Description</div>
-          <div>Care Instructions</div>
+        <div className='ml-20 flex w-[50%] flex-col gap-5 pt-20 pr-4'>
+          <ProductDetailPane product={product} navbarHeight={navbarHeight} />
+          {/* Product detail images grid */}
+          {product.main_detail_src && <ProductImageGrid product={product} />}
+          {/* description and care instructions expandable menus */}
+          <div className='flex flex-col pt-10 pb-20'>
+            <ProductInfoAccordion
+              label='Description'
+              data={product.description}
+            />
+            <ProductInfoAccordion
+              label='Care Instructions'
+              data={product.care_instructions}
+            />
+          </div>
         </div>
       </section>
 
@@ -165,7 +174,7 @@ const ProductDetailPane = ({
   navbarHeight: number;
 }) => {
   return (
-    <div className='absolute top-0 right-[90px] z-10 h-full pb-10'>
+    <div className='absolute top-0 right-[90px] z-10 h-full pb-20'>
       <div
         className='sticky flex w-[37vw] flex-col items-center gap-3 rounded-lg bg-white p-10 shadow-xl'
         style={{ top: navbarHeight + 40 }}
@@ -212,7 +221,7 @@ const ProductDetailPane = ({
 const ProductImageGrid = ({ product }: { product: Product }) => {
   return (
     <div
-      className='grid gap-4 p-20'
+      className='grid gap-4'
       style={{
         gridTemplateColumns: '460px 460px',
         gridTemplateRows: '2fr 4fr',
@@ -345,7 +354,7 @@ const DeliveryInformation = ({ product }: { product: Product }) => {
 
 const AddOns = () => {
   return (
-    <div className='flex w-full flex-col gap-4 pb-4'>
+    <div className='flex w-full flex-col gap-1 pb-4'>
       <div className='font-bold'>Make It Extra Special</div>
       <div className='flex flex-col gap-1'>
         {/* first row */}
@@ -381,6 +390,36 @@ const AddOns = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const ProductInfoAccordion = ({
+  label,
+  data,
+}: {
+  label: string;
+  data: string | null;
+}) => {
+  const [isExpanded, setIsExpanded] = useState(label === 'Description');
+  return (
+    <div
+      className={`border-background-alt/80 flex flex-col gap-4 border-b py-4 ${label === 'Description' ? 'border-t' : ''}`}
+    >
+      <header className='flex items-center justify-between'>
+        <div className='font-bold'>{label}</div>
+        <div
+          className='cursor-pointer opacity-70'
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? <FiMinus /> : <FiPlus />}
+        </div>
+      </header>
+      {isExpanded && data && (
+        <div className='flex flex-col gap-4 text-sm opacity-90'>
+          {parse(data)}
+        </div>
+      )}
     </div>
   );
 };

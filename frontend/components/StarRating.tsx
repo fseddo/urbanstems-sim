@@ -3,9 +3,14 @@ import Image from 'next/image';
 interface StarRatingProps {
   rating?: number | string | null;
   maxStars?: number;
+  size?: number;
 }
 
-export const StarRating = ({ rating, maxStars = 5 }: StarRatingProps) => {
+export const StarRating = ({
+  rating,
+  maxStars = 5,
+  size = 14,
+}: StarRatingProps) => {
   if (!rating) return null;
 
   const numericRating =
@@ -30,8 +35,8 @@ export const StarRating = ({ rating, maxStars = 5 }: StarRatingProps) => {
         key={i}
         src={`/${starType}_star.svg`}
         alt={`${starType} star`}
-        width={14}
-        height={14}
+        width={size}
+        height={size}
         className='inline-block'
       />
     );

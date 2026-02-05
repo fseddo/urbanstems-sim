@@ -3,16 +3,19 @@
 import { StarRating } from '@/components/StarRating';
 import { useNavbar } from '@/contexts/NavbarContext';
 import { useElementHeight } from '@/hooks/useElementHeight';
-import { productQuery } from '@/lib/products/queries';
+import { productQuery, productsQueries } from '@/lib/products/queries';
 import { Product, ProductVariant, VariantType } from '@/types/api';
 import { capitalizeString } from '@/utils/capitalizeString';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { use, useState } from 'react';
+import { use, useRef, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import parse from 'html-react-parser';
+import BestSellers from '@/components/landing/bestSellers/BestSellers';
+import { HorizontalList } from '@/components/HorizontalList';
+import { ProductCard } from '@/components/ProductCard';
 
 const getDeliveryDate = (deliveryLeadTime: number | undefined | null) => {
   if (!deliveryLeadTime) return undefined;
@@ -119,8 +122,9 @@ export default function ProductDetail({
       </section>
 
       {/* reviews */}
-      <div className='bg-background-alt/30 h-[500px]'>Reviews</div>
+      <ProductReviews product={product} />
       {/* you may also like */}
+      <ProductRecommendations product={product} />
       {/* how your package will arrive at your door */}
       {/* footer */}
     </div>
@@ -420,6 +424,54 @@ const ProductInfoAccordion = ({
           {parse(data)}
         </div>
       )}
+    </div>
+  );
+};
+
+const ProductReviews = ({ product }: { product: Product }) => {
+  return (
+    <div className='bg-background-alt/30 flex flex-col items-center gap-6 py-20'>
+      <div className='font-crimson flex flex-col items-center gap-2 text-5xl'>
+        {`${product.name} Reviews`}{' '}
+        <div className='font-mulish flex items-center gap-2'>
+          <StarRating rating={product.reviews_rating} size={20} />
+          {product.reviews_count && (
+            <span className='text-brand-primary text-base'>
+              {product.reviews_count} Reviews
+            </span>
+          )}
+        </div>
+      </div>
+
+      <button className='bg-brand-primary rounded-sm p-4 px-8 text-sm tracking-wider text-white'>
+        WRITE A REVIEW
+      </button>
+    </div>
+  );
+};
+
+const ProductRecommendations = ({ product }: { product: Product }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const { data: flowerData } = useQuery({
+    ...productsQueries({ category: 'flowers' }),
+  });
+
+  return (
+    <div className='flex flex-col gap-8 p-20'>
+      <div className='flex w-full items-end justify-between'>
+        <div className='font-crimson text-5xl'>You May Also Like</div>
+        <div className='text-sm font-black tracking-widest underline'>
+          SHOP ALL
+        </div>
+      </div>
+      <HorizontalList scrollRef={scrollRef}>
+        {flowerData?.results?.flatMap((product, idx) =>
+          idx < 8
+            ? [<ProductCard key={product.id} product={product} fixed />]
+            : []
+        )}
+      </HorizontalList>
     </div>
   );
 };

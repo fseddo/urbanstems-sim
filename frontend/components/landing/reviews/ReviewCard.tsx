@@ -1,18 +1,22 @@
-import { Occasion } from '@/types/api';
 import Image from 'next/image';
 
 export const ReviewCard = ({
-  occasion,
+  name,
+  location,
+  rating,
+  description,
   imgSrc1,
   imgSrc2,
   imgSrc3,
 }: {
-  occasion: Occasion;
+  rating: number;
+  location: string;
+  name: string;
+  description: string;
   imgSrc1: string;
   imgSrc2: string;
   imgSrc3: string;
 }) => {
-  const imgSrc = occasion.image_src;
   return (
     <div className='flex flex-shrink-0 flex-col gap-4'>
       <div className='group relative h-[400px] w-[450px]'>
@@ -40,16 +44,16 @@ export const ReviewCard = ({
       <div className='flex flex-col items-center gap-4'>
         <div className='flex flex-col items-center gap-2'>
           <div className='font-crimson flex items-center justify-center text-3xl'>
-            Janna
+            {name}
           </div>
           <div className='text-foreground/60 text-sm'>
-            Verified Buyer - New York, NY
+            {`Verified Buyer - ${location}`}
           </div>
         </div>
 
         <div className='flex flex-col items-center gap-2'>
           <div className='flex gap-1'>
-            {new Array(5).fill(null).map((_, i) => (
+            {new Array(rating).fill(null).map((_, i) => (
               <Image
                 key={i}
                 src='/full_star.svg'
@@ -60,10 +64,7 @@ export const ReviewCard = ({
             ))}
           </div>
           <div className='font-crimson flex w-[450px] text-center text-lg italic'>
-            “Finally an online florist with product that you aren't going to see
-            the exact same thing at a dozen other online florists. UrbanStems by
-            far offered the best selection, most reasonable pricing and their
-            customer service is impeccable!!!”
+            {description}
           </div>
         </div>
       </div>

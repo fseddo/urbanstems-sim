@@ -94,3 +94,5 @@ export default function ProductDetail({
     </div>
   );
 }
+
+//TODO: there is a bottom pane that should open on the product detail page when you scroll out of the pane view

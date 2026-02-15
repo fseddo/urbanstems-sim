@@ -14,7 +14,7 @@ export const ProductDeliveryInstructions = ({
       </div>
       <div className='flex gap-5'>
         {DELIVERY_INSTRUCTION_STEPS.map((step) => (
-          <DeliveryStepDetail {...step} />
+          <DeliveryStepDetail key={step.id} {...step} />
         ))}
       </div>
     </div>

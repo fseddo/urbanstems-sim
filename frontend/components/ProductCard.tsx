@@ -6,6 +6,7 @@ import { animated } from '@react-spring/web';
 import { useState } from 'react';
 import { StarRating } from './StarRating';
 import { PrefetchLink } from './PrefetchLink';
+import Image from 'next/image';
 
 export const ProductCard = ({
   product,
@@ -30,6 +31,9 @@ export const ProductCard = ({
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
+  // Get blur data URL from the product (variants don't have it)
+  const blurDataURL = 'blur_data_url' in product ? product.blur_data_url : null;
+
   return (
     visibleProduct.main_image && (
       <div className='flex flex-shrink-0 cursor-pointer flex-col gap-4'>
@@ -37,20 +41,30 @@ export const ProductCard = ({
           <animated.div
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            className={`relative w-full ${!fixed ? 'aspect-[43/39]' : ''} `}
+            className={`relative w-full overflow-hidden rounded-md bg-gray-100 ${!fixed ? 'aspect-[43/39]' : ''}`}
           >
-            <img
-              className={`rounded-md object-cover ${fixed ? 'h-[490px] w-[430px]' : 'h-full w-full'}`}
+            <Image
+              className='rounded-md object-cover'
               src={visibleProduct.main_image}
               alt={visibleProduct.name}
+              fill={!fixed}
+              height={fixed ? 490 : undefined}
+              width={fixed ? 430 : undefined}
+              sizes={
+                !fixed
+                  ? '(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'
+                  : undefined
+              }
+              placeholder={blurDataURL ? 'blur' : 'empty'}
+              blurDataURL={blurDataURL ?? undefined}
             />
-            {visibleProduct.hover_image && (
-              <img
-                className={`absolute inset-0 rounded-md object-cover transition-opacity duration-300 ${
-                  fixed ? 'h-[490px] w-[430px]' : 'h-full w-full'
-                } ${isHovering ? 'opacity-100' : 'opacity-0'}`}
+            {visibleProduct.hover_image && isHovering && (
+              <Image
+                className='absolute inset-0 h-full w-full rounded-md object-cover'
                 src={visibleProduct.hover_image}
                 alt={`${visibleProduct.name} hover`}
+                fill
+                sizes='(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'
               />
             )}
             {visibleProduct.badge_text && detailedView && (
@@ -96,11 +110,13 @@ export const ProductCard = ({
                       className='flex flex-col items-center justify-center gap-2'
                       key={variant.id}
                     >
-                      <img
+                      <Image
                         onClick={() => setVisibleProduct(variant)}
-                        className={`h-[35px] w-[35px] rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'border-brand-primary border-2' : ''}`}
+                        className={`rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'border-brand-primary border-2' : ''}`}
                         alt={variant.variant_type}
                         src={variant.main_image}
+                        height={35}
+                        width={35}
                       />
                       <div
                         key={variant.id}

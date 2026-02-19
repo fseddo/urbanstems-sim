@@ -42,8 +42,8 @@ export const LandingVideo = () => {
           card to guide and set intention.
         </div>
         <div className='flex gap-3'>
-          <VideoActionButton label='SHOP FLOWERLORE' onClick={() => {}} />
-          <VideoActionButton label='SHOP ALL FLOWERS' onClick={() => {}} />
+          <VideoActionButton label='SHOP FLOWERLORE' href='/collections/flowerlore' />
+          <VideoActionButton label='SHOP ALL FLOWERS' href='/collections/all' />
         </div>
       </div>
     </section>

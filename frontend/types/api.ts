@@ -49,6 +49,7 @@ export interface Product {
   discounted_price_dollars: number | null;
   main_image: string | null;
   hover_image: string | null;
+  blur_data_url: string | null;
   badge_text: string | null;
   delivery_lead_time: number | null;
   stock: number;

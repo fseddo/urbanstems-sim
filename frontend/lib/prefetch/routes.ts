@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { productQueries } from '../products/queries';
-import { Product } from '@/types/api';
+// import { Product } from '@/types/api';
 
 type RouteParams = Record<string, string>;
 
@@ -9,43 +9,37 @@ type PrefetchRoute = {
   prefetch: (queryClient: QueryClient, params: RouteParams) => void;
 };
 
-/**
- * Preloads images into browser cache
- */
-const preloadImages = (urls: (string | null | undefined)[]) => {
-  urls.forEach((url) => {
-    if (url) {
-      const img = new Image();
-      img.src = url;
-    }
-  });
-};
+// /**
+//  * Preloads images into browser cache
+//  */
+// const preloadImages = (urls: (string | null | undefined)[]) => {
+//   urls.forEach((url) => {
+//     if (url) {
+//       const img = new Image();
+//       img.src = url;
+//     }
+//   });
+// };
 
-/**
- * Extracts image URLs from products for preloading
- */
-const getProductImageUrls = (products: Product[]) =>
-  products.flatMap((p) => [p.main_image, p.hover_image]);
+// /**
+//  * Extracts image URLs from products for preloading
+//  */
+// const getProductImageUrls = (products: Product[]) =>
+//   products.flatMap((p) => [p.main_image, p.hover_image]);
 
 export const prefetchRoutes: PrefetchRoute[] = [
   {
     pattern: '/products/:id',
-    prefetch: async (queryClient, { id }) => {
-      const product = await queryClient.fetchQuery(productQueries.detail(id));
-      if (product) {
-        preloadImages([product.main_image, product.hover_image]);
-      }
+    prefetch: (queryClient, { id }) => {
+      queryClient.prefetchQuery(productQueries.detail(id));
     },
   },
   {
     pattern: '/collections/:slug',
-    prefetch: async (queryClient, { slug }) => {
-      const data = await queryClient.fetchInfiniteQuery(
-        productQueries.infiniteList({ occasion: slug })
+    prefetch: (queryClient, { slug }) => {
+      queryClient.prefetchInfiniteQuery(
+        productQueries.infiniteList(slug === 'all' ? {} : { occasion: slug })
       );
-      if (data?.pages?.[0]?.data) {
-        preloadImages(getProductImageUrls(data.pages[0].data));
-      }
     },
   },
 ];

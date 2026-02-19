@@ -22,6 +22,7 @@ class Product(models.Model):
     # Images
     main_image = models.URLField(null=True, blank=True)
     hover_image = models.URLField(null=True, blank=True)
+    blur_data_url = models.TextField(null=True, blank=True, help_text="Base64 encoded low-res blur placeholder")
     
     # Product details
     badge_text = models.CharField(max_length=100, null=True, blank=True)

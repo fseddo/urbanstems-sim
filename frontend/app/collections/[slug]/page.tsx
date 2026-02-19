@@ -12,15 +12,18 @@ import { useParams } from 'next/navigation';
 
 export default function CollectionPage() {
   const { slug } = useParams<{ slug: string }>();
+  const isAll = slug === 'all';
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const formattedDate = `${String(tomorrow.getMonth() + 1).padStart(2, '0')}/${String(tomorrow.getDate()).padStart(2, '0')}/${tomorrow.getFullYear()}`;
 
-  const displayName = slug
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  const displayName = isAll
+    ? 'All'
+    : slug
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
 
   return (
     <div>
@@ -47,7 +50,7 @@ export default function CollectionPage() {
           <HeaderBarItem className='border-r-0'>{''}</HeaderBarItem>
         </header>
         <List
-          queryOptions={productQueries.infiniteList({ occasion: slug })}
+          queryOptions={productQueries.infiniteList(isAll ? {} : { occasion: slug })}
           renderItem={(product) => (
             <ProductCard key={product.id} product={product} detailedView />
           )}

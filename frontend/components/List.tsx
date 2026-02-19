@@ -4,7 +4,8 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
-import { ReactNode, useEffect, useRef } from 'react';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
+import { ReactNode, useEffect, useState, useCallback, useRef } from 'react';
 import { PaginatedResponse } from '@/types/api';
 
 type Props<T> = {
@@ -16,9 +17,32 @@ type Props<T> = {
     any
   >;
   renderItem: (item: T, index: number) => ReactNode;
+  /** Estimated height of each row in pixels */
+  estimateRowHeight?: number;
 };
 
-export const List = <T,>({ queryOptions, renderItem }: Props<T>) => {
+const useColumns = () => {
+  const [columns, setColumns] = useState(3);
+
+  useEffect(() => {
+    const updateColumns = () => {
+      // Match Tailwind breakpoints: lg:grid-cols-3, default grid-cols-2
+      setColumns(window.innerWidth >= 1024 ? 3 : 2);
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
+  return columns;
+};
+
+export const List = <T,>({
+  queryOptions,
+  renderItem,
+  estimateRowHeight = 600,
+}: Props<T>) => {
   const {
     data,
     fetchNextPage,
@@ -29,29 +53,41 @@ export const List = <T,>({ queryOptions, renderItem }: Props<T>) => {
     error,
   } = useInfiniteQuery(queryOptions);
 
-  const observerTarget = useRef<HTMLDivElement>(null);
+  const columns = useColumns();
+  const items = data ?? [];
+  const rowCount = Math.ceil(items.length / columns);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useWindowVirtualizer({
+    count: rowCount,
+    estimateSize: () => estimateRowHeight,
+    overscan: 2,
+    scrollMargin: listRef.current?.offsetTop ?? 0,
+  });
+
+  const virtualRows = virtualizer.getVirtualItems();
+
+  // Fetch more when scrolling near the end
+  const lastRow = virtualRows[virtualRows.length - 1];
+  const shouldFetchMore =
+    lastRow &&
+    lastRow.index >= rowCount - 2 &&
+    hasNextPage &&
+    !isFetchingNextPage;
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.7 }
-    );
-
-    const currentTarget = observerTarget.current;
-    if (currentTarget) {
-      observer.observe(currentTarget);
+    if (shouldFetchMore) {
+      fetchNextPage();
     }
+  }, [shouldFetchMore, fetchNextPage]);
 
-    return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget);
-      }
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  const getRowItems = useCallback(
+    (rowIndex: number) => {
+      const startIndex = rowIndex * columns;
+      return items.slice(startIndex, startIndex + columns);
+    },
+    [items, columns]
+  );
 
   if (isLoading) {
     return (
@@ -71,7 +107,7 @@ export const List = <T,>({ queryOptions, renderItem }: Props<T>) => {
     );
   }
 
-  if (!isLoading && (data?.length ?? 0) < 1) {
+  if (!isLoading && items.length < 1) {
     return (
       <div className='flex h-screen items-center justify-center'>
         <div className='text-lg'>No results found</div>
@@ -80,10 +116,32 @@ export const List = <T,>({ queryOptions, renderItem }: Props<T>) => {
   }
 
   return (
-    <div className='grid grid-cols-2 gap-4 p-4 px-12 lg:grid-cols-3'>
-      {data?.map((item, index) => renderItem(item, index))}
-      {/* Intersection Observer Target */}
-      <div ref={observerTarget} className='h-10 w-full' />
+    <div ref={listRef} className='w-full'>
+      <div
+        className='relative w-full'
+        style={{ height: virtualizer.getTotalSize() }}
+      >
+        {virtualRows.map((virtualRow) => {
+          const rowItems = getRowItems(virtualRow.index);
+          return (
+            <div
+              key={virtualRow.key}
+              data-index={virtualRow.index}
+              ref={virtualizer.measureElement}
+              className='absolute left-0 right-0 grid grid-cols-2 gap-4 px-12 py-2 lg:grid-cols-3'
+              style={{
+                transform: `translateY(${virtualRow.start - virtualizer.options.scrollMargin}px)`,
+              }}
+            >
+              {rowItems.map((item, colIndex) => (
+                <div key={virtualRow.index * columns + colIndex}>
+                  {renderItem(item, virtualRow.index * columns + colIndex)}
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

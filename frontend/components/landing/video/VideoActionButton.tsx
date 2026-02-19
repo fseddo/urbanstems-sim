@@ -5,8 +5,9 @@ import { PrefetchLink } from '@/components/PrefetchLink';
 import { useState } from 'react';
 
 export const VideoActionButton = (props: {
-  onClick: () => void;
+  onClick?: () => void;
   label: string;
+  href: string;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -18,7 +19,7 @@ export const VideoActionButton = (props: {
   });
 
   return (
-    <PrefetchLink href='/collections'>
+    <PrefetchLink href={props.href}>
       <animated.button
         onClick={props.onClick}
         onMouseEnter={() => setIsHovered(true)}

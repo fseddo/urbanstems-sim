@@ -6,6 +6,7 @@ import { CartIcon } from '../icons/CartIcon';
 import { NavNotificationBanner } from './NavNotificationBanner';
 import { IconType } from 'react-icons';
 import Link from 'next/link';
+import { PrefetchLink } from '../PrefetchLink';
 
 export type NavSectionItem = { label: string; Icon?: IconType };
 
@@ -32,8 +33,15 @@ export const Navbar = forwardRef<HTMLElement>((props, ref) => {
             </div>
           </div>
           <div>Fall</div>
-          <div>Flowers</div>
-          <div>Plants</div>
+          <PrefetchLink
+            className='hover:opacity-60'
+            href='/collections/flowers'
+          >
+            Flowers
+          </PrefetchLink>
+          <PrefetchLink className='hover:opacity-60' href='/collections/plants'>
+            Plants
+          </PrefetchLink>
           <div>Same-Day Delivery</div>
           <div>Sale</div>
         </div>

@@ -5,14 +5,27 @@ import { FilterIcon } from '@/components/icons/FilterIcon';
 import { List } from '@/components/List';
 import { ProductCard } from '@/components/ProductCard';
 import { productQueries } from '@/lib/products/queries';
-import { JSX, ReactNode } from 'react';
+import { ProductFilters } from '@/types/api';
+import { JSX, ReactNode, useMemo } from 'react';
 import { IconType } from 'react-icons';
 import { SlLocationPin } from 'react-icons/sl';
 import { useParams } from 'next/navigation';
 
+const CATEGORIES = ['flowers', 'plants', 'gifts', 'centerpieces'] as const;
+type Category = (typeof CATEGORIES)[number];
+
+const isCategory = (slug: string): slug is Category =>
+  CATEGORIES.includes(slug as Category);
+
 export default function CollectionPage() {
   const { slug } = useParams<{ slug: string }>();
   const isAll = slug === 'all';
+
+  const filters: ProductFilters = useMemo(() => {
+    if (isAll) return {};
+    if (isCategory(slug)) return { category: slug };
+    return { occasion: slug };
+  }, [slug, isAll]);
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -50,7 +63,7 @@ export default function CollectionPage() {
           <HeaderBarItem className='border-r-0'>{''}</HeaderBarItem>
         </header>
         <List
-          queryOptions={productQueries.infiniteList(isAll ? {} : { occasion: slug })}
+          queryOptions={productQueries.infiniteList(filters)}
           renderItem={(product) => (
             <ProductCard key={product.id} product={product} detailedView />
           )}

@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { productQueries } from '../products/queries';
-// import { Product } from '@/types/api';
+import { ProductFilters } from '@/types/api';
 
 type RouteParams = Record<string, string>;
 
@@ -9,23 +9,17 @@ type PrefetchRoute = {
   prefetch: (queryClient: QueryClient, params: RouteParams) => void;
 };
 
-// /**
-//  * Preloads images into browser cache
-//  */
-// const preloadImages = (urls: (string | null | undefined)[]) => {
-//   urls.forEach((url) => {
-//     if (url) {
-//       const img = new Image();
-//       img.src = url;
-//     }
-//   });
-// };
+const CATEGORIES = ['flowers', 'plants', 'gifts', 'centerpieces'] as const;
+type Category = (typeof CATEGORIES)[number];
 
-// /**
-//  * Extracts image URLs from products for preloading
-//  */
-// const getProductImageUrls = (products: Product[]) =>
-//   products.flatMap((p) => [p.main_image, p.hover_image]);
+const isCategory = (slug: string): slug is Category =>
+  CATEGORIES.includes(slug as Category);
+
+const getCollectionFilters = (slug: string): ProductFilters => {
+  if (slug === 'all') return {};
+  if (isCategory(slug)) return { category: slug };
+  return { occasion: slug };
+};
 
 export const prefetchRoutes: PrefetchRoute[] = [
   {
@@ -38,7 +32,7 @@ export const prefetchRoutes: PrefetchRoute[] = [
     pattern: '/collections/:slug',
     prefetch: (queryClient, { slug }) => {
       queryClient.prefetchInfiniteQuery(
-        productQueries.infiniteList(slug === 'all' ? {} : { occasion: slug })
+        productQueries.infiniteList(getCollectionFilters(slug))
       );
     },
   },

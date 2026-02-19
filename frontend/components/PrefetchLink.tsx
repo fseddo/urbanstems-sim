@@ -11,13 +11,14 @@ export const PrefetchLink = ({
   href,
   onMouseEnter,
   children,
+  className,
   ...props
 }: PrefetchLinkProps) => {
   const queryClient = useQueryClient();
 
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
-      const path = typeof href === 'string' ? href : href.pathname ?? '';
+      const path = typeof href === 'string' ? href : (href.pathname ?? '');
       const match = findPrefetchRoute(path);
 
       if (match) {
@@ -30,7 +31,12 @@ export const PrefetchLink = ({
   );
 
   return (
-    <Link href={href} onMouseEnter={handleMouseEnter} {...props}>
+    <Link
+      className={className}
+      href={href}
+      onMouseEnter={handleMouseEnter}
+      {...props}
+    >
       {children}
     </Link>
   );

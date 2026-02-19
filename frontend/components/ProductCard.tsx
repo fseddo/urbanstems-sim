@@ -40,15 +40,15 @@ export const ProductCard = ({
             className={`relative w-full ${!fixed ? 'aspect-[43/39]' : ''} `}
           >
             <img
-              className='h-full w-full rounded-md object-cover'
+              className={`rounded-md object-cover ${fixed ? 'h-[490px] w-[430px]' : 'h-full w-full'}`}
               src={visibleProduct.main_image}
               alt={visibleProduct.name}
             />
             {visibleProduct.hover_image && (
               <img
-                className={`absolute inset-0 h-full w-full rounded-md object-cover transition-opacity duration-300 ${
-                  isHovering ? 'opacity-100' : 'opacity-0'
-                }`}
+                className={`absolute inset-0 rounded-md object-cover transition-opacity duration-300 ${
+                  fixed ? 'h-[490px] w-[430px]' : 'h-full w-full'
+                } ${isHovering ? 'opacity-100' : 'opacity-0'}`}
                 src={visibleProduct.hover_image}
                 alt={`${visibleProduct.name} hover`}
               />

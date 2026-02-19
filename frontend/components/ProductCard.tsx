@@ -1,7 +1,6 @@
 'use client';
 
 import { Product, ProductVariant } from '@/types/api';
-import Image from 'next/image';
 import { capitalizeString } from '@/utils/capitalizeString';
 import { animated } from '@react-spring/web';
 import { useState } from 'react';
@@ -40,36 +39,18 @@ export const ProductCard = ({
             onMouseLeave={() => setIsHovering(false)}
             className={`relative w-full ${!fixed ? 'aspect-[43/39]' : ''} `}
           >
-            <Image
-              className='rounded-md object-cover'
+            <img
+              className='h-full w-full rounded-md object-cover'
               src={visibleProduct.main_image}
               alt={visibleProduct.name}
-              fill={!fixed}
-              height={fixed ? 490 : undefined}
-              width={fixed ? 430 : undefined}
-              sizes={
-                !fixed
-                  ? '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                  : undefined
-              }
             />
             {visibleProduct.hover_image && (
-              <Image
+              <img
                 className={`absolute inset-0 h-full w-full rounded-md object-cover transition-opacity duration-300 ${
                   isHovering ? 'opacity-100' : 'opacity-0'
                 }`}
-                //TODO: replace conditional css with tw classed logic
                 src={visibleProduct.hover_image}
                 alt={`${visibleProduct.name} hover`}
-                loading='eager'
-                fill={!fixed}
-                height={fixed ? 490 : undefined}
-                width={fixed ? 430 : undefined}
-                sizes={
-                  !fixed
-                    ? '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                    : undefined
-                }
               />
             )}
             {visibleProduct.badge_text && detailedView && (
@@ -115,13 +96,11 @@ export const ProductCard = ({
                       className='flex flex-col items-center justify-center gap-2'
                       key={variant.id}
                     >
-                      <Image
+                      <img
                         onClick={() => setVisibleProduct(variant)}
-                        className={`aspect-square rounded-full ${variant.variant_type === visibleProduct.variant_type ? 'border-brand-primary border-2' : ''}`}
+                        className={`h-[35px] w-[35px] rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'border-brand-primary border-2' : ''}`}
                         alt={variant.variant_type}
                         src={variant.main_image}
-                        height={35}
-                        width={35}
                       />
                       <div
                         key={variant.id}

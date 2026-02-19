@@ -1,6 +1,6 @@
 import { Product } from '@/types/api';
 import { capitalizeString } from '@/utils/capitalizeString';
-import Link from 'next/link';
+import { PrefetchLink } from '@/components/PrefetchLink';
 import { FaCheck } from 'react-icons/fa';
 import { VARIANT_TYPE_TO_PRODUCT_SIZE } from '../constants';
 import Image from 'next/image';
@@ -17,7 +17,7 @@ export const ProductDetailVariantOptions = ({
         {product.variants.map((variant) => {
           return (
             variant.main_image && (
-              <Link
+              <PrefetchLink
                 href={`/products/${variant.id}`}
                 className={`relative flex grow flex-col items-center justify-center gap-2 rounded-sm p-4 ${variant.variant_type === product?.variant_type ? 'border-brand-primary cursor-default border-2' : 'border-background-alt cursor-pointer border'}`}
                 key={variant.id}
@@ -50,7 +50,7 @@ export const ProductDetailVariantOptions = ({
                       : 'Classic Size'}
                   </div>
                 </div>
-              </Link>
+              </PrefetchLink>
             )
           );
         })}

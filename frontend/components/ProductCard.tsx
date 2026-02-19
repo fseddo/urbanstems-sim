@@ -6,7 +6,7 @@ import { capitalizeString } from '@/utils/capitalizeString';
 import { animated } from '@react-spring/web';
 import { useState } from 'react';
 import { StarRating } from './StarRating';
-import Link from 'next/link';
+import { PrefetchLink } from './PrefetchLink';
 
 export const ProductCard = ({
   product,
@@ -34,7 +34,7 @@ export const ProductCard = ({
   return (
     visibleProduct.main_image && (
       <div className='flex flex-shrink-0 cursor-pointer flex-col gap-4'>
-        <Link href={`/products/${visibleProduct.id}`}>
+        <PrefetchLink href={`/products/${visibleProduct.id}`}>
           <animated.div
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
@@ -78,7 +78,7 @@ export const ProductCard = ({
               </div>
             )}
           </animated.div>
-        </Link>
+        </PrefetchLink>
 
         <div className='flex flex-col items-center gap-1.5'>
           {visibleProduct.delivery_lead_time && (

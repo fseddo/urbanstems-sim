@@ -1,7 +1,7 @@
 'use client';
 
 import { useSpring, animated } from '@react-spring/web';
-import Link from 'next/link';
+import { PrefetchLink } from '@/components/PrefetchLink';
 import { useState } from 'react';
 
 export const VideoActionButton = (props: {
@@ -18,7 +18,7 @@ export const VideoActionButton = (props: {
   });
 
   return (
-    <Link href='/collections'>
+    <PrefetchLink href='/collections'>
       <animated.button
         onClick={props.onClick}
         onMouseEnter={() => setIsHovered(true)}
@@ -28,6 +28,6 @@ export const VideoActionButton = (props: {
       >
         {props.label}
       </animated.button>
-    </Link>
+    </PrefetchLink>
   );
 };

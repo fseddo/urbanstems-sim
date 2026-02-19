@@ -4,21 +4,13 @@ type ApiRequestParams = {
   method: 'get' | 'post' | 'put' | 'delete';
   path: string;
   body?: unknown;
-  paginated?: boolean;
 };
 
-export async function baseRequest<T>(
-  params: ApiRequestParams & { paginated: false }
-): Promise<T>;
-export async function baseRequest<T>(
-  params: ApiRequestParams & { paginated?: true }
-): Promise<PaginatedResponse<T>>;
-export async function baseRequest<T>({
+async function baseRequest<T>({
   path,
   method,
   body,
-  paginated = true,
-}: ApiRequestParams): Promise<PaginatedResponse<T> | T> {
+}: ApiRequestParams): Promise<T> {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${path}`;
   try {
     const response = await fetch(url, {
@@ -75,7 +67,7 @@ export async function baseRequest<T>({
       throw detailedError;
     }
     const data = await response.json();
-    return paginated ? (data as PaginatedResponse<T>) : (data as T);
+    return data as T;
   } catch (error) {
     if (
       error instanceof Error &&
@@ -89,4 +81,14 @@ export async function baseRequest<T>({
     console.error('Network Error:', networkError);
     throw networkError;
   }
+}
+
+export async function paginatedRequest<T>(
+  params: ApiRequestParams
+): Promise<PaginatedResponse<T>> {
+  return baseRequest<PaginatedResponse<T>>(params);
+}
+
+export async function request<T>(params: ApiRequestParams): Promise<T> {
+  return baseRequest<T>(params);
 }

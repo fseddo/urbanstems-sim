@@ -2,7 +2,7 @@
 
 import { useNavbar } from '@/contexts/NavbarContext';
 import { useElementHeight } from '@/hooks/useElementHeight';
-import { productQuery } from '@/lib/products/queries';
+import { productQueries } from '@/lib/products/queries';
 import { useQuery } from '@tanstack/react-query';
 import { use } from 'react';
 import { ProductBackgroundImages } from './ProductBackgroundImages';
@@ -25,7 +25,7 @@ export default function ProductDetail({
     isLoading,
     isError,
     error,
-  } = useQuery(productQuery(resolvedParams.slug));
+  } = useQuery(productQueries.detail(resolvedParams.slug));
 
   const navbarRef = useNavbar();
 

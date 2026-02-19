@@ -1,15 +1,24 @@
 'use client';
 
-import { productsInfiniteQueries } from '@/lib/products/queries';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
-import { ProductCard } from './ProductCard';
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+} from '@tanstack/react-query';
+import { ReactNode, useEffect, useRef } from 'react';
+import { PaginatedResponse } from '@/types/api';
 
-type Props = {
-  //   queryOptions: UseInfiniteQueryOptions;
+type Props<T> = {
+  queryOptions: UseInfiniteQueryOptions<
+    PaginatedResponse<T>,
+    Error,
+    T[],
+    any,
+    any
+  >;
+  renderItem: (item: T, index: number) => ReactNode;
 };
 
-export const List = ({}: Props) => {
+export const List = <T,>({ queryOptions, renderItem }: Props<T>) => {
   const {
     data,
     fetchNextPage,
@@ -18,10 +27,7 @@ export const List = ({}: Props) => {
     isLoading,
     isError,
     error,
-  } = useInfiniteQuery({
-    //TODO: pass in dynamic queryOptions
-    ...productsInfiniteQueries({ category: 'flowers' }),
-  });
+  } = useInfiniteQuery(queryOptions);
 
   const observerTarget = useRef<HTMLDivElement>(null);
 
@@ -50,7 +56,7 @@ export const List = ({}: Props) => {
   if (isLoading) {
     return (
       <div className='flex h-screen items-center justify-center'>
-        <div className='text-lg'>Loading products...</div>
+        <div className='text-lg'>Loading...</div>
       </div>
     );
   }
@@ -65,13 +71,17 @@ export const List = ({}: Props) => {
     );
   }
 
-  const products = data?.pages.flatMap((page) => page.results) ?? [];
+  if (!isLoading && (data?.length ?? 0) < 1) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <div className='text-lg'>No results found</div>
+      </div>
+    );
+  }
 
   return (
     <div className='grid grid-cols-2 gap-4 p-4 px-12 lg:grid-cols-3'>
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} detailedView />
-      ))}
+      {data?.map((item, index) => renderItem(item, index))}
       {/* Intersection Observer Target */}
       <div ref={observerTarget} className='h-10 w-full' />
     </div>

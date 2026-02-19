@@ -69,10 +69,10 @@ export interface Product {
 }
 
 export interface PaginatedResponse<T> {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: T[];
+  page: number;
+  size: number;
+  total: number;
+  data: T[];
 }
 
 export type ProductSortKey =
@@ -84,7 +84,12 @@ export type ProductSortKey =
 
 export type SortOrder = 'asc' | 'desc';
 
-export type ProductFilters = {
+export type Paginated = {
+  page?: number;
+  size?: number;
+};
+
+export type ProductFilters = Paginated & {
   category?: 'plants' | 'flowers' | 'gifts' | 'centerpieces';
   collection?: string;
   occasion?: string;

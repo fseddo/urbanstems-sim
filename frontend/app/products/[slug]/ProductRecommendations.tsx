@@ -2,7 +2,7 @@
 
 import { HorizontalList } from '@/components/HorizontalList';
 import { ProductCard } from '@/components/ProductCard';
-import { productsQueries } from '@/lib/products/queries';
+import { productQueries } from '@/lib/products/queries';
 import { Product } from '@/types/api';
 import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
@@ -10,9 +10,7 @@ import { useRef } from 'react';
 export const ProductRecommendations = ({ product }: { product: Product }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { data: flowerData } = useQuery({
-    ...productsQueries({ category: 'flowers' }),
-  });
+  const { data: flowerData } = useQuery(productQueries.list({ category: 'flowers' }));
 
   return (
     <div className='flex flex-col gap-8 p-20'>
@@ -23,7 +21,7 @@ export const ProductRecommendations = ({ product }: { product: Product }) => {
         </div>
       </div>
       <HorizontalList scrollRef={scrollRef}>
-        {flowerData?.results?.flatMap((product, idx) =>
+        {flowerData?.data?.flatMap((product, idx) =>
           idx < 8
             ? [<ProductCard key={product.id} product={product} fixed />]
             : []

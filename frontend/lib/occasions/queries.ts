@@ -1,12 +1,21 @@
 import { Occasion } from '@/types/api';
-import { baseRequest } from '../request';
+import { paginatedRequest } from '../request';
 import { queryOptions } from '@tanstack/react-query';
 
-export const occasionsQueries = queryOptions({
-  queryKey: ['occasionsQuery'],
-  queryFn: async () =>
-    baseRequest<Occasion>({
-      method: 'get',
-      path: '/occasions',
+export const occasionKeys = {
+  all: ['occasions'] as const,
+  lists: () => [...occasionKeys.all, 'list'] as const,
+  list: () => [...occasionKeys.lists()] as const,
+};
+
+export const occasionQueries = {
+  list: () =>
+    queryOptions({
+      queryKey: occasionKeys.list(),
+      queryFn: async () =>
+        paginatedRequest<Occasion>({
+          method: 'get',
+          path: '/occasions',
+        }),
     }),
-});
+};

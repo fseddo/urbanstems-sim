@@ -1,48 +1,50 @@
 import { Product, ProductFilters } from '@/types/api';
-import { baseRequest } from '../request';
+import { paginatedRequest, request } from '../request';
 import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { createQueryParams } from '../createQueryParams';
+import { infiniteQueryProps } from '../infiniteQueryProps';
 
-export const productsQueries = (filters: ProductFilters) => {
-  const { queryString, key } = createQueryParams(filters);
-
-  return queryOptions({
-    queryKey: ['products', key],
-    queryFn: async () =>
-      baseRequest<Product>({
-        method: 'get',
-        path: `/products${queryString}`,
-      }),
-  });
+export const productKeys = {
+  all: ['products'] as const,
+  lists: () => [...productKeys.all, 'list'] as const,
+  list: (filters: ProductFilters) =>
+    [...productKeys.lists(), createQueryParams(filters).key] as const,
+  infiniteLists: () => [...productKeys.all, 'infinite'] as const,
+  infiniteList: (filters: ProductFilters) =>
+    [...productKeys.infiniteLists(), createQueryParams(filters).key] as const,
+  details: () => [...productKeys.all, 'detail'] as const,
+  detail: (id: string) => [...productKeys.details(), id] as const,
 };
 
-export const productsInfiniteQueries = (filters: ProductFilters) => {
-  const { queryString, key } = createQueryParams(filters);
+export const productQueries = {
+  list: (filters: ProductFilters) =>
+    queryOptions({
+      queryKey: productKeys.list(filters),
+      queryFn: async () =>
+        paginatedRequest<Product>({
+          method: 'get',
+          path: `/products${createQueryParams(filters).queryString}`,
+        }),
+    }),
 
-  return infiniteQueryOptions({
-    queryKey: ['products', 'infinite', key],
-    queryFn: async ({ pageParam }) => {
-      const path = pageParam || `/products${queryString}`;
-      return baseRequest<Product>({
-        method: 'get',
-        path,
-      });
-    },
-    initialPageParam: `/products${queryString}`,
-    //TODO: remove need to split this to extract params
-    getNextPageParam: (lastPage) => lastPage.next?.split('/api')[1],
-    getPreviousPageParam: (firstPage) => firstPage?.previous?.split('/api')[1],
-  });
-};
+  infiniteList: (filters: ProductFilters) =>
+    infiniteQueryOptions({
+      queryKey: productKeys.infiniteList(filters),
+      queryFn: async ({ pageParam }) =>
+        paginatedRequest<Product>({
+          method: 'get',
+          path: `/products${createQueryParams({ ...filters, page: pageParam }).queryString}`,
+        }),
+      ...infiniteQueryProps<Error, Product, readonly unknown[]>(),
+    }),
 
-export const productQuery = (productId: string) => {
-  return queryOptions({
-    queryKey: ['product', productId],
-    queryFn: async () =>
-      baseRequest<Product>({
-        method: 'get',
-        path: `/products/${productId}`,
-        paginated: false,
-      }),
-  });
+  detail: (productId: string) =>
+    queryOptions({
+      queryKey: productKeys.detail(productId),
+      queryFn: async () =>
+        request<Product>({
+          method: 'get',
+          path: `/products/${productId}`,
+        }),
+    }),
 };

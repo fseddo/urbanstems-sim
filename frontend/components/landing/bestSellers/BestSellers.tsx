@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { productsQueries } from '@/lib/products/queries';
+import { productQueries } from '@/lib/products/queries';
 import { BestSellersHeaderItem } from './BestSellersHeaderItem';
 import { ProductCard } from '@/components/ProductCard';
 import { HorizontalList } from '@/components/HorizontalList';
@@ -12,21 +12,19 @@ const RESULT_LIMIT = 8;
 export default () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { data: plantData } = useQuery({
-    ...productsQueries({ category: 'plants' }),
-  });
-  const { data: flowerData } = useQuery({
-    ...productsQueries({ category: 'flowers' }),
-  });
+  const { data: plantData } = useQuery(
+    productQueries.list({ category: 'plants' })
+  );
+  const { data: flowerData } = useQuery(
+    productQueries.list({ category: 'flowers' })
+  );
 
   const [selectedProductCategory, setSelectedProductCategory] = useState<
     'flowers' | 'plants'
   >('flowers');
 
   const visibleProducts =
-    selectedProductCategory === 'plants'
-      ? plantData?.results
-      : flowerData?.results;
+    selectedProductCategory === 'plants' ? plantData?.data : flowerData?.data;
 
   return (
     <section className='flex w-full flex-col gap-6 py-10 pl-20'>
@@ -49,10 +47,11 @@ export default () => {
       </div>
 
       <HorizontalList scrollRef={scrollRef}>
-        {visibleProducts?.flatMap((product, idx) =>
-          idx < RESULT_LIMIT
-            ? [<ProductCard key={product.id} product={product} fixed />]
-            : []
+        {visibleProducts?.flatMap(
+          (product, idx) =>
+            idx < RESULT_LIMIT && (
+              <ProductCard key={product.id} product={product} fixed />
+            )
         )}
       </HorizontalList>
     </section>

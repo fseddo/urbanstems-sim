@@ -1,6 +1,10 @@
+'use client';
+
 import { CalendarIcon } from '@/components/icons/CalendarIcon';
 import { FilterIcon } from '@/components/icons/FilterIcon';
 import { List } from '@/components/List';
+import { ProductCard } from '@/components/ProductCard';
+import { productQueries } from '@/lib/products/queries';
 import { JSX, ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { SlLocationPin } from 'react-icons/sl';
@@ -35,7 +39,12 @@ export default function Collections() {
           </HeaderBarItem>
           <HeaderBarItem className='border-r-0'>{''}</HeaderBarItem>
         </header>
-        <List />
+        <List
+          queryOptions={productQueries.infiniteList({ category: 'flowers' })}
+          renderItem={(product) => (
+            <ProductCard key={product.id} product={product} detailedView />
+          )}
+        />
       </main>
     </div>
   );

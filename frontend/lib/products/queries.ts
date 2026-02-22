@@ -1,10 +1,6 @@
 import { Product, ProductFilters } from '@/types/api';
 import { paginatedRequest, request } from '../request';
-import {
-  queryOptions,
-  infiniteQueryOptions,
-  QueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { createQueryParams } from '../createQueryParams';
 import { infiniteQueryProps } from '../infiniteQueryProps';
 

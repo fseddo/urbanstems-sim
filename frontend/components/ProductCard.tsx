@@ -50,6 +50,7 @@ export const ProductCard = ({
               fill={!fixed}
               height={fixed ? 490 : undefined}
               width={fixed ? 430 : undefined}
+              priority
               sizes={
                 !fixed
                   ? '(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'

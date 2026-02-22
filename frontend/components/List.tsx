@@ -4,7 +4,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
-import { useWindowVirtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { ReactNode, useEffect, useState, useCallback, useRef } from 'react';
 import { PaginatedResponse } from '@/types/api';
 
@@ -58,11 +58,10 @@ export const List = <T,>({
   const rowCount = Math.ceil(items.length / columns);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const virtualizer = useWindowVirtualizer({
+  const virtualizer = useVirtualizer({
     count: rowCount,
     estimateSize: () => estimateRowHeight,
-    overscan: 2,
-    scrollMargin: listRef.current?.offsetTop ?? 0,
+    getScrollElement: () => listRef.current,
   });
 
   const virtualRows = virtualizer.getVirtualItems();
@@ -116,11 +115,8 @@ export const List = <T,>({
   }
 
   return (
-    <div ref={listRef} className='w-full'>
-      <div
-        className='relative w-full'
-        style={{ height: virtualizer.getTotalSize() }}
-      >
+    <div ref={listRef} className=''>
+      <div className='realtive' style={{ height: virtualizer.getTotalSize() }}>
         {virtualRows.map((virtualRow) => {
           const rowItems = getRowItems(virtualRow.index);
           return (
@@ -128,7 +124,7 @@ export const List = <T,>({
               key={virtualRow.key}
               data-index={virtualRow.index}
               ref={virtualizer.measureElement}
-              className='absolute left-0 right-0 grid grid-cols-2 gap-4 px-12 py-2 lg:grid-cols-3'
+              className='absolute right-0 left-0 grid grid-cols-2 gap-4 px-12 py-2 lg:grid-cols-3'
               style={{
                 transform: `translateY(${virtualRow.start - virtualizer.options.scrollMargin}px)`,
               }}

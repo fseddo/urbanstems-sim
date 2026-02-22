@@ -3,8 +3,8 @@
 import { useElementHeight } from '@/hooks/useElementHeight';
 import Image from 'next/image';
 import { RefObject } from 'react';
-import { VideoActionButton } from './VideoActionButton';
 import { useNavbar } from '@/contexts/NavbarContext';
+import { VideoActionButton } from './VideoActionButton';
 
 export const LandingVideo = () => {
   const navbarRef = useNavbar();
@@ -42,7 +42,10 @@ export const LandingVideo = () => {
           card to guide and set intention.
         </div>
         <div className='flex gap-3'>
-          <VideoActionButton label='SHOP FLOWERLORE' href='/collections/flowerlore' />
+          <VideoActionButton
+            label='SHOP FLOWERLORE'
+            href='/collections/flowerlore'
+          />
           <VideoActionButton label='SHOP ALL FLOWERS' href='/collections/all' />
         </div>
       </div>

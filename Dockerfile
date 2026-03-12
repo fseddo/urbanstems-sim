@@ -31,5 +31,5 @@ RUN python manage.py collectstatic --noinput 2>/dev/null || true
 # Expose port
 EXPOSE 8000
 
-# Run with gunicorn in production
-CMD ["gunicorn", "urbanstems_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+# Run migrations, seed data, then start gunicorn
+CMD bash -c "python manage.py migrate && (python manage.py seed_products || true) && gunicorn urbanstems_backend.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 3"

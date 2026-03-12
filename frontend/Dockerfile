@@ -1,15 +1,10 @@
-FROM node:20-alpine AS base
+FROM node:20-slim AS base
 
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  else npm install; \
-  fi
+COPY package.json ./
+RUN npm install
 
 # Build the application
 FROM base AS builder

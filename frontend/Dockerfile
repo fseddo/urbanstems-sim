@@ -20,7 +20,7 @@ COPY . .
 ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 
-RUN npm run build
+RUN npx next build
 
 # Production image
 FROM base AS runner

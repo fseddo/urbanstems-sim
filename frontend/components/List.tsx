@@ -17,7 +17,6 @@ type Props<T> = {
     any
   >;
   renderItem: (item: T, index: number) => ReactNode;
-  /** Estimated height of each row in pixels */
   estimateRowHeight?: number;
 };
 
@@ -66,7 +65,6 @@ export const List = <T,>({
 
   const virtualRows = virtualizer.getVirtualItems();
 
-  // Fetch more when scrolling near the end
   const lastRow = virtualRows[virtualRows.length - 1];
   const shouldFetchMore =
     lastRow &&
@@ -115,8 +113,8 @@ export const List = <T,>({
   }
 
   return (
-    <div ref={listRef} className=''>
-      <div className='realtive' style={{ height: virtualizer.getTotalSize() }}>
+    <div ref={listRef} className='pt-15'>
+      <div className='' style={{ height: virtualizer.getTotalSize() }}>
         {virtualRows.map((virtualRow) => {
           const rowItems = getRowItems(virtualRow.index);
           return (
@@ -124,7 +122,7 @@ export const List = <T,>({
               key={virtualRow.key}
               data-index={virtualRow.index}
               ref={virtualizer.measureElement}
-              className='absolute right-0 left-0 grid grid-cols-2 gap-4 px-12 py-2 lg:grid-cols-3'
+              className='absolute right-0 left-0 grid grid-cols-2 gap-4 px-[clamp(0.5rem,2vw,3rem)] py-2 lg:grid-cols-3'
               style={{
                 transform: `translateY(${virtualRow.start - virtualizer.options.scrollMargin}px)`,
               }}

@@ -27,12 +27,11 @@ export const Navbar = forwardRef<HTMLElement>((props, ref) => {
         {/* Left Navigation - Hidden on mobile, shown as dropdown */}
         <div className='font-crimson text-brand-primary hidden gap-[clamp(18px,15.3vw,19px)] text-sm text-[clamp(13px,1.2vw,18px)] lg:flex'>
           <div className='flex items-center gap-1.5'>
-            <div>Shop</div>{' '}
+            <div>Shop</div>
             <div>
               <HiOutlineChevronDown size={13} />
             </div>
           </div>
-          <div>Fall</div>
           <PrefetchLink
             className='hover:opacity-60'
             href='/collections/flowers'
@@ -66,13 +65,8 @@ export const Navbar = forwardRef<HTMLElement>((props, ref) => {
 
         {/* Right Navigation - Hidden on mobile, shown as dropdown */}
         <div className='font-crimson text-brand-primary hidden items-center gap-4.5 text-[clamp(13px,1.2vw,18px)] lg:flex'>
-          <div>Subscriptions</div>
-          <div>Rewards</div>
           <div>
             <PiMagnifyingGlass size={19} />
-          </div>
-          <div>
-            <PiUser size={19} />
           </div>
           <div>
             <CartIcon />

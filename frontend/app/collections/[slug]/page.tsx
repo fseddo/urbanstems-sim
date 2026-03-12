@@ -46,7 +46,7 @@ export default function CollectionPage() {
           flowers and gifts designed in-house with style and sophistication.
         </span>
       </header>
-      <header className='flex border px-8'>
+      <header className='flex flex-col border-y border-b-0 lg:flex-row lg:border-b-1'>
         <HeaderBarItem Icon={FilterIcon} className=''>
           Filter & Sort
         </HeaderBarItem>
@@ -55,10 +55,12 @@ export default function CollectionPage() {
             Delivery date: <span className='font-normal'>{formattedDate}</span>
           </div>
         </HeaderBarItem>
-        <HeaderBarItem Icon={SlLocationPin} className='flex-3'>
+        <HeaderBarItem
+          Icon={SlLocationPin}
+          className='flex-3 border-r-0 lg:border-r-0'
+        >
           Sending to: <span className='font-normal'>New York City, NY</span>
         </HeaderBarItem>
-        <HeaderBarItem className='border-r-0'>{''}</HeaderBarItem>
       </header>
       <List
         queryOptions={productQueries.infiniteList(filters)}
@@ -81,7 +83,7 @@ const HeaderBarItem = ({
 }) => {
   return (
     <div
-      className={`flex items-center gap-3 border-r px-10 py-6 font-bold ${className}`}
+      className={`flex items-center gap-3 border-b px-10 py-6 font-bold lg:border-r lg:border-b-0 ${className}`}
     >
       {Icon && <Icon />}
       {children}

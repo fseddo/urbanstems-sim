@@ -11,6 +11,7 @@ class Product(models.Model):
     # Basic product info
     external_id = models.CharField(max_length=50, unique=True, help_text="Original ID from scraped data")
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
     variant_type = models.CharField(max_length=10, choices=VariantType.choices, null=True, blank=True)
     base_name = models.CharField(max_length=200)
     url = models.URLField()

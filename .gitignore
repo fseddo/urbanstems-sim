@@ -13,13 +13,15 @@ __pycache__/
 *.sqlite3
 db.sqlite3
 
-# Editor folders/files
+# Claude Code
+.claude/
+
+# Editor/IDE files
 .vscode/
-.DS_Store
+.idea/
 *.swp
 *.swo
 *~
-*data
 
 # OS generated files
 .DS_Store
@@ -29,19 +31,3 @@ db.sqlite3
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# Future additions (commented out until needed)
-# Node.js (when frontend is added)
-# node_modules/
-# npm-debug.log*
-# yarn-debug.log*
-# package-lock.json
-
-# Django (when these directories exist)
-# media/
-# staticfiles/
-# static/
-
-# Python virtual environments (if used locally)
-# venv/
-# .venv/

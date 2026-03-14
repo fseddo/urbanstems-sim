@@ -29,7 +29,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
-            'id', 'external_id', 'name', 'variant_type', 'base_name', 'url',
+            'id', 'external_id', 'name', 'slug', 'variant_type', 'base_name', 'url',
             'price', 'price_dollars', 'discounted_price', 'discounted_price_dollars',
             'main_image', 'hover_image', 'blur_data_url', 'badge_text', 'delivery_lead_time', 'stock',
             'reviews_rating', 'reviews_count', 'variants', 'created_at'
@@ -47,7 +47,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
-            'id', 'external_id', 'name', 'variant_type', 'base_name', 'url',
+            'id', 'external_id', 'name', 'slug', 'variant_type', 'base_name', 'url',
             'price', 'price_dollars', 'discounted_price', 'discounted_price_dollars',
             'main_image', 'hover_image', 'blur_data_url', 'badge_text', 'delivery_lead_time', 'stock',
             'reviews_rating', 'reviews_count', 'description', 'care_instructions',

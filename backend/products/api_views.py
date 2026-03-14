@@ -14,6 +14,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     Provides list and detail views
     """
     queryset = Product.objects.all()
+    lookup_field = 'slug'
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'base_name', 'description']
     ordering_fields = ['name', 'price', 'reviews_rating', 'created_at', 'external_id']

@@ -69,6 +69,7 @@ class Command(BaseCommand):
                 external_id=product_data['id'],
                 defaults={
                     'name': product_data['name'],
+                    'slug': slugify(product_data['name']),
                     'variant_type': product_data.get('variant_type'),
                     'base_name': product_data['base_name'],
                     'url': product_data['url'],

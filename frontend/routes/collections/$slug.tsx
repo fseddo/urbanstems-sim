@@ -3,7 +3,8 @@ import { CalendarIcon } from '@/src/common/icons/CalendarIcon';
 import { FilterIcon } from '@/src/common/icons/FilterIcon';
 import { List } from '@/src/common/List';
 import { productQueries } from '@/api/products/queries';
-import { JSX, ReactNode, useMemo } from 'react';
+import { JSX, ReactNode, useCallback } from 'react';
+import type { Product } from '@/api/products/Product';
 import { IconType } from 'react-icons';
 import { SlLocationPin } from 'react-icons/sl';
 import { ProductCard } from '@/src/common/ProductCard';
@@ -81,6 +82,13 @@ function CollectionPage() {
         queryOptions={productQueries.infiniteList(filters)}
         renderItem={(product) => (
           <ProductCard key={product.id} product={product} detailedView />
+        )}
+        getItemImageUrls={useCallback(
+          (product: Product) =>
+            [product.main_image, product.hover_image].filter(
+              (url): url is string => url != null
+            ),
+          []
         )}
       />
     </main>

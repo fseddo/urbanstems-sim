@@ -1,15 +1,11 @@
-import { useElementHeight } from '@/src/navbar/useElementHeight';
-import { useNavbar } from '@/src/navbar/NavbarContext';
 import { VideoActionButton } from './VideoActionButton';
 
 export const LandingVideo = () => {
-  const navbarRef = useNavbar();
-  const navbarHeight = useElementHeight(navbarRef);
-  const videoHeight =
-    navbarHeight > 0 ? `calc(100vh - ${navbarHeight}px)` : '100vh';
-
   return (
-    <section className='relative w-full' style={{ height: videoHeight }}>
+    <section
+      className='relative w-full bg-brand-primary'
+      style={{ height: 'calc(100dvh - var(--navbar-height))' }}
+    >
       <video
         src='/main_page.mp4'
         autoPlay
@@ -17,7 +13,8 @@ export const LandingVideo = () => {
         muted
         preload='auto'
         playsInline
-        className='h-full w-full object-cover'
+        className='h-full w-full object-cover opacity-0 transition-opacity duration-500'
+        onCanPlay={(e) => e.currentTarget.classList.remove('opacity-0')}
       />
       <img
         src='/2025_NYT_WIRECUTTER_OUR-PICK_LOGO_BLACK_RGB.png'

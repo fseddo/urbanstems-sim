@@ -7,6 +7,7 @@
   --brand-primary: #1e2934;
   --font-mulish: 'Mulish', sans-serif;
   --font-crimson: 'Crimson Text', sans-serif;
+  --navbar-height: 90px;
 }
 
 @theme inline {

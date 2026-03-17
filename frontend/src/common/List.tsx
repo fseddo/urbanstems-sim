@@ -2,7 +2,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { ReactNode, useEffect, useState, useCallback, useRef } from 'react';
 import { PaginatedResponse } from '@/api/PaginatedResponse';
 
@@ -16,6 +16,7 @@ type Props<T> = {
   >;
   renderItem: (item: T, index: number) => ReactNode;
   estimateRowHeight?: number;
+  getItemImageUrls?: (item: T) => string[];
 };
 
 const useColumns = () => {
@@ -23,7 +24,6 @@ const useColumns = () => {
 
   useEffect(() => {
     const updateColumns = () => {
-      // Match Tailwind breakpoints: lg:grid-cols-3, default grid-cols-2
       setColumns(window.innerWidth >= 1024 ? 3 : 2);
     };
 
@@ -39,6 +39,7 @@ export const List = <T,>({
   queryOptions,
   renderItem,
   estimateRowHeight = 600,
+  getItemImageUrls,
 }: Props<T>) => {
   const {
     data,
@@ -55,10 +56,11 @@ export const List = <T,>({
   const rowCount = Math.ceil(items.length / columns);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const virtualizer = useVirtualizer({
+  const virtualizer = useWindowVirtualizer({
     count: rowCount,
     estimateSize: () => estimateRowHeight,
-    getScrollElement: () => listRef.current,
+    overscan: 5,
+    scrollMargin: listRef.current?.offsetTop ?? 0,
   });
 
   const virtualRows = virtualizer.getVirtualItems();
@@ -75,6 +77,16 @@ export const List = <T,>({
       fetchNextPage();
     }
   }, [shouldFetchMore, fetchNextPage]);
+
+  useEffect(() => {
+    if (!getItemImageUrls) return;
+    items.forEach((item) => {
+      for (const url of getItemImageUrls(item)) {
+        const img = new Image();
+        img.src = url;
+      }
+    });
+  }, [items, getItemImageUrls]);
 
   const getRowItems = useCallback(
     (rowIndex: number) => {
@@ -112,7 +124,7 @@ export const List = <T,>({
 
   return (
     <div ref={listRef} className='pt-15'>
-      <div className='' style={{ height: virtualizer.getTotalSize() }}>
+      <div className='relative' style={{ height: virtualizer.getTotalSize() }}>
         {virtualRows.map((virtualRow) => {
           const rowItems = getRowItems(virtualRow.index);
           return (

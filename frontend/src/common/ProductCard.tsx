@@ -1,57 +1,56 @@
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
-import { animated } from '@react-spring/web';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { StarRating } from './StarRating';
 import { Product } from '@/api/products/Product';
 import { ProductVariant } from '@/api/products/ProductVariant';
 
-export const ProductCard = ({
-  product,
-  fixed = false,
-  detailedView,
-}: {
-  product: Product;
-  fixed?: boolean;
-  detailedView?: boolean;
-}) => {
-  const [visibleProduct, setVisibleProduct] = useState<
-    Product | ProductVariant
-  >(product);
+const getDeliveryDate = (deliveryLeadTime: number | undefined) => {
+  if (!deliveryLeadTime) return undefined;
+  const date = new Date();
+  date.setDate(date.getDate() + deliveryLeadTime);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
 
-  const [isHovering, setIsHovering] = useState(false);
+export const ProductCard = memo(
+  ({
+    product,
+    fixed = false,
+    detailedView,
+  }: {
+    product: Product;
+    fixed?: boolean;
+    detailedView?: boolean;
+  }) => {
+    const [visibleProduct, setVisibleProduct] = useState<
+      Product | ProductVariant
+    >(product);
 
-  const getDeliveryDate = (deliveryLeadTime: number | undefined) => {
-    if (!deliveryLeadTime) return undefined;
-    const date = new Date();
-    date.setDate(date.getDate() + deliveryLeadTime);
+    if (!visibleProduct.main_image) return null;
 
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  };
-
-  return (
-    visibleProduct.main_image && (
+    return (
       <div className='flex flex-shrink-0 cursor-pointer flex-col gap-4'>
-        <Link
-          to='/products/$slug'
-          params={{ slug: product.slug }}
-        >
-          <animated.div
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-            className={`relative w-full overflow-hidden rounded-md bg-gray-100 ${!fixed ? 'aspect-[43/39]' : ''}`}
+        <Link to='/products/$slug' params={{ slug: product.slug }}>
+          <div
+            className={`group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat ${!fixed ? 'aspect-[43/39]' : ''}`}
+            style={
+              product.blur_data_url
+                ? { backgroundImage: `url(${product.blur_data_url})` }
+                : undefined
+            }
           >
             <img
-              className={`rounded-md object-cover ${!fixed ? 'absolute inset-0 h-full w-full' : ''}`}
-              src={visibleProduct.main_image}
+              className={`rounded-md object-cover opacity-0 transition-opacity duration-300 ${!fixed ? 'absolute inset-0 h-full w-full' : ''}`}
+              src={`${visibleProduct.main_image}&width=700`}
               alt={visibleProduct.name}
               height={fixed ? 490 : undefined}
               width={fixed ? 430 : undefined}
+              onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
             />
-            {visibleProduct.hover_image && isHovering && (
+            {visibleProduct.hover_image && (
               <img
-                className='absolute inset-0 h-full w-full rounded-md object-cover'
-                src={visibleProduct.hover_image}
+                className='absolute inset-0 h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100'
+                src={`${visibleProduct.hover_image}&width=700`}
                 alt={`${visibleProduct.name} hover`}
               />
             )}
@@ -60,7 +59,7 @@ export const ProductCard = ({
                 {visibleProduct.badge_text}
               </div>
             )}
-          </animated.div>
+          </div>
         </Link>
 
         <div className='flex flex-col items-center gap-1.5'>
@@ -102,9 +101,11 @@ export const ProductCard = ({
                         onClick={() => setVisibleProduct(variant)}
                         className={`rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'border-brand-primary border-2' : ''}`}
                         alt={variant.variant_type}
-                        src={variant.main_image}
+                        src={`${variant.main_image}&width=700`}
                         height={35}
                         width={35}
+                        // loading='lazy'
+                        // decoding='async'
                       />
                       <div
                         key={variant.id}
@@ -120,6 +121,6 @@ export const ProductCard = ({
           )}
         </div>
       </div>
-    )
-  );
-};
+    );
+  }
+);

@@ -1,8 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useNavbar } from '@/src/navbar/NavbarContext';
-import { useElementHeight } from '@/src/navbar/useElementHeight';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { productQueries } from '@/api/products/queries';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { ProductBackgroundImages } from '@/src/products/ProductBackgroundImages';
 import { ProductHeader } from '@/src/products/ProductHeader';
 import { ProductDetailPane } from '@/src/products/productDetailPane/ProductDetailPane';
@@ -13,59 +11,34 @@ import { ProductDeliveryInstructions } from '@/src/products/ProductDeliveryInstr
 import { ProductRecommendations } from '@/src/products/ProductRecommendations';
 
 export const Route = createFileRoute('/products/$slug')({
+  loader: async ({ params, context }) => {
+    try {
+      await context.queryClient.ensureQueryData(
+        productQueries.detail(params.slug)
+      );
+    } catch {
+      throw redirect({ to: '/collections/$slug', params: { slug: 'all' } });
+    }
+  },
   component: ProductDetail,
 });
 
 function ProductDetail() {
   const { slug } = Route.useParams();
-  const {
-    data: product,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(productQueries.detail(slug));
-
-  const navbarRef = useNavbar();
-
-  const navbarHeight = useElementHeight(navbarRef);
-  const imageHeight =
-    navbarHeight > 0 ? `calc(100vh - ${navbarHeight}px)` : '100vh';
-
-  if (isLoading) {
-    return (
-      <div className='flex h-screen items-center justify-center'>
-        <div className='text-lg'>Loading product...</div>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className='flex h-screen items-center justify-center'>
-        <div className='text-lg text-red-600'>
-          Error: {error instanceof Error ? error.message : 'Unknown error'}
-        </div>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className='flex h-screen items-center justify-center'>
-        <div className='text-lg'>Product not found</div>
-      </div>
-    );
-  }
+  const { data: product } = useSuspenseQuery(productQueries.detail(slug));
 
   return (
     <div>
       <section className='relative'>
-        <div className='relative p-8 py-4' style={{ height: imageHeight }}>
+        <div
+          className='relative p-8 py-4'
+          style={{ height: 'calc(100dvh - var(--navbar-height))' }}
+        >
           <ProductBackgroundImages product={product} />
           <ProductHeader product={product} />
         </div>
         <div className='ml-20 flex w-[50%] flex-col gap-5 pt-20 pr-4'>
-          <ProductDetailPane product={product} navbarHeight={navbarHeight} />
+          <ProductDetailPane product={product} />
           {product.main_detail_src && <ProductImageGrid product={product} />}
           <div className='flex flex-col pt-10 pb-20'>
             <ProductInfoAccordion

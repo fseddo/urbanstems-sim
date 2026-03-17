@@ -1,31 +1,33 @@
-import { useEffect, useState, RefObject } from 'react';
+import { useEffect, RefObject } from 'react';
 
-export const useElementHeight = (elementRef: RefObject<HTMLElement | null>) => {
-  const [height, setHeight] = useState(0);
-
+/**
+ * Sets a CSS variable `--navbar-height` on the document root,
+ * kept in sync via ResizeObserver. Consumers use the variable
+ * directly in CSS — no JS re-renders, no flash of 0.
+ */
+export const useNavbarCssHeight = (
+  elementRef: RefObject<HTMLElement | null>
+) => {
   useEffect(() => {
     const element = elementRef.current;
     if (!element) return;
 
-    const updateHeight = () => {
-      setHeight(element.getBoundingClientRect().height);
+    const update = () => {
+      document.documentElement.style.setProperty(
+        '--navbar-height',
+        `${element.getBoundingClientRect().height}px`
+      );
     };
 
-    // Initial measurement
-    updateHeight();
+    update();
 
-    // Create ResizeObserver
-    const resizeObserver = new ResizeObserver(updateHeight);
+    const resizeObserver = new ResizeObserver(update);
     resizeObserver.observe(element);
-
-    // Listen for window resize
-    window.addEventListener('resize', updateHeight);
+    window.addEventListener('resize', update);
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener('resize', updateHeight);
+      window.removeEventListener('resize', update);
     };
   }, [elementRef]);
-
-  return height;
 };

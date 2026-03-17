@@ -7,6 +7,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { Footer } from '@/src/common/Footer';
 import { NavbarProvider, useNavbar } from '@/src/navbar/NavbarContext';
 import { Navbar } from '@/src/navbar/Navbar';
+import { useNavbarCssHeight } from '@/src/navbar/useElementHeight';
 
 function RootLayout() {
   return (
@@ -18,6 +19,7 @@ function RootLayout() {
 
 function RootLayoutInner() {
   const navbarRef = useNavbar();
+  useNavbarCssHeight(navbarRef);
 
   return (
     <>

@@ -1,3 +1,4 @@
+import { RefObject } from 'react';
 import { StarRating } from '@/src/common/StarRating';
 import { Product } from '@/api/products/Product';
 import { getFirstSentence } from '../constants';
@@ -7,8 +8,10 @@ import { ProductDetailVariantOptions } from './ProductDetailVariantOptions';
 
 export const ProductDetailPane = ({
   product,
+  addToCartRef,
 }: {
   product: Product;
+  addToCartRef: RefObject<HTMLButtonElement | null>;
 }) => {
   return (
     <div className='absolute top-0 right-[90px] z-10 h-full pb-20'>
@@ -47,7 +50,10 @@ export const ProductDetailPane = ({
         {/* add ons */}
         <AddOns />
 
-        <button className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-4 text-sm font-bold tracking-wider text-white transition-colors duration-300 hover:bg-white active:scale-95'>
+        <button
+          ref={addToCartRef}
+          className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-4 text-sm font-bold tracking-wider text-white transition-colors duration-300 hover:bg-white active:scale-95'
+        >
           {`ADD TO BAG - $${product.price_dollars}`}
         </button>
       </div>

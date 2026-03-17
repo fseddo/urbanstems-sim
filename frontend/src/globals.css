@@ -8,6 +8,7 @@
   --font-mulish: 'Mulish', sans-serif;
   --font-crimson: 'Crimson Text', sans-serif;
   --navbar-height: 90px;
+  --navbar-offset: 90px;
 }
 
 @theme inline {

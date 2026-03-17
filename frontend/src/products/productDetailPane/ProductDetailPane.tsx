@@ -13,8 +13,8 @@ export const ProductDetailPane = ({
   return (
     <div className='absolute top-0 right-[90px] z-10 h-full pb-20'>
       <div
-        className='sticky flex w-[37vw] flex-col items-center gap-3 rounded-lg bg-white p-10 shadow-xl'
-        style={{ top: 'calc(var(--navbar-height) + 40px)' }}
+        className='sticky flex w-[37vw] flex-col items-center gap-3 rounded-lg bg-white p-10 shadow-xl transition-[top] duration-300'
+        style={{ top: 'calc(var(--navbar-offset) + 40px)' }}
       >
         {/* review rating */}
         <div className='flex items-center gap-2'>

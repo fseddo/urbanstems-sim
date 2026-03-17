@@ -10,7 +10,10 @@ export type NavSectionItem = { label: string; Icon?: IconType };
 
 export const Navbar = forwardRef<HTMLElement>((props, ref) => {
   return (
-    <header ref={ref} className='border-b'>
+    <header
+      ref={ref}
+      className='bg-background fixed top-0 right-0 left-0 z-50 border-b shadow-xs transition-transform duration-300'
+    >
       <NavNotificationBanner />
       <div className='relative mx-auto flex items-center justify-between px-[clamp(34px,15.3vw,40px)] py-4.75'>
         {/* Left Navigation - Hidden on mobile, shown as dropdown */}

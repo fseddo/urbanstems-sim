@@ -8,6 +8,7 @@ import { Footer } from '@/src/common/Footer';
 import { NavbarProvider, useNavbar } from '@/src/navbar/NavbarContext';
 import { Navbar } from '@/src/navbar/Navbar';
 import { useNavbarCssHeight } from '@/src/navbar/useElementHeight';
+import { useHideOnScroll } from '@/src/navbar/useHideOnScroll';
 
 function RootLayout() {
   return (
@@ -20,10 +21,12 @@ function RootLayout() {
 function RootLayoutInner() {
   const navbarRef = useNavbar();
   useNavbarCssHeight(navbarRef);
+  useHideOnScroll(navbarRef);
 
   return (
     <>
       <Navbar ref={navbarRef} />
+      <div style={{ height: 'var(--navbar-height)' }} />
       <main className='min-h-screen'>
         <Outlet />
       </main>

@@ -8,6 +8,7 @@ export interface Product {
   external_id: string;
   name: string;
   slug: string;
+  subtitle: string | null;
   variant_type: VariantType | null;
   base_name: string;
   url: string;
@@ -19,6 +20,7 @@ export interface Product {
   hover_image: string | null;
   blur_data_url: string | null;
   badge_text: string | null;
+  badge_image_src: string | null;
   delivery_lead_time: number | null;
   stock: number;
   reviews_rating: number | null;

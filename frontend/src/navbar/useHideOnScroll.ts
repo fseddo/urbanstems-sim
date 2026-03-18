@@ -62,12 +62,20 @@ export const useHideOnScroll = (elementRef: RefObject<HTMLElement | null>) => {
       if (scrollingDown && scrollY > threshold && !hidden) {
         element.style.transform = 'translateY(-100%)';
         document.documentElement.style.setProperty('--navbar-offset', '0px');
+        document.documentElement.style.setProperty(
+          '--navbar-offset-transition',
+          'top 300ms'
+        );
         hidden = true;
       } else if (!scrollingDown && hidden) {
         element.style.transform = 'translateY(0)';
         document.documentElement.style.setProperty(
           '--navbar-offset',
           'var(--navbar-height)'
+        );
+        document.documentElement.style.setProperty(
+          '--navbar-offset-transition',
+          'top 300ms'
         );
         hidden = false;
       }

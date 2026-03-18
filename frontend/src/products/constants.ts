@@ -1,12 +1,15 @@
 import { VariantType } from '@/api/products/ProductVariant';
 
 export const getDeliveryDate = (
-  deliveryLeadTime: number | undefined | null
+  deliveryLeadTime: number | undefined | null,
+  format: 'short' | 'long' = 'long'
 ) => {
-  if (!deliveryLeadTime) return undefined;
+  if (deliveryLeadTime == undefined) return undefined;
   const date = new Date();
-  date.setDate(date.getDate() + deliveryLeadTime);
-
+  if (deliveryLeadTime > 0) date.setDate(date.getDate() + deliveryLeadTime);
+  if (format === 'short') {
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
   return date.toLocaleDateString('en-US', {
     month: '2-digit',
     day: '2-digit',

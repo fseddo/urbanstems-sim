@@ -4,13 +4,7 @@ import { Link } from '@tanstack/react-router';
 import { StarRating } from './StarRating';
 import { Product } from '@/api/products/Product';
 import { ProductVariant } from '@/api/products/ProductVariant';
-
-const getDeliveryDate = (deliveryLeadTime: number | undefined) => {
-  if (!deliveryLeadTime) return undefined;
-  const date = new Date();
-  date.setDate(date.getDate() + deliveryLeadTime);
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-};
+import { getDeliveryDate } from '../products/constants';
 
 export const ProductCard = memo(
   ({
@@ -59,13 +53,22 @@ export const ProductCard = memo(
                 {visibleProduct.badge_text}
               </div>
             )}
+            {visibleProduct.badge_image_src && detailedView && (
+              <div className='absolute right-8 bottom-10'>
+                <img
+                  src={`${visibleProduct.badge_image_src}&width=240`}
+                  className='h-35'
+                />
+              </div>
+            )}
           </div>
         </Link>
 
         <div className='flex flex-col items-center gap-1.5'>
-          {visibleProduct.delivery_lead_time && (
+          {visibleProduct.delivery_lead_time != null && (
             <div className='border-brand-primary/10 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-semibold'>
-              Receive on {getDeliveryDate(visibleProduct.delivery_lead_time)}
+              Receive on{' '}
+              {getDeliveryDate(visibleProduct.delivery_lead_time, 'short')}
             </div>
           )}
           <div className='font-crimson flex items-center justify-center text-[clamp(15px,1.5vw,30px)]'>
@@ -104,14 +107,12 @@ export const ProductCard = memo(
                         src={`${variant.main_image}&width=700`}
                         height={35}
                         width={35}
-                        // loading='lazy'
-                        // decoding='async'
                       />
                       <div
                         key={variant.id}
                         className={`text-[10px] ${variant.variant_type === visibleProduct.variant_type ? 'text-brand-primary font-bold' : 'opacity-60'}`}
                       >
-                        {variant.variant_type}
+                        {capitalizeString(variant.variant_type)}
                       </div>
                     </div>
                   )

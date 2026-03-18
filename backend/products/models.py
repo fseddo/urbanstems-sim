@@ -24,9 +24,11 @@ class Product(models.Model):
     main_image = models.URLField(null=True, blank=True)
     hover_image = models.URLField(null=True, blank=True)
     blur_data_url = models.TextField(null=True, blank=True, help_text="Base64 encoded low-res blur placeholder")
-    
+
     # Product details
+    subtitle = models.CharField(max_length=500, null=True, blank=True)
     badge_text = models.CharField(max_length=100, null=True, blank=True)
+    badge_image_src = models.URLField(null=True, blank=True)
     delivery_lead_time = models.PositiveIntegerField(null=True, blank=True, help_text="Lead time in days")
     stock = models.PositiveIntegerField(default=0)
     
@@ -92,6 +94,9 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
     image_src = models.URLField(null=True, blank=True, help_text="Category image URL")
+    page_title = models.CharField(max_length=500, null=True, blank=True)
+    header_title = models.CharField(max_length=500, null=True, blank=True)
+    header_subtitle = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "categories"
@@ -104,12 +109,14 @@ class Category(models.Model):
 class Collection(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
-    image_src = models.URLField(null=True, blank=True, help_text="Category image URL")
+    image_src = models.URLField(null=True, blank=True, help_text="Collection image URL")
+    page_title = models.CharField(max_length=500, null=True, blank=True)
+    header_title = models.CharField(max_length=500, null=True, blank=True)
+    header_subtitle = models.TextField(null=True, blank=True)
 
-    
     class Meta:
         ordering = ['name']
-    
+
     def __str__(self):
         return self.name
 
@@ -118,12 +125,32 @@ class Occasion(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
     image_src = models.URLField(null=True, blank=True, help_text="Occasion image URL")
+    page_title = models.CharField(max_length=500, null=True, blank=True)
+    header_title = models.CharField(max_length=500, null=True, blank=True)
+    header_subtitle = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']
 
     def __str__(self):
         return self.name
+
+
+class Review(models.Model):
+    external_id = models.CharField(max_length=50, unique=True, help_text="Original ID from scraped data")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    reviewer_name = models.CharField(max_length=200)
+    is_verified_buyer = models.BooleanField(default=False)
+    rating = models.PositiveSmallIntegerField()
+    title = models.CharField(max_length=500, null=True, blank=True)
+    body = models.TextField(null=True, blank=True)
+    date = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ['-date']
+
+    def __str__(self):
+        return f"{self.reviewer_name} - {self.title}"
 
 
 class ProductCategory(models.Model):

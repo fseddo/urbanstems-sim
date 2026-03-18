@@ -3,19 +3,17 @@ import { VideoActionButton } from './VideoActionButton';
 export const LandingVideo = () => {
   return (
     <section
-      className='bg-brand-primary relative w-full'
+      className='relative w-full'
       style={{ height: 'calc(100dvh - var(--navbar-height))' }}
     >
-      <video
-        src='/main_page.mp4'
-        autoPlay
-        loop
-        muted
-        preload='auto'
-        playsInline
-        className='h-full w-full object-cover opacity-0 transition-opacity duration-500'
-        onCanPlay={(e) => e.currentTarget.classList.remove('opacity-0')}
+      <img
+        src='https://urbanstems.com/cdn/shop/files/3.16_HERO.jpg?v=1772491026&width=1800'
+        className='h-full w-full object-cover'
+        fetchPriority='high'
+        loading='eager'
       />
+      <div className='absolute inset-0 bg-black/70 md:bg-black/30' />
+
       <img
         src='/2025_NYT_WIRECUTTER_OUR-PICK_LOGO_BLACK_RGB.png'
         alt='NY Times Wirecutter Our Pick'
@@ -25,21 +23,17 @@ export const LandingVideo = () => {
       />
       <div className='absolute bottom-20 left-20 flex flex-col gap-6 text-white'>
         <div className='flex flex-col gap-3'>
-          <div className='text-sm font-bold'>EMRBACE THE MAGIC</div>
-          <div className='font-crimson text-6xl'>The Flowerlore World</div>
+          <div className='font-crimson text-shadow text-6xl'>
+            Spring In Full Bloom
+          </div>
         </div>
 
-        <div className='w-[37ch] text-lg'>
-          Our newest limited-edition collection is designed to be more than
-          flowers, it's energy, gifted. Every bouquet comes with a custom tarot
-          card to guide and set intention.
+        <div className='text-shadow w-[37ch] text-lg'>
+          Fresh seasonal bouquets, thoughtfully arranged for spring hosting,
+          celebrating, and effortless gifting.
         </div>
         <div className='flex gap-3'>
-          <VideoActionButton label='SHOP FLOWERLORE' href='/collections/all' />
-          <VideoActionButton
-            label='SHOP ALL FLOWERS'
-            href='/collections/flowers'
-          />
+          <VideoActionButton label='ORDER NOW' href='/collections/flowers' />
         </div>
       </div>
     </section>

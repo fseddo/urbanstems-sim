@@ -57,13 +57,15 @@ export const ProductBottomBar = ({
         </div>
 
         <div className='flex flex-col'>
-          <div className='flex gap-2'>
-            <StarRating rating={product.reviews_rating} />
-            <span className='text-brand-primary text-xs underline'>
-              {product.reviews_count} Reviews
-            </span>
-          </div>
-          <div className='text-sm'>{getFirstSentence(product.description)}</div>
+          {product.reviews_count && (
+            <div className='flex gap-2'>
+              <StarRating rating={product.reviews_rating} />
+              <span className='text-brand-primary text-xs underline'>
+                {product.reviews_count} Reviews
+              </span>
+            </div>
+          )}
+          <div className='text-sm'>{product.subtitle}</div>
         </div>
       </div>
       <button className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary rounded-md border px-70 py-5 text-xs font-black tracking-wider text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'>

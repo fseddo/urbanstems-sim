@@ -1,38 +1,31 @@
 import json
 import os
+import re
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from products.models import (
-    Product, Category, Collection, Occasion, 
+    Product, Category, Collection, Occasion, Review,
     ProductCategory, ProductCollection, ProductOccasion,
-    ProductVariation, VariantType
+    ProductVariation
 )
 
 
-CATEGORY_IMAGES = {
-    'flowers': 'https://urbanstems.com/cdn/shop/files/Flowers_Thumbnail_megamenu.png?v=1744748607&width=64',
-    'plants': 'https://urbanstems.com/cdn/shop/files/Plants_Thumbnail_megamenu_2.png?v=1766435002&width=64',
-}
-
-OCCASION_IMAGES = {
-    'birthday': 'https://urbanstems.com/cdn/shop/files/Birthday_Carousel_295473db-a339-412b-b1e9-14a3946ad435.jpg?v=1771016170&width=600',
-    'congratulations': 'https://urbanstems.com/cdn/shop/files/Congrats_Carousel_2ef51173-883a-4ccb-a722-501db21317a5.jpg?v=1771016170&width=600',
-    'friendship': 'https://urbanstems.com/cdn/shop/files/Friendship_Carousel_820ba91f-db3c-4486-8ea7-07247b92e13d.jpg?v=1771016170&width=600',
-    'just because': 'https://urbanstems.com/cdn/shop/files/JustBecause_Carousel_96cb7f1e-7c6c-4610-a058-2c7ac4683454.jpg?v=1771016170&width=600',
-    'sympathy': 'https://urbanstems.com/cdn/shop/files/Sympathy_Carousel_0c67957c-01b7-43ee-a5f6-9e16b13cc6ad.jpg?v=1771016170&width=600',
-    'thank you': 'https://urbanstems.com/cdn/shop/files/ThankYou_Carousel_02437d88-54a5-4bb3-860a-66f22f1be6c9.jpg?v=1771016170&width=600',
-}
+def strip_width_param(url):
+    """Remove &width=N from image URLs."""
+    if not url:
+        return url
+    return re.sub(r'&width=\d+', '', url)
 
 
 class Command(BaseCommand):
-    help = 'Seed database with products from products.json'
+    help = 'Seed database with products from products_new.json'
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--file',
             type=str,
-            default='data/products.json',
-            help='Path to the products JSON file (default: data/products.json)'
+            default='data/products_new.json',
+            help='Path to the products JSON file (default: data/products_new.json)'
         )
         parser.add_argument(
             '--clear',
@@ -42,8 +35,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         file_path = options['file']
-        
-        # Check if file exists
+
         if not os.path.exists(file_path):
             self.stdout.write(
                 self.style.ERROR(f'File not found: {file_path}')
@@ -53,6 +45,7 @@ class Command(BaseCommand):
         # Clear existing data if requested
         if options['clear']:
             self.stdout.write('Clearing existing data...')
+            Review.objects.all().delete()
             ProductVariation.objects.all().delete()
             ProductCategory.objects.all().delete()
             ProductCollection.objects.all().delete()
@@ -63,139 +56,158 @@ class Command(BaseCommand):
             Occasion.objects.all().delete()
 
         # Load JSON data
-        self.stdout.write(f'Loading products from {file_path}...')
+        self.stdout.write(f'Loading data from {file_path}...')
         with open(file_path, 'r') as f:
-            products_data = json.load(f)
+            data = json.load(f)
 
-        self.stdout.write(f'Found {len(products_data)} products to process')
+        products_data = data['products']
+        collections_data = data.get('collections', [])
+        occasions_data = data.get('occasions', [])
+        categories_data = data.get('categories', [])
 
-        # Keep track of created objects for variations
-        created_products = {}
+        self.stdout.write(f'Found {len(products_data)} products, {len(collections_data)} collections, {len(occasions_data)} occasions, {len(categories_data)} categories')
+
+        # Seed categories, collections, occasions from their dedicated arrays
         categories_cache = {}
+        for cat in categories_data:
+            category, _ = Category.objects.get_or_create(
+                name=cat['name'],
+                defaults={
+                    'slug': slugify(cat['name']),
+                    'image_src': strip_width_param(cat.get('image_src')),
+                    'page_title': cat.get('page_title'),
+                    'header_title': cat.get('header_title'),
+                    'header_subtitle': cat.get('header_subtitle'),
+                }
+            )
+            categories_cache[cat['name']] = category
+        self.stdout.write(f'  Seeded {len(categories_cache)} categories')
+
         collections_cache = {}
+        for col in collections_data:
+            collection, _ = Collection.objects.get_or_create(
+                name=col['name'],
+                defaults={
+                    'slug': slugify(col['name']),
+                    'image_src': strip_width_param(col.get('image_src')),
+                    'page_title': col.get('page_title'),
+                    'header_title': col.get('header_title'),
+                    'header_subtitle': col.get('header_subtitle'),
+                }
+            )
+            collections_cache[col['name']] = collection
+        self.stdout.write(f'  Seeded {len(collections_cache)} collections')
+
         occasions_cache = {}
+        for occ in occasions_data:
+            occasion, _ = Occasion.objects.get_or_create(
+                name=occ['name'],
+                defaults={
+                    'slug': slugify(occ['name']),
+                    'image_src': strip_width_param(occ.get('image_src')),
+                    'page_title': occ.get('page_title'),
+                    'header_title': occ.get('header_title'),
+                    'header_subtitle': occ.get('header_subtitle'),
+                }
+            )
+            occasions_cache[occ['name']] = occasion
+        self.stdout.write(f'  Seeded {len(occasions_cache)} occasions')
 
         # Create products
+        created_products = {}
         for product_data in products_data:
             self.stdout.write(f'Processing: {product_data["name"]}')
 
-            # Derive variant_type from the product's own entry in its variants array
-            # (transform_variants.py removed variant_type from the JSON but preserved
-            # it as the variant name: "Single", "Double", "Triple", or "Standard")
-            own_variant = next(
-                (v for v in product_data.get('variants', [])
-                 if str(v['id']) == str(product_data['id'])),
-                None
-            )
-            variant_type = own_variant['name'].lower() if own_variant else None
-
-            # Create or get the product
             product, created = Product.objects.get_or_create(
                 external_id=product_data['id'],
                 defaults={
                     'name': product_data['name'],
                     'slug': slugify(product_data['name']),
-                    'variant_type': variant_type,
+                    'variant_type': product_data.get('variant_type'),
                     'base_name': product_data['base_name'],
                     'url': product_data['url'],
                     'price': product_data.get('price'),
                     'discounted_price': product_data.get('discounted_price'),
-                    'main_image': product_data.get('main_image'),
-                    'hover_image': product_data.get('hover_image'),
+                    'main_image': strip_width_param(product_data.get('main_image')),
+                    'hover_image': strip_width_param(product_data.get('hover_image')),
+                    'subtitle': product_data.get('subtitle'),
                     'badge_text': product_data.get('badge_text'),
+                    'badge_image_src': strip_width_param(product_data.get('badge_image_src')),
                     'delivery_lead_time': product_data.get('delivery_lead_time'),
                     'stock': product_data.get('stock', 0),
                     'reviews_rating': product_data.get('reviews_rating'),
                     'reviews_count': product_data.get('reviews_count'),
                     'description': product_data.get('description'),
                     'care_instructions': product_data.get('care_instructions'),
-                    'main_detail_src': product_data.get('main_detail_src'),
+                    'main_detail_src': strip_width_param(product_data.get('main_detail_src')),
                     'is_main_detail_video': product_data.get('is_main_detail_video', False),
-                    'detail_image_1_src': product_data.get('detail_image_1_src'),
-                    'detail_image_2_src': product_data.get('detail_image_2_src'),
-                    'variants': product_data.get('variants', []),
+                    'detail_image_1_src': strip_width_param(product_data.get('detail_image_1_src')),
+                    'detail_image_2_src': strip_width_param(product_data.get('detail_image_2_src')),
                 }
             )
-            
+
             created_products[product_data['id']] = product
-            
+
             if created:
                 self.stdout.write(f'  Created: {product.name}')
             else:
-                self.stdout.write(f'  Updated: {product.name}')
+                self.stdout.write(f'  Already exists: {product.name}')
 
-            # Handle categories
+            # Link categories
             for category_name in product_data.get('categories', []):
-                if category_name not in categories_cache:
-                    category, _ = Category.objects.get_or_create(
-                        name=category_name,
-                        defaults={
-                            'slug': slugify(category_name),
-                            'image_src': CATEGORY_IMAGES.get(category_name, ''),
-                        }
+                if category_name in categories_cache:
+                    ProductCategory.objects.get_or_create(
+                        product=product,
+                        category=categories_cache[category_name]
                     )
-                    categories_cache[category_name] = category
-                
-                category = categories_cache[category_name]
-                ProductCategory.objects.get_or_create(
-                    product=product,
-                    category=category
-                )
 
-            # Handle collections
+            # Link collections
             for collection_name in product_data.get('collections', []):
-                if collection_name not in collections_cache:
-                    collection, _ = Collection.objects.get_or_create(
-                        name=collection_name,
-                        defaults={'slug': slugify(collection_name)}
+                if collection_name in collections_cache:
+                    ProductCollection.objects.get_or_create(
+                        product=product,
+                        collection=collections_cache[collection_name]
                     )
-                    collections_cache[collection_name] = collection
-                
-                collection = collections_cache[collection_name]
-                ProductCollection.objects.get_or_create(
-                    product=product,
-                    collection=collection
-                )
 
-            # Handle occasions
+            # Link occasions
             for occasion_name in product_data.get('occasions', []):
-                if occasion_name not in occasions_cache:
-                    occasion, _ = Occasion.objects.get_or_create(
-                        name=occasion_name,
-                        defaults={
-                            'slug': slugify(occasion_name),
-                            'image_src': OCCASION_IMAGES.get(occasion_name, ''),
-                        }
+                if occasion_name in occasions_cache:
+                    ProductOccasion.objects.get_or_create(
+                        product=product,
+                        occasion=occasions_cache[occasion_name]
                     )
-                    occasions_cache[occasion_name] = occasion
-                
-                occasion = occasions_cache[occasion_name]
-                ProductOccasion.objects.get_or_create(
-                    product=product,
-                    occasion=occasion
+
+            # Create reviews
+            for review_data in product_data.get('reviews', []):
+                Review.objects.get_or_create(
+                    external_id=review_data['id'],
+                    defaults={
+                        'product': product,
+                        'reviewer_name': review_data['reviewer_name'],
+                        'is_verified_buyer': review_data.get('is_verified_buyer', False),
+                        'rating': review_data['rating'],
+                        'title': review_data.get('title'),
+                        'body': review_data.get('body'),
+                        'date': review_data.get('date', ''),
+                    }
                 )
 
         # Handle product variations
         self.stdout.write('Processing product variations...')
         for product_data in products_data:
             product = created_products[product_data['id']]
-            
-            variation_data = {}
-            
-            # Map variation references
-            if 'single_variation' in product_data and product_data['single_variation']:
-                if product_data['single_variation'] in created_products:
-                    variation_data['single_variation'] = created_products[product_data['single_variation']]
-            
-            if 'double_variation' in product_data and product_data['double_variation']:
-                if product_data['double_variation'] in created_products:
-                    variation_data['double_variation'] = created_products[product_data['double_variation']]
-            
-            if 'triple_variation' in product_data and product_data['triple_variation']:
-                if product_data['triple_variation'] in created_products:
-                    variation_data['triple_variation'] = created_products[product_data['triple_variation']]
 
-            # Create variation mapping if we have any variations
+            variation_data = {}
+
+            if product_data.get('single_variation') and product_data['single_variation'] in created_products:
+                variation_data['single_variation'] = created_products[product_data['single_variation']]
+
+            if product_data.get('double_variation') and product_data['double_variation'] in created_products:
+                variation_data['double_variation'] = created_products[product_data['double_variation']]
+
+            if product_data.get('triple_variation') and product_data['triple_variation'] in created_products:
+                variation_data['triple_variation'] = created_products[product_data['triple_variation']]
+
             if variation_data:
                 ProductVariation.objects.update_or_create(
                     product=product,
@@ -203,7 +215,6 @@ class Command(BaseCommand):
                 )
 
         # Populate full variant data from sibling products
-        # (the JSON only has minimal variant info: id, name, main_image)
         self.stdout.write('Populating variant data...')
         all_products = Product.objects.all().order_by('base_name', 'id')
 
@@ -242,10 +253,12 @@ class Command(BaseCommand):
         # Summary
         self.stdout.write(
             self.style.SUCCESS(
-                f'Successfully processed {len(products_data)} products\n'
-                f'Categories: {Category.objects.count()}\n'
-                f'Collections: {Collection.objects.count()}\n'
-                f'Occasions: {Occasion.objects.count()}\n'
-                f'Product Variations: {ProductVariation.objects.count()}'
+                f'\nSuccessfully seeded:\n'
+                f'  Products: {Product.objects.count()}\n'
+                f'  Categories: {Category.objects.count()}\n'
+                f'  Collections: {Collection.objects.count()}\n'
+                f'  Occasions: {Occasion.objects.count()}\n'
+                f'  Reviews: {Review.objects.count()}\n'
+                f'  Product Variations: {ProductVariation.objects.count()}'
             )
         )

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Collection, Occasion, ProductCategory, ProductCollection, ProductOccasion, ProductVariation
+from .models import Product, Category, Collection, Occasion, Review, ProductCategory, ProductCollection, ProductOccasion, ProductVariation
 
 
 @admin.register(Product)
@@ -16,10 +16,10 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('price', 'discounted_price')
         }),
         ('Images', {
-            'fields': ('main_image', 'hover_image')
+            'fields': ('main_image', 'hover_image', 'badge_image_src')
         }),
         ('Product Details', {
-            'fields': ('badge_text', 'delivery_lead_time', 'stock', 'description', 'care_instructions')
+            'fields': ('subtitle', 'badge_text', 'delivery_lead_time', 'stock', 'description', 'care_instructions')
         }),
         ('Reviews', {
             'fields': ('reviews_rating', 'reviews_count')
@@ -56,3 +56,11 @@ admin.site.register(ProductCategory)
 admin.site.register(ProductCollection)
 admin.site.register(ProductOccasion)
 admin.site.register(ProductVariation)
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['reviewer_name', 'product', 'rating', 'date']
+    list_filter = ['rating', 'is_verified_buyer']
+    search_fields = ['reviewer_name', 'title', 'body', 'product__slug']
+    raw_id_fields = ['product']

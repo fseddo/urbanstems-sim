@@ -1,10 +1,11 @@
 from typing import Any, cast
 from rest_framework import viewsets, filters
 from rest_framework.request import Request
-from .models import Product, Category, Collection, Occasion
+from .models import Product, Category, Collection, Occasion, Review
 from .serializers import (
     ProductListSerializer, ProductDetailSerializer,
-    CategorySerializer, CollectionSerializer, OccasionSerializer
+    CategorySerializer, CollectionSerializer, OccasionSerializer,
+    ReviewSerializer
 )
 
 
@@ -91,3 +92,22 @@ class OccasionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Occasion.objects.all()
     serializer_class = OccasionSerializer
     lookup_field = 'slug'
+
+
+class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet for Review model.
+    Filter by product slug: /api/reviews/?product_slug=the-sorbet
+    """
+    queryset = Review.objects.select_related('product').all()
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self) -> Any:
+        queryset = Review.objects.select_related('product').all()
+        request = cast(Request, self.request)
+
+        product_slug = request.query_params.get('product_slug')
+        if product_slug:
+            queryset = queryset.filter(product__slug=product_slug)
+
+        return queryset

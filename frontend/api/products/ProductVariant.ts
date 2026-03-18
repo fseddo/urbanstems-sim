@@ -15,4 +15,5 @@ export interface ProductVariant {
   badge_text: string | null;
   price_dollars: number | null;
   discounted_price_dollars: number | null;
+  badge_image_src: string | null;
 }

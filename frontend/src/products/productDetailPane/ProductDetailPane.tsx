@@ -32,10 +32,8 @@ export const ProductDetailPane = ({
           )}
         </div>
         {/* name */}
-        <div className='font-crimson text-5xl'>{product.name}</div>
-        <div className='text-center text-sm'>
-          {getFirstSentence(product.description)}
-        </div>
+        <div className='font-crimson text-center text-5xl'>{product.name}</div>
+        <div className='text-center text-sm'>{product.subtitle}</div>
         {/* price */}
         <div className='flex gap-2 text-lg'>
           <div>{`$${product.price_dollars}`}</div>

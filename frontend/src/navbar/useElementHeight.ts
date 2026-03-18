@@ -1,4 +1,4 @@
-import { useEffect, RefObject } from 'react';
+import { useLayoutEffect, RefObject } from 'react';
 
 /**
  * Sets a CSS variable `--navbar-height` on the document root,
@@ -8,7 +8,7 @@ import { useEffect, RefObject } from 'react';
 export const useNavbarCssHeight = (
   elementRef: RefObject<HTMLElement | null>
 ) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = elementRef.current;
     if (!element) return;
 

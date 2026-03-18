@@ -3,7 +3,14 @@ import {
   UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
-import { ReactNode, useEffect, useState, useCallback, useRef } from 'react';
+import {
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { PaginatedResponse } from '@/api/PaginatedResponse';
 
 type Props<T> = {
@@ -55,12 +62,21 @@ export const List = <T,>({
   const items = data ?? [];
   const rowCount = Math.ceil(items.length / columns);
   const listRef = useRef<HTMLDivElement>(null);
+  const [scrollMargin, setScrollMargin] = useState(0);
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    if (listRef.current) {
+      setScrollMargin(listRef.current.offsetTop);
+    }
+  }, []);
 
   const virtualizer = useWindowVirtualizer({
     count: rowCount,
     estimateSize: () => estimateRowHeight,
     overscan: 5,
-    scrollMargin: listRef.current?.offsetTop ?? 0,
+    scrollMargin,
+    initialOffset: 0,
   });
 
   const virtualRows = virtualizer.getVirtualItems();
@@ -114,7 +130,7 @@ export const List = <T,>({
     );
   }
 
-  if (!isLoading && items.length < 1) {
+  if (items.length < 1) {
     return (
       <div className='flex h-screen items-center justify-center'>
         <div className='text-lg'>No results found</div>

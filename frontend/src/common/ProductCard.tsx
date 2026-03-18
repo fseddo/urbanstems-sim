@@ -64,7 +64,7 @@ export const ProductCard = memo(
           </div>
         </Link>
 
-        <div className='flex flex-col items-center gap-1.5'>
+        <div className='flex flex-col items-center gap-1'>
           {visibleProduct.delivery_lead_time != null && (
             <div className='border-brand-primary/10 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-semibold'>
               Receive on{' '}
@@ -92,7 +92,7 @@ export const ProductCard = memo(
             )}
           </div>
           {detailedView && product.variants && product.variants.length > 1 && (
-            <div className='flex gap-4 py-1'>
+            <div className='flex gap-5 py-1'>
               {product.variants.map((variant) => {
                 return (
                   variant.main_image && (
@@ -102,11 +102,11 @@ export const ProductCard = memo(
                     >
                       <img
                         onClick={() => setVisibleProduct(variant)}
-                        className={`rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'border-brand-primary border-2' : ''}`}
+                        className={`rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'ring-brand-primary ring-1 ring-offset-2 ring-offset-white' : 'hover:ring-1 hover:ring-gray-300 hover:ring-offset-2 hover:ring-offset-white'}`}
                         alt={variant.variant_type}
                         src={`${variant.main_image}&width=700`}
-                        height={35}
-                        width={35}
+                        height={30}
+                        width={30}
                       />
                       <div
                         key={variant.id}

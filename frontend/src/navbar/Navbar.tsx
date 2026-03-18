@@ -38,8 +38,20 @@ export const Navbar = forwardRef<HTMLElement>((props, ref) => {
           >
             Plants
           </Link>
-          <div>Same-Day Delivery</div>
-          <div>Sale</div>
+          <Link
+            className='hover:opacity-60'
+            to='/collections/$slug'
+            params={{ slug: 'same-day' }}
+          >
+            Same-Day Delivery
+          </Link>
+          <Link
+            className='hover:opacity-60'
+            to='/collections/$slug'
+            params={{ slug: 'sale' }}
+          >
+            Sale
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}

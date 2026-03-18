@@ -15,6 +15,17 @@ export const Route = createFileRoute('/collections/$slug')({
   loader: ({ params, context }) => {
     const isAll = params.slug === 'all';
 
+    if (isAll) {
+      document.title = 'Shop Our Collection | UrbanStems';
+    } else {
+      const name = params.slug
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+      const singular = name.endsWith('s') ? name.slice(0, -1) : name;
+      document.title = `${singular} Delivery | Next Day Delivery | UrbanStems`;
+    }
+
     const filters: ProductFilters = isAll
       ? {}
       : isCategory(params.slug)
@@ -22,7 +33,7 @@ export const Route = createFileRoute('/collections/$slug')({
         : { occasion: params.slug };
 
     return context.queryClient.ensureInfiniteQueryData(
-      productQueries.infiniteList(filters),
+      productQueries.infiniteList(filters)
     );
   },
 });

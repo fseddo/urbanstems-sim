@@ -7,6 +7,9 @@ import { Reviews } from '@/src/landing/reviews/Reviews';
 
 export const Route = createFileRoute('/')({
   component: Home,
+  loader: () => {
+    document.title = 'UrbanStems | Online Flower Delivery';
+  },
 });
 
 function Home() {

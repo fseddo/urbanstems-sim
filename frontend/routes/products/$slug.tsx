@@ -19,6 +19,12 @@ export const Route = createFileRoute('/products/$slug')({
         productQueries.detail(params.slug)
       );
 
+      const titleName = product.name
+        .split(' ')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+      document.title = `${titleName} | UrbanStems Flower Delivery`;
+
       const imageUrls = [product.main_image, product.hover_image].filter(
         (url): url is string => url != null
       ).map((url) => `${url}&width=1000`);

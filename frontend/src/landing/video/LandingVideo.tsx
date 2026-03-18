@@ -3,7 +3,7 @@ import { VideoActionButton } from './VideoActionButton';
 export const LandingVideo = () => {
   return (
     <section
-      className='relative w-full bg-brand-primary'
+      className='bg-brand-primary relative w-full'
       style={{ height: 'calc(100dvh - var(--navbar-height))' }}
     >
       <video
@@ -35,11 +35,11 @@ export const LandingVideo = () => {
           card to guide and set intention.
         </div>
         <div className='flex gap-3'>
+          <VideoActionButton label='SHOP FLOWERLORE' href='/collections/all' />
           <VideoActionButton
-            label='SHOP FLOWERLORE'
-            href='/collections/flowerlore'
+            label='SHOP ALL FLOWERS'
+            href='/collections/flowers'
           />
-          <VideoActionButton label='SHOP ALL FLOWERS' href='/collections/all' />
         </div>
       </div>
     </section>

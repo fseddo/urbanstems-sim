@@ -9,6 +9,21 @@ from products.models import (
 )
 
 
+CATEGORY_IMAGES = {
+    'flowers': 'https://urbanstems.com/cdn/shop/files/Flowers_Thumbnail_megamenu.png?v=1744748607&width=64',
+    'plants': 'https://urbanstems.com/cdn/shop/files/Plants_Thumbnail_megamenu_2.png?v=1766435002&width=64',
+}
+
+OCCASION_IMAGES = {
+    'birthday': 'https://urbanstems.com/cdn/shop/files/Birthday_Carousel_295473db-a339-412b-b1e9-14a3946ad435.jpg?v=1771016170&width=600',
+    'congratulations': 'https://urbanstems.com/cdn/shop/files/Congrats_Carousel_2ef51173-883a-4ccb-a722-501db21317a5.jpg?v=1771016170&width=600',
+    'friendship': 'https://urbanstems.com/cdn/shop/files/Friendship_Carousel_820ba91f-db3c-4486-8ea7-07247b92e13d.jpg?v=1771016170&width=600',
+    'just because': 'https://urbanstems.com/cdn/shop/files/JustBecause_Carousel_96cb7f1e-7c6c-4610-a058-2c7ac4683454.jpg?v=1771016170&width=600',
+    'sympathy': 'https://urbanstems.com/cdn/shop/files/Sympathy_Carousel_0c67957c-01b7-43ee-a5f6-9e16b13cc6ad.jpg?v=1771016170&width=600',
+    'thank you': 'https://urbanstems.com/cdn/shop/files/ThankYou_Carousel_02437d88-54a5-4bb3-860a-66f22f1be6c9.jpg?v=1771016170&width=600',
+}
+
+
 class Command(BaseCommand):
     help = 'Seed database with products from products.json'
 
@@ -63,14 +78,24 @@ class Command(BaseCommand):
         # Create products
         for product_data in products_data:
             self.stdout.write(f'Processing: {product_data["name"]}')
-            
+
+            # Derive variant_type from the product's own entry in its variants array
+            # (transform_variants.py removed variant_type from the JSON but preserved
+            # it as the variant name: "Single", "Double", "Triple", or "Standard")
+            own_variant = next(
+                (v for v in product_data.get('variants', [])
+                 if str(v['id']) == str(product_data['id'])),
+                None
+            )
+            variant_type = own_variant['name'].lower() if own_variant else None
+
             # Create or get the product
             product, created = Product.objects.get_or_create(
                 external_id=product_data['id'],
                 defaults={
                     'name': product_data['name'],
                     'slug': slugify(product_data['name']),
-                    'variant_type': product_data.get('variant_type'),
+                    'variant_type': variant_type,
                     'base_name': product_data['base_name'],
                     'url': product_data['url'],
                     'price': product_data.get('price'),
@@ -104,7 +129,10 @@ class Command(BaseCommand):
                 if category_name not in categories_cache:
                     category, _ = Category.objects.get_or_create(
                         name=category_name,
-                        defaults={'slug': slugify(category_name)}
+                        defaults={
+                            'slug': slugify(category_name),
+                            'image_src': CATEGORY_IMAGES.get(category_name, ''),
+                        }
                     )
                     categories_cache[category_name] = category
                 
@@ -134,7 +162,10 @@ class Command(BaseCommand):
                 if occasion_name not in occasions_cache:
                     occasion, _ = Occasion.objects.get_or_create(
                         name=occasion_name,
-                        defaults={'slug': slugify(occasion_name)}
+                        defaults={
+                            'slug': slugify(occasion_name),
+                            'image_src': OCCASION_IMAGES.get(occasion_name, ''),
+                        }
                     )
                     occasions_cache[occasion_name] = occasion
                 
@@ -170,6 +201,43 @@ class Command(BaseCommand):
                     product=product,
                     defaults=variation_data
                 )
+
+        # Populate full variant data from sibling products
+        # (the JSON only has minimal variant info: id, name, main_image)
+        self.stdout.write('Populating variant data...')
+        all_products = Product.objects.all().order_by('base_name', 'id')
+
+        variant_groups = {}
+        for product in all_products:
+            base_name = product.base_name or product.name
+            variant_groups.setdefault(base_name, []).append(product)
+
+        for product in all_products:
+            base_name = product.base_name or product.name
+            siblings = variant_groups[base_name]
+
+            variants = []
+            for sibling in siblings:
+                variant_type = sibling.variant_type or 'single'
+                price_dollars = sibling.price / 100 if sibling.price else None
+                discounted_price_dollars = sibling.discounted_price / 100 if sibling.discounted_price else None
+
+                variants.append({
+                    'id': sibling.id,
+                    'name': sibling.name,
+                    'slug': sibling.slug,
+                    'variant_type': variant_type,
+                    'main_image': sibling.main_image,
+                    'hover_image': sibling.hover_image,
+                    'delivery_lead_time': sibling.delivery_lead_time,
+                    'badge_text': sibling.badge_text,
+                    'price_dollars': price_dollars,
+                    'discounted_price_dollars': discounted_price_dollars,
+                })
+
+            variants.sort(key=lambda v: v['id'])
+            product.variants = variants
+            product.save(update_fields=['variants'])
 
         # Summary
         self.stdout.write(

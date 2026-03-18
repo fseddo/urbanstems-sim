@@ -7,6 +7,7 @@ export enum VariantType {
 export interface ProductVariant {
   id: number;
   name: string;
+  slug: string;
   variant_type: VariantType;
   main_image: string | null;
   hover_image: string | null;

@@ -18,7 +18,7 @@ export const ProductDetailVariantOptions = ({
             variant.main_image && (
               <Link
                 to='/products/$slug'
-                params={{ slug: variant.id.toString() }}
+                params={{ slug: variant.slug }}
                 className={`relative flex grow flex-col items-center justify-center gap-2 rounded-sm p-4 ${variant.variant_type === product?.variant_type ? 'border-brand-primary cursor-default border-2' : 'border-background-alt cursor-pointer border'}`}
                 key={variant.id}
               >
@@ -30,7 +30,7 @@ export const ProductDetailVariantOptions = ({
                 <img
                   className='aspect-square rounded-full'
                   alt={variant.variant_type}
-                  src={variant.main_image}
+                  src={`${variant.main_image}&width=700`}
                   height={80}
                   width={80}
                 />

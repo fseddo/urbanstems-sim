@@ -2,7 +2,7 @@ import { Product } from '@/api/products/Product';
 
 export const ProductBackgroundImages = ({ product }: { product: Product }) => {
   return (
-    <div className='absolute inset-0 flex'>
+    <div className='absolute inset-0 flex bg-cover bg-center bg-no-repeat'>
       {product.main_image && (
         <div className='w-[50%]'>
           <img

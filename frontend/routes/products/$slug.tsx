@@ -25,9 +25,9 @@ export const Route = createFileRoute('/products/$slug')({
         .join(' ');
       document.title = `${titleName} | UrbanStems Flower Delivery`;
 
-      const imageUrls = [product.main_image, product.hover_image].filter(
-        (url): url is string => url != null
-      ).map((url) => `${url}&width=1000`);
+      const imageUrls = [product.main_image, product.hover_image]
+        .filter((url): url is string => url != null)
+        .map((url) => `${url}&width=1600`);
 
       await Promise.all(
         imageUrls.map(

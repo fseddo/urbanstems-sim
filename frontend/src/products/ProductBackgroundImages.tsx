@@ -6,7 +6,7 @@ export const ProductBackgroundImages = ({ product }: { product: Product }) => {
       {product.main_image && (
         <div className='w-[50%]'>
           <img
-            src={`${product.main_image}&width=1000`}
+            src={`${product.main_image}&width=1600`}
             alt={product.name}
             className='h-full w-full object-cover'
           />
@@ -15,7 +15,7 @@ export const ProductBackgroundImages = ({ product }: { product: Product }) => {
       {product.hover_image && (
         <div className='w-[50%] overflow-hidden'>
           <img
-            src={`${product.hover_image}&width=1000`}
+            src={`${product.hover_image}&width=1600`}
             alt={`${product.name} - hover`}
             className='h-full w-full translate-x-[20%] scale-140 object-cover'
           />

@@ -1,4 +1,4 @@
-import { paginatedRequest, request } from '../request';
+import { request } from '../request';
 import { queryOptions } from '@tanstack/react-query';
 import { Occasion } from './Occasion';
 
@@ -15,7 +15,7 @@ export const occasionQueries = {
     queryOptions({
       queryKey: occasionKeys.list(),
       queryFn: async () =>
-        paginatedRequest<Occasion>({
+        request<Occasion[]>({
           method: 'get',
           path: '/occasions/',
         }),

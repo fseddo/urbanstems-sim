@@ -10,14 +10,23 @@ import { IconType } from 'react-icons';
 import { SlLocationPin } from 'react-icons/sl';
 import { ProductCard } from '@/src/common/ProductCard';
 import { ProductFilters } from '@/api/products/ProductFilters';
-import { useQuery } from '@tanstack/react-query';
 import { categoryQueries } from '@/api/cateogries/categoryQueries';
 import { collectionQueries } from '@/api/collections/collectionQueries';
+import { type Category, CategoryType } from '@/api/cateogries/Category';
+import type { Collection } from '@/api/collections/Collection';
+import type { Occasion } from '@/api/occasions/Occasion';
 
 export const Route = createFileRoute('/collections/$slug')({
   component: CollectionPage,
   loader: async ({ params, context }) => {
-    const slugType = getSlugType(params.slug);
+    // Fetch entity lists so we can determine slug type dynamically
+    const [categories, collections, occasions] = await Promise.all([
+      context.queryClient.ensureQueryData(categoryQueries.list()),
+      context.queryClient.ensureQueryData(collectionQueries.list()),
+      context.queryClient.ensureQueryData(occasionQueries.list()),
+    ]);
+
+    const slugType = getSlugType(params.slug, categories, collections, occasions);
     const filters = buildFilters(params.slug, slugType);
 
     const productsPromise = context.queryClient.ensureInfiniteQueryData(
@@ -27,7 +36,7 @@ export const Route = createFileRoute('/collections/$slug')({
     if (slugType === 'all') {
       document.title = 'Shop Our Collection | UrbanStems';
       await productsPromise;
-      return;
+      return { slugType, filters, entity: null };
     }
 
     const entityPromise =
@@ -48,30 +57,23 @@ export const Route = createFileRoute('/collections/$slug')({
     document.title =
       entity.page_title ??
       `${entity.name} Delivery | Next Day Delivery | UrbanStems`;
+
+    return { slugType, filters, entity };
   },
 });
 
-const CATEGORIES = ['flowers', 'plants', 'gifts', 'centerpieces'] as const;
-type CategorySlug = (typeof CATEGORIES)[number];
-
-const COLLECTIONS = [
-  'same-day',
-  'sale',
-  'next-day',
-  'last-minute-express-delivery',
-  'new-the-spring-collection',
-  'the-easter-collection',
-  'the-vogue-collection',
-  'the-gift-shop',
-] as const;
-type CollectionSlug = (typeof COLLECTIONS)[number];
-
 type SlugType = 'all' | 'category' | 'collection' | 'occasion';
 
-const getSlugType = (slug: string): SlugType => {
+const getSlugType = (
+  slug: string,
+  categories: Category[],
+  collections: Collection[],
+  occasions: Occasion[],
+): SlugType => {
   if (slug === 'all') return 'all';
-  if (CATEGORIES.includes(slug as CategorySlug)) return 'category';
-  if (COLLECTIONS.includes(slug as CollectionSlug)) return 'collection';
+  if (categories.some((c) => c.slug === slug)) return 'category';
+  if (collections.some((c) => c.slug === slug)) return 'collection';
+  if (occasions.some((o) => o.slug === slug)) return 'occasion';
   return 'occasion';
 };
 
@@ -80,7 +82,7 @@ const buildFilters = (slug: string, slugType: SlugType): ProductFilters => {
     case 'all':
       return {};
     case 'category':
-      return { category: slug as CategorySlug };
+      return { category: slug as CategoryType };
     case 'collection':
       return { collection: slug };
     case 'occasion':
@@ -89,31 +91,11 @@ const buildFilters = (slug: string, slugType: SlugType): ProductFilters => {
 };
 
 function CollectionPage() {
-  const { slug } = Route.useParams();
-  const slugType = getSlugType(slug);
+  const { filters, entity } = Route.useLoaderData();
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const formattedDate = `${String(tomorrow.getMonth() + 1).padStart(2, '0')}/${String(tomorrow.getDate()).padStart(2, '0')}/${tomorrow.getFullYear()}`;
-
-  const filters = buildFilters(slug, slugType);
-
-  const { data: category } = useQuery({
-    ...categoryQueries.detail(slug),
-    enabled: slugType === 'category',
-  });
-
-  const { data: collection } = useQuery({
-    ...collectionQueries.detail(slug),
-    enabled: slugType === 'collection',
-  });
-
-  const { data: occasion } = useQuery({
-    ...occasionQueries.detail(slug),
-    enabled: slugType === 'occasion',
-  });
-
-  const entity = category ?? collection ?? occasion;
 
   return (
     <main>

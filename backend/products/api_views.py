@@ -91,6 +91,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'slug'
+    pagination_class = None
 
 
 class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -100,6 +101,7 @@ class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
     lookup_field = 'slug'
+    pagination_class = None
 
 
 class OccasionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -109,6 +111,7 @@ class OccasionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Occasion.objects.all()
     serializer_class = OccasionSerializer
     lookup_field = 'slug'
+    pagination_class = None
 
 
 class ReviewViewSet(viewsets.ReadOnlyModelViewSet):

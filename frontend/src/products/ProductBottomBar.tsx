@@ -60,9 +60,9 @@ export const ProductBottomBar = ({
           {product.reviews_count && (
             <div className='flex gap-2'>
               <StarRating rating={product.reviews_rating} />
-              <span className='text-brand-primary text-xs underline'>
+              <a href='#reviews' className='text-brand-primary text-xs underline'>
                 {product.reviews_count} Reviews
-              </span>
+              </a>
             </div>
           )}
           <div className='text-sm'>{product.subtitle}</div>

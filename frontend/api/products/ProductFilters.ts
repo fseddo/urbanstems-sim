@@ -1,4 +1,5 @@
 import { Paginated, SortOrder } from '@/api/PaginatedResponse';
+import { CategoryType } from '@/api/cateogries/Category';
 import { ProductBadgeText } from './ProductBadgeText';
 import { VariantType } from './ProductVariant';
 
@@ -10,7 +11,7 @@ export type ProductSortKey =
   | 'external_id';
 
 export type ProductFilters = Paginated & {
-  category?: 'plants' | 'flowers' | 'gifts' | 'centerpieces';
+  category?: CategoryType;
   collection?: string;
   occasion?: string;
   badge_text?: ProductBadgeText;

@@ -1,10 +1,11 @@
-import {
-  createRootRouteWithContext,
-  Outlet,
-} from '@tanstack/react-router';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { QueryClient } from '@tanstack/react-query';
 import { Footer } from '@/src/common/Footer';
-import { NavbarProvider, useNavbar } from '@/src/navbar/NavbarContext';
+import {
+  NavbarProvider,
+  useNavbar,
+  useShopDropdown,
+} from '@/src/navbar/NavbarContext';
 import { Navbar } from '@/src/navbar/Navbar';
 import { useNavbarCssHeight } from '@/src/navbar/useElementHeight';
 import { useHideOnScroll } from '@/src/navbar/useHideOnScroll';
@@ -20,6 +21,7 @@ function RootLayout() {
 
 function RootLayoutInner() {
   const navbarRef = useNavbar();
+  const { shopOpen } = useShopDropdown();
   useNavbarCssHeight(navbarRef);
   useHideOnScroll(navbarRef);
   useLoadingFavicon();
@@ -28,10 +30,13 @@ function RootLayoutInner() {
     <>
       <Navbar ref={navbarRef} />
       <div style={{ height: 'var(--navbar-height)' }} />
-      <main className='min-h-screen'>
-        <Outlet />
-      </main>
-      <Footer />
+      <div className='relative'>
+        {shopOpen && <div className='absolute inset-0 z-40 bg-black/60' />}
+        <main className='min-h-screen'>
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

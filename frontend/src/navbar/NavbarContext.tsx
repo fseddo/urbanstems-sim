@@ -1,12 +1,19 @@
-import { createContext, useContext, useRef, RefObject } from 'react';
+import { createContext, useContext, useRef, useState, RefObject } from 'react';
 
-const NavbarContext = createContext<RefObject<HTMLElement | null> | null>(null);
+type NavbarContextValue = {
+  navbarRef: RefObject<HTMLElement | null>;
+  shopOpen: boolean;
+  setShopOpen: (open: boolean) => void;
+};
+
+const NavbarContext = createContext<NavbarContextValue | null>(null);
 
 export const NavbarProvider = ({ children }: { children: React.ReactNode }) => {
   const navbarRef = useRef<HTMLElement | null>(null);
+  const [shopOpen, setShopOpen] = useState(false);
 
   return (
-    <NavbarContext.Provider value={navbarRef}>
+    <NavbarContext.Provider value={{ navbarRef, shopOpen, setShopOpen }}>
       {children}
     </NavbarContext.Provider>
   );
@@ -17,5 +24,13 @@ export const useNavbar = () => {
   if (!context) {
     throw new Error('useNavbar must be used within NavbarProvider');
   }
-  return context;
+  return context.navbarRef;
+};
+
+export const useShopDropdown = () => {
+  const context = useContext(NavbarContext);
+  if (!context) {
+    throw new Error('useShopDropdown must be used within NavbarProvider');
+  }
+  return { shopOpen: context.shopOpen, setShopOpen: context.setShopOpen };
 };

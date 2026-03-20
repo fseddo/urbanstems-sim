@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "format": "prettier --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "typewatch": "tsc --noEmit --watch"
   },
   "dependencies": {
     "@react-spring/web": "^10.0.3",

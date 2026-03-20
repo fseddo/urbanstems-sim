@@ -23,18 +23,6 @@ export const VARIANT_TYPE_TO_PRODUCT_SIZE: Record<VariantType, string> = {
   triple: '3x The Stems',
 };
 
-export const getFirstSentence = (html: string | null | undefined): string => {
-  if (!html) return '';
-
-  const temp = document.createElement('div');
-  temp.innerHTML = html;
-
-  const text = temp.textContent || temp.innerText || '';
-  const firstSentence = text.trim().split(/[.!?]/)[0];
-
-  return firstSentence ? `${firstSentence}.` : '';
-};
-
 export const DELIVERY_STEP_INFO = [
   {
     id: 1,

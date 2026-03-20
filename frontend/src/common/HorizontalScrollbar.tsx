@@ -15,7 +15,6 @@ export default function HorizontalScrollbar({
   const [thumbWidth, setThumbWidth] = useState(0);
   const [thumbLeft, setThumbLeft] = useState(0);
   const [dragging, setDragging] = useState(false);
-  const [visible, setVisible] = useState(false);
   const dragStartX = useRef(0);
   const scrollStart = useRef(0);
   const fadeTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -38,7 +37,6 @@ export default function HorizontalScrollbar({
     if (!container) return;
 
     const onScroll = () => {
-      setVisible(true);
       updateThumb();
     };
 

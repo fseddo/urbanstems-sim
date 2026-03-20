@@ -79,8 +79,8 @@ function ProductDetail() {
       </section>
 
       <ProductReviews product={product} />
-      <ProductRecommendations product={product} />
-      <ProductDeliveryInstructions product={product} />
+      <ProductRecommendations />
+      <ProductDeliveryInstructions />
       <ProductBottomBar product={product} addToCartRef={addToCartRef} />
     </div>
   );

@@ -1,12 +1,7 @@
-import { Product } from '@/api/products/Product';
 import { DELIVERY_STEP_INFO as DELIVERY_INSTRUCTION_STEPS } from './constants';
 import { DeliveryStepDetail } from './ProductDeliveryStepDetails';
 
-export const ProductDeliveryInstructions = ({
-  product,
-}: {
-  product: Product;
-}) => {
+export const ProductDeliveryInstructions = () => {
   return (
     <div className='border-brand-primary flex flex-col gap-12 border-t px-50 py-20'>
       <div className='font-crimson w-[40%] text-6xl'>

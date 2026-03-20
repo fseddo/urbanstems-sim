@@ -14,7 +14,7 @@ export const OccasionCarousel = () => {
         Flowers & Gifts For Every Occasion
       </header>
       <HorizontalList scrollRef={scrollRef}>
-        {occasions?.data?.flatMap(
+        {occasions?.flatMap(
           (occasion) =>
             occasion.image_src && (
               <OccasionCard key={occasion.id} occasion={occasion} />

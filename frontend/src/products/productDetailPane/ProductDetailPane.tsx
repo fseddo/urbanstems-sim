@@ -1,7 +1,6 @@
 import { RefObject } from 'react';
 import { StarRating } from '@/src/common/StarRating';
 import { Product } from '@/api/products/Product';
-import { getFirstSentence } from '../constants';
 import { AddOns } from './ProductAddOns';
 import { DeliveryInformation } from './ProductDeliveryInfo';
 import { ProductDetailVariantOptions } from './ProductDetailVariantOptions';
@@ -26,10 +25,7 @@ export const ProductDetailPane = ({
         <div className='flex items-center gap-2'>
           <StarRating rating={product.reviews_rating} />
           {product.reviews_count && (
-            <a
-              href='#reviews'
-              className='text-brand-primary text-xs underline'
-            >
+            <a href='#reviews' className='text-brand-primary text-xs underline'>
               {product.reviews_count} Reviews
             </a>
           )}

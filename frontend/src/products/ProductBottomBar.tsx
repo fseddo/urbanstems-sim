@@ -1,7 +1,6 @@
 import { useEffect, useState, RefObject } from 'react';
 import { Product } from '@/api/products/Product';
 import { StarRating } from '../common/StarRating';
-import { getFirstSentence } from './constants';
 
 export const ProductBottomBar = ({
   product,
@@ -60,7 +59,10 @@ export const ProductBottomBar = ({
           {product.reviews_count && (
             <div className='flex gap-2'>
               <StarRating rating={product.reviews_rating} />
-              <a href='#reviews' className='text-brand-primary text-xs underline'>
+              <a
+                href='#reviews'
+                className='text-brand-primary text-xs underline'
+              >
                 {product.reviews_count} Reviews
               </a>
             </div>

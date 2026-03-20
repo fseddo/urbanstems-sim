@@ -5,7 +5,6 @@ import { BestSellersHeaderItem } from './BestSellersHeaderItem';
 import { HorizontalList } from '@/src/common/HorizontalList';
 import { ProductCard } from '@/src/common/ProductCard';
 import { CategoryType } from '@/api/cateogries/Category';
-import { Link } from '@tanstack/react-router';
 
 const RESULT_LIMIT = 8;
 

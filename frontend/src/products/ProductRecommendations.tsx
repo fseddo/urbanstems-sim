@@ -1,15 +1,15 @@
-import { Product } from '@/api/products/Product';
 import { productQueries } from '@/api/products/queries';
 import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { HorizontalList } from '../common/HorizontalList';
 import { ProductCard } from '../common/ProductCard';
+import { CategoryType } from '@/api/cateogries/Category';
 
-export const ProductRecommendations = ({ product }: { product: Product }) => {
+export const ProductRecommendations = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: flowerData } = useQuery(
-    productQueries.list({ category: 'flowers' })
+    productQueries.list({ category: CategoryType.Flowers })
   );
 
   return (

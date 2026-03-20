@@ -3,8 +3,6 @@ import { CalendarIcon } from '@/src/common/icons/CalendarIcon';
 import { FilterIcon } from '@/src/common/icons/FilterIcon';
 import { List } from '@/src/common/List';
 import { productQueries } from '@/api/products/queries';
-import { categoryQueries } from '@/api/products/categoryQueries';
-import { collectionQueries } from '@/api/products/collectionQueries';
 import { occasionQueries } from '@/api/occasions/queries';
 import { JSX, ReactNode, useCallback } from 'react';
 import type { Product } from '@/api/products/Product';
@@ -13,6 +11,8 @@ import { SlLocationPin } from 'react-icons/sl';
 import { ProductCard } from '@/src/common/ProductCard';
 import { ProductFilters } from '@/api/products/ProductFilters';
 import { useQuery } from '@tanstack/react-query';
+import { categoryQueries } from '@/api/cateogries/categoryQueries';
+import { collectionQueries } from '@/api/collections/collectionQueries';
 
 export const Route = createFileRoute('/collections/$slug')({
   component: CollectionPage,

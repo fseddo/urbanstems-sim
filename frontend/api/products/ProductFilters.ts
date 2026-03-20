@@ -1,4 +1,5 @@
 import { Paginated, SortOrder } from '@/api/PaginatedResponse';
+import { ProductBadgeText } from './ProductBadgeText';
 import { VariantType } from './ProductVariant';
 
 export type ProductSortKey =
@@ -12,6 +13,7 @@ export type ProductFilters = Paginated & {
   category?: 'plants' | 'flowers' | 'gifts' | 'centerpieces';
   collection?: string;
   occasion?: string;
+  badge_text?: ProductBadgeText;
   variant_type?: VariantType;
   min_price?: number;
   max_price?: number;

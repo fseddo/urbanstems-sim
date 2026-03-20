@@ -27,6 +27,13 @@ export const Navbar = forwardRef<HTMLElement>((props, ref) => {
           <Link
             className='hover:opacity-60'
             to='/collections/$slug'
+            params={{ slug: 'new-the-spring-collection' }}
+          >
+            Spring
+          </Link>
+          <Link
+            className='hover:opacity-60'
+            to='/collections/$slug'
             params={{ slug: 'flowers' }}
           >
             Flowers

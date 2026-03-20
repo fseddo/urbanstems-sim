@@ -1,10 +1,11 @@
+import { CategoryType } from '@/api/cateogries/Category';
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
 import { Dispatch, SetStateAction } from 'react';
 
-export const BestSellersHeaderItem = <T extends 'plants' | 'flowers'>(props: {
-  item: T;
-  selected: T;
-  onClick: Dispatch<SetStateAction<'plants' | 'flowers'>>;
+export const BestSellersHeaderItem = (props: {
+  item: CategoryType;
+  selected: CategoryType;
+  onClick: Dispatch<SetStateAction<CategoryType>>;
 }) => {
   return (
     <div

@@ -1,6 +1,6 @@
 import { request } from '../request';
 import { queryOptions } from '@tanstack/react-query';
-import { Category } from './Category';
+import { Category } from './cateogry/Category';
 
 export const categoryKeys = {
   all: ['categories'] as const,

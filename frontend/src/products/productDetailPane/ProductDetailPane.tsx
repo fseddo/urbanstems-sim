@@ -26,9 +26,12 @@ export const ProductDetailPane = ({
         <div className='flex items-center gap-2'>
           <StarRating rating={product.reviews_rating} />
           {product.reviews_count && (
-            <span className='text-brand-primary text-xs underline'>
+            <a
+              href='#reviews'
+              className='text-brand-primary text-xs underline'
+            >
               {product.reviews_count} Reviews
-            </span>
+            </a>
           )}
         </div>
         {/* name */}

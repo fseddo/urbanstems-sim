@@ -1,6 +1,7 @@
 import { Occasion } from '../occasions/Occasion';
-import { Category } from './Category';
-import { Collection } from './Collection';
+import { Category } from '../cateogries/Category';
+import { Collection } from '../collections/Collection';
+import { ProductBadgeText } from './ProductBadgeText';
 import { VariantType, ProductVariant } from './ProductVariant';
 
 export interface Product {
@@ -19,7 +20,7 @@ export interface Product {
   main_image: string | null;
   hover_image: string | null;
   blur_data_url: string | null;
-  badge_text: string | null;
+  badge_text: ProductBadgeText | null;
   badge_image_src: string | null;
   delivery_lead_time: number | null;
   stock: number;

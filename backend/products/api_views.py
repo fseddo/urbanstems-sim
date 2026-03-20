@@ -51,6 +51,11 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
                 productoccasion__occasion__slug=occasion
             )
         
+        # Filter by badge text
+        badge_text = request.query_params.get('badge_text')
+        if badge_text:
+            queryset = queryset.filter(badge_text=badge_text)
+
         # Filter by variant type
         variant_type = request.query_params.get('variant_type')
         if variant_type:

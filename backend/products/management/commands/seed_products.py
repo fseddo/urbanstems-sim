@@ -17,6 +17,18 @@ def strip_width_param(url):
     return re.sub(r'&width=\d+', '', url)
 
 
+def fix_title_case(name):
+    """Fix incorrect capitalization after apostrophes (e.g. Grower'S → Grower's).
+
+    Scraped data often applies title-casing which capitalizes letters after
+    apostrophes. This lowercases single characters that follow an apostrophe
+    within a word (possessives, contractions) while leaving the rest intact.
+    """
+    if not name:
+        return name
+    return re.sub(r"(?<=\w')([A-Z])(?=\s|$|\w)", lambda m: m.group(1).lower(), name)
+
+
 class Command(BaseCommand):
     help = 'Seed database with products from products_new.json'
 
@@ -118,13 +130,16 @@ class Command(BaseCommand):
         for product_data in products_data:
             self.stdout.write(f'Processing: {product_data["name"]}')
 
+            clean_name = fix_title_case(product_data['name'])
+            clean_base_name = fix_title_case(product_data['base_name'])
+
             product, created = Product.objects.get_or_create(
                 external_id=product_data['id'],
                 defaults={
-                    'name': product_data['name'],
-                    'slug': slugify(product_data['name']),
+                    'name': clean_name,
+                    'slug': slugify(clean_name),
                     'variant_type': product_data.get('variant_type'),
-                    'base_name': product_data['base_name'],
+                    'base_name': clean_base_name,
                     'url': product_data['url'],
                     'price': product_data.get('price'),
                     'discounted_price': product_data.get('discounted_price'),
@@ -242,6 +257,7 @@ class Command(BaseCommand):
                     'hover_image': sibling.hover_image,
                     'delivery_lead_time': sibling.delivery_lead_time,
                     'badge_text': sibling.badge_text,
+                    'badge_image_src': sibling.badge_image_src,
                     'price_dollars': price_dollars,
                     'discounted_price_dollars': discounted_price_dollars,
                 })

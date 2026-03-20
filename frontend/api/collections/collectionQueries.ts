@@ -1,6 +1,6 @@
 import { request } from '../request';
 import { queryOptions } from '@tanstack/react-query';
-import { Collection } from './Collection';
+import { Collection } from './collections/Collection';
 
 export const collectionKeys = {
   all: ['collections'] as const,

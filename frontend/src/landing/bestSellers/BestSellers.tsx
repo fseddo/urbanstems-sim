@@ -4,25 +4,20 @@ import { productQueries } from '@/api/products/queries';
 import { BestSellersHeaderItem } from './BestSellersHeaderItem';
 import { HorizontalList } from '@/src/common/HorizontalList';
 import { ProductCard } from '@/src/common/ProductCard';
+import { CategoryType } from '@/api/cateogries/Category';
+import { Link } from '@tanstack/react-router';
 
 const RESULT_LIMIT = 8;
 
 export default () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [category, setCategory] = useState<CategoryType>(CategoryType.Flowers);
 
-  const { data: plantData } = useQuery(
-    productQueries.list({ category: 'plants' })
+  const { data: productData } = useQuery(
+    productQueries.list({
+      category,
+    })
   );
-  const { data: flowerData } = useQuery(
-    productQueries.list({ category: 'flowers' })
-  );
-
-  const [selectedProductCategory, setSelectedProductCategory] = useState<
-    'flowers' | 'plants'
-  >('flowers');
-
-  const visibleProducts =
-    selectedProductCategory === 'plants' ? plantData?.data : flowerData?.data;
 
   return (
     <section className='flex w-full flex-col gap-6 py-10 pl-20'>
@@ -32,20 +27,22 @@ export default () => {
 
       <div className='flex w-full flex-col pr-20'>
         <div className='flex gap-5 pb-2'>
-          {(['flowers', 'plants'] as const).map((item) => (
-            <BestSellersHeaderItem
-              key={item}
-              item={item}
-              selected={selectedProductCategory}
-              onClick={setSelectedProductCategory}
-            />
-          ))}
+          {([CategoryType.Flowers, CategoryType.Plants] as const).map(
+            (item) => (
+              <BestSellersHeaderItem
+                key={item}
+                item={item}
+                selected={category}
+                onClick={setCategory}
+              />
+            )
+          )}
         </div>
         <div className='w-full border-b opacity-40' />
       </div>
 
       <HorizontalList scrollRef={scrollRef}>
-        {visibleProducts?.flatMap(
+        {productData?.data.flatMap(
           (product, idx) =>
             idx < RESULT_LIMIT && (
               <ProductCard key={product.id} product={product} fixed />

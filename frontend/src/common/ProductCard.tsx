@@ -23,49 +23,51 @@ export const ProductCard = memo(
     if (!visibleProduct.main_image) return null;
 
     return (
-      <div className='flex flex-shrink-0 cursor-pointer flex-col gap-4'>
-        <Link to='/products/$slug' params={{ slug: product.slug }}>
-          <div
-            className={`group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat ${!fixed ? 'aspect-[43/39]' : ''}`}
-            style={
-              product.blur_data_url
-                ? { backgroundImage: `url(${product.blur_data_url})` }
-                : undefined
-            }
-          >
+      <Link
+        to='/products/$slug'
+        params={{ slug: product.slug }}
+        className='flex flex-shrink-0 cursor-pointer flex-col gap-4'
+      >
+        <div
+          className={`group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat ${!fixed ? 'aspect-[43/39]' : ''}`}
+          style={
+            product.blur_data_url
+              ? { backgroundImage: `url(${product.blur_data_url})` }
+              : undefined
+          }
+        >
+          <img
+            className={`rounded-md object-cover opacity-0 transition-opacity duration-300 ${!fixed ? 'absolute inset-0 h-full w-full' : ''}`}
+            src={`${visibleProduct.main_image}&width=700`}
+            alt={visibleProduct.name}
+            height={fixed ? 490 : undefined}
+            width={fixed ? 430 : undefined}
+            onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+          />
+          {visibleProduct.hover_image && (
             <img
-              className={`rounded-md object-cover opacity-0 transition-opacity duration-300 ${!fixed ? 'absolute inset-0 h-full w-full' : ''}`}
-              src={`${visibleProduct.main_image}&width=700`}
-              alt={visibleProduct.name}
-              height={fixed ? 490 : undefined}
-              width={fixed ? 430 : undefined}
-              onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+              className='absolute inset-0 h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100'
+              src={`${visibleProduct.hover_image}&width=700`}
+              alt={`${visibleProduct.name} hover`}
             />
-            {visibleProduct.hover_image && (
+          )}
+          {visibleProduct.badge_text && detailedView && (
+            <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
+              {visibleProduct.badge_text}
+            </div>
+          )}
+          {visibleProduct.badge_image_src && detailedView && (
+            <div className='absolute right-8 bottom-10'>
               <img
-                className='absolute inset-0 h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100'
-                src={`${visibleProduct.hover_image}&width=700`}
-                alt={`${visibleProduct.name} hover`}
+                src={`${visibleProduct.badge_image_src}&width=240`}
+                className='h-35'
               />
-            )}
-            {visibleProduct.badge_text && detailedView && (
-              <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
-                {visibleProduct.badge_text}
-              </div>
-            )}
-            {visibleProduct.badge_image_src && detailedView && (
-              <div className='absolute right-8 bottom-10'>
-                <img
-                  src={`${visibleProduct.badge_image_src}&width=240`}
-                  className='h-35'
-                />
-              </div>
-            )}
-          </div>
-        </Link>
+            </div>
+          )}
+        </div>
 
         <div className='flex flex-col items-center gap-1'>
-          {visibleProduct.delivery_lead_time != null && (
+          {visibleProduct.delivery_lead_time != null && !fixed && (
             <div className='border-brand-primary/10 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-semibold'>
               Receive on{' '}
               {getDeliveryDate(visibleProduct.delivery_lead_time, 'short')}
@@ -92,16 +94,20 @@ export const ProductCard = memo(
             )}
           </div>
           {detailedView && product.variants && product.variants.length > 1 && (
-            <div className='flex gap-5 py-1'>
+            <div className='flex gap-1'>
               {product.variants.map((variant) => {
                 return (
                   variant.main_image && (
                     <div
-                      className='flex flex-col items-center justify-center gap-2'
+                      className='flex flex-col items-center justify-center gap-2 p-2'
                       key={variant.id}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setVisibleProduct(variant);
+                      }}
                     >
                       <img
-                        onClick={() => setVisibleProduct(variant)}
                         className={`rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'ring-brand-primary ring-1 ring-offset-2 ring-offset-white' : 'hover:ring-1 hover:ring-gray-300 hover:ring-offset-2 hover:ring-offset-white'}`}
                         alt={variant.variant_type}
                         src={`${variant.main_image}&width=700`}
@@ -110,7 +116,7 @@ export const ProductCard = memo(
                       />
                       <div
                         key={variant.id}
-                        className={`text-[10px] ${variant.variant_type === visibleProduct.variant_type ? 'text-brand-primary font-bold' : 'opacity-60'}`}
+                        className={`text-[10px] ${variant.variant_type === visibleProduct.variant_type ? 'text-brand-primary font-extrabold' : 'opacity-70'}`}
                       >
                         {capitalizeString(variant.variant_type)}
                       </div>
@@ -121,7 +127,7 @@ export const ProductCard = memo(
             </div>
           )}
         </div>
-      </div>
+      </Link>
     );
   }
 );

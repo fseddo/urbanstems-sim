@@ -12,7 +12,7 @@ export const ProductReviews = ({ product }: { product: Product }) => {
   const reviews = reviewsData?.data ?? [];
 
   return (
-    <div className='bg-background-alt/30 flex flex-col items-center gap-10 py-20'>
+    <div id='reviews' className='bg-background-alt/30 flex flex-col items-center gap-10 py-20'>
       <div className='font-crimson flex flex-col items-center gap-2 text-5xl'>
         {`${product.name} Reviews`}{' '}
         <div className='font-mulish flex items-center gap-2'>

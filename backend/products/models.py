@@ -156,25 +156,31 @@ class Review(models.Model):
 class ProductCategory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    
+    position = models.PositiveIntegerField(default=0, help_text="Display position within this category")
+
     class Meta:
         unique_together = ['product', 'category']
+        ordering = ['position']
 
 
 class ProductCollection(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
-    
+    position = models.PositiveIntegerField(default=0, help_text="Display position within this collection")
+
     class Meta:
         unique_together = ['product', 'collection']
+        ordering = ['position']
 
 
 class ProductOccasion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     occasion = models.ForeignKey(Occasion, on_delete=models.CASCADE)
-    
+    position = models.PositiveIntegerField(default=0, help_text="Display position within this occasion")
+
     class Meta:
         unique_together = ['product', 'occasion']
+        ordering = ['position']
 
 
 class ProductVariation(models.Model):

@@ -19,7 +19,6 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'base_name', 'description']
     ordering_fields = ['name', 'price', 'reviews_rating', 'created_at', 'external_id']
-    ordering = ['external_id']
 
     def get_serializer_class(self) -> Any:
         if self.action == 'list':
@@ -29,27 +28,31 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self) -> Any:
         queryset = Product.objects.all()
         request = cast(Request, self.request)
-        
+        position_ordering = None
+
         # Filter by category
         category = request.query_params.get('category')
         if category:
             queryset = queryset.filter(
                 productcategory__category__slug=category
             )
-        
+            position_ordering = 'productcategory__position'
+
         # Filter by collection
         collection = request.query_params.get('collection')
         if collection:
             queryset = queryset.filter(
                 productcollection__collection__slug=collection
             )
-        
+            position_ordering = 'productcollection__position'
+
         # Filter by occasion
         occasion = request.query_params.get('occasion')
         if occasion:
             queryset = queryset.filter(
                 productoccasion__occasion__slug=occasion
             )
+            position_ordering = 'productoccasion__position'
         
         # Filter by badge text
         badge_text = request.query_params.get('badge_text')
@@ -69,6 +72,15 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         if max_price:
             queryset = queryset.filter(price__lte=int(max_price) * 100)  # Convert to cents
         
+        # Use position ordering when filtering by collection/category/occasion,
+        # fall back to external_id otherwise. Only apply if no explicit sort requested,
+        # so DRF's OrderingFilter can still take over when ?ordering= is provided.
+        if not request.query_params.get('ordering'):
+            if position_ordering:
+                queryset = queryset.order_by(position_ordering)
+            else:
+                queryset = queryset.order_by('external_id')
+
         return queryset.distinct()
 
 

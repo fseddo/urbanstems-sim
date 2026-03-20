@@ -30,14 +30,14 @@ def fix_title_case(name):
 
 
 class Command(BaseCommand):
-    help = 'Seed database with products from products_new.json'
+    help = 'Seed database with products from products.json'
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--file',
             type=str,
-            default='data/products_new.json',
-            help='Path to the products JSON file (default: data/products_new.json)'
+            default='data/products.json',
+            help='Path to the products JSON file (default: data/products.json)'
         )
         parser.add_argument(
             '--clear',
@@ -169,27 +169,36 @@ class Command(BaseCommand):
                 self.stdout.write(f'  Already exists: {product.name}')
 
             # Link categories
-            for category_name in product_data.get('categories', []):
-                if category_name in categories_cache:
-                    ProductCategory.objects.get_or_create(
+            for cat_entry in product_data.get('categories', []):
+                cat_name = cat_entry['name'] if isinstance(cat_entry, dict) else cat_entry
+                cat_index = cat_entry.get('index', 0) if isinstance(cat_entry, dict) else 0
+                if cat_name in categories_cache:
+                    ProductCategory.objects.update_or_create(
                         product=product,
-                        category=categories_cache[category_name]
+                        category=categories_cache[cat_name],
+                        defaults={'position': cat_index}
                     )
 
             # Link collections
-            for collection_name in product_data.get('collections', []):
-                if collection_name in collections_cache:
-                    ProductCollection.objects.get_or_create(
+            for col_entry in product_data.get('collections', []):
+                col_name = col_entry['name'] if isinstance(col_entry, dict) else col_entry
+                col_index = col_entry.get('index', 0) if isinstance(col_entry, dict) else 0
+                if col_name in collections_cache:
+                    ProductCollection.objects.update_or_create(
                         product=product,
-                        collection=collections_cache[collection_name]
+                        collection=collections_cache[col_name],
+                        defaults={'position': col_index}
                     )
 
             # Link occasions
-            for occasion_name in product_data.get('occasions', []):
-                if occasion_name in occasions_cache:
-                    ProductOccasion.objects.get_or_create(
+            for occ_entry in product_data.get('occasions', []):
+                occ_name = occ_entry['name'] if isinstance(occ_entry, dict) else occ_entry
+                occ_index = occ_entry.get('index', 0) if isinstance(occ_entry, dict) else 0
+                if occ_name in occasions_cache:
+                    ProductOccasion.objects.update_or_create(
                         product=product,
-                        occasion=occasions_cache[occasion_name]
+                        occasion=occasions_cache[occ_name],
+                        defaults={'position': occ_index}
                     )
 
             # Create reviews

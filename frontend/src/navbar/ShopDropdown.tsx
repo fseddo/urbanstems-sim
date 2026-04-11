@@ -53,7 +53,7 @@ export const ShopDropdown = () => {
   );
 
   return (
-    <div className='font-mulish absolute top-full left-0 w-full border-y border-brand-primary bg-white shadow-md'>
+    <div className='font-mulish border-brand-primary absolute top-full left-0 w-full border-y bg-white shadow-md'>
       <div className='flex px-20'>
         {/* Left: Shop header + link columns */}
         <div className='flex flex-8 flex-col px-6'>

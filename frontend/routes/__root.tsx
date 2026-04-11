@@ -10,6 +10,7 @@ import { Navbar } from '@/src/navbar/Navbar';
 import { useNavbarCssHeight } from '@/src/navbar/useElementHeight';
 import { useHideOnScroll } from '@/src/navbar/useHideOnScroll';
 import { useLoadingFavicon } from '@/src/common/useLoadingFavicon';
+import { DisclaimerPopup } from '@/src/common/DisclaimerPopup';
 
 function RootLayout() {
   return (
@@ -29,6 +30,7 @@ function RootLayoutInner() {
   return (
     <>
       <Navbar ref={navbarRef} />
+      <DisclaimerPopup />
       <div style={{ height: 'var(--navbar-height)' }} />
       <div className='relative'>
         {shopOpen && <div className='absolute inset-0 z-40 bg-black/60' />}

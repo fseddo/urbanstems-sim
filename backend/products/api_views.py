@@ -88,7 +88,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for Category model
     """
-    queryset = Category.objects.all()
+    queryset = Category.objects.order_by('id')
     serializer_class = CategorySerializer
     lookup_field = 'slug'
     pagination_class = None
@@ -98,7 +98,7 @@ class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for Collection model
     """
-    queryset = Collection.objects.all()
+    queryset = Collection.objects.order_by('id')
     serializer_class = CollectionSerializer
     lookup_field = 'slug'
     pagination_class = None
@@ -108,7 +108,7 @@ class OccasionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for Occasion model
     """
-    queryset = Occasion.objects.all()
+    queryset = Occasion.objects.order_by('id')
     serializer_class = OccasionSerializer
     lookup_field = 'slug'
     pagination_class = None

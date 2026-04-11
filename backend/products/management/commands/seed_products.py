@@ -90,6 +90,8 @@ class Command(BaseCommand):
                     'page_title': cat.get('page_title'),
                     'header_title': cat.get('header_title'),
                     'header_subtitle': cat.get('header_subtitle'),
+                    'nav_img_src': strip_width_param(cat.get('nav_img_src')),
+                    'nav_description': cat.get('nav_description'),
                 }
             )
             categories_cache[cat['name']] = category
@@ -105,6 +107,8 @@ class Command(BaseCommand):
                     'page_title': col.get('page_title'),
                     'header_title': col.get('header_title'),
                     'header_subtitle': col.get('header_subtitle'),
+                    'nav_img_src': strip_width_param(col.get('nav_img_src')),
+                    'nav_description': col.get('nav_description'),
                 }
             )
             collections_cache[col['name']] = collection
@@ -120,6 +124,8 @@ class Command(BaseCommand):
                     'page_title': occ.get('page_title'),
                     'header_title': occ.get('header_title'),
                     'header_subtitle': occ.get('header_subtitle'),
+                    'nav_img_src': strip_width_param(occ.get('nav_img_src')),
+                    'nav_description': occ.get('nav_description'),
                 }
             )
             occasions_cache[occ['name']] = occasion

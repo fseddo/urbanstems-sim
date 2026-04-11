@@ -5,19 +5,19 @@ from .models import Product, Category, Collection, Occasion, Review
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle']
+        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
 
 
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle']
+        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
 
 
 class OccasionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occasion
-        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle']
+        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
 
 
 class ReviewSerializer(serializers.ModelSerializer):

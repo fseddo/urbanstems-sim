@@ -97,6 +97,8 @@ class Category(models.Model):
     page_title = models.CharField(max_length=500, null=True, blank=True)
     header_title = models.CharField(max_length=500, null=True, blank=True)
     header_subtitle = models.TextField(null=True, blank=True)
+    nav_img_src = models.URLField(null=True, blank=True)
+    nav_description = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "categories"
@@ -113,6 +115,8 @@ class Collection(models.Model):
     page_title = models.CharField(max_length=500, null=True, blank=True)
     header_title = models.CharField(max_length=500, null=True, blank=True)
     header_subtitle = models.TextField(null=True, blank=True)
+    nav_img_src = models.URLField(null=True, blank=True)
+    nav_description = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']
@@ -128,6 +132,8 @@ class Occasion(models.Model):
     page_title = models.CharField(max_length=500, null=True, blank=True)
     header_title = models.CharField(max_length=500, null=True, blank=True)
     header_subtitle = models.TextField(null=True, blank=True)
+    nav_img_src = models.URLField(null=True, blank=True)
+    nav_description = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']

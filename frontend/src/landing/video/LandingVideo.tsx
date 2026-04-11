@@ -1,4 +1,4 @@
-import { VideoActionButton } from './VideoActionButton';
+import { AnimatedButton } from '../../common/AnimatedButton';
 
 export const LandingVideo = () => {
   return (
@@ -33,7 +33,7 @@ export const LandingVideo = () => {
           celebrating, and effortless gifting.
         </div>
         <div className='flex gap-3'>
-          <VideoActionButton label='ORDER NOW' href='/collections/flowers' />
+          <AnimatedButton label='ORDER NOW' href='/collections/flowers' />
         </div>
       </div>
     </section>

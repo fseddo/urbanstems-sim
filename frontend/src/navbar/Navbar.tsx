@@ -6,6 +6,17 @@ import { ShopDropdown } from './ShopDropdown';
 import { useShopDropdown } from './NavbarContext';
 import { Link } from '@tanstack/react-router';
 import { CartIcon } from '../common/icons/CartIcon';
+import { NavLink } from './NavLink';
+
+type NavItem = { slug: string; label: string };
+
+const NAV_ITEMS: NavItem[] = [
+  { slug: 'new-the-spring-collection', label: 'Spring' },
+  { slug: 'flowers', label: 'Flowers' },
+  { slug: 'plants', label: 'Plants' },
+  { slug: 'same-day', label: 'Same-Day Delivery' },
+  { slug: 'sale', label: 'Sale' },
+];
 
 export const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const { shopOpen, setShopOpen } = useShopDropdown();
@@ -13,7 +24,7 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
   return (
     <header
       ref={ref}
-      className='bg-background fixed top-0 right-0 left-0 z-50 border-b shadow-xs transition-transform duration-300'
+      className='bg-background border-brand-primary fixed top-0 right-0 left-0 z-50 border-b shadow-xs transition-transform duration-300'
     >
       <NavNotificationBanner />
       <div onMouseLeave={() => setShopOpen(false)}>
@@ -29,46 +40,14 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
                 <HiOutlineChevronDown size={13} />
               </div>
             </div>
-            <Link
-              className='hover:opacity-60'
-              to='/collections/$slug'
-              params={{ slug: 'new-the-spring-collection' }}
-              onMouseEnter={() => setShopOpen(false)}
-            >
-              Spring
-            </Link>
-            <Link
-              className='hover:opacity-60'
-              to='/collections/$slug'
-              params={{ slug: 'flowers' }}
-              onMouseEnter={() => setShopOpen(false)}
-            >
-              Flowers
-            </Link>
-            <Link
-              className='hover:opacity-60'
-              to='/collections/$slug'
-              params={{ slug: 'plants' }}
-              onMouseEnter={() => setShopOpen(false)}
-            >
-              Plants
-            </Link>
-            <Link
-              className='hover:opacity-60'
-              to='/collections/$slug'
-              params={{ slug: 'same-day' }}
-              onMouseEnter={() => setShopOpen(false)}
-            >
-              Same-Day Delivery
-            </Link>
-            <Link
-              className='hover:opacity-60'
-              to='/collections/$slug'
-              params={{ slug: 'sale' }}
-              onMouseEnter={() => setShopOpen(false)}
-            >
-              Sale
-            </Link>
+            {NAV_ITEMS.map((item) => (
+              <NavLink
+                key={item.slug}
+                slug={item.slug}
+                label={item.label}
+                onMouseEnter={() => setShopOpen(false)}
+              />
+            ))}
           </div>
 
           {/* Mobile Menu Button */}

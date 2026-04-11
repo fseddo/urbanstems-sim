@@ -1,16 +1,39 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link } from '@tanstack/react-router';
 import { categoryQueries } from '@/api/cateogries/categoryQueries';
 import { collectionQueries } from '@/api/collections/collectionQueries';
 import { occasionQueries } from '@/api/occasions/queries';
 import { useShopDropdown } from './NavbarContext';
 import { capitalizeString } from '../common/utils/capitalizeString';
+import { NavLink } from './NavLink';
+import { AnimatedButton } from '../common/AnimatedButton';
 
 const isDeliveryCollection = (slug: string) =>
   slug.includes('day') || slug.includes('delivery');
 
 const isHiddenCollection = (slug: string) =>
   slug.includes('gift') || slug.includes('vogue');
+
+const HIGHLIGHTED_COLLECTIONS = [
+  {
+    slug: 'new-the-spring-collection',
+    title: 'The Spring Collection',
+    description:
+      'Fresh florals in lighter palettes, designed to welcome the season.',
+  },
+  {
+    slug: 'the-easter-collection',
+    title: 'Easter',
+    description:
+      'Elegant blooms and soft spring stems for Easter tables and gatherings.',
+  },
+];
+
+const NAV_DESCRIPTIONS: Record<string, string> = {
+  peonies: 'Coveted blooms makes its distinguished return.',
+  flowers: 'Modern bouquets for every occasion.',
+  plants: 'Leafy greenery and sophisticated orchids.',
+  gifts: 'Make it special with gifts designed to make their day.',
+};
 
 export const ShopDropdown = () => {
   const { setShopOpen } = useShopDropdown();
@@ -30,100 +53,156 @@ export const ShopDropdown = () => {
   );
 
   return (
-    <div className='font-mulish absolute top-full left-0 w-full border-b bg-white shadow-md'>
-      <div className='mx-auto flex max-w-6xl gap-16 px-10 py-10'>
-        {/* Categories */}
-        <div className='flex flex-col gap-2'>
-          <h3 className='text-brand-primary text-sm font-bold'>Categories</h3>
-          <div className='mt-1 flex flex-col gap-4'>
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                to='/collections/$slug'
-                params={{ slug: cat.slug }}
-                onClick={close}
-                className='flex items-center gap-3'
-              >
-                {cat.image_src && (
-                  <img
-                    src={`${cat.image_src}&width=120`}
-                    alt={cat.name}
-                    className='h-14 w-14 rounded object-cover'
+    <div className='font-mulish absolute top-full left-0 w-full border-y border-brand-primary bg-white shadow-md'>
+      <div className='flex px-20'>
+        {/* Left: Shop header + link columns */}
+        <div className='flex flex-8 flex-col px-6'>
+          <div className='flex items-center justify-between py-6 pb-10'>
+            <h2 className='font-crimson text-brand-primary text-4xl'>Shop</h2>
+            <AnimatedButton
+              href='/collections/all'
+              label='SHOP ALL'
+              onClick={close}
+              className='hover:bg-brand-primary hover:border-brand-primary px-7 py-3 text-xs opacity-100 shadow-none'
+            />
+          </div>
+          <hr className='border-brand-primary' />
+
+          <div className='flex justify-between py-10 pr-8'>
+            {/* Categories */}
+            <div className='flex flex-col gap-2'>
+              <h3 className='text-brand-primary text-base font-bold'>
+                Categories
+              </h3>
+              <div className='mt-1 flex flex-col gap-4'>
+                {categories.map((cat) => (
+                  <NavLink
+                    key={cat.slug}
+                    slug={cat.slug}
+                    onClick={close}
+                    className='font-mulish group flex items-center gap-3 hover:opacity-100'
+                  >
+                    {cat.nav_img_src && (
+                      <div className='overflow-hidden rounded'>
+                        <img
+                          src={`${cat.nav_img_src}&width=120`}
+                          alt={cat.name}
+                          className='h-14 w-14 object-cover transition-transform duration-300 group-hover:scale-105'
+                        />
+                      </div>
+                    )}
+                    <div className='flex flex-col gap-0.5'>
+                      <div className='text-brand-primary group-hover:text-brand-primary/60 text-sm font-bold transition-colors duration-300'>
+                        {capitalizeString(cat.name)}
+                      </div>
+                      <div className='text-brand-primary/80 group-hover:text-brand-primary/60 max-w-40 text-xs transition-colors duration-300'>
+                        {NAV_DESCRIPTIONS[cat.slug]}
+                      </div>
+                    </div>
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+
+            {/* Featured */}
+            <div className='flex flex-col gap-2'>
+              <h3 className='text-brand-primary text-base font-bold'>
+                Featured
+              </h3>
+              <div className='mt-1 flex flex-col gap-2'>
+                {featuredCollections.map((col) => (
+                  <NavLink
+                    key={col.slug}
+                    slug={col.slug}
+                    label={capitalizeString(col.name)}
+                    onClick={close}
+                    className='text-base'
                   />
+                ))}
+              </div>
+
+              <h3 className='text-brand-primary mt-4 text-base font-bold'>
+                Delivery
+              </h3>
+              <div className='mt-1 flex flex-col gap-2'>
+                {deliveryCollections.map((col) => (
+                  <NavLink
+                    key={col.slug}
+                    slug={col.slug}
+                    label={capitalizeString(col.name)}
+                    onClick={close}
+                    className='text-base'
+                  />
+                ))}
+              </div>
+
+              <NavLink
+                slug='all'
+                label='Shop All'
+                onClick={close}
+                className='mt-2 text-base'
+              />
+            </div>
+
+            {/* Occasions */}
+            <div className='flex flex-col gap-2'>
+              <h3 className='text-brand-primary text-base font-bold'>
+                Occasions
+              </h3>
+              <div className='mt-1 flex flex-col gap-2'>
+                {occasions.map(
+                  (occ, idx) =>
+                    idx <= 8 && (
+                      <NavLink
+                        key={occ.slug}
+                        slug={occ.slug}
+                        label={capitalizeString(occ.name)}
+                        onClick={close}
+                        className='text-base'
+                      />
+                    )
                 )}
-                <div>
-                  <div className='text-brand-primary text-sm font-bold'>
-                    {capitalizeString(cat.name)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: highlighted collections — full height, no top bar */}
+        <div className='flex flex-7 gap-4 p-6'>
+          {HIGHLIGHTED_COLLECTIONS.map((col) => {
+            const collection = collections.find((c) => c.slug === col.slug);
+            return (
+              <NavLink
+                key={col.slug}
+                slug={col.slug}
+                onClick={close}
+                className='font-mulish group flex flex-col gap-3 hover:opacity-100'
+              >
+                {collection?.nav_img_src ? (
+                  <div className='overflow-hidden rounded-md'>
+                    <img
+                      src={`${collection.nav_img_src}&width=500`}
+                      alt={col.title}
+                      className='aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                    />
                   </div>
-                  <div className='text-brand-primary/60 max-w-48 text-xs'>
-                    {cat.header_subtitle?.split('.')[0]}.
+                ) : (
+                  <div className='flex-1 bg-gray-100' />
+                )}
+                <div className='flex flex-col gap-3 text-center'>
+                  <div className='font-crimson text-brand-primary text-xl'>
+                    {col.title}
                   </div>
+                  <div className='text-brand-primary/90 text-xs'>
+                    {collection?.nav_description || col.description}
+                  </div>
+                  <span className='text-brand-primary group-hover:text-brand-primary/80 mt-1 text-xs font-bold tracking-wider underline underline-offset-4 transition-colors duration-300'>
+                    SHOP NOW
+                  </span>
                 </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Featured */}
-        <div className='flex flex-col gap-2'>
-          <h3 className='text-brand-primary text-sm font-bold'>Featured</h3>
-          <div className='mt-1 flex flex-col gap-2'>
-            {featuredCollections.map((col) => (
-              <Link
-                key={col.slug}
-                to='/collections/$slug'
-                params={{ slug: col.slug }}
-                onClick={close}
-                className='text-brand-primary/80 hover:text-brand-primary text-sm'
-              >
-                {capitalizeString(col.name)}
-              </Link>
-            ))}
-          </div>
-
-          <h3 className='text-brand-primary mt-4 text-sm font-bold'>
-            Delivery
-          </h3>
-          <div className='mt-1 flex flex-col gap-2'>
-            {deliveryCollections.map((col) => (
-              <Link
-                key={col.slug}
-                to='/collections/$slug'
-                params={{ slug: col.slug }}
-                onClick={close}
-                className='text-brand-primary/80 hover:text-brand-primary text-sm'
-              >
-                {capitalizeString(col.name)}
-              </Link>
-            ))}
-          </div>
-
-          <Link
-            to='/collections/$slug'
-            params={{ slug: 'all' }}
-            onClick={close}
-            className='text-brand-primary/80 hover:text-brand-primary mt-2 text-sm'
-          >
-            Shop All
-          </Link>
-        </div>
-
-        {/* Occasions */}
-        <div className='flex flex-col gap-2'>
-          <h3 className='text-brand-primary text-sm font-bold'>Occasions</h3>
-          <div className='mt-1 flex flex-col gap-2'>
-            {occasions.map((occ) => (
-              <Link
-                key={occ.slug}
-                to='/collections/$slug'
-                params={{ slug: occ.slug }}
-                onClick={close}
-                className='text-brand-primary/80 hover:text-brand-primary text-sm'
-              >
-                {capitalizeString(occ.name)}
-              </Link>
-            ))}
-          </div>
+              </NavLink>
+            );
+          })}
         </div>
       </div>
     </div>

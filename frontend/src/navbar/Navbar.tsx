@@ -1,9 +1,11 @@
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { PiMagnifyingGlass } from 'react-icons/pi';
+import { IoClose } from 'react-icons/io5';
 import { NavNotificationBanner } from './NavNotificationBanner';
 import { ShopDropdown } from './ShopDropdown';
-import { useShopDropdown } from './NavbarContext';
+import { SearchDropdown } from './SearchDropdown';
+import { useShopDropdown, useSearchDropdown } from './NavbarContext';
 import { Link } from '@tanstack/react-router';
 import { CartIcon } from '../common/icons/CartIcon';
 import { NavLink } from './NavLink';
@@ -20,6 +22,34 @@ const NAV_ITEMS: NavItem[] = [
 
 export const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const { shopOpen, setShopOpen } = useShopDropdown();
+  const { searchOpen, setSearchOpen, setSearchTerm, setSearchInputRef } = useSearchDropdown();
+  const [searchInput, setSearchInput] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Register setter so SearchDropdown can update the visible input (e.g. pill clicks)
+  setSearchInputRef.current = setSearchInput;
+
+  // Debounce raw input → context searchTerm (only this effect propagates to SearchDropdown)
+  useEffect(() => {
+    const timer = setTimeout(() => setSearchTerm(searchInput), 300);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    if (searchOpen) {
+      searchInputRef.current?.focus();
+    } else {
+      setSearchInput('');
+      setSearchTerm('');
+    }
+  }, [searchOpen]);
+
+  const openSearch = () => {
+    setShopOpen(false);
+    setSearchOpen(true);
+  };
+
+  const closeSearch = () => setSearchOpen(false);
 
   return (
     <header
@@ -28,62 +58,91 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
     >
       <NavNotificationBanner />
       <div onMouseLeave={() => setShopOpen(false)}>
-        <div className='relative mx-auto flex items-center justify-between px-[clamp(34px,15.3vw,40px)] py-4.75'>
-          {/* Left Navigation - Hidden on mobile, shown as dropdown */}
-          <div className='font-crimson text-brand-primary hidden gap-[clamp(18px,15.3vw,19px)] text-sm text-[clamp(13px,1.2vw,18px)] lg:flex'>
-            <div
-              className='flex cursor-pointer items-center gap-1.5'
-              onMouseEnter={() => setShopOpen(true)}
+        {searchOpen ? (
+          /* Search bar row — replaces normal navbar content */
+          <div className='flex items-center gap-4 px-40 py-4.75'>
+            <PiMagnifyingGlass size={20} className='text-brand-primary shrink-0' />
+            <input
+              ref={searchInputRef}
+              type='text'
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder='Search Here'
+              className='text-brand-primary font-mulish flex-1 bg-transparent text-xl outline-none placeholder:text-gray-400'
+            />
+            <button
+              onClick={closeSearch}
+              className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
+              aria-label='Close search'
             >
-              <div>Shop</div>
+              <IoClose size={22} />
+            </button>
+          </div>
+        ) : (
+          <div className='relative mx-auto flex items-center justify-between px-[clamp(34px,15.3vw,40px)] py-4.75'>
+            {/* Left Navigation */}
+            <div className='font-crimson text-brand-primary hidden gap-[clamp(18px,15.3vw,19px)] text-sm text-[clamp(13px,1.2vw,18px)] lg:flex'>
+              <div
+                className='flex cursor-pointer items-center gap-1.5'
+                onMouseEnter={() => setShopOpen(true)}
+              >
+                <div>Shop</div>
+                <div>
+                  <HiOutlineChevronDown size={13} />
+                </div>
+              </div>
+              {NAV_ITEMS.map((item) => (
+                <NavLink
+                  key={item.slug}
+                  slug={item.slug}
+                  label={item.label}
+                  onMouseEnter={() => setShopOpen(false)}
+                />
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className='lg:hidden'>
+              <button className='text-brand-primary'>☰</button>
+            </div>
+
+            {/* Centered Logo */}
+            <div className='absolute left-1/2 -translate-x-1/2 transform'>
+              <Link to='/'>
+                <img
+                  width={167}
+                  height={100}
+                  alt='logo'
+                  src='/logo.svg'
+                  className='w-[clamp(167px,15.3vw,214px)]'
+                />
+              </Link>
+            </div>
+
+            {/* Right Navigation */}
+            <div className='font-crimson text-brand-primary hidden items-center gap-4.5 text-[clamp(13px,1.2vw,18px)] lg:flex'>
+              <button
+                onClick={openSearch}
+                className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
+                aria-label='Open search'
+              >
+                <PiMagnifyingGlass size={19} />
+              </button>
               <div>
-                <HiOutlineChevronDown size={13} />
+                <CartIcon />
               </div>
             </div>
-            {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.slug}
-                slug={item.slug}
-                label={item.label}
-                onMouseEnter={() => setShopOpen(false)}
-              />
-            ))}
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className='lg:hidden'>
-            <button className='text-brand-primary'>☰</button>
+            {/* Mobile Right Placeholder */}
+            <div className='w-6 md:hidden'></div>
           </div>
-
-          {/* Centered Logo */}
-          <div className='absolute left-1/2 -translate-x-1/2 transform'>
-            <Link to='/'>
-              <img
-                width={167}
-                height={100}
-                alt='logo'
-                src='/logo.svg'
-                className='w-[clamp(167px,15.3vw,214px)]'
-              />
-            </Link>
-          </div>
-
-          {/* Right Navigation - Hidden on mobile, shown as dropdown */}
-          <div className='font-crimson text-brand-primary hidden items-center gap-4.5 text-[clamp(13px,1.2vw,18px)] lg:flex'>
-            <div>
-              <PiMagnifyingGlass size={19} />
-            </div>
-            <div>
-              <CartIcon />
-            </div>
-          </div>
-
-          {/* Mobile Right Placeholder */}
-          <div className='w-6 md:hidden'></div>
-        </div>
+        )}
 
         {/* Shop Dropdown */}
         {shopOpen && <ShopDropdown />}
+
+        {/* Search Dropdown */}
+        {searchOpen && <SearchDropdown />}
       </div>
     </header>
   );

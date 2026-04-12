@@ -11,10 +11,12 @@ export const ProductCard = memo(
     product,
     fixed = false,
     detailedView,
+    compact = false,
   }: {
     product: Product;
     fixed?: boolean;
     detailedView?: boolean;
+    compact?: boolean;
   }) => {
     const [visibleProduct, setVisibleProduct] = useState<
       Product | ProductVariant
@@ -67,17 +69,21 @@ export const ProductCard = memo(
         </div>
 
         <div className='flex flex-col items-center gap-1'>
-          {visibleProduct.delivery_lead_time != null && !fixed && (
+          {visibleProduct.delivery_lead_time != null && !fixed && !compact && (
             <div className='border-brand-primary/10 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-semibold'>
               Receive on{' '}
               {getDeliveryDate(visibleProduct.delivery_lead_time, 'short')}
             </div>
           )}
-          <div className='font-crimson flex items-center justify-center text-[clamp(15px,1.5vw,30px)]'>
+          <div
+            className={`font-crimson flex items-center justify-center ${compact ? 'text-base' : 'text-[clamp(15px,1.5vw,30px)]'}`}
+          >
             {capitalizeString(visibleProduct.name)}
           </div>
 
-          <div className='flex gap-2 text-[clamp(12px,1.5vw,18px)]'>
+          <div
+            className={`flex gap-2 ${compact ? 'text-sm' : 'text-[clamp(12px,1.5vw,18px)]'}`}
+          >
             <div>{`$${visibleProduct.price_dollars}`}</div>
             <div className='line-through opacity-60'>
               {visibleProduct.discounted_price_dollars != null &&

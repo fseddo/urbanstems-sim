@@ -17,8 +17,12 @@ import type { Collection } from '@/api/collections/Collection';
 import type { Occasion } from '@/api/occasions/Occasion';
 
 export const Route = createFileRoute('/collections/$slug')({
+  validateSearch: (search: Record<string, unknown>): { search?: string } => ({
+    search: typeof search.search === 'string' ? search.search : undefined,
+  }),
+  loaderDeps: ({ search }) => ({ search: search.search }),
   component: CollectionPage,
-  loader: async ({ params, context }) => {
+  loader: async ({ params, deps, context }) => {
     // Fetch entity lists so we can determine slug type dynamically
     const [categories, collections, occasions] = await Promise.all([
       context.queryClient.ensureQueryData(categoryQueries.list()),
@@ -26,8 +30,13 @@ export const Route = createFileRoute('/collections/$slug')({
       context.queryClient.ensureQueryData(occasionQueries.list()),
     ]);
 
-    const slugType = getSlugType(params.slug, categories, collections, occasions);
-    const filters = buildFilters(params.slug, slugType);
+    const slugType = getSlugType(
+      params.slug,
+      categories,
+      collections,
+      occasions
+    );
+    const filters = buildFilters(params.slug, slugType, deps.search);
 
     const productsPromise = context.queryClient.ensureInfiniteQueryData(
       productQueries.infiniteList(filters)
@@ -68,7 +77,7 @@ const getSlugType = (
   slug: string,
   categories: Category[],
   collections: Collection[],
-  occasions: Occasion[],
+  occasions: Occasion[]
 ): SlugType => {
   if (slug === 'all') return 'all';
   if (categories.some((c) => c.slug === slug)) return 'category';
@@ -77,21 +86,27 @@ const getSlugType = (
   return 'occasion';
 };
 
-const buildFilters = (slug: string, slugType: SlugType): ProductFilters => {
+const buildFilters = (
+  slug: string,
+  slugType: SlugType,
+  search?: string
+): ProductFilters => {
+  const searchFilter = search ? { search } : {};
   switch (slugType) {
     case 'all':
-      return {};
+      return { ...searchFilter };
     case 'category':
-      return { category: slug as CategoryType };
+      return { category: slug as CategoryType, ...searchFilter };
     case 'collection':
-      return { collection: slug };
+      return { collection: slug, ...searchFilter };
     case 'occasion':
-      return { occasion: slug };
+      return { occasion: slug, ...searchFilter };
   }
 };
 
 function CollectionPage() {
-  const { filters, entity } = Route.useLoaderData();
+  const { filters, entity, slugType } = Route.useLoaderData();
+  const { search } = Route.useSearch();
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -101,10 +116,26 @@ function CollectionPage() {
     <main>
       <header className='font-crimson flex flex-col items-center justify-center gap-2 py-18 text-[40px]'>
         <span className='flex flex-col items-center gap-4'>
-          <span className='text-5xl'>{entity?.header_title}</span>
-          <span className='font-mulish text-center text-base'>
-            {entity?.header_subtitle}
-          </span>
+          {slugType === 'all' ? (
+            search ? (
+              <span className='text-5xl'>{`Results for "${search}"`}</span>
+            ) : (
+              <>
+                <span className='text-5xl'>Shop All</span>
+                <span className='font-mulish text-center text-base'>
+                  The flowers and gifts designed in-house with style and
+                  sophistication.
+                </span>
+              </>
+            )
+          ) : (
+            <>
+              <span className='text-5xl'>{entity?.header_title}</span>
+              <span className='font-mulish text-center text-base'>
+                {entity?.header_subtitle}
+              </span>
+            </>
+          )}
         </span>
       </header>
       <header className='flex flex-col border-y border-b-0 lg:flex-row lg:border-b'>

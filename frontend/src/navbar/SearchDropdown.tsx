@@ -109,6 +109,7 @@ export const SearchDropdown = () => {
               <Link
                 to='/collections/$slug'
                 params={{ slug: 'all' }}
+                search={{ search: searchTerm }}
                 onClick={() => setTimeout(close, 80)}
                 className='text-brand-primary text-xs font-bold tracking-wider underline underline-offset-4 hover:opacity-60'
               >

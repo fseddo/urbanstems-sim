@@ -4,7 +4,7 @@ import { FilterIcon } from '@/src/common/icons/FilterIcon';
 import { List } from '@/src/common/List';
 import { productQueries } from '@/api/products/queries';
 import { occasionQueries } from '@/api/occasions/queries';
-import { JSX, ReactNode, useCallback } from 'react';
+import { JSX, ReactNode, useCallback, useState } from 'react';
 import type { Product } from '@/api/products/Product';
 import { IconType } from 'react-icons';
 import { SlLocationPin } from 'react-icons/sl';
@@ -15,6 +15,7 @@ import { collectionQueries } from '@/api/collections/collectionQueries';
 import { type Category, CategoryType } from '@/api/cateogries/Category';
 import type { Collection } from '@/api/collections/Collection';
 import type { Occasion } from '@/api/occasions/Occasion';
+import { FilterSidebar, UIFilters } from '@/src/common/FilterSidebar';
 
 export const Route = createFileRoute('/collections/$slug')({
   validateSearch: (search: Record<string, unknown>): { search?: string } => ({
@@ -107,13 +108,24 @@ const buildFilters = (
 function CollectionPage() {
   const { filters, entity, slugType } = Route.useLoaderData();
   const { search } = Route.useSearch();
+  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+  const [uiFilters, setUiFilters] = useState<UIFilters>({});
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const formattedDate = `${String(tomorrow.getMonth() + 1).padStart(2, '0')}/${String(tomorrow.getDate()).padStart(2, '0')}/${tomorrow.getFullYear()}`;
 
+  const mergedFilters: ProductFilters = { ...filters, ...uiFilters };
+
   return (
     <main>
+      <FilterSidebar
+        isOpen={filterPanelOpen}
+        onClose={() => setFilterPanelOpen(false)}
+        showCategoryFilter={slugType === 'all'}
+        filters={uiFilters}
+        onFiltersChange={setUiFilters}
+      />
       <header className='font-crimson flex flex-col items-center justify-center gap-2 py-18 text-[40px]'>
         <span className='flex flex-col items-center gap-4'>
           {slugType === 'all' ? (
@@ -139,7 +151,11 @@ function CollectionPage() {
         </span>
       </header>
       <header className='flex flex-col border-y border-b-0 lg:flex-row lg:border-b'>
-        <HeaderBarItem Icon={FilterIcon} className=''>
+        <HeaderBarItem
+          Icon={FilterIcon}
+          className='cursor-pointer'
+          onClick={() => setFilterPanelOpen(true)}
+        >
           Filter & Sort
         </HeaderBarItem>
         <HeaderBarItem Icon={CalendarIcon} className='flex-1'>
@@ -155,7 +171,7 @@ function CollectionPage() {
         </HeaderBarItem>
       </header>
       <List
-        queryOptions={productQueries.infiniteList(filters)}
+        queryOptions={productQueries.infiniteList(mergedFilters)}
         renderItem={(product) => (
           <ProductCard key={product.id} product={product} detailedView />
         )}
@@ -175,14 +191,17 @@ const HeaderBarItem = ({
   children,
   className,
   Icon,
+  onClick,
 }: {
   children: ReactNode;
   className?: string;
   Icon?: IconType | (() => JSX.Element);
+  onClick?: () => void;
 }) => {
   return (
     <div
       className={`flex items-center gap-3 border-b px-10 py-6 font-bold lg:border-r lg:border-b-0 ${className}`}
+      onClick={onClick}
     >
       {Icon && <Icon />}
       {children}

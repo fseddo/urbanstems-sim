@@ -22,7 +22,8 @@ const NAV_ITEMS: NavItem[] = [
 
 export const Navbar = forwardRef<HTMLElement>((_, ref) => {
   const { shopOpen, setShopOpen } = useShopDropdown();
-  const { searchOpen, setSearchOpen, setSearchTerm, setSearchInputRef } = useSearchDropdown();
+  const { searchOpen, setSearchOpen, setSearchTerm, setSearchInputRef } =
+    useSearchDropdown();
   const [searchInput, setSearchInput] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -61,7 +62,10 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
         {searchOpen ? (
           /* Search bar row — replaces normal navbar content */
           <div className='flex items-center gap-4 px-40 py-4.75'>
-            <PiMagnifyingGlass size={20} className='text-brand-primary shrink-0' />
+            <PiMagnifyingGlass
+              size={20}
+              className='text-brand-primary shrink-0'
+            />
             <input
               ref={searchInputRef}
               type='text'

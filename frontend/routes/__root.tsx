@@ -4,6 +4,7 @@ import { Footer } from '@/src/common/Footer';
 import {
   NavbarProvider,
   useNavbar,
+  useSearchDropdown,
   useShopDropdown,
 } from '@/src/navbar/NavbarContext';
 import { Navbar } from '@/src/navbar/Navbar';
@@ -23,6 +24,7 @@ function RootLayout() {
 function RootLayoutInner() {
   const navbarRef = useNavbar();
   const { shopOpen } = useShopDropdown();
+  const { searchOpen } = useSearchDropdown();
   useNavbarCssHeight(navbarRef);
   useHideOnScroll(navbarRef);
   useLoadingFavicon();
@@ -33,7 +35,9 @@ function RootLayoutInner() {
       <DisclaimerPopup />
       <div style={{ height: 'var(--navbar-height)' }} />
       <div className='relative'>
-        {shopOpen && <div className='absolute inset-0 z-40 bg-black/60' />}
+        {(shopOpen || searchOpen) && (
+          <div className='absolute inset-0 z-40 bg-black/60' />
+        )}
         <main className='min-h-screen'>
           <Outlet />
         </main>

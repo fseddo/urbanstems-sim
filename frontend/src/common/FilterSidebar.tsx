@@ -8,7 +8,7 @@ import { FiX, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 export type UIFilters = {
   sortKey?: ProductSortKey;
   sortOrder?: SortOrder;
-  category?: CategoryType;
+  categories?: CategoryType[];
   min_price?: number;
   max_price?: number;
 };
@@ -36,7 +36,6 @@ const SORT_OPTIONS: SortOption[] = [
 ];
 
 const CATEGORIES = [
-  { label: 'All', value: undefined },
   { label: 'Flowers', value: CategoryType.Flowers },
   { label: 'Plants', value: CategoryType.Plants },
   { label: 'Gifts', value: CategoryType.Gifts },
@@ -78,8 +77,23 @@ export function FilterSidebar({
     });
   };
 
-  const handleCategoryChange = (category: CategoryType | undefined) => {
-    onFiltersChange({ ...filters, category });
+  const toggleCategory = (category: CategoryType) => {
+    const current = filters.categories ?? [];
+    const next = current.includes(category)
+      ? current.filter((c) => c !== category)
+      : [...current, category];
+    onFiltersChange({
+      ...filters,
+      categories: next.length > 0 ? next : undefined,
+    });
+  };
+
+  const removeCategory = (category: CategoryType) => {
+    const next = (filters.categories ?? []).filter((c) => c !== category);
+    onFiltersChange({
+      ...filters,
+      categories: next.length > 0 ? next : undefined,
+    });
   };
 
   const handleMinPriceChange = (value: string) => {
@@ -92,14 +106,49 @@ export function FilterSidebar({
     onFiltersChange({ ...filters, max_price: num });
   };
 
-  const hasActiveFilters = !!(
-    filters.sortKey ||
-    filters.category ||
-    filters.min_price ||
-    filters.max_price
-  );
+  const appliedFilters: { key: string; label: string; onRemove: () => void }[] =
+    [];
 
-  const clearAll = () => onFiltersChange({});
+  if (filters.sortKey) {
+    appliedFilters.push({
+      key: 'sort',
+      label: `Sort: ${currentSortOption.label}`,
+      onRemove: () =>
+        onFiltersChange({
+          ...filters,
+          sortKey: undefined,
+          sortOrder: undefined,
+        }),
+    });
+  }
+
+  (filters.categories ?? []).forEach((cat) => {
+    const categoryLabel =
+      CATEGORIES.find((c) => c.value === cat)?.label ?? cat;
+    appliedFilters.push({
+      key: `category-${cat}`,
+      label: `Category: ${categoryLabel}`,
+      onRemove: () => removeCategory(cat),
+    });
+  });
+
+  if (filters.min_price || filters.max_price) {
+    const min = `$${(filters.min_price ?? 0).toFixed(2)}`;
+    const max =
+      filters.max_price !== undefined
+        ? `$${filters.max_price.toFixed(2)}`
+        : 'Any';
+    appliedFilters.push({
+      key: 'price',
+      label: `${min} - ${max}`,
+      onRemove: () =>
+        onFiltersChange({
+          ...filters,
+          min_price: undefined,
+          max_price: undefined,
+        }),
+    });
+  }
 
   return (
     <>
@@ -117,33 +166,38 @@ export function FilterSidebar({
 
       {/* Floating slide-in panel — above overlay, content-sized with max-height guard */}
       <div
-        className={`fixed top-[2vh] left-4 z-[52] h-[95vh] w-72 overflow-y-auto rounded-md bg-white shadow-2xl transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1rem)]'
+        className={`fixed top-[3vh] left-6 z-[52] h-[92vh] w-120 overflow-y-auto rounded-md bg-white shadow-2xl transition-transform duration-300 ${
+          isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+10rem)]'
         }`}
       >
         {/* Header */}
-        <div className='flex items-center justify-between border-b px-5 py-4'>
-          <span className='font-mulish text-sm font-bold tracking-wide'>
-            Filter & Sort
-          </span>
+        <div className='flex items-start justify-between px-5 py-4'>
+          <span className='font-crimson px-5 py-8 text-4xl'>Filter & Sort</span>
           <button
             onClick={onClose}
-            className='interactive-opacity p-1'
+            className='border-brand-primary hover:bg-brand-primary rounded-full border p-1.5 transition-colors duration-400 hover:text-white'
             aria-label='Close filter panel'
           >
             <FiX size={18} />
           </button>
         </div>
 
-        {/* Clear all */}
-        {hasActiveFilters && (
-          <div className='border-b px-5 py-2.5'>
-            <button
-              onClick={clearAll}
-              className='font-mulish interactive-opacity text-xs underline'
-            >
-              Clear All
-            </button>
+        {/* Applied filters */}
+        {appliedFilters.length > 0 && (
+          <div className='flex flex-col gap-2 px-10 py-2.5'>
+            <div className='text-sm font-bold'>Applied Filters</div>
+            <div className='flex flex-wrap gap-2'>
+              {appliedFilters.map((f) => (
+                <button
+                  key={f.key}
+                  onClick={f.onRemove}
+                  className='font-mulish interactive-opacity flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-xs text-[#1e2934]'
+                >
+                  {f.label}
+                  <FiX size={12} />
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
@@ -172,15 +226,15 @@ export function FilterSidebar({
             title='Category'
             isOpen={openSections.has('category')}
             onToggle={() => toggleSection('category')}
-            hasValue={!!filters.category}
+            hasValue={(filters.categories ?? []).length > 0}
           >
             <div className='grid grid-cols-2 gap-2'>
               {CATEGORIES.map((cat) => (
                 <FilterChip
                   key={cat.label}
                   label={cat.label}
-                  selected={filters.category === cat.value}
-                  onClick={() => handleCategoryChange(cat.value)}
+                  selected={(filters.categories ?? []).includes(cat.value)}
+                  onClick={() => toggleCategory(cat.value)}
                 />
               ))}
             </div>

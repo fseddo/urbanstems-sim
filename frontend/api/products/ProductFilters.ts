@@ -12,6 +12,7 @@ export type ProductSortKey =
 
 export type ProductFilters = Paginated & {
   category?: CategoryType;
+  categories?: CategoryType[];
   collection?: string;
   occasion?: string;
   badge_text?: ProductBadgeText;

@@ -1,6 +1,7 @@
 import { paginatedRequest, request } from '../request';
 import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { createQueryParams } from '../createQueryParams';
+import { toApiSortParams } from '../toApiSortParams';
 import { infiniteQueryProps } from '../infiniteQueryProps';
 import { ProductFilters } from './ProductFilters';
 import { Product } from './Product';
@@ -9,10 +10,10 @@ export const productKeys = {
   all: ['products'] as const,
   lists: () => [...productKeys.all, 'list'] as const,
   list: (filters: ProductFilters) =>
-    [...productKeys.lists(), createQueryParams(filters).key] as const,
+    [...productKeys.lists(), createQueryParams(toApiSortParams(filters)).key] as const,
   infiniteLists: () => [...productKeys.all, 'infinite'] as const,
   infiniteList: (filters: ProductFilters) =>
-    [...productKeys.infiniteLists(), createQueryParams(filters).key] as const,
+    [...productKeys.infiniteLists(), createQueryParams(toApiSortParams(filters)).key] as const,
   details: () => [...productKeys.all, 'detail'] as const,
   detail: (id: string) => [...productKeys.details(), id] as const,
 };
@@ -24,7 +25,7 @@ export const productQueries = {
       queryFn: async () =>
         paginatedRequest<Product>({
           method: 'get',
-          path: `/products/${createQueryParams(filters).queryString}`,
+          path: `/products/${createQueryParams(toApiSortParams(filters)).queryString}`,
         }),
     }),
 
@@ -34,7 +35,7 @@ export const productQueries = {
       queryFn: async ({ pageParam }) =>
         paginatedRequest<Product>({
           method: 'get',
-          path: `/products/${createQueryParams({ ...filters, page: pageParam }).queryString}`,
+          path: `/products/${createQueryParams({ ...toApiSortParams(filters), page: pageParam }).queryString}`,
         }),
       ...infiniteQueryProps<Error, Product, readonly unknown[]>(),
     }),

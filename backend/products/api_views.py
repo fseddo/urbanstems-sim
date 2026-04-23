@@ -30,13 +30,20 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         request = cast(Request, self.request)
         position_ordering = None
 
-        # Filter by category
+        # Filter by category (single slug, used for category landing pages)
         category = request.query_params.get('category')
         if category:
             queryset = queryset.filter(
                 productcategory__category__slug=category
             )
             position_ordering = 'productcategory__position'
+
+        # Filter by categories (multi-select from filter sidebar)
+        categories = request.query_params.getlist('categories')
+        if categories:
+            queryset = queryset.filter(
+                productcategory__category__slug__in=categories
+            )
 
         # Filter by collection
         collection = request.query_params.get('collection')

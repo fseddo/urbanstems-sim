@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { usePortal } from './usePortal';
-import {
-  FiX,
-  FiChevronDown,
-  FiChevronUp,
-  FiMinus,
-  FiPlus,
-} from 'react-icons/fi';
+import { FiX, FiMinus, FiPlus } from 'react-icons/fi';
 import {
   CATEGORIES,
   COLORS,

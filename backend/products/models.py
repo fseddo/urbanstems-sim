@@ -46,6 +46,9 @@ class Product(models.Model):
     detail_image_1_src = models.URLField(null=True, blank=True)
     detail_image_2_src = models.URLField(null=True, blank=True)
 
+    # Derived flags
+    vase_included = models.BooleanField(default=False, help_text="Product comes with a vase/vessel (derived from text at seed time)")
+
     # Variants
     variants = models.JSONField(default=list, blank=True, help_text="Array of variant objects with id, name, variant_type, main_image, hover_image, delivery_lead_time, badge_text, price_dollars, and discounted_price_dollars")
 
@@ -88,6 +91,16 @@ class Product(models.Model):
     def occasions(self):
         """Get all occasions for this product"""
         return Occasion.objects.filter(productoccasion__product=self)
+
+    @property
+    def stem_types(self):
+        """Get all stem types for this product"""
+        return StemType.objects.filter(productstemtype__product=self)
+
+    @property
+    def colors(self):
+        """Get all colors for this product"""
+        return Color.objects.filter(productcolor__product=self)
 
 
 class Category(models.Model):
@@ -186,6 +199,58 @@ class ProductOccasion(models.Model):
 
     class Meta:
         unique_together = ['product', 'occasion']
+        ordering = ['position']
+
+
+class StemType(models.Model):
+    """A type of flower/stem that can appear in a bouquet (e.g. Roses, Peonies).
+
+    Derived from product text during seeding — not scraped directly.
+    """
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class Color(models.Model):
+    """A color tag for a product (e.g. Pink, White, Assorted).
+
+    Derived from product text during seeding. `hex` is used by the UI for
+    swatches.
+    """
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=50, unique=True)
+    hex = models.CharField(max_length=7, null=True, blank=True, help_text="Hex color code, e.g. #C97B8E")
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class ProductStemType(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    stem_type = models.ForeignKey(StemType, on_delete=models.CASCADE)
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ['product', 'stem_type']
+        ordering = ['position']
+
+
+class ProductColor(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ['product', 'color']
         ordering = ['position']
 
 

@@ -61,6 +61,24 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
             )
             position_ordering = 'productoccasion__position'
         
+        # Filter by stem types (multi-select from filter sidebar)
+        stem_types = request.query_params.getlist('stem_types')
+        if stem_types:
+            queryset = queryset.filter(
+                productstemtype__stem_type__slug__in=stem_types
+            )
+
+        # Filter by colors (multi-select from filter sidebar)
+        colors = request.query_params.getlist('colors')
+        if colors:
+            queryset = queryset.filter(
+                productcolor__color__slug__in=colors
+            )
+
+        # Filter by vase-included
+        if request.query_params.get('vase_included') == 'true':
+            queryset = queryset.filter(vase_included=True)
+
         # Filter by badge text
         badge_text = request.query_params.get('badge_text')
         if badge_text:

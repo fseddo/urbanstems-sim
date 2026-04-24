@@ -13,6 +13,9 @@ export type ProductSortKey =
 export type ProductFilters = Paginated & {
   category?: CategoryType;
   categories?: CategoryType[];
+  stem_types?: string[];
+  colors?: string[];
+  vase_included?: true;
   collection?: string;
   occasion?: string;
   badge_text?: ProductBadgeText;

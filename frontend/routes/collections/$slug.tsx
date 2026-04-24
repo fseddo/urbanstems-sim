@@ -15,13 +15,20 @@ import { collectionQueries } from '@/api/collections/collectionQueries';
 import { type Category, CategoryType } from '@/api/cateogries/Category';
 import type { Collection } from '@/api/collections/Collection';
 import type { Occasion } from '@/api/occasions/Occasion';
-import { FilterSidebar, UIFilters } from '@/src/common/FilterSidebar';
+import { FilterSidebar } from '@/src/common/FilterSidebar';
+import {
+  parseUIFiltersSearch,
+  UIFilters,
+} from '@/src/common/filterSpecs';
+
+type RouteSearch = UIFilters & { search?: string };
 
 export const Route = createFileRoute('/collections/$slug')({
-  validateSearch: (search: Record<string, unknown>): { search?: string } => ({
+  validateSearch: (search: Record<string, unknown>): RouteSearch => ({
+    ...parseUIFiltersSearch(search),
     search: typeof search.search === 'string' ? search.search : undefined,
   }),
-  loaderDeps: ({ search }) => ({ search: search.search }),
+  loaderDeps: ({ search }) => ({ search }),
   component: CollectionPage,
   loader: async ({ params, deps, context }) => {
     // Fetch entity lists so we can determine slug type dynamically
@@ -90,32 +97,43 @@ const getSlugType = (
 const buildFilters = (
   slug: string,
   slugType: SlugType,
-  search?: string
+  routeSearch: RouteSearch
 ): ProductFilters => {
-  const searchFilter = search ? { search } : {};
+  const { search: searchStr, ...uiFilters } = routeSearch;
+  const base: ProductFilters = {
+    ...uiFilters,
+    ...(searchStr ? { search: searchStr } : {}),
+  };
   switch (slugType) {
     case 'all':
-      return { ...searchFilter };
+      return base;
     case 'category':
-      return { category: slug as CategoryType, ...searchFilter };
+      return { ...base, category: slug as CategoryType };
     case 'collection':
-      return { collection: slug, ...searchFilter };
+      return { ...base, collection: slug };
     case 'occasion':
-      return { occasion: slug, ...searchFilter };
+      return { ...base, occasion: slug };
   }
 };
 
 function CollectionPage() {
   const { filters, entity, slugType } = Route.useLoaderData();
-  const { search } = Route.useSearch();
+  const routeSearch = Route.useSearch();
+  const navigate = Route.useNavigate();
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
-  const [uiFilters, setUiFilters] = useState<UIFilters>({});
+
+  const { search: searchTerm, ...uiFilters } = routeSearch;
+
+  const setUiFilters = (next: UIFilters) => {
+    navigate({
+      search: (prev) => ({ ...prev, ...next }),
+      replace: true,
+    });
+  };
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const formattedDate = `${String(tomorrow.getMonth() + 1).padStart(2, '0')}/${String(tomorrow.getDate()).padStart(2, '0')}/${tomorrow.getFullYear()}`;
-
-  const mergedFilters: ProductFilters = { ...filters, ...uiFilters };
 
   return (
     <main>
@@ -129,8 +147,8 @@ function CollectionPage() {
       <header className='font-crimson flex flex-col items-center justify-center gap-2 py-18 text-[40px]'>
         <span className='flex flex-col items-center gap-4'>
           {slugType === 'all' ? (
-            search ? (
-              <span className='text-5xl'>{`Results for "${search}"`}</span>
+            searchTerm ? (
+              <span className='text-5xl'>{`Results for "${searchTerm}"`}</span>
             ) : (
               <>
                 <span className='text-5xl'>Shop All</span>
@@ -171,7 +189,7 @@ function CollectionPage() {
         </HeaderBarItem>
       </header>
       <List
-        queryOptions={productQueries.infiniteList(mergedFilters)}
+        queryOptions={productQueries.infiniteList(filters)}
         renderItem={(product) => (
           <ProductCard key={product.id} product={product} detailedView />
         )}

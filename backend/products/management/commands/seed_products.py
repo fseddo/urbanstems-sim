@@ -6,8 +6,88 @@ from django.utils.text import slugify
 from products.models import (
     Product, Category, Collection, Occasion, Review,
     ProductCategory, ProductCollection, ProductOccasion,
-    ProductVariation
+    ProductVariation, StemType, Color, ProductStemType, ProductColor,
 )
+
+
+# Canonical stem-type vocabulary. Each key is a slug; `variants` are the
+# case-insensitive whole-word tokens matched in product text. Order is
+# longest-first so 'garden rose' matches before 'rose' can greedily claim it;
+# products matching both stay tagged with both (garden roses ARE roses).
+STEM_VOCAB = {
+    'garden-roses': {'name': 'Garden Roses', 'variants': ['garden roses', 'garden rose']},
+    'roses':        {'name': 'Roses',        'variants': ['roses', 'rose']},
+    'anemones':     {'name': 'Anemones',     'variants': ['anemones', 'anemone']},
+    'carnations':   {'name': 'Carnations',   'variants': ['carnations', 'carnation']},
+    'delphinium':   {'name': 'Delphinium',   'variants': ['delphiniums', 'delphinium']},
+    'eucalyptus':   {'name': 'Eucalyptus',   'variants': ['eucalyptus']},
+    'lilies':       {'name': 'Lilies',       'variants': ['lilies', 'lily']},
+    'marigolds':    {'name': 'Marigolds',    'variants': ['marigolds', 'marigold']},
+    # 'mum' alone would false-positive on Mother's-Day copy
+    'mums':         {'name': 'Mums',         'variants': ['chrysanthemums', 'chrysanthemum', 'mums']},
+    'peonies':      {'name': 'Peonies',      'variants': ['peonies', 'peony']},
+    'ranunculus':   {'name': 'Ranunculus',   'variants': ['ranunculus']},
+    'sunflowers':   {'name': 'Sunflowers',   'variants': ['sunflowers', 'sunflower']},
+    'tulips':       {'name': 'Tulips',       'variants': ['tulips', 'tulip']},
+    'scabiosa':     {'name': 'Scabiosa',     'variants': ['scabiosa']},
+    'hydrangea':    {'name': 'Hydrangea',    'variants': ['hydrangeas', 'hydrangea']},
+}
+
+
+# Color vocabulary — keys match what the UI filter sidebar expects.
+# 'assorted' has no direct-match variants; it's derived from products that
+# match 3+ distinct colors.
+COLOR_VOCAB = {
+    'beige':    {'name': 'Beige',    'hex': '#E8D9B6', 'variants': ['beige', 'cream', 'ivory']},
+    'blue':     {'name': 'Blue',     'hex': '#6B85A3', 'variants': ['blue']},
+    'green':    {'name': 'Green',    'hex': '#A3B58F', 'variants': ['green']},
+    'orange':   {'name': 'Orange',   'hex': '#E09457', 'variants': ['orange']},
+    'peach':    {'name': 'Peach',    'hex': '#F0C9A8', 'variants': ['peach']},
+    'pink':     {'name': 'Pink',     'hex': '#C97B8E', 'variants': ['pink', 'blush']},
+    'purple':   {'name': 'Purple',   'hex': '#B39DBF', 'variants': ['purple', 'violet', 'lavender', 'lilac']},
+    'red':      {'name': 'Red',      'hex': '#A34545', 'variants': ['red', 'burgundy', 'crimson']},
+    'white':    {'name': 'White',    'hex': '#FFFFFF', 'variants': ['white']},
+    'yellow':   {'name': 'Yellow',   'hex': '#E6C85A', 'variants': ['yellow', 'gold', 'golden']},
+    'metallic': {'name': 'Metallic', 'hex': '#C0C0C0', 'variants': ['metallic']},
+    'assorted': {'name': 'Assorted', 'hex': None,      'variants': []},
+}
+
+# Products matching this many distinct colors also get tagged 'assorted'.
+ASSORTED_COLOR_THRESHOLD = 3
+
+
+def match_vocab(text, vocab):
+    """Return slugs from `vocab` whose variants appear as whole words in `text`."""
+    if not text:
+        return []
+    text_lower = text.lower()
+    matched = []
+    for slug, entry in vocab.items():
+        for variant in entry['variants']:
+            if re.search(r'\b' + re.escape(variant) + r'\b', text_lower):
+                matched.append(slug)
+                break
+    return matched
+
+
+# Any comma/period/HTML-separated clause containing one of these words
+# describes a container, not a flower. We drop those clauses before color
+# scanning so e.g. "Pink Anthurium, Pink and White Ceramic Vessel Included"
+# tags only 'pink' (from the plant), not 'white' (from the vase).
+CONTAINER_WORDS_RE = re.compile(
+    r'\b(vase|vessel|pot|planter|container|jar|urn|bowl|vase\'s)\b',
+    re.IGNORECASE,
+)
+CLAUSE_SPLIT_RE = re.compile(r'[,.]|<\/?p>|<br\s*\/?>', re.IGNORECASE)
+
+
+def strip_container_clauses(text):
+    """Drop clauses that describe a container so their colors aren't tagged."""
+    if not text:
+        return text
+    clauses = CLAUSE_SPLIT_RE.split(text)
+    kept = [c for c in clauses if not CONTAINER_WORDS_RE.search(c)]
+    return ' '.join(kept)
 
 
 def strip_width_param(url):
@@ -62,10 +142,29 @@ class Command(BaseCommand):
             ProductCategory.objects.all().delete()
             ProductCollection.objects.all().delete()
             ProductOccasion.objects.all().delete()
+            ProductStemType.objects.all().delete()
+            ProductColor.objects.all().delete()
             Product.objects.all().delete()
             Category.objects.all().delete()
             Collection.objects.all().delete()
             Occasion.objects.all().delete()
+            StemType.objects.all().delete()
+            Color.objects.all().delete()
+
+        # Seed stem-type and color tag rows from vocabularies
+        stem_types_cache = {
+            slug: StemType.objects.get_or_create(
+                slug=slug, defaults={'name': entry['name']}
+            )[0]
+            for slug, entry in STEM_VOCAB.items()
+        }
+        colors_cache = {
+            slug: Color.objects.get_or_create(
+                slug=slug,
+                defaults={'name': entry['name'], 'hex': entry['hex']},
+            )[0]
+            for slug, entry in COLOR_VOCAB.items()
+        }
 
         # Load JSON data
         self.stdout.write(f'Loading data from {file_path}...')
@@ -164,6 +263,13 @@ class Command(BaseCommand):
                     'is_main_detail_video': product_data.get('is_main_detail_video', False),
                     'detail_image_1_src': strip_width_param(product_data.get('detail_image_1_src')),
                     'detail_image_2_src': strip_width_param(product_data.get('detail_image_2_src')),
+                    'vase_included': bool(
+                        CONTAINER_WORDS_RE.search(
+                            (product_data.get('subtitle') or '')
+                            + ' '
+                            + (product_data.get('description') or '')
+                        )
+                    ),
                 }
             )
 
@@ -206,6 +312,31 @@ class Command(BaseCommand):
                         occasion=occasions_cache[occ_name],
                         defaults={'position': occ_index}
                     )
+
+            # Derive stem-type + color tags from product text
+            text_blob = ' '.join(filter(None, [
+                product_data.get('name'),
+                product_data.get('subtitle'),
+                product_data.get('description'),
+            ]))
+
+            for position, stem_slug in enumerate(match_vocab(text_blob, STEM_VOCAB)):
+                ProductStemType.objects.update_or_create(
+                    product=product,
+                    stem_type=stem_types_cache[stem_slug],
+                    defaults={'position': position},
+                )
+
+            # Color scan uses text with container-describing clauses removed.
+            color_slugs = match_vocab(strip_container_clauses(text_blob), COLOR_VOCAB)
+            if len(color_slugs) >= ASSORTED_COLOR_THRESHOLD:
+                color_slugs.append('assorted')
+            for position, color_slug in enumerate(color_slugs):
+                ProductColor.objects.update_or_create(
+                    product=product,
+                    color=colors_cache[color_slug],
+                    defaults={'position': position},
+                )
 
             # Create reviews
             for review_data in product_data.get('reviews', []):
@@ -289,6 +420,8 @@ class Command(BaseCommand):
                 f'  Categories: {Category.objects.count()}\n'
                 f'  Collections: {Collection.objects.count()}\n'
                 f'  Occasions: {Occasion.objects.count()}\n'
+                f'  Stem Types: {StemType.objects.count()} ({ProductStemType.objects.count()} links)\n'
+                f'  Colors: {Color.objects.count()} ({ProductColor.objects.count()} links)\n'
                 f'  Reviews: {Review.objects.count()}\n'
                 f'  Product Variations: {ProductVariation.objects.count()}'
             )

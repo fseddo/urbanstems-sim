@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { usePortal } from './usePortal';
 import { FiX, FiMinus, FiPlus } from 'react-icons/fi';
+import { FilterOptions } from '@/api/products/FilterOptions';
 import {
-  CATEGORIES,
-  COLORS,
+  CATEGORY_DISPLAY,
+  COLOR_DISPLAY,
   FILTER_SPECS,
   SORT_OPTIONS,
   SortOption,
-  STEM_TYPES,
+  STEM_TYPE_DISPLAY,
   UIFilters,
 } from './filterSpecs';
 
@@ -16,17 +17,20 @@ export type { UIFilters };
 interface FilterSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  showCategoryFilter: boolean;
   filters: UIFilters;
   onFiltersChange: (filters: UIFilters) => void;
+  // Filter values present in the current scope (collection / category /
+  // occasion / search). Drives which sections and chips the sidebar
+  // surfaces — values with no matching products in scope are hidden.
+  availableOptions: FilterOptions;
 }
 
 export function FilterSidebar({
   isOpen,
   onClose,
-  showCategoryFilter,
   filters,
   onFiltersChange,
+  availableOptions,
 }: FilterSidebarProps) {
   const [openSections, setOpenSections] = useState<Set<string>>(new Set());
   const renderPortal = usePortal(isOpen);
@@ -175,20 +179,20 @@ export function FilterSidebar({
               ))}
             </div>
           </AccordionSection>
-          {/* Category */}
-          {showCategoryFilter && (
+          {/* Category — only show when the scope actually has multiple categories */}
+          {availableOptions.categories.length > 1 && (
             <AccordionSection
               title='Category'
               isOpen={openSections.has('category')}
               onToggle={() => toggleSection('category')}
             >
               <div className='grid grid-cols-3 gap-2'>
-                {CATEGORIES.map((cat) => (
+                {availableOptions.categories.map((slug) => (
                   <FilterChip
-                    key={cat.label}
-                    label={cat.label}
-                    selected={(filters.categories ?? []).includes(cat.value)}
-                    onClick={() => toggleTag('categories', cat.value)}
+                    key={slug}
+                    label={CATEGORY_DISPLAY[slug]?.label ?? slug}
+                    selected={(filters.categories ?? []).includes(slug)}
+                    onClick={() => toggleTag('categories', slug)}
                   />
                 ))}
               </div>
@@ -220,60 +224,69 @@ export function FilterSidebar({
           </AccordionSection>
 
           {/* Color */}
-          <AccordionSection
-            title='Color'
-            isOpen={openSections.has('colors')}
-            onToggle={() => toggleSection('colors')}
-          >
-            <div className='grid grid-cols-3 gap-2'>
-              {COLORS.map((color) => (
-                <ColorChip
-                  key={color.value}
-                  label={color.label}
-                  hex={color.hex}
-                  selected={(filters.colors ?? []).includes(color.value)}
-                  onClick={() => toggleTag('colors', color.value)}
-                />
-              ))}
-            </div>
-          </AccordionSection>
+          {availableOptions.colors.length > 1 && (
+            <AccordionSection
+              title='Color'
+              isOpen={openSections.has('colors')}
+              onToggle={() => toggleSection('colors')}
+            >
+              <div className='grid grid-cols-3 gap-2'>
+                {availableOptions.colors.map((slug) => {
+                  const display = COLOR_DISPLAY[slug];
+                  return (
+                    <ColorChip
+                      key={slug}
+                      label={display?.label ?? slug}
+                      hex={display?.hex ?? null}
+                      selected={(filters.colors ?? []).includes(slug)}
+                      onClick={() => toggleTag('colors', slug)}
+                    />
+                  );
+                })}
+              </div>
+            </AccordionSection>
+          )}
 
           {/* Stem Type */}
-          <AccordionSection
-            title='Stem Type'
-            isOpen={openSections.has('stem_types')}
-            onToggle={() => toggleSection('stem_types')}
-          >
-            <div className='grid grid-cols-3 gap-2'>
-              {STEM_TYPES.map((stem) => (
+          {availableOptions.stem_types.length > 1 && (
+            <AccordionSection
+              title='Stem Type'
+              isOpen={openSections.has('stem_types')}
+              onToggle={() => toggleSection('stem_types')}
+            >
+              <div className='grid grid-cols-3 gap-2'>
+                {availableOptions.stem_types.map((slug) => (
+                  <FilterChip
+                    key={slug}
+                    label={STEM_TYPE_DISPLAY[slug]?.label ?? slug}
+                    selected={(filters.stem_types ?? []).includes(slug)}
+                    onClick={() => toggleTag('stem_types', slug)}
+                  />
+                ))}
+              </div>
+            </AccordionSection>
+          )}
+          {/* Vase Included — only show when scope contains at least one vase product */}
+          {availableOptions.vase_included && (
+            <AccordionSection
+              title='Paired With Vase'
+              isOpen={openSections.has('vase_included')}
+              onToggle={() => toggleSection('vase_included')}
+            >
+              <div className='grid grid-cols-3 gap-2'>
                 <FilterChip
-                  key={stem.value}
-                  label={stem.label}
-                  selected={(filters.stem_types ?? []).includes(stem.value)}
-                  onClick={() => toggleTag('stem_types', stem.value)}
+                  label='Yes'
+                  selected={filters.vase_included === true}
+                  onClick={() =>
+                    onFiltersChange({
+                      ...filters,
+                      vase_included: filters.vase_included ? undefined : true,
+                    })
+                  }
                 />
-              ))}
-            </div>
-          </AccordionSection>
-          {/* Vase Included */}
-          <AccordionSection
-            title='Paired With Vase'
-            isOpen={openSections.has('vase_included')}
-            onToggle={() => toggleSection('vase_included')}
-          >
-            <div className='grid grid-cols-3 gap-2'>
-              <FilterChip
-                label='Yes'
-                selected={filters.vase_included === true}
-                onClick={() =>
-                  onFiltersChange({
-                    ...filters,
-                    vase_included: filters.vase_included ? undefined : true,
-                  })
-                }
-              />
-            </div>
-          </AccordionSection>
+              </div>
+            </AccordionSection>
+          )}
         </div>
       </div>
     </>

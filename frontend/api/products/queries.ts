@@ -5,6 +5,7 @@ import { toApiSortParams } from '../toApiSortParams';
 import { infiniteQueryProps } from '../infiniteQueryProps';
 import { ProductFilters } from './ProductFilters';
 import { Product } from './Product';
+import { FilterOptions, FilterOptionsScope } from './FilterOptions';
 
 export const productKeys = {
   all: ['products'] as const,
@@ -16,6 +17,8 @@ export const productKeys = {
     [...productKeys.infiniteLists(), createQueryParams(toApiSortParams(filters)).key] as const,
   details: () => [...productKeys.all, 'detail'] as const,
   detail: (id: string) => [...productKeys.details(), id] as const,
+  filterOptions: (scope: FilterOptionsScope) =>
+    [...productKeys.all, 'filter-options', createQueryParams(scope).key] as const,
 };
 
 export const productQueries = {
@@ -47,6 +50,16 @@ export const productQueries = {
         request<Product>({
           method: 'get',
           path: `/products/${slug}/`,
+        }),
+    }),
+
+  filterOptions: (scope: FilterOptionsScope) =>
+    queryOptions({
+      queryKey: productKeys.filterOptions(scope),
+      queryFn: async () =>
+        request<FilterOptions>({
+          method: 'get',
+          path: `/products/filter-options/${createQueryParams(scope).queryString}`,
         }),
     }),
 };

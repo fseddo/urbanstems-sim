@@ -3,7 +3,7 @@ import { HiOutlineChevronDown } from 'react-icons/hi';
 import { PiMagnifyingGlass } from 'react-icons/pi';
 import { IoClose } from 'react-icons/io5';
 import { NavNotificationBanner } from './NavNotificationBanner';
-import { ShopDropdown } from './ShopDropdown';
+import { ShopDropdown, useShopDropdownPrefetch } from './ShopDropdown';
 import { SearchDropdown } from './SearchDropdown';
 import { useShopDropdown, useSearchDropdown } from './NavbarContext';
 import { Link } from '@tanstack/react-router';
@@ -26,6 +26,8 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
     useSearchDropdown();
   const [searchInput, setSearchInput] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useShopDropdownPrefetch();
 
   // Register setter so SearchDropdown can update the visible input (e.g. pill clicks)
   setSearchInputRef.current = setSearchInput;
@@ -111,7 +113,10 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
             </div>
 
             {/* Centered Logo */}
-            <div className='absolute left-1/2 -translate-x-1/2 transform'>
+            <div
+              className='absolute left-1/2 -translate-x-1/2 transform'
+              onMouseEnter={() => setShopOpen(false)}
+            >
               <Link to='/'>
                 <img
                   width={167}
@@ -127,12 +132,13 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
             <div className='font-crimson text-brand-primary hidden items-center gap-4.5 text-[clamp(13px,1.2vw,18px)] lg:flex'>
               <button
                 onClick={openSearch}
+                onMouseEnter={() => setShopOpen(false)}
                 className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
                 aria-label='Open search'
               >
                 <PiMagnifyingGlass size={19} />
               </button>
-              <div>
+              <div onMouseEnter={() => setShopOpen(false)}>
                 <CartIcon />
               </div>
             </div>

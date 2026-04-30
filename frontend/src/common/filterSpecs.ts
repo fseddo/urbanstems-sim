@@ -56,48 +56,57 @@ export const SORT_OPTIONS: SortOption[] = [
   { label: 'Best Rated', sortKey: 'reviews_rating', sortOrder: 'desc' },
 ];
 
-export const CATEGORIES = [
-  { label: 'Flowers', value: CategoryType.Flowers },
-  { label: 'Plants', value: CategoryType.Plants },
-  { label: 'Gifts', value: CategoryType.Gifts },
-  { label: 'Centerpieces', value: CategoryType.Centerpieces },
-] as const;
+// Display data lookups for tag-based filters. The list of available slugs
+// per scope is the source of truth (driven by the API's filter-options
+// endpoint); these records just supply human-readable labels and any
+// presentation-only attributes (e.g. color hex) that the API doesn't carry.
+//
+// Slugs here must match keys in the backend's STEM_VOCAB / COLOR_VOCAB
+// (seed_products.py).
 
-// Slugs here must match keys in backend STEM_VOCAB (seed_products.py).
-export const STEM_TYPES = [
-  { label: 'Anemones', value: 'anemones' },
-  { label: 'Carnations', value: 'carnations' },
-  { label: 'Delphinium', value: 'delphinium' },
-  { label: 'Eucalyptus', value: 'eucalyptus' },
-  { label: 'Garden Roses', value: 'garden-roses' },
-  { label: 'Lilies', value: 'lilies' },
-  { label: 'Marigolds', value: 'marigolds' },
-  { label: 'Mums', value: 'mums' },
-  { label: 'Peonies', value: 'peonies' },
-  { label: 'Ranunculus', value: 'ranunculus' },
-  { label: 'Roses', value: 'roses' },
-  { label: 'Sunflowers', value: 'sunflowers' },
-  { label: 'Tulips', value: 'tulips' },
-  { label: 'Scabiosa', value: 'scabiosa' },
-  { label: 'Hydrangea', value: 'hydrangea' },
-] as const;
+export const CATEGORY_DISPLAY: Record<CategoryType, { label: string }> = {
+  [CategoryType.Flowers]: { label: 'Flowers' },
+  [CategoryType.Plants]: { label: 'Plants' },
+  [CategoryType.Gifts]: { label: 'Gifts' },
+  [CategoryType.Centerpieces]: { label: 'Centerpieces' },
+  [CategoryType.Peonies]: { label: 'Peonies' },
+};
 
-// Slugs here must match keys in backend COLOR_VOCAB (seed_products.py).
-// `hex` lets the sidebar render swatches without another API call.
-export const COLORS = [
-  { label: 'Assorted', value: 'assorted', hex: null },
-  { label: 'Beige', value: 'beige', hex: '#E8D9B6' },
-  { label: 'Blue', value: 'blue', hex: '#6B85A3' },
-  { label: 'Green', value: 'green', hex: '#A3B58F' },
-  { label: 'Metallic', value: 'metallic', hex: '#C0C0C0' },
-  { label: 'Orange', value: 'orange', hex: '#E09457' },
-  { label: 'Peach', value: 'peach', hex: '#F0C9A8' },
-  { label: 'Pink', value: 'pink', hex: '#C97B8E' },
-  { label: 'Purple', value: 'purple', hex: '#B39DBF' },
-  { label: 'Red', value: 'red', hex: '#A34545' },
-  { label: 'White', value: 'white', hex: '#FFFFFF' },
-  { label: 'Yellow', value: 'yellow', hex: '#E6C85A' },
-] as const;
+export const STEM_TYPE_DISPLAY: Record<string, { label: string }> = {
+  anemones: { label: 'Anemones' },
+  carnations: { label: 'Carnations' },
+  delphinium: { label: 'Delphinium' },
+  eucalyptus: { label: 'Eucalyptus' },
+  'garden-roses': { label: 'Garden Roses' },
+  lilies: { label: 'Lilies' },
+  marigolds: { label: 'Marigolds' },
+  mums: { label: 'Mums' },
+  peonies: { label: 'Peonies' },
+  ranunculus: { label: 'Ranunculus' },
+  roses: { label: 'Roses' },
+  sunflowers: { label: 'Sunflowers' },
+  tulips: { label: 'Tulips' },
+  scabiosa: { label: 'Scabiosa' },
+  hydrangea: { label: 'Hydrangea' },
+};
+
+export const COLOR_DISPLAY: Record<
+  string,
+  { label: string; hex: string | null }
+> = {
+  assorted: { label: 'Assorted', hex: null },
+  beige: { label: 'Beige', hex: '#E8D9B6' },
+  blue: { label: 'Blue', hex: '#6B85A3' },
+  green: { label: 'Green', hex: '#A3B58F' },
+  metallic: { label: 'Metallic', hex: '#C0C0C0' },
+  orange: { label: 'Orange', hex: '#E09457' },
+  peach: { label: 'Peach', hex: '#F0C9A8' },
+  pink: { label: 'Pink', hex: '#C97B8E' },
+  purple: { label: 'Purple', hex: '#B39DBF' },
+  red: { label: 'Red', hex: '#A34545' },
+  white: { label: 'White', hex: '#FFFFFF' },
+  yellow: { label: 'Yellow', hex: '#E6C85A' },
+};
 
 const VALID_SORT_KEYS: ReadonlySet<string> = new Set<ProductSortKey>([
   'name',
@@ -112,11 +121,11 @@ const VALID_CATEGORIES: ReadonlySet<string> = new Set<string>(
 );
 
 const VALID_STEM_TYPES: ReadonlySet<string> = new Set<string>(
-  STEM_TYPES.map((s) => s.value)
+  Object.keys(STEM_TYPE_DISPLAY)
 );
 
 const VALID_COLORS: ReadonlySet<string> = new Set<string>(
-  COLORS.map((c) => c.value)
+  Object.keys(COLOR_DISPLAY)
 );
 
 // Shared helper: parse a slug-array URL param, accepting both array and
@@ -143,7 +152,7 @@ const removeTag = <K extends 'categories' | 'stem_types' | 'colors'>(
   key: K,
   tag: string
 ): UIFilters => {
-  const next = (filters[key] as string[] | undefined ?? []).filter(
+  const next = ((filters[key] as string[] | undefined) ?? []).filter(
     (c) => c !== tag
   );
   return {
@@ -174,7 +183,7 @@ export const FILTER_SPECS = {
     isActive: (f) => (f.categories ?? []).length > 0,
     chips: (f, update) =>
       (f.categories ?? []).map((cat) => {
-        const label = CATEGORIES.find((c) => c.value === cat)?.label ?? cat;
+        const label = CATEGORY_DISPLAY[cat]?.label ?? cat;
         return {
           key: `category-${cat}`,
           label: `Category: ${label}`,
@@ -191,7 +200,7 @@ export const FILTER_SPECS = {
     isActive: (f) => (f.stem_types ?? []).length > 0,
     chips: (f, update) =>
       (f.stem_types ?? []).map((slug) => {
-        const label = STEM_TYPES.find((s) => s.value === slug)?.label ?? slug;
+        const label = STEM_TYPE_DISPLAY[slug]?.label ?? slug;
         return {
           key: `stem-${slug}`,
           label,
@@ -206,7 +215,7 @@ export const FILTER_SPECS = {
     isActive: (f) => (f.colors ?? []).length > 0,
     chips: (f, update) =>
       (f.colors ?? []).map((slug) => {
-        const label = COLORS.find((c) => c.value === slug)?.label ?? slug;
+        const label = COLOR_DISPLAY[slug]?.label ?? slug;
         return {
           key: `color-${slug}`,
           label,

@@ -10,6 +10,7 @@ import { IconType } from 'react-icons';
 import { SlLocationPin } from 'react-icons/sl';
 import { ProductCard } from '@/src/common/ProductCard';
 import { ProductFilters } from '@/api/products/ProductFilters';
+import { FilterOptionsScope } from '@/api/products/FilterOptions';
 import { categoryQueries } from '@/api/cateogries/categoryQueries';
 import { collectionQueries } from '@/api/collections/collectionQueries';
 import { type Category, CategoryType } from '@/api/cateogries/Category';
@@ -45,15 +46,24 @@ export const Route = createFileRoute('/collections/$slug')({
       occasions
     );
     const filters = buildFilters(params.slug, slugType, deps.search);
+    const filterOptionsScope = buildFilterOptionsScope(
+      params.slug,
+      slugType,
+      deps.search.search
+    );
 
     const productsPromise = context.queryClient.ensureInfiniteQueryData(
       productQueries.infiniteList(filters)
     );
+    const filterOptionsPromise = context.queryClient.ensureQueryData(
+      productQueries.filterOptions(filterOptionsScope)
+    );
 
     if (slugType === 'all') {
       document.title = 'Shop Our Collection | UrbanStems';
-      await productsPromise;
-      return { slugType, filters, entity: null };
+      await Promise.all([productsPromise, filterOptionsPromise]);
+      const filterOptions = await filterOptionsPromise;
+      return { slugType, filters, filterOptions, entity: null };
     }
 
     const entityPromise =
@@ -69,13 +79,17 @@ export const Route = createFileRoute('/collections/$slug')({
               occasionQueries.detail(params.slug)
             );
 
-    const [, entity] = await Promise.all([productsPromise, entityPromise]);
+    const [, entity, filterOptions] = await Promise.all([
+      productsPromise,
+      entityPromise,
+      filterOptionsPromise,
+    ]);
 
     document.title =
       entity.page_title ??
       `${entity.name} Delivery | Next Day Delivery | UrbanStems`;
 
-    return { slugType, filters, entity };
+    return { slugType, filters, filterOptions, entity };
   },
 });
 
@@ -92,6 +106,24 @@ const getSlugType = (
   if (collections.some((c) => c.slug === slug)) return 'collection';
   if (occasions.some((o) => o.slug === slug)) return 'occasion';
   return 'occasion';
+};
+
+const buildFilterOptionsScope = (
+  slug: string,
+  slugType: SlugType,
+  search: string | undefined
+): FilterOptionsScope => {
+  const base = search ? { search } : {};
+  switch (slugType) {
+    case 'all':
+      return base;
+    case 'category':
+      return { ...base, category: slug };
+    case 'collection':
+      return { ...base, collection: slug };
+    case 'occasion':
+      return { ...base, occasion: slug };
+  }
 };
 
 const buildFilters = (
@@ -117,12 +149,25 @@ const buildFilters = (
 };
 
 function CollectionPage() {
-  const { filters, entity, slugType } = Route.useLoaderData();
+  const { filters, entity, slugType, filterOptions } = Route.useLoaderData();
+  const { slug } = Route.useParams();
   const routeSearch = Route.useSearch();
   const navigate = Route.useNavigate();
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
 
   const { search: searchTerm, ...uiFilters } = routeSearch;
+
+  // Hide the URL slug's own value from the sidebar — toggling "Flowers" on
+  // /collections/flowers is a no-op for the user. Other dimensions are
+  // unaffected (stem/color slugs don't overlap with category/collection
+  // slugs).
+  const sidebarOptions =
+    slugType === 'category'
+      ? {
+          ...filterOptions,
+          categories: filterOptions.categories.filter((c) => c !== slug),
+        }
+      : filterOptions;
 
   const setUiFilters = (next: UIFilters) => {
     navigate({
@@ -140,9 +185,9 @@ function CollectionPage() {
       <FilterSidebar
         isOpen={filterPanelOpen}
         onClose={() => setFilterPanelOpen(false)}
-        showCategoryFilter={slugType === 'all'}
         filters={uiFilters}
         onFiltersChange={setUiFilters}
+        availableOptions={sidebarOptions}
       />
       <header className='font-crimson flex flex-col items-center justify-center gap-2 py-18 text-[40px]'>
         <span className='flex flex-col items-center gap-4'>

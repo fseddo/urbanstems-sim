@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { productQueries } from '@/api/products/queries';
 import { BestSellersHeaderItem } from './BestSellersHeaderItem';
 import { HorizontalList } from '@/src/common/HorizontalList';
@@ -12,11 +12,10 @@ export default () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [category, setCategory] = useState<CategoryType>(CategoryType.Flowers);
 
-  const { data: productData } = useQuery(
-    productQueries.list({
-      category,
-    })
-  );
+  const { data: productData } = useQuery({
+    ...productQueries.list({ category }),
+    placeholderData: keepPreviousData,
+  });
 
   return (
     <section className='flex w-full flex-col gap-6 py-10 pl-20'>

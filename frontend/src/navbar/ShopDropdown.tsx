@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { categoryQueries } from '@/api/cateogries/categoryQueries';
 import { collectionQueries } from '@/api/collections/collectionQueries';
@@ -33,6 +34,30 @@ const NAV_DESCRIPTIONS: Record<string, string> = {
   flowers: 'Modern bouquets for every occasion.',
   plants: 'Leafy greenery and sophisticated orchids.',
   gifts: 'Make it special with gifts designed to make their day.',
+};
+
+// Warm the browser cache for the dropdown's images so they're rendered
+// instantly when the user opens the menu. Call from an always-mounted
+// component (the Navbar) — calling it from inside ShopDropdown would defeat
+// the purpose since the dropdown only mounts on first open.
+export const useShopDropdownPrefetch = () => {
+  const { data: categories = [] } = useQuery(categoryQueries.list());
+  const { data: collections = [] } = useQuery(collectionQueries.list());
+
+  useEffect(() => {
+    const urls: string[] = [];
+    for (const cat of categories) {
+      if (cat.nav_img_src) urls.push(`${cat.nav_img_src}&width=120`);
+    }
+    for (const col of HIGHLIGHTED_COLLECTIONS) {
+      const c = collections.find((x) => x.slug === col.slug);
+      if (c?.nav_img_src) urls.push(`${c.nav_img_src}&width=500`);
+    }
+    for (const url of urls) {
+      const img = new Image();
+      img.src = url;
+    }
+  }, [categories, collections]);
 };
 
 export const ShopDropdown = () => {

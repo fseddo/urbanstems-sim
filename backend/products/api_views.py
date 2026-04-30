@@ -1,7 +1,13 @@
 from typing import Any, cast
+from django.db.models import Min, Max
 from rest_framework import viewsets, filters
+from rest_framework.decorators import action
 from rest_framework.request import Request
-from .models import Product, Category, Collection, Occasion, Review
+from rest_framework.response import Response
+from .models import (
+    Product, Category, Collection, Occasion, Review,
+    StemType, Color,
+)
 from .serializers import (
     ProductListSerializer, ProductDetailSerializer,
     CategorySerializer, CollectionSerializer, OccasionSerializer,
@@ -107,6 +113,56 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
                 queryset = queryset.order_by('external_id')
 
         return queryset.distinct()
+
+    @action(detail=False, methods=['get'], url_path='filter-options')
+    def filter_options(self, request):
+        """Return the set of filter values that have ≥1 matching product
+        within the current scope (collection / category / occasion / search).
+
+        UI-applied multi-select filters (categories[], stem_types[], colors[],
+        vase_included, min_price, max_price) are intentionally NOT applied
+        here — the sidebar should keep showing all base-scope options so the
+        user can multi-select without options vanishing from under them.
+        """
+        queryset = Product.objects.all()
+
+        if collection := request.query_params.get('collection'):
+            queryset = queryset.filter(productcollection__collection__slug=collection)
+        if category := request.query_params.get('category'):
+            queryset = queryset.filter(productcategory__category__slug=category)
+        if occasion := request.query_params.get('occasion'):
+            queryset = queryset.filter(productoccasion__occasion__slug=occasion)
+        if search := request.query_params.get('search'):
+            queryset = queryset.filter(name__icontains=search)
+
+        queryset = queryset.distinct()
+
+        categories = list(
+            Category.objects.filter(productcategory__product__in=queryset)
+            .distinct().values_list('slug', flat=True)
+        )
+        stem_types = list(
+            StemType.objects.filter(productstemtype__product__in=queryset)
+            .distinct().values_list('slug', flat=True)
+        )
+        colors = list(
+            Color.objects.filter(productcolor__product__in=queryset)
+            .distinct().values_list('slug', flat=True)
+        )
+        vase_included = queryset.filter(vase_included=True).exists()
+        price = queryset.aggregate(min=Min('price'), max=Max('price'))
+
+        return Response({
+            'categories': categories,
+            'stem_types': stem_types,
+            'colors': colors,
+            'vase_included': vase_included,
+            'price_range': {
+                # Stored cents → dollars for the UI; null when scope is empty
+                'min': (price['min'] // 100) if price['min'] is not None else None,
+                'max': (price['max'] // 100) if price['max'] is not None else None,
+            },
+        })
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):

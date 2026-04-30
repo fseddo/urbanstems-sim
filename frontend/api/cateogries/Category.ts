@@ -3,6 +3,7 @@ export enum CategoryType {
   Plants = 'plants',
   Gifts = 'gifts',
   Centerpieces = 'centerpieces',
+  Peonies = 'peonies',
 }
 
 export interface Category {

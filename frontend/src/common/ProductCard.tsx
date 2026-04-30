@@ -5,6 +5,7 @@ import { StarRating } from './StarRating';
 import { Product } from '@/api/products/Product';
 import { ProductVariant } from '@/api/products/ProductVariant';
 import { getDeliveryDate } from '../products/constants';
+import { tw } from './utils/tw';
 
 export const ProductCard = memo(
   ({
@@ -31,7 +32,10 @@ export const ProductCard = memo(
         className='flex flex-shrink-0 cursor-pointer flex-col gap-4'
       >
         <div
-          className={`group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat ${!fixed ? 'aspect-[43/39]' : ''}`}
+          className={tw(
+            'group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat',
+            !fixed && 'aspect-[43/39]'
+          )}
           style={
             product.blur_data_url
               ? { backgroundImage: `url(${product.blur_data_url})` }
@@ -39,7 +43,10 @@ export const ProductCard = memo(
           }
         >
           <img
-            className={`rounded-md object-cover opacity-0 transition-opacity duration-300 ${!fixed ? 'absolute inset-0 h-full w-full' : ''}`}
+            className={tw(
+              'rounded-md object-cover opacity-0 transition-opacity duration-300',
+              !fixed && 'absolute inset-0 h-full w-full'
+            )}
             src={`${visibleProduct.main_image}&width=700`}
             alt={visibleProduct.name}
             height={fixed ? 490 : undefined}
@@ -76,13 +83,19 @@ export const ProductCard = memo(
             </div>
           )}
           <div
-            className={`font-crimson flex items-center justify-center ${compact ? 'text-base' : 'text-[clamp(15px,1.5vw,30px)]'}`}
+            className={tw(
+              'font-crimson flex items-center justify-center',
+              compact ? 'text-base' : 'text-[clamp(15px,1.5vw,30px)]'
+            )}
           >
             {capitalizeString(visibleProduct.name)}
           </div>
 
           <div
-            className={`flex gap-2 ${compact ? 'text-sm' : 'text-[clamp(12px,1.5vw,18px)]'}`}
+            className={tw(
+              'flex gap-2',
+              compact ? 'text-sm' : 'text-[clamp(12px,1.5vw,18px)]'
+            )}
           >
             <div>{`$${visibleProduct.price_dollars}`}</div>
             <div className='line-through opacity-60'>
@@ -114,7 +127,12 @@ export const ProductCard = memo(
                       }}
                     >
                       <img
-                        className={`rounded-full object-cover ${variant.variant_type === visibleProduct.variant_type ? 'ring-brand-primary ring-1 ring-offset-2 ring-offset-white' : 'hover:ring-1 hover:ring-gray-300 hover:ring-offset-2 hover:ring-offset-white'}`}
+                        className={tw(
+                          'rounded-full object-cover',
+                          variant.variant_type === visibleProduct.variant_type
+                            ? 'ring-brand-primary ring-1 ring-offset-2 ring-offset-white'
+                            : 'hover:ring-1 hover:ring-gray-300 hover:ring-offset-2 hover:ring-offset-white'
+                        )}
                         alt={variant.variant_type}
                         src={`${variant.main_image}&width=700`}
                         height={30}
@@ -122,7 +140,12 @@ export const ProductCard = memo(
                       />
                       <div
                         key={variant.id}
-                        className={`text-[10px] ${variant.variant_type === visibleProduct.variant_type ? 'text-brand-primary font-extrabold' : 'opacity-70'}`}
+                        className={tw(
+                          'text-[10px]',
+                          variant.variant_type === visibleProduct.variant_type
+                            ? 'text-brand-primary font-extrabold'
+                            : 'opacity-70'
+                        )}
                       >
                         {capitalizeString(variant.variant_type)}
                       </div>

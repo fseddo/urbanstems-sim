@@ -1,6 +1,7 @@
 import parse from 'html-react-parser';
 import { useState } from 'react';
 import { FiMinus, FiPlus } from 'react-icons/fi';
+import { tw } from '../common/utils/tw';
 
 export const ProductInfoAccordion = ({
   label,
@@ -12,7 +13,10 @@ export const ProductInfoAccordion = ({
   const [isExpanded, setIsExpanded] = useState(label === 'Description');
   return (
     <div
-      className={`border-background-alt/80 flex flex-col gap-4 border-b py-4 ${label === 'Description' ? 'border-t' : ''}`}
+      className={tw(
+        'border-background-alt/80 flex flex-col gap-4 border-b py-4',
+        label === 'Description' ? 'border-t' : ''
+      )}
     >
       <header className='flex items-center justify-between'>
         <div className='font-bold'>{label}</div>

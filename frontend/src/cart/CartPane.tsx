@@ -11,6 +11,7 @@ import {
   removeLineAtom,
   setLineQuantityAtom,
 } from './cartAtoms';
+import { tw } from '../common/utils/tw';
 
 const FREE_SHIPPING_THRESHOLD = 75;
 
@@ -29,19 +30,21 @@ export const CartPane = () => {
     <>
       {renderPortal(
         <div
-          className={`fixed inset-0 z-[51] bg-black/60 transition-opacity duration-300 ${
+          className={tw(
+            'fixed inset-0 z-[51] bg-black/60 transition-opacity duration-300',
             open
               ? 'pointer-events-auto opacity-100'
               : 'pointer-events-none opacity-0'
-          }`}
+          )}
           onClick={close}
         />
       )}
 
       <div
-        className={`bg-background fixed top-0 right-0 z-[52] flex h-full w-full max-w-[480px] flex-col shadow-2xl transition-transform duration-300 ${
+        className={tw(
+          'bg-background fixed top-[3vh] right-6 z-[52] flex h-[92vh] w-full max-w-[480px] flex-col rounded-md shadow-2xl transition-transform duration-300',
           open ? 'translate-x-0' : 'translate-x-[calc(100%+10rem)]'
-        }`}
+        )}
       >
         <div className='flex items-center justify-between px-8 pt-8 pb-4'>
           <span className='font-crimson text-5xl'>
@@ -71,7 +74,7 @@ export const CartPane = () => {
             </div>
           ) : (
             <>
-              <div className='border-brand-primary mt-3 border bg-[#f2f1eb] px-5 py-4 text-center text-sm'>
+              <div className='border-brand-primary bg-footer mt-3 border px-5 py-4 text-center text-sm'>
                 {remainingForShipping > 0
                   ? `You are $${remainingForShipping.toFixed(2)} away from free shipping!`
                   : 'Your order qualifies for free shipping!'}

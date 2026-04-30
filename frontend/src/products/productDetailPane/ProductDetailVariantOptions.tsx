@@ -3,6 +3,7 @@ import { capitalizeString } from '@/src/common/utils/capitalizeString';
 import { FaCheck } from 'react-icons/fa';
 import { VARIANT_TYPE_TO_PRODUCT_SIZE } from '../constants';
 import { Link } from '@tanstack/react-router';
+import { tw } from '@/src/common/utils/tw';
 
 export const ProductDetailVariantOptions = ({
   product,
@@ -19,7 +20,12 @@ export const ProductDetailVariantOptions = ({
               <Link
                 to='/products/$slug'
                 params={{ slug: variant.slug }}
-                className={`relative flex grow flex-col items-center justify-center gap-2 rounded-sm p-4 ${variant.variant_type === product?.variant_type ? 'border-brand-primary cursor-default border-2' : 'border-background-alt cursor-pointer border'}`}
+                className={tw(
+                  'relative flex grow flex-col items-center justify-center gap-2 rounded-sm p-4',
+                  variant.variant_type === product?.variant_type
+                    ? 'border-brand-primary cursor-default border-2'
+                    : 'border-background-alt cursor-pointer border'
+                )}
                 key={variant.id}
               >
                 {variant.variant_type === product?.variant_type && (
@@ -37,7 +43,12 @@ export const ProductDetailVariantOptions = ({
                 {/* variant text info */}
                 <div className='flex flex-col items-center gap-0.5'>
                   <div
-                    className={`text-base font-bold ${variant.variant_type === product?.variant_type ? 'text-brand-primary' : 'opacity-60'}`}
+                    className={tw(
+                      'text-base font-bold',
+                      variant.variant_type === product?.variant_type
+                        ? 'text-brand-primary'
+                        : 'opacity-60'
+                    )}
                   >
                     {capitalizeString(variant.variant_type)}
                   </div>

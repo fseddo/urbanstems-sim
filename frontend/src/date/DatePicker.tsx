@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { CalendarIcon } from './icons/CalendarIcon';
+import { CalendarIcon } from '../common/icons/CalendarIcon';
 
 const MONTH_NAMES = [
   'January',

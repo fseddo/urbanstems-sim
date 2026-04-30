@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { usePortal } from './usePortal';
+import { usePortal } from '../common/usePortal';
 import { FiX, FiMinus, FiPlus } from 'react-icons/fi';
 import { FilterOptions } from '@/api/products/FilterOptions';
 import {
@@ -11,6 +11,7 @@ import {
   STEM_TYPE_DISPLAY,
   UIFilters,
 } from './filterSpecs';
+import { tw } from '../common/utils/tw';
 
 export type { UIFilters };
 
@@ -107,20 +108,22 @@ export function FilterSidebar({
       {/* Backdrop overlay — portaled to body to escape stacking contexts */}
       {renderPortal(
         <div
-          className={`fixed inset-0 z-[51] bg-black/60 transition-opacity duration-300 ${
+          className={tw(
+            'fixed inset-0 z-[51] bg-black/60 transition-opacity duration-300',
             isOpen
               ? 'pointer-events-auto opacity-100'
               : 'pointer-events-none opacity-0'
-          }`}
+          )}
           onClick={onClose}
         />
       )}
 
       {/* Floating slide-in panel — above overlay, content-sized with max-height guard */}
       <div
-        className={`bg-background fixed top-[3vh] left-6 z-[52] h-[92vh] w-120 overflow-y-auto rounded-md p-6 shadow-2xl transition-transform duration-300 ${
+        className={tw(
+          'bg-background fixed top-[3vh] left-6 z-[52] h-[92vh] w-120 overflow-y-auto rounded-md p-6 shadow-2xl transition-transform duration-300',
           isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+10rem)]'
-        }`}
+        )}
       >
         {/* Header */}
         <div className='flex items-start justify-between'>
@@ -307,9 +310,10 @@ function ColorChip({
   return (
     <button
       onClick={onClick}
-      className={`font-mulish flex flex-col items-center gap-2 rounded-md bg-white py-3 text-center text-xs transition-colors ${
-        selected && 'border border-[#1e2934] font-bold text-[#1e2934]'
-      }`}
+      className={tw(
+        'font-mulish hover:border-brand-primary flex flex-col items-center gap-1 rounded-md border border-white bg-white py-1 text-center text-xs transition-colors hover:font-bold',
+        selected && 'border-brand-primary text-brand-primary font-bold'
+      )}
     >
       <span
         className='h-5 w-5 rounded-full border border-gray-200'
@@ -341,10 +345,10 @@ function PriceInput({
   onCommit: () => void;
 }) {
   return (
-    <div className='flex flex-1 items-center gap-2'>
-      <span className='text-gray-400'>$</span>
-      <div className='flex-1 rounded-md bg-white px-3 py-2'>
-        <div className='font-mulish text-[10px] tracking-wider text-gray-400 uppercase'>
+    <div className='flex items-center gap-2'>
+      <span className='text-brand-primary/80 text-sm'>$</span>
+      <div className='rounded-md bg-white px-2 py-1'>
+        <div className='font-mulish text-brand-primary/80 text-[8px] tracking-wider uppercase'>
           {label}
         </div>
         <input
@@ -355,7 +359,7 @@ function PriceInput({
           onChange={(e) => onChange(e.target.value)}
           onBlur={onCommit}
           onKeyDown={(e) => e.key === 'Enter' && onCommit()}
-          className='font-mulish w-full bg-transparent text-sm focus:outline-none'
+          className='font-mulish w-full bg-transparent text-xs focus:outline-none'
         />
       </div>
     </div>
@@ -374,11 +378,10 @@ function FilterChip({
   return (
     <button
       onClick={onClick}
-      className={`font-mulish duraction-200 hover:border-brand-primary hover:text-brand-primary rounded-md border bg-white py-4 text-center text-xs transition-all hover:font-bold ${
-        selected
-          ? 'border-brand-primary text-brand-primary font-bold'
-          : 'border-transparent'
-      }`}
+      className={tw(
+        'font-mulish hover:border-brand-primary hover:text-brand-primary rounded-sm border border-white bg-white py-4 text-center text-xs transition-all duration-200 hover:font-bold',
+        selected && 'border-brand-primary text-brand-primary font-bold'
+      )}
     >
       {label}
     </button>

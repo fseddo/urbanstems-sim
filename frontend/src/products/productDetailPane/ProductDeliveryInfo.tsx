@@ -6,8 +6,8 @@ import {
   addDays,
   formatDeliveryDate,
   startOfDay,
-} from '@/src/common/DatePicker';
-import { deliveryDateAtom } from '@/src/common/deliveryDateAtom';
+} from '@/src/date/DatePicker';
+import { deliveryDateAtom } from '@/src/date/deliveryDateAtom';
 
 export const DeliveryInformation = ({ product }: { product: Product }) => {
   const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);

@@ -3,8 +3,7 @@ import { useAtom } from 'jotai';
 import { CalendarIcon } from '@/src/common/icons/CalendarIcon';
 import { FilterIcon } from '@/src/common/icons/FilterIcon';
 import { List } from '@/src/common/List';
-import { DatePicker } from '@/src/common/DatePicker';
-import { deliveryDateAtom } from '@/src/common/deliveryDateAtom';
+import { deliveryDateAtom } from '@/src/date/deliveryDateAtom';
 import { productQueries } from '@/api/products/queries';
 import { occasionQueries } from '@/api/occasions/queries';
 import { JSX, ReactNode, useCallback, useState } from 'react';
@@ -19,11 +18,10 @@ import { collectionQueries } from '@/api/collections/collectionQueries';
 import { type Category, CategoryType } from '@/api/cateogries/Category';
 import type { Collection } from '@/api/collections/Collection';
 import type { Occasion } from '@/api/occasions/Occasion';
-import { FilterSidebar } from '@/src/common/FilterSidebar';
-import {
-  parseUIFiltersSearch,
-  UIFilters,
-} from '@/src/common/filterSpecs';
+import { FilterSidebar } from '@/src/filters/FilterSidebar';
+import { parseUIFiltersSearch, UIFilters } from '@/src/filters/filterSpecs';
+import { DatePicker } from '@/src/date/DatePicker';
+import { tw } from '@/src/common/utils/tw';
 
 type RouteSearch = UIFilters & { search?: string };
 
@@ -233,8 +231,7 @@ function CollectionPage() {
               onClick={toggle}
             >
               <div>
-                Delivery date:{' '}
-                <span className='font-normal'>{formatted}</span>
+                Delivery date: <span className='font-normal'>{formatted}</span>
               </div>
             </HeaderBarItem>
           )}
@@ -276,7 +273,10 @@ const HeaderBarItem = ({
 }) => {
   return (
     <div
-      className={`flex items-center gap-3 border-b px-10 py-6 font-bold lg:border-r lg:border-b-0 ${className}`}
+      className={tw(
+        'flex items-center gap-3 border-b px-10 py-6 font-bold lg:border-r lg:border-b-0',
+        className
+      )}
       onClick={onClick}
     >
       {Icon && <Icon />}

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { tw } from './utils/tw';
 
 interface HorizontalScrollbarProps {
   targetRef: React.RefObject<HTMLDivElement | null>;
@@ -9,7 +10,7 @@ interface HorizontalScrollbarProps {
 export default function HorizontalScrollbar({
   targetRef,
   height = 'h-2.5',
-  thumbColor = 'bg-primary',
+  thumbColor = 'bg-brand-primary',
 }: HorizontalScrollbarProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [thumbWidth, setThumbWidth] = useState(0);
@@ -125,10 +126,16 @@ export default function HorizontalScrollbar({
   return (
     <div
       ref={trackRef}
-      className={`relative ${height} bg-background-alt w-[30%] self-center rounded-4xl`}
+      className={tw(
+        'bg-background-alt relative w-[30%] self-center rounded-4xl',
+        height
+      )}
     >
       <div
-        className={`absolute top-0 ${thumbColor} bg-brand-primary h-full cursor-pointer rounded-4xl`}
+        className={tw(
+          'absolute top-0 h-full cursor-pointer rounded-4xl',
+          thumbColor
+        )}
         style={{ width: thumbWidth, left: thumbLeft }}
         onMouseDown={handleMouseDown}
       />

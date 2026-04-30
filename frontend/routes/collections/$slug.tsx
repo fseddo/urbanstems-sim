@@ -1,7 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useAtom } from 'jotai';
 import { CalendarIcon } from '@/src/common/icons/CalendarIcon';
 import { FilterIcon } from '@/src/common/icons/FilterIcon';
 import { List } from '@/src/common/List';
+import { DatePicker } from '@/src/common/DatePicker';
+import { deliveryDateAtom } from '@/src/common/deliveryDateAtom';
 import { productQueries } from '@/api/products/queries';
 import { occasionQueries } from '@/api/occasions/queries';
 import { JSX, ReactNode, useCallback, useState } from 'react';
@@ -176,9 +179,7 @@ function CollectionPage() {
     });
   };
 
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const formattedDate = `${String(tomorrow.getMonth() + 1).padStart(2, '0')}/${String(tomorrow.getDate()).padStart(2, '0')}/${tomorrow.getFullYear()}`;
+  const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);
 
   return (
     <main>
@@ -221,11 +222,23 @@ function CollectionPage() {
         >
           Filter & Sort
         </HeaderBarItem>
-        <HeaderBarItem Icon={CalendarIcon} className='flex-1'>
-          <div>
-            Delivery date: <span className='font-normal'>{formattedDate}</span>
-          </div>
-        </HeaderBarItem>
+        <DatePicker
+          className='flex flex-1'
+          value={deliveryDate}
+          onChange={setDeliveryDate}
+          trigger={({ toggle, formatted }) => (
+            <HeaderBarItem
+              Icon={CalendarIcon}
+              className='flex-1 cursor-pointer'
+              onClick={toggle}
+            >
+              <div>
+                Delivery date:{' '}
+                <span className='font-normal'>{formatted}</span>
+              </div>
+            </HeaderBarItem>
+          )}
+        />
         <HeaderBarItem
           Icon={SlLocationPin}
           className='flex-3 border-r-0 lg:border-r-0'

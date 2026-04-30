@@ -1,5 +1,7 @@
 import { useEffect, useState, RefObject } from 'react';
+import { useSetAtom } from 'jotai';
 import { Product } from '@/api/products/Product';
+import { addToCartAtom } from '../cart/cartAtoms';
 import { StarRating } from '../common/StarRating';
 
 export const ProductBottomBar = ({
@@ -10,6 +12,7 @@ export const ProductBottomBar = ({
   addToCartRef: RefObject<HTMLButtonElement | null>;
 }) => {
   const [visible, setVisible] = useState(false);
+  const addToCart = useSetAtom(addToCartAtom);
 
   useEffect(() => {
     const button = addToCartRef.current;
@@ -70,7 +73,10 @@ export const ProductBottomBar = ({
           <div className='text-sm'>{product.subtitle}</div>
         </div>
       </div>
-      <button className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary rounded-md border px-70 py-5 text-xs font-black tracking-wider text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'>
+      <button
+        onClick={() => addToCart(product)}
+        className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary rounded-md border px-70 py-5 text-xs font-black tracking-wider text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'
+      >
         {`ADD TO BAG - $${product.price_dollars}`}
       </button>
     </div>

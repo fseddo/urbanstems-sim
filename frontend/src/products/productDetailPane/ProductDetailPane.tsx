@@ -1,6 +1,8 @@
 import { RefObject } from 'react';
+import { useSetAtom } from 'jotai';
 import { StarRating } from '@/src/common/StarRating';
 import { Product } from '@/api/products/Product';
+import { addToCartAtom } from '@/src/cart/cartAtoms';
 import { AddOns } from './ProductAddOns';
 import { DeliveryInformation } from './ProductDeliveryInfo';
 import { ProductDetailVariantOptions } from './ProductDetailVariantOptions';
@@ -12,6 +14,7 @@ export const ProductDetailPane = ({
   product: Product;
   addToCartRef: RefObject<HTMLButtonElement | null>;
 }) => {
+  const addToCart = useSetAtom(addToCartAtom);
   return (
     <div className='absolute top-0 right-[90px] z-10 h-full pb-20'>
       <div
@@ -52,6 +55,7 @@ export const ProductDetailPane = ({
 
         <button
           ref={addToCartRef}
+          onClick={() => addToCart(product)}
           className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-4 text-sm font-bold tracking-wider text-white transition-colors duration-300 hover:bg-white active:scale-95'
         >
           {`ADD TO BAG - $${product.price_dollars}`}

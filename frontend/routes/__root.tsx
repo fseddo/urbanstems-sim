@@ -12,6 +12,7 @@ import { useNavbarCssHeight } from '@/src/navbar/useElementHeight';
 import { useHideOnScroll } from '@/src/navbar/useHideOnScroll';
 import { useLoadingFavicon } from '@/src/common/useLoadingFavicon';
 import { DisclaimerPopup } from '@/src/common/DisclaimerPopup';
+import { CartPane } from '@/src/cart/CartPane';
 
 function RootLayout() {
   return (
@@ -32,6 +33,7 @@ function RootLayoutInner() {
   return (
     <>
       <Navbar ref={navbarRef} />
+      <CartPane />
       <DisclaimerPopup />
       <div style={{ height: 'var(--navbar-height)' }} />
       <div className='relative'>

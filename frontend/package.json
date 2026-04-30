@@ -19,6 +19,7 @@
     "@tanstack/react-router-devtools": "^1.120.12",
     "@tanstack/react-virtual": "^3.13.18",
     "html-react-parser": "^5.2.16",
+    "jotai": "^2.19.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",

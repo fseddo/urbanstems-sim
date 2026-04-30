@@ -9,6 +9,8 @@ import { useShopDropdown, useSearchDropdown } from './NavbarContext';
 import { Link } from '@tanstack/react-router';
 import { CartIcon } from '../common/icons/CartIcon';
 import { NavLink } from './NavLink';
+import { useSetAtom, useAtomValue } from 'jotai';
+import { cartCountAtom, cartOpenAtom } from '../cart/cartAtoms';
 
 type NavItem = { slug: string; label: string };
 
@@ -138,9 +140,7 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
               >
                 <PiMagnifyingGlass size={19} />
               </button>
-              <div onMouseEnter={() => setShopOpen(false)}>
-                <CartIcon />
-              </div>
+              <CartButton onMouseEnter={() => setShopOpen(false)} />
             </div>
 
             {/* Mobile Right Placeholder */}
@@ -159,3 +159,23 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
 });
 
 Navbar.displayName = 'Navbar';
+
+const CartButton = ({ onMouseEnter }: { onMouseEnter: () => void }) => {
+  const setCartOpen = useSetAtom(cartOpenAtom);
+  const count = useAtomValue(cartCountAtom);
+  return (
+    <button
+      onClick={() => setCartOpen(true)}
+      onMouseEnter={onMouseEnter}
+      aria-label={`Open cart${count > 0 ? `, ${count} item${count === 1 ? '' : 's'}` : ''}`}
+      className='text-brand-primary relative cursor-pointer transition-opacity hover:opacity-60'
+    >
+      <CartIcon />
+      {count > 0 && (
+        <span className='bg-brand-primary font-mulish absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white'>
+          {count}
+        </span>
+      )}
+    </button>
+  );
+};

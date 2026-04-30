@@ -203,7 +203,7 @@ export const FILTER_SPECS = {
         const label = STEM_TYPE_DISPLAY[slug]?.label ?? slug;
         return {
           key: `stem-${slug}`,
-          label,
+          label: `Stem: ${label}`,
           onRemove: () => update(removeTag(f, 'stem_types', slug)),
         };
       }),
@@ -218,7 +218,7 @@ export const FILTER_SPECS = {
         const label = COLOR_DISPLAY[slug]?.label ?? slug;
         return {
           key: `color-${slug}`,
-          label,
+          label: `Color: ${label}`,
           onRemove: () => update(removeTag(f, 'colors', slug)),
         };
       }),
@@ -233,7 +233,7 @@ export const FILTER_SPECS = {
         ? [
             {
               key: 'vase_included',
-              label: 'Includes Vase',
+              label: 'Vase Included',
               onRemove: () => update({ ...f, vase_included: undefined }),
             },
           ]
@@ -252,7 +252,7 @@ export const FILTER_SPECS = {
       return [
         {
           key: 'price',
-          label: `${min} - ${max}`,
+          label: `Price: ${min} - ${max}`,
           onRemove: () =>
             update({ ...f, min_price: undefined, max_price: undefined }),
         },

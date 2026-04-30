@@ -46,8 +46,9 @@ export const CartPane = () => {
           open ? 'translate-x-0' : 'translate-x-[calc(100%+10rem)]'
         )}
       >
-        <div className='flex items-center justify-between px-8 pt-8 pb-4'>
-          <span className='font-crimson text-5xl'>
+        {/* Header */}
+        <div className='flex items-start justify-between p-7'>
+          <span className='font-crimson px-4 pt-7 text-4xl'>
             {itemCount > 0 ? `Cart (${itemCount})` : 'Cart'}
           </span>
           <button
@@ -59,7 +60,7 @@ export const CartPane = () => {
           </button>
         </div>
 
-        <div className='flex-1 overflow-y-auto px-8'>
+        <div className='flex-1 overflow-y-auto px-12'>
           {lines.length === 0 ? (
             <div className='flex h-full flex-col items-center justify-center gap-6 pb-20'>
               <div className='font-mulish text-sm opacity-60'>
@@ -74,7 +75,7 @@ export const CartPane = () => {
             </div>
           ) : (
             <>
-              <div className='border-brand-primary bg-footer mt-3 border px-5 py-4 text-center text-sm'>
+              <div className='border-brand-primary bg-footer border p-5 text-center text-sm'>
                 {remainingForShipping > 0
                   ? `You are $${remainingForShipping.toFixed(2)} away from free shipping!`
                   : 'Your order qualifies for free shipping!'}
@@ -90,16 +91,16 @@ export const CartPane = () => {
         </div>
 
         {lines.length > 0 && (
-          <div className='border-background-alt flex flex-col gap-3 border-t bg-white px-8 pt-6 pb-8'>
+          <div className='flex flex-col gap-3 rounded-b-md bg-white px-10 pt-6 pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.03)]'>
             <div className='flex items-center justify-between text-base'>
               <span>Total</span>
-              <span className='font-bold'>${total.toFixed(2)}</span>
+              <span className='font-bold'>${total.toFixed(0)}</span>
             </div>
             <div className='flex items-center justify-between text-sm'>
               <span>Estimated Shipping</span>
               <span className='font-bold'>TBD</span>
             </div>
-            <button className='bg-brand-primary mt-2 w-full rounded-md py-4 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99]'>
+            <button className='bg-brand-primary mt-2 w-full rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99]'>
               CHECKOUT
             </button>
             <p className='text-center text-[11px] opacity-60'>
@@ -135,11 +136,9 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
       <div className='flex flex-1 flex-col justify-between'>
         <div className='flex items-start justify-between gap-2'>
           <div className='flex flex-col gap-0.5'>
-            <div className='font-crimson text-xl leading-tight'>
-              {item.name}
-            </div>
+            <div className='text-base leading-tight font-bold'>{item.name}</div>
             {item.variant_type && (
-              <div className='text-xs opacity-60'>
+              <div className='text-sm'>
                 Size: {capitalizeString(item.variant_type)}
               </div>
             )}
@@ -161,7 +160,7 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
               aria-label='Decrease quantity'
               className='transition-opacity hover:opacity-60'
             >
-              −
+              -
             </button>
             <span className='min-w-[1ch] text-center'>{quantity}</span>
             <button
@@ -174,13 +173,13 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
               +
             </button>
           </div>
-          <div className='flex items-baseline gap-2'>
+          <div className='flex items-baseline gap-2 text-sm'>
             {originalLineTotal != null && (
-              <span className='text-xs line-through opacity-60'>
-                ${originalLineTotal.toFixed(2)}
+              <span className='line-through opacity-60'>
+                ${originalLineTotal.toFixed(0)}
               </span>
             )}
-            <span className='font-bold'>${lineTotal.toFixed(2)}</span>
+            <span>${lineTotal.toFixed(0)}</span>
           </div>
         </div>
       </div>

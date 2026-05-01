@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root';
 import { Route as IndexRouteImport } from './routes/index';
 import { Route as CollectionsIndexRouteImport } from './routes/collections/index';
+import { Route as CheckoutIndexRouteImport } from './routes/checkout/index';
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success';
 import { Route as ProductsSlugRouteImport } from './routes/products/$slug';
 import { Route as CollectionsSlugRouteImport } from './routes/collections/$slug';
 
@@ -22,6 +24,16 @@ const IndexRoute = IndexRouteImport.update({
 const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   id: '/collections/',
   path: '/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
+  id: '/checkout/',
+  path: '/checkout/',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
   getParentRoute: () => rootRouteImport,
 } as any);
 const ProductsSlugRoute = ProductsSlugRouteImport.update({
@@ -39,12 +51,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
   '/collections/$slug': typeof CollectionsSlugRoute;
   '/products/$slug': typeof ProductsSlugRoute;
+  '/checkout/success': typeof CheckoutSuccessRoute;
+  '/checkout/': typeof CheckoutIndexRoute;
   '/collections/': typeof CollectionsIndexRoute;
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
   '/collections/$slug': typeof CollectionsSlugRoute;
   '/products/$slug': typeof ProductsSlugRoute;
+  '/checkout/success': typeof CheckoutSuccessRoute;
+  '/checkout': typeof CheckoutIndexRoute;
   '/collections': typeof CollectionsIndexRoute;
 }
 export interface FileRoutesById {
@@ -52,18 +68,34 @@ export interface FileRoutesById {
   '/': typeof IndexRoute;
   '/collections/$slug': typeof CollectionsSlugRoute;
   '/products/$slug': typeof ProductsSlugRoute;
+  '/checkout/success': typeof CheckoutSuccessRoute;
+  '/checkout/': typeof CheckoutIndexRoute;
   '/collections/': typeof CollectionsIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/collections/$slug' | '/products/$slug' | '/collections/';
+  fullPaths:
+    | '/'
+    | '/collections/$slug'
+    | '/products/$slug'
+    | '/checkout/success'
+    | '/checkout/'
+    | '/collections/';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/collections/$slug' | '/products/$slug' | '/collections';
+  to:
+    | '/'
+    | '/collections/$slug'
+    | '/products/$slug'
+    | '/checkout/success'
+    | '/checkout'
+    | '/collections';
   id:
     | '__root__'
     | '/'
     | '/collections/$slug'
     | '/products/$slug'
+    | '/checkout/success'
+    | '/checkout/'
     | '/collections/';
   fileRoutesById: FileRoutesById;
 }
@@ -71,6 +103,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   CollectionsSlugRoute: typeof CollectionsSlugRoute;
   ProductsSlugRoute: typeof ProductsSlugRoute;
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute;
+  CheckoutIndexRoute: typeof CheckoutIndexRoute;
   CollectionsIndexRoute: typeof CollectionsIndexRoute;
 }
 
@@ -88,6 +122,20 @@ declare module '@tanstack/react-router' {
       path: '/collections';
       fullPath: '/collections/';
       preLoaderRoute: typeof CollectionsIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    '/checkout/': {
+      id: '/checkout/';
+      path: '/checkout';
+      fullPath: '/checkout/';
+      preLoaderRoute: typeof CheckoutIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    '/checkout/success': {
+      id: '/checkout/success';
+      path: '/checkout/success';
+      fullPath: '/checkout/success';
+      preLoaderRoute: typeof CheckoutSuccessRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     '/products/$slug': {
@@ -111,6 +159,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   ProductsSlugRoute: ProductsSlugRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
+  CheckoutIndexRoute: CheckoutIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
 };
 export const routeTree = rootRouteImport

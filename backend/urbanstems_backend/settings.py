@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'products',
     'places',
+    'checkout',
 ]
 
 MIDDLEWARE = [
@@ -186,3 +187,19 @@ GEOIP_DB_PATH = config(
 # the box.
 GEOIP_FALLBACK_LAT = config('GEOIP_FALLBACK_LAT', default=40.7128, cast=float)
 GEOIP_FALLBACK_LNG = config('GEOIP_FALLBACK_LNG', default=-74.006, cast=float)
+
+# Stripe. Test-mode keys (sk_test_..., pk_test_...) are fine for the sim;
+# the publishable key is consumed by the frontend via VITE_STRIPE_PUBLISHABLE_KEY.
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_CURRENCY = config('STRIPE_CURRENCY', default='usd')
+# Sales tax percentage applied to the order subtotal in the PaymentIntent.
+# 8.875 matches NYC combined sales tax — easy to swap for a real lookup later.
+CHECKOUT_TAX_RATE_PCT = config('CHECKOUT_TAX_RATE_PCT', default=8.875, cast=float)
+# Free shipping kicks in at this subtotal; mirrors FREE_SHIPPING_THRESHOLD on
+# the frontend cart pane.
+CHECKOUT_FREE_SHIPPING_THRESHOLD_CENTS = config(
+    'CHECKOUT_FREE_SHIPPING_THRESHOLD_CENTS', default=14000, cast=int
+)
+CHECKOUT_FLAT_SHIPPING_CENTS = config(
+    'CHECKOUT_FLAT_SHIPPING_CENTS', default=1500, cast=int
+)

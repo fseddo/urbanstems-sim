@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { FiX } from 'react-icons/fi';
 import { HiOutlineTrash } from 'react-icons/hi2';
+import { useNavigate } from '@tanstack/react-router';
 import { usePortal } from '../common/usePortal';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import {
@@ -20,11 +21,17 @@ export const CartPane = () => {
   const lines = useAtomValue(cartItemsAtom);
   const total = useAtomValue(cartTotalAtom);
   const renderPortal = usePortal(open);
+  const navigate = useNavigate();
 
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0);
   const remainingForShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
 
   const close = () => setOpen(false);
+
+  const goToCheckout = () => {
+    setOpen(false);
+    navigate({ to: '/checkout' });
+  };
 
   return (
     <>
@@ -100,7 +107,10 @@ export const CartPane = () => {
               <span>Estimated Shipping</span>
               <span className='font-bold'>TBD</span>
             </div>
-            <button className='bg-brand-primary mt-2 w-full rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99]'>
+            <button
+              onClick={goToCheckout}
+              className='bg-brand-primary mt-2 w-full rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99]'
+            >
               CHECKOUT
             </button>
             <p className='text-center text-[11px] opacity-60'>

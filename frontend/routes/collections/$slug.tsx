@@ -21,6 +21,8 @@ import type { Occasion } from '@/api/occasions/Occasion';
 import { FilterSidebar } from '@/src/filters/FilterSidebar';
 import { parseUIFiltersSearch, UIFilters } from '@/src/filters/filterSpecs';
 import { DatePicker } from '@/src/date/DatePicker';
+import { AddressPicker } from '@/src/address/AddressPicker';
+import { deliveryAddressAtom } from '@/src/address/deliveryAddressAtom';
 import { tw } from '@/src/common/utils/tw';
 
 type RouteSearch = UIFilters & { search?: string };
@@ -178,6 +180,7 @@ function CollectionPage() {
   };
 
   const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);
+  const [deliveryAddress, setDeliveryAddress] = useAtom(deliveryAddressAtom);
 
   return (
     <main>
@@ -236,12 +239,25 @@ function CollectionPage() {
             </HeaderBarItem>
           )}
         />
-        <HeaderBarItem
-          Icon={SlLocationPin}
-          className='flex-3 border-r-0 lg:border-r-0'
-        >
-          Sending to: <span className='font-normal'>New York City, NY</span>
-        </HeaderBarItem>
+        <AddressPicker
+          className='flex flex-3'
+          value={deliveryAddress}
+          onChange={setDeliveryAddress}
+          trigger={({ toggle, value, formatted }) => (
+            <HeaderBarItem
+              Icon={SlLocationPin}
+              className='flex-3 cursor-pointer border-r-0 lg:border-r-0'
+              onClick={toggle}
+            >
+              <div>
+                Sending to:{' '}
+                <span className='font-normal'>
+                  {value ? formatted : 'New York City, NY'}
+                </span>
+              </div>
+            </HeaderBarItem>
+          )}
+        />
       </header>
       <List
         queryOptions={productQueries.infiniteList(filters)}

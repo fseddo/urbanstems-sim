@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'products',
+    'places',
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'products.pagination.CustomPagination',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    # Rate limits below are per client IP. They protect the (billable)
+    # Google Places endpoints from being drained by a single client.
+    'DEFAULT_THROTTLE_RATES': {
+        'places-autocomplete': '30/min',
+        'places-details': '20/min',
+        'places-detect': '10/min',
+    },
 }
 
 # CORS settings (for frontend development)
@@ -145,3 +153,36 @@ CORS_ALLOWED_ORIGINS = config(
 )
 
 CORS_ALLOW_CREDENTIALS = True
+
+# Number of trusted proxy hops between the public internet and Django. Used
+# by rate-limiting and IP geolocation to identify the real client IP from
+# X-Forwarded-For. 0 = no proxy (use REMOTE_ADDR). 1 = single proxy (Railway,
+# nginx). See docs/places-and-geo.md "Railway deployment" for details.
+TRUSTED_PROXY_HOPS = config('TRUSTED_PROXY_HOPS', default=0, cast=int)
+
+# Cache backend. Redis is required as soon as Django runs in more than one
+# process (multiple workers, multiple containers): without it, throttle
+# counters and response cache are per-process, halving rate-limit accuracy
+# and the cache hit ratio. Falls back to LocMem when REDIS_URL is unset.
+_REDIS_URL = config('REDIS_URL', default='')
+if _REDIS_URL:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': _REDIS_URL,
+        }
+    }
+
+# Path to the MaxMind GeoLite2 City database. Downloaded from MaxMind (free
+# account) and dropped at the default path below; the geo-detect endpoint
+# returns a fallback location when the file is missing.
+GEOIP_DB_PATH = config(
+    'GEOIP_DB_PATH',
+    default=str(BASE_DIR / 'data' / 'geoip' / 'GeoLite2-City.mmdb'),
+)
+
+# Default coords used when client IP is private/loopback (e.g. local dev) or
+# when the GeoIP DB is missing. Picked to bias autocomplete sensibly out of
+# the box.
+GEOIP_FALLBACK_LAT = config('GEOIP_FALLBACK_LAT', default=40.7128, cast=float)
+GEOIP_FALLBACK_LNG = config('GEOIP_FALLBACK_LNG', default=-74.006, cast=float)

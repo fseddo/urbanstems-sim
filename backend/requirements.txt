@@ -7,5 +7,7 @@ dj-database-url==2.1.0
 django-cors-headers==4.3.1
 Pillow==10.4.0
 requests==2.32.3
+geoip2==4.8.0
+redis==5.0.1
 gunicorn==22.0.0
 whitenoise==6.7.0

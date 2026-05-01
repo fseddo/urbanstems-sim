@@ -13,7 +13,7 @@ import {
 } from './cartAtoms';
 import { tw } from '../common/utils/tw';
 
-const FREE_SHIPPING_THRESHOLD = 75;
+const FREE_SHIPPING_THRESHOLD = 140;
 
 export const CartPane = () => {
   const [open, setOpen] = useAtom(cartOpenAtom);

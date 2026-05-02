@@ -8,6 +8,8 @@ __pycache__/
 *.py[cod]
 *.pyc
 *.pyo
+.venv/
+venv/
 
 # Django
 *.sqlite3

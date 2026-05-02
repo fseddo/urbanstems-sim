@@ -1,3 +1,5 @@
+import json
+
 import stripe
 from django.conf import settings
 from rest_framework import status
@@ -85,6 +87,22 @@ def create_payment_intent(request):
     tax_cents = _tax_cents(subtotal_cents)
     total_cents = subtotal_cents + shipping_cents + tax_cents
 
+    # Trim line metadata to fit Stripe's 500-char-per-value limit. We include
+    # slug/name/qty/cents per line — the webhook uses slug to look up product
+    # images at email-render time.
+    lines_metadata = json.dumps(
+        [
+            {
+                'slug': line['slug'],
+                'name': line['name'],
+                'qty': line['quantity'],
+                'cents': line['line_cents'],
+            }
+            for line in resolved
+        ],
+        separators=(',', ':'),
+    )
+
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         intent = stripe.PaymentIntent.create(
@@ -96,6 +114,7 @@ def create_payment_intent(request):
                 'shipping_cents': str(shipping_cents),
                 'tax_cents': str(tax_cents),
                 'item_count': str(sum(line['quantity'] for line in resolved)),
+                'lines': lines_metadata[:500],
             },
         )
     except stripe.error.StripeError as e:

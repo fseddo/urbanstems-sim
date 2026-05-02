@@ -192,6 +192,32 @@ GEOIP_FALLBACK_LNG = config('GEOIP_FALLBACK_LNG', default=-74.006, cast=float)
 # the publishable key is consumed by the frontend via VITE_STRIPE_PUBLISHABLE_KEY.
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_CURRENCY = config('STRIPE_CURRENCY', default='usd')
+# Webhook signing secret. Different per environment: Railway dashboard's
+# webhook gives one, the local `stripe listen` CLI prints another. Set to
+# the matching one wherever the server runs.
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+
+# Resend. Free tier (3k/month, 100/day) is plenty for the sim.
+RESEND_API_KEY = config('RESEND_API_KEY', default='')
+# Sender address. Must be a verified domain in Resend, or the sandbox
+# `onboarding@resend.dev` (which only delivers to your signup email).
+EMAIL_FROM = config(
+    'EMAIL_FROM',
+    default='UrbanStems <onboarding@resend.dev>',
+)
+# Logo for the order confirmation email. Must be a PNG/JPEG hosted at a
+# public URL (Gmail strips inline data: URIs and most clients don't render
+# SVG). Default points at a public LinkedIn-hosted UrbanStems logo as a
+# placeholder; swap to a self-hosted asset when convenient.
+EMAIL_LOGO_URL = config(
+    'EMAIL_LOGO_URL',
+    default='https://media.licdn.com/dms/image/v2/C4E0BAQE30cC9hM4k9A/company-logo_200_200/company-logo_200_200/0/1630593771861/urbanstems_logo?e=2147483647&v=beta&t=z4q6y0lLO8f_W8pfs9qim9FYppDUxj9gW7J7A5NL2YQ',
+)
+# Store URL used for the "Continue Shopping" CTA in the email. Defaults to
+# the production frontend.
+STORE_URL = config(
+    'STORE_URL', default='https://urbanstems.francescoseddo.me'
+)
 # Sales tax percentage applied to the order subtotal in the PaymentIntent.
 # 8.875 matches NYC combined sales tax — easy to swap for a real lookup later.
 CHECKOUT_TAX_RATE_PCT = config('CHECKOUT_TAX_RATE_PCT', default=8.875, cast=float)

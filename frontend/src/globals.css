@@ -10,6 +10,8 @@ html {
   --foreground: #171717;
   --brand-primary: #1e2934;
   --footer: #f2f1eb;
+  --error: #b91c1c;
+  --error-bg: #fef2f2;
   --font-mulish: 'Mulish', sans-serif;
   --font-crimson: 'Crimson Text', sans-serif;
   --navbar-height: 90px;
@@ -23,6 +25,8 @@ html {
   --color-foreground: var(--foreground);
   --color-brand-primary: var(--brand-primary);
   --color-footer: var(--footer);
+  --color-error: var(--error);
+  --color-error-bg: var(--error-bg);
   --default-font-family: var(--font-mulish);
   --font-crimson: var(--font-crimson);
   --font-mulish: var(--font-mulish);

@@ -123,7 +123,7 @@ export const List = <T,>({
   if (isError) {
     return (
       <div className='flex h-screen items-center justify-center'>
-        <div className='text-lg text-red-600'>
+        <div className='text-error text-lg'>
           Error: {error instanceof Error ? error.message : 'Unknown error'}
         </div>
       </div>

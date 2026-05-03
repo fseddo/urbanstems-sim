@@ -39,7 +39,7 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
     <div className='flex w-full flex-col gap-2 pb-4'>
       <div className='font-bold'>Delivery Information</div>
       {bumpedFrom && (
-        <div className='text-xs text-red-600'>
+        <div className='text-error text-xs'>
           Delivery date was changed to {formatDeliveryDate(deliveryDate)} — the
           earliest available — because this product can't be delivered on{' '}
           {formatDeliveryDate(bumpedFrom)}.

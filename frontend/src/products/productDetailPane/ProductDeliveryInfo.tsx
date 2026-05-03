@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { Product } from '@/api/products/Product';
 import {
   DatePicker,
@@ -8,9 +8,11 @@ import {
   startOfDay,
 } from '@/src/date/DatePicker';
 import { deliveryDateAtom } from '@/src/date/deliveryDateAtom';
+import { deliveryAddressAtom } from '@/src/address/deliveryAddressAtom';
 
 export const DeliveryInformation = ({ product }: { product: Product }) => {
   const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);
+  const deliveryAddress = useAtomValue(deliveryAddressAtom);
   const [bumpedFrom, setBumpedFrom] = useState<Date | null>(null);
 
   const earliestDate = useMemo(
@@ -62,7 +64,9 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
         />
         <div className='flex flex-3 flex-col gap-0.5 px-2 py-4 text-sm'>
           <div className='text-brand-primary font-bold'>Send to:</div>
-          <div className='text-foreground/60'>New York City, NY</div>
+          <div className='text-foreground/60'>
+            {deliveryAddress?.mainText ?? 'New York City, NY'}
+          </div>
         </div>
       </div>
     </div>

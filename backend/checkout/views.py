@@ -108,7 +108,7 @@ def create_payment_intent(request):
         intent = stripe.PaymentIntent.create(
             amount=total_cents,
             currency=settings.STRIPE_CURRENCY,
-            automatic_payment_methods={'enabled': True},
+            payment_method_types=['card'],
             metadata={
                 'subtotal_cents': str(subtotal_cents),
                 'shipping_cents': str(shipping_cents),

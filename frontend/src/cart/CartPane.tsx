@@ -1,7 +1,10 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { FiX } from 'react-icons/fi';
 import { HiOutlineTrash } from 'react-icons/hi2';
+import { CgSpinner } from 'react-icons/cg';
 import { useNavigate } from '@tanstack/react-router';
+import { useIsFetching } from '@tanstack/react-query';
+import { checkoutKeys } from '@/api/checkout/checkoutQueries';
 import { usePortal } from '../common/usePortal';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import {
@@ -25,12 +28,14 @@ export const CartPane = () => {
 
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0);
   const remainingForShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
+  const navigating =
+    useIsFetching({ queryKey: checkoutKeys.paymentIntent(lines) }) > 0;
 
   const close = () => setOpen(false);
 
-  const goToCheckout = () => {
+  const goToCheckout = async () => {
+    await navigate({ to: '/checkout' });
     setOpen(false);
-    navigate({ to: '/checkout' });
   };
 
   return (
@@ -105,13 +110,20 @@ export const CartPane = () => {
             </div>
             <div className='flex items-center justify-between text-sm'>
               <span>Estimated Shipping</span>
-              <span className='font-bold'>TBD</span>
+              <span className='font-bold'>
+                {remainingForShipping > 0 ? 'TBD' : 'Free'}
+              </span>
             </div>
             <button
               onClick={goToCheckout}
-              className='bg-brand-primary mt-2 w-full rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99]'
+              disabled={navigating}
+              className='bg-brand-primary mt-2 flex w-full items-center justify-center rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-80'
             >
-              CHECKOUT
+              {navigating ? (
+                <CgSpinner className='animate-spin' size={20} />
+              ) : (
+                'CHECKOUT'
+              )}
             </button>
             <p className='text-center text-[11px] opacity-60'>
               Total, final shipping amount, discounts, taxes, and fees are

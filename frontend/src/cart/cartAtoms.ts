@@ -17,9 +17,15 @@ export interface CartLine {
   quantity: number;
 }
 
+// `getOnInit: true` makes the atom read from localStorage at creation time,
+// not just on React mount. Without it, route loaders that read this atom
+// (e.g. /checkout) see the empty initial value on hard refresh and behave
+// as if the cart is empty.
 export const cartItemsAtom = atomWithStorage<CartLine[]>(
   'urbanstems-cart',
-  []
+  [],
+  undefined,
+  { getOnInit: true }
 );
 
 export const cartOpenAtom = atom(false);

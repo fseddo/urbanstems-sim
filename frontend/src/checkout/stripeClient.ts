@@ -11,7 +11,9 @@ export const getStripe = () => {
     stripePromise = Promise.resolve(null);
     return stripePromise;
   }
-  stripePromise = loadStripe(key);
+  stripePromise = loadStripe(key, {
+    developerTools: { assistant: { enabled: false } },
+  });
   return stripePromise;
 };
 

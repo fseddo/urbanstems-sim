@@ -1,6 +1,7 @@
 import { productQueries } from '@/api/products/queries';
 import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
+import { Link } from '@tanstack/react-router';
 import { HorizontalList } from '../common/HorizontalList';
 import { ProductCard } from '../common/ProductCard';
 import { CategoryType } from '@/api/cateogries/Category';
@@ -16,9 +17,13 @@ export const ProductRecommendations = () => {
     <div className='flex flex-col gap-8 p-20'>
       <div className='flex w-full items-end justify-between'>
         <div className='font-crimson text-5xl'>You May Also Like</div>
-        <div className='text-sm font-black tracking-widest underline'>
+        <Link
+          to='/collections/$slug'
+          params={{ slug: 'all' }}
+          className='text-sm font-black tracking-widest underline'
+        >
           SHOP ALL
-        </div>
+        </Link>
       </div>
       <HorizontalList scrollRef={scrollRef}>
         {flowerData?.data?.flatMap((product, idx) =>

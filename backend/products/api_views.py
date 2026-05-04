@@ -1,9 +1,11 @@
 from typing import Any, cast
 from django.db.models import Min, Max
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
+from .filters import ProductFilter, ReviewFilter
 from .models import (
     Product, Category, Collection, Occasion, Review,
     StemType, Color,
@@ -15,6 +17,16 @@ from .serializers import (
 )
 
 
+# Position-ordering taxonomies: when ?category|collection|occasion is set and
+# no explicit ?ordering= is supplied, sort by the through-model's `position`
+# so curated ordering takes effect. First match wins.
+_POSITION_ORDERINGS = (
+    ('category', 'productcategory__position'),
+    ('collection', 'productcollection__position'),
+    ('occasion', 'productoccasion__position'),
+)
+
+
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for Product model
@@ -22,7 +34,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Product.objects.all()
     lookup_field = 'slug'
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = ProductFilter
     search_fields = ['name', 'base_name', 'description']
     ordering_fields = ['name', 'price', 'reviews_rating', 'created_at', 'external_id']
 
@@ -32,87 +45,16 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         return ProductDetailSerializer
 
     def get_queryset(self) -> Any:
-        queryset = Product.objects.all()
         request = cast(Request, self.request)
-        position_ordering = None
+        queryset = Product.objects.all().distinct()
 
-        # Filter by category (single slug, used for category landing pages)
-        category = request.query_params.get('category')
-        if category:
-            queryset = queryset.filter(
-                productcategory__category__slug=category
-            )
-            position_ordering = 'productcategory__position'
+        if request.query_params.get('ordering'):
+            return queryset
 
-        # Filter by categories (multi-select from filter sidebar)
-        categories = request.query_params.getlist('categories')
-        if categories:
-            queryset = queryset.filter(
-                productcategory__category__slug__in=categories
-            )
-
-        # Filter by collection
-        collection = request.query_params.get('collection')
-        if collection:
-            queryset = queryset.filter(
-                productcollection__collection__slug=collection
-            )
-            position_ordering = 'productcollection__position'
-
-        # Filter by occasion
-        occasion = request.query_params.get('occasion')
-        if occasion:
-            queryset = queryset.filter(
-                productoccasion__occasion__slug=occasion
-            )
-            position_ordering = 'productoccasion__position'
-        
-        # Filter by stem types (multi-select from filter sidebar)
-        stem_types = request.query_params.getlist('stem_types')
-        if stem_types:
-            queryset = queryset.filter(
-                productstemtype__stem_type__slug__in=stem_types
-            )
-
-        # Filter by colors (multi-select from filter sidebar)
-        colors = request.query_params.getlist('colors')
-        if colors:
-            queryset = queryset.filter(
-                productcolor__color__slug__in=colors
-            )
-
-        # Filter by vase-included
-        if request.query_params.get('vase_included') == 'true':
-            queryset = queryset.filter(vase_included=True)
-
-        # Filter by badge text
-        badge_text = request.query_params.get('badge_text')
-        if badge_text:
-            queryset = queryset.filter(badge_text=badge_text)
-
-        # Filter by variant type
-        variant_type = request.query_params.get('variant_type')
-        if variant_type:
-            queryset = queryset.filter(variant_type=variant_type)
-        
-        # Filter by price range
-        min_price = request.query_params.get('min_price')
-        max_price = request.query_params.get('max_price')
-        if min_price:
-            queryset = queryset.filter(price__gte=int(min_price) * 100)  # Convert to cents
-        if max_price:
-            queryset = queryset.filter(price__lte=int(max_price) * 100)  # Convert to cents
-        
-        # Use position ordering when filtering by collection/category/occasion,
-        # fall back to external_id otherwise. Only apply if no explicit sort requested,
-        # so DRF's OrderingFilter can still take over when ?ordering= is provided.
-        if not request.query_params.get('ordering'):
-            if position_ordering:
-                queryset = queryset.order_by(position_ordering)
-            else:
-                queryset = queryset.order_by('external_id')
-
-        return queryset.distinct()
+        for param, ordering in _POSITION_ORDERINGS:
+            if request.query_params.get(param):
+                return queryset.order_by(ordering)
+        return queryset.order_by('external_id')
 
     @action(detail=False, methods=['get'], url_path='filter-options')
     def filter_options(self, request):
@@ -202,13 +144,5 @@ class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Review.objects.select_related('product').all()
     serializer_class = ReviewSerializer
-
-    def get_queryset(self) -> Any:
-        queryset = Review.objects.select_related('product').all()
-        request = cast(Request, self.request)
-
-        product_slug = request.query_params.get('product_slug')
-        if product_slug:
-            queryset = queryset.filter(product__slug=product_slug)
-
-        return queryset
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ReviewFilter

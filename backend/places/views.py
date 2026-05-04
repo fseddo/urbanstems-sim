@@ -4,13 +4,31 @@ from pathlib import Path
 import geoip2.database
 import geoip2.errors
 import requests
-from decouple import config
 from django.conf import settings
 from django.core.cache import cache
 from rest_framework import status
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
+
+
+def _real_client_ip(request) -> str | None:
+    """Pick the original client IP from X-Forwarded-For when behind exactly
+    `settings.TRUSTED_PROXY_HOPS` trusted proxies. Returns None when XFF
+    cannot be trusted (no proxy configured, header missing, or fewer entries
+    than hops) — callers chain their own fallback (REMOTE_ADDR for plain
+    reads, DRF's `super().get_ident()` for throttle keys).
+    """
+    hops = getattr(settings, 'TRUSTED_PROXY_HOPS', 0)
+    if hops <= 0:
+        return None
+    xff = request.META.get('HTTP_X_FORWARDED_FOR')
+    if not xff:
+        return None
+    ips = [ip.strip() for ip in xff.split(',') if ip.strip()]
+    if len(ips) < hops:
+        return None
+    return ips[-hops]
 
 
 class _RealClientIPThrottle(AnonRateThrottle):
@@ -21,16 +39,7 @@ class _RealClientIPThrottle(AnonRateThrottle):
     proxy strips client-supplied XFF entries.
     """
     def get_ident(self, request):
-        hops = getattr(settings, 'TRUSTED_PROXY_HOPS', 0)
-        if hops <= 0:
-            return super().get_ident(request)
-        xff = request.META.get('HTTP_X_FORWARDED_FOR')
-        if not xff:
-            return super().get_ident(request)
-        ips = [ip.strip() for ip in xff.split(',') if ip.strip()]
-        if len(ips) < hops:
-            return super().get_ident(request)
-        return ips[-hops]
+        return _real_client_ip(request) or super().get_ident(request)
 
 
 class _AutocompleteThrottle(_RealClientIPThrottle):
@@ -59,10 +68,6 @@ AUTOCOMPLETE_CACHE_TTL_S = 60 * 60
 DETAILS_CACHE_TTL_S = 24 * 60 * 60
 
 
-def _api_key() -> str | None:
-    return config('GOOGLE_MAPS_API_KEY', default=None)
-
-
 def _missing_key_response() -> Response:
     return Response(
         {'detail': 'GOOGLE_MAPS_API_KEY is not configured on the server.'},
@@ -73,7 +78,7 @@ def _missing_key_response() -> Response:
 @api_view(['GET'])
 @throttle_classes([_AutocompleteThrottle])
 def autocomplete(request):
-    api_key = _api_key()
+    api_key = settings.GOOGLE_MAPS_API_KEY
     if not api_key:
         return _missing_key_response()
 
@@ -162,7 +167,7 @@ def autocomplete(request):
 @api_view(['GET'])
 @throttle_classes([_DetailsThrottle])
 def details(request):
-    api_key = _api_key()
+    api_key = settings.GOOGLE_MAPS_API_KEY
     if not api_key:
         return _missing_key_response()
 
@@ -235,17 +240,8 @@ def _get_geoip_reader() -> geoip2.database.Reader | None:
 
 
 def _client_ip(request) -> str | None:
-    # See _RealClientIPThrottle for why we read XFF this way.
-    hops = getattr(settings, 'TRUSTED_PROXY_HOPS', 0)
-    if hops <= 0:
-        return request.META.get('REMOTE_ADDR')
-    xff = request.META.get('HTTP_X_FORWARDED_FOR')
-    if not xff:
-        return request.META.get('REMOTE_ADDR')
-    ips = [ip.strip() for ip in xff.split(',') if ip.strip()]
-    if len(ips) < hops:
-        return request.META.get('REMOTE_ADDR')
-    return ips[-hops]
+    # See _real_client_ip / _RealClientIPThrottle for the trust-boundary logic.
+    return _real_client_ip(request) or request.META.get('REMOTE_ADDR')
 
 
 def _fallback_payload(source: str) -> dict:

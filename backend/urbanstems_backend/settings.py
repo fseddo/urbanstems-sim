@@ -213,6 +213,10 @@ if _REDIS_URL:
         }
     }
 
+# Google Maps API key — used by the Places autocomplete + details proxy in
+# `places/views.py`. Endpoints return 503 when unset.
+GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY', default='')
+
 # Path to the MaxMind GeoLite2 City database. Downloaded from MaxMind (free
 # account) and dropped at the default path below; the geo-detect endpoint
 # returns a fallback location when the file is missing.

@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-$blv$w)g*(s_84!_f#el6d#tjw6h&k#2zgf#l%zl3w^6!g2%0+')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0', cast=lambda v: [s.strip() for s in v.split(',')])
 
@@ -137,12 +137,51 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'products.pagination.CustomPagination',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    # Public read API + an intentionally-open create-payment-intent POST.
+    # Set explicitly so a future write endpoint doesn't silently inherit
+    # AllowAny from DRF's defaults.
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
     # Rate limits below are per client IP. They protect the (billable)
     # Google Places endpoints from being drained by a single client.
     'DEFAULT_THROTTLE_RATES': {
         'places-autocomplete': '30/min',
         'places-details': '20/min',
         'places-detect': '10/min',
+    },
+}
+
+# Per-app log level: verbose in dev, quiet in prod.
+_APP_LOG_LEVEL = 'DEBUG' if DEBUG else 'INFO'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '[{asctime}] {levelname} {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'propagate': False,
+        },
+        'checkout': {'level': _APP_LOG_LEVEL, 'propagate': True},
+        'places': {'level': _APP_LOG_LEVEL, 'propagate': True},
+        'products': {'level': _APP_LOG_LEVEL, 'propagate': True},
     },
 }
 

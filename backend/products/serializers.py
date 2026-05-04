@@ -2,22 +2,26 @@ from rest_framework import serializers
 from .models import Product, Category, Collection, Occasion, Review
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class TaxonomySerializer(serializers.ModelSerializer):
+    """Shared serializer for the three Taxonomy subclasses (Category, Collection,
+    Occasion). Concrete subclasses just point Meta.model at the right model."""
     class Meta:
+        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
+
+
+class CategorySerializer(TaxonomySerializer):
+    class Meta(TaxonomySerializer.Meta):
         model = Category
-        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
 
 
-class CollectionSerializer(serializers.ModelSerializer):
-    class Meta:
+class CollectionSerializer(TaxonomySerializer):
+    class Meta(TaxonomySerializer.Meta):
         model = Collection
-        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
 
 
-class OccasionSerializer(serializers.ModelSerializer):
-    class Meta:
+class OccasionSerializer(TaxonomySerializer):
+    class Meta(TaxonomySerializer.Meta):
         model = Occasion
-        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
 
 
 class ReviewSerializer(serializers.ModelSerializer):

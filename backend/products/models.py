@@ -103,10 +103,16 @@ class Product(models.Model):
         return Color.objects.filter(productcolor__product=self)
 
 
-class Category(models.Model):
+class Taxonomy(models.Model):
+    """Shared schema for taxonomy-like models (Category, Collection, Occasion).
+
+    Each is a tag set products belong to via a through-model with a `position`
+    field for curated ordering. Fields and Meta.ordering are identical; only
+    the table and verbose names differ.
+    """
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
-    image_src = models.URLField(null=True, blank=True, help_text="Category image URL")
+    image_src = models.URLField(null=True, blank=True, help_text="Image URL")
     page_title = models.CharField(max_length=500, null=True, blank=True)
     header_title = models.CharField(max_length=500, null=True, blank=True)
     header_subtitle = models.TextField(null=True, blank=True)
@@ -114,45 +120,24 @@ class Category(models.Model):
     nav_description = models.TextField(null=True, blank=True)
 
     class Meta:
+        abstract = True
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class Category(Taxonomy):
+    class Meta(Taxonomy.Meta):
         verbose_name_plural = "categories"
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
 
 
-class Collection(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
-    image_src = models.URLField(null=True, blank=True, help_text="Collection image URL")
-    page_title = models.CharField(max_length=500, null=True, blank=True)
-    header_title = models.CharField(max_length=500, null=True, blank=True)
-    header_subtitle = models.TextField(null=True, blank=True)
-    nav_img_src = models.URLField(null=True, blank=True)
-    nav_description = models.TextField(null=True, blank=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
+class Collection(Taxonomy):
+    pass
 
 
-class Occasion(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
-    image_src = models.URLField(null=True, blank=True, help_text="Occasion image URL")
-    page_title = models.CharField(max_length=500, null=True, blank=True)
-    header_title = models.CharField(max_length=500, null=True, blank=True)
-    header_subtitle = models.TextField(null=True, blank=True)
-    nav_img_src = models.URLField(null=True, blank=True)
-    nav_description = models.TextField(null=True, blank=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
+class Occasion(Taxonomy):
+    pass
 
 
 class Review(models.Model):

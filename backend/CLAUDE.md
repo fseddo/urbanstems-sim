@@ -91,6 +91,12 @@ When proxying a third-party API (Google Places, Stripe, etc.), non-2xx responses
 
 References: [`places.autocomplete` / `places.details`](places/views.py), [`checkout.create_payment_intent`](checkout/views.py).
 
+## Webhook handlers log received-event-id at info before dispatching
+
+The first thing a webhook handler does after signature verification is `logger.info('… event received: %s for %s', event_type, payload_id)`. The bug we're avoiding: a downstream side effect (email send, DB write) early-exits without logging, and you can't tell from the logs whether the webhook ever fired. The signature-verify and unknown-event paths log separately at `warning` / `debug`.
+
+Reference: [`checkout.stripe_webhook`](checkout/webhooks.py).
+
 ## No empty stub files
 
 Delete `views.py` / `tests.py` files that contain only `from django.shortcuts import render` / `# Create your X here.`. They lie about coverage and clutter `git grep`.

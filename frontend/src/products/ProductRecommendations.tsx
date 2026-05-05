@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { Link } from '@tanstack/react-router';
 import { HorizontalList } from '../common/HorizontalList';
 import { ProductCard } from '../common/ProductCard';
-import { CategoryType } from '@/api/cateogries/Category';
+import { CategoryType } from '@/api/categories/Category';
 
 export const ProductRecommendations = () => {
   const scrollRef = useRef<HTMLDivElement>(null);

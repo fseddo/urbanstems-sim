@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { categoryQueries } from '@/api/cateogries/categoryQueries';
+import { categoryQueries } from '@/api/categories/categoryQueries';
 import { collectionQueries } from '@/api/collections/collectionQueries';
 import { occasionQueries } from '@/api/occasions/queries';
 import { useShopDropdown } from './NavbarContext';

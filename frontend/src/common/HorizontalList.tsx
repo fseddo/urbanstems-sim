@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import HorizontalScrollbar from './HorizontalScrollbar';
+import { HorizontalScrollbar } from './HorizontalScrollbar';
 
 export const HorizontalList = (props: {
   scrollRef: React.RefObject<HTMLDivElement | null>;

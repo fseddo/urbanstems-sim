@@ -4,11 +4,11 @@ import { productQueries } from '@/api/products/queries';
 import { BestSellersHeaderItem } from './BestSellersHeaderItem';
 import { HorizontalList } from '@/src/common/HorizontalList';
 import { ProductCard } from '@/src/common/ProductCard';
-import { CategoryType } from '@/api/cateogries/Category';
+import { CategoryType } from '@/api/categories/Category';
 
 const RESULT_LIMIT = 8;
 
-export default () => {
+export const BestSellers = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [category, setCategory] = useState<CategoryType>(CategoryType.Flowers);
 

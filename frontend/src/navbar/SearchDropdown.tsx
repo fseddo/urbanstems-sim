@@ -5,9 +5,9 @@ import { productQueries } from '@/api/products/queries';
 import { useSearchDropdown } from './NavbarContext';
 import { NavLink } from './NavLink';
 import { ProductCard } from '../common/ProductCard';
-import HorizontalScrollbar from '../common/HorizontalScrollbar';
+import { HorizontalScrollbar } from '../common/HorizontalScrollbar';
 import { Link } from '@tanstack/react-router';
-import { CategoryType } from '@/api/cateogries/Category';
+import { CategoryType } from '@/api/categories/Category';
 
 const TOP_SEARCHES = ['Roses', 'Peonies', 'Orchids'];
 

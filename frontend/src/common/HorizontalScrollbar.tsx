@@ -7,18 +7,17 @@ interface HorizontalScrollbarProps {
   thumbColor?: string;
 }
 
-export default function HorizontalScrollbar({
+export const HorizontalScrollbar = ({
   targetRef,
   height = 'h-2.5',
   thumbColor = 'bg-brand-primary',
-}: HorizontalScrollbarProps) {
+}: HorizontalScrollbarProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [thumbWidth, setThumbWidth] = useState(0);
   const [thumbLeft, setThumbLeft] = useState(0);
   const [dragging, setDragging] = useState(false);
   const dragStartX = useRef(0);
   const scrollStart = useRef(0);
-  const fadeTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // Update thumb size & position
   const updateThumb = () => {
@@ -80,7 +79,6 @@ export default function HorizontalScrollbar({
       window.removeEventListener('resize', updateThumb);
       resizeObserver.disconnect();
       mutationObserver.disconnect();
-      if (fadeTimeout.current) clearTimeout(fadeTimeout.current);
     };
   }, [targetRef]);
 
@@ -141,4 +139,4 @@ export default function HorizontalScrollbar({
       />
     </div>
   );
-}
+};

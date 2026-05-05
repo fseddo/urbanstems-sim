@@ -1,5 +1,5 @@
 import { Occasion } from '../occasions/Occasion';
-import { Category } from '../cateogries/Category';
+import { Category } from '../categories/Category';
 import { Collection } from '../collections/Collection';
 import { ProductBadgeText } from './ProductBadgeText';
 import { VariantType, ProductVariant } from './ProductVariant';

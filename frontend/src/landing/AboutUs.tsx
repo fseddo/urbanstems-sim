@@ -1,4 +1,4 @@
-export default () => {
+export const AboutUs = () => {
   return (
     <section className='flex w-full flex-col items-center gap-14 border-y-2 py-40'>
       <header className='font-crimson w-2/3 text-center text-4xl font-medium'>

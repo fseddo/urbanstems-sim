@@ -1,4 +1,4 @@
-import { CategoryType } from '@/api/cateogries/Category';
+import { CategoryType } from '@/api/categories/Category';
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
 import { tw } from '@/src/common/utils/tw';
 import { Dispatch, SetStateAction } from 'react';

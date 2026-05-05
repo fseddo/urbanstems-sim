@@ -23,7 +23,7 @@ docs/
 
 # Claude Code
 .claude/
-ClAUDE.local.md
+CLAUDE.local.md
 
 # Editor/IDE files
 .vscode/

@@ -3,7 +3,7 @@ import { ProductBadgeText } from './ProductBadgeText';
 export enum VariantType {
   Single = 'single',
   Double = 'double',
-  triple = 'triple',
+  Triple = 'triple',
 }
 
 export interface ProductVariant {

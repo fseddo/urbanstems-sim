@@ -18,15 +18,7 @@ import { useLoadingFavicon } from '@/src/common/useLoadingFavicon';
 import { DisclaimerPopup } from '@/src/common/DisclaimerPopup';
 import { CartPane } from '@/src/cart/CartPane';
 
-function RootLayout() {
-  return (
-    <NavbarProvider>
-      <RootLayoutInner />
-    </NavbarProvider>
-  );
-}
-
-function RootLayoutInner() {
+const RootLayoutInner = () => {
   const navbarRef = useNavbar();
   const { shopOpen } = useShopDropdown();
   const { searchOpen } = useSearchDropdown();
@@ -51,7 +43,15 @@ function RootLayoutInner() {
       </div>
     </>
   );
-}
+};
+
+const RootLayout = () => {
+  return (
+    <NavbarProvider>
+      <RootLayoutInner />
+    </NavbarProvider>
+  );
+};
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   {

@@ -24,13 +24,14 @@ import { DatePicker } from '@/src/date/DatePicker';
 import { AddressPicker } from '@/src/address/AddressPicker';
 import { deliveryAddressAtom } from '@/src/address/deliveryAddressAtom';
 import { tw } from '@/src/common/utils/tw';
+import { asString } from '@/src/common/utils/asString';
 
 type RouteSearch = UIFilters & { search?: string };
 
 export const Route = createFileRoute('/collections/$slug')({
   validateSearch: (search: Record<string, unknown>): RouteSearch => ({
     ...parseUIFiltersSearch(search),
-    search: typeof search.search === 'string' ? search.search : undefined,
+    search: asString(search.search),
   }),
   loaderDeps: ({ search }) => ({ search }),
   component: CollectionPage,

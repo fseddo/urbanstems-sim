@@ -12,42 +12,7 @@ import { ProductReviews } from '@/src/products/ProductReviews';
 import { ProductDeliveryInstructions } from '@/src/products/ProductDeliveryInstructions';
 import { ProductRecommendations } from '@/src/products/ProductRecommendations';
 
-export const Route = createFileRoute('/products/$slug')({
-  loader: async ({ params, context }) => {
-    try {
-      const product = await context.queryClient.ensureQueryData(
-        productQueries.detail(params.slug)
-      );
-
-      const titleName = product.name
-        .split(' ')
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(' ');
-      document.title = `${titleName} | UrbanStems Flower Delivery`;
-
-      const imageUrls = [product.main_image, product.hover_image]
-        .filter((url): url is string => url != null)
-        .map((url) => `${url}&width=1600`);
-
-      await Promise.all(
-        imageUrls.map(
-          (src) =>
-            new Promise<void>((resolve) => {
-              const img = new Image();
-              img.onload = () => resolve();
-              img.onerror = () => resolve();
-              img.src = src;
-            })
-        )
-      );
-    } catch {
-      throw redirect({ to: '/collections/$slug', params: { slug: 'all' } });
-    }
-  },
-  component: ProductDetail,
-});
-
-function ProductDetail() {
+const ProductDetail = () => {
   const { slug } = Route.useParams();
   const { data: product } = useSuspenseQuery(productQueries.detail(slug));
   const addToCartRef = useRef<HTMLButtonElement>(null);
@@ -84,4 +49,39 @@ function ProductDetail() {
       <ProductBottomBar product={product} addToCartRef={addToCartRef} />
     </div>
   );
-}
+};
+
+export const Route = createFileRoute('/products/$slug')({
+  loader: async ({ params, context }) => {
+    try {
+      const product = await context.queryClient.ensureQueryData(
+        productQueries.detail(params.slug)
+      );
+
+      const titleName = product.name
+        .split(' ')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+      document.title = `${titleName} | UrbanStems Flower Delivery`;
+
+      const imageUrls = [product.main_image, product.hover_image]
+        .filter((url): url is string => url != null)
+        .map((url) => `${url}&width=1600`);
+
+      await Promise.all(
+        imageUrls.map(
+          (src) =>
+            new Promise<void>((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+              img.src = src;
+            })
+        )
+      );
+    } catch {
+      throw redirect({ to: '/collections/$slug', params: { slug: 'all' } });
+    }
+  },
+  component: ProductDetail,
+});

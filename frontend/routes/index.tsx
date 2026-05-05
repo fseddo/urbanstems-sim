@@ -5,14 +5,7 @@ import { LandingVideo } from '@/src/landing/video/LandingVideo';
 import { OccasionCarousel } from '@/src/landing/occasionCarousel/OccasionCarousel';
 import { Reviews } from '@/src/landing/reviews/Reviews';
 
-export const Route = createFileRoute('/')({
-  component: Home,
-  loader: () => {
-    document.title = 'UrbanStems | Online Flower Delivery';
-  },
-});
-
-function Home() {
+const Home = () => {
   return (
     <div className='flex w-full flex-col gap-12'>
       <LandingVideo />
@@ -22,4 +15,11 @@ function Home() {
       <BestSellers />
     </div>
   );
-}
+};
+
+export const Route = createFileRoute('/')({
+  component: Home,
+  loader: () => {
+    document.title = 'UrbanStems | Online Flower Delivery';
+  },
+});

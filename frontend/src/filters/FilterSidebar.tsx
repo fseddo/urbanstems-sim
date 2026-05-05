@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { usePortal } from '../common/usePortal';
-import { FiX, FiMinus, FiPlus } from 'react-icons/fi';
+import { FiX } from 'react-icons/fi';
 import { FilterOptions } from '@/api/products/FilterOptions';
 import {
   CATEGORY_DISPLAY,
@@ -12,6 +12,13 @@ import {
   UIFilters,
 } from './filterSpecs';
 import { tw } from '../common/utils/tw';
+import {
+  AccordionSection,
+  ColorChip,
+  FilterChip,
+  PriceInput,
+  TagSection,
+} from './FilterSidebarParts';
 
 export type { UIFilters };
 
@@ -26,13 +33,13 @@ interface FilterSidebarProps {
   availableOptions: FilterOptions;
 }
 
-export function FilterSidebar({
+export const FilterSidebar = ({
   isOpen,
   onClose,
   filters,
   onFiltersChange,
   availableOptions,
-}: FilterSidebarProps) {
+}: FilterSidebarProps) => {
   const [openSections, setOpenSections] = useState<Set<string>>(new Set());
   const renderPortal = usePortal(isOpen);
 
@@ -182,25 +189,24 @@ export function FilterSidebar({
               ))}
             </div>
           </AccordionSection>
-          {/* Category — only show when the scope actually has multiple categories */}
-          {availableOptions.categories.length > 1 && (
-            <AccordionSection
-              title='Category'
-              isOpen={openSections.has('category')}
-              onToggle={() => toggleSection('category')}
-            >
-              <div className='grid grid-cols-3 gap-2'>
-                {availableOptions.categories.map((slug) => (
-                  <FilterChip
-                    key={slug}
-                    label={CATEGORY_DISPLAY[slug]?.label ?? slug}
-                    selected={(filters.categories ?? []).includes(slug)}
-                    onClick={() => toggleTag('categories', slug)}
-                  />
-                ))}
-              </div>
-            </AccordionSection>
-          )}
+
+          {/* Category */}
+          <TagSection
+            title='Category'
+            options={availableOptions.categories}
+            selected={filters.categories ?? []}
+            isOpen={openSections.has('category')}
+            onToggleSection={() => toggleSection('category')}
+            onToggleSlug={(slug) => toggleTag('categories', slug)}
+            renderChip={(slug, isSelected, onClick) => (
+              <FilterChip
+                key={slug}
+                label={CATEGORY_DISPLAY[slug]?.label ?? slug}
+                selected={isSelected}
+                onClick={onClick}
+              />
+            )}
+          />
 
           {/* Price */}
           <AccordionSection
@@ -227,48 +233,45 @@ export function FilterSidebar({
           </AccordionSection>
 
           {/* Color */}
-          {availableOptions.colors.length > 1 && (
-            <AccordionSection
-              title='Color'
-              isOpen={openSections.has('colors')}
-              onToggle={() => toggleSection('colors')}
-            >
-              <div className='grid grid-cols-3 gap-2'>
-                {availableOptions.colors.map((slug) => {
-                  const display = COLOR_DISPLAY[slug];
-                  return (
-                    <ColorChip
-                      key={slug}
-                      label={display?.label ?? slug}
-                      hex={display?.hex ?? null}
-                      selected={(filters.colors ?? []).includes(slug)}
-                      onClick={() => toggleTag('colors', slug)}
-                    />
-                  );
-                })}
-              </div>
-            </AccordionSection>
-          )}
+          <TagSection
+            title='Color'
+            options={availableOptions.colors}
+            selected={filters.colors ?? []}
+            isOpen={openSections.has('colors')}
+            onToggleSection={() => toggleSection('colors')}
+            onToggleSlug={(slug) => toggleTag('colors', slug)}
+            renderChip={(slug, isSelected, onClick) => {
+              const display = COLOR_DISPLAY[slug];
+              return (
+                <ColorChip
+                  key={slug}
+                  label={display?.label ?? slug}
+                  hex={display?.hex ?? null}
+                  selected={isSelected}
+                  onClick={onClick}
+                />
+              );
+            }}
+          />
 
           {/* Stem Type */}
-          {availableOptions.stem_types.length > 1 && (
-            <AccordionSection
-              title='Stem Type'
-              isOpen={openSections.has('stem_types')}
-              onToggle={() => toggleSection('stem_types')}
-            >
-              <div className='grid grid-cols-3 gap-2'>
-                {availableOptions.stem_types.map((slug) => (
-                  <FilterChip
-                    key={slug}
-                    label={STEM_TYPE_DISPLAY[slug]?.label ?? slug}
-                    selected={(filters.stem_types ?? []).includes(slug)}
-                    onClick={() => toggleTag('stem_types', slug)}
-                  />
-                ))}
-              </div>
-            </AccordionSection>
-          )}
+          <TagSection
+            title='Stem Type'
+            options={availableOptions.stem_types}
+            selected={filters.stem_types ?? []}
+            isOpen={openSections.has('stem_types')}
+            onToggleSection={() => toggleSection('stem_types')}
+            onToggleSlug={(slug) => toggleTag('stem_types', slug)}
+            renderChip={(slug, isSelected, onClick) => (
+              <FilterChip
+                key={slug}
+                label={STEM_TYPE_DISPLAY[slug]?.label ?? slug}
+                selected={isSelected}
+                onClick={onClick}
+              />
+            )}
+          />
+
           {/* Vase Included — only show when scope contains at least one vase product */}
           {availableOptions.vase_included && (
             <AccordionSection
@@ -294,123 +297,4 @@ export function FilterSidebar({
       </div>
     </>
   );
-}
-
-function ColorChip({
-  label,
-  hex,
-  selected,
-  onClick,
-}: {
-  label: string;
-  hex: string | null;
-  selected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={tw(
-        'font-mulish hover:border-brand-primary flex flex-col items-center gap-1 rounded-md border border-white bg-white py-1 text-center text-xs transition-colors hover:font-bold',
-        selected && 'border-brand-primary text-brand-primary font-bold'
-      )}
-    >
-      <span
-        className='h-5 w-5 rounded-full border border-gray-200'
-        style={
-          hex
-            ? { backgroundColor: hex }
-            : {
-                background:
-                  'conic-gradient(#C97B8E, #E6C85A, #A3B58F, #6B85A3, #B39DBF, #C97B8E)',
-              }
-        }
-      />
-      {label}
-    </button>
-  );
-}
-
-function PriceInput({
-  label,
-  placeholder,
-  value,
-  onChange,
-  onCommit,
-}: {
-  label: string;
-  placeholder: string;
-  value: string;
-  onChange: (value: string) => void;
-  onCommit: () => void;
-}) {
-  return (
-    <div className='flex items-center gap-2'>
-      <span className='text-brand-primary/80 text-sm'>$</span>
-      <div className='rounded-md bg-white px-2 py-1'>
-        <div className='font-mulish text-brand-primary/80 text-[8px] tracking-wider uppercase'>
-          {label}
-        </div>
-        <input
-          type='number'
-          min='0'
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onBlur={onCommit}
-          onKeyDown={(e) => e.key === 'Enter' && onCommit()}
-          className='font-mulish w-full bg-transparent text-xs focus:outline-none'
-        />
-      </div>
-    </div>
-  );
-}
-
-function FilterChip({
-  label,
-  selected,
-  onClick,
-}: {
-  label: string;
-  selected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={tw(
-        'font-mulish hover:border-brand-primary hover:text-brand-primary rounded-sm border border-white bg-white py-4 text-center text-xs transition-all duration-200 hover:font-bold',
-        selected && 'border-brand-primary text-brand-primary font-bold'
-      )}
-    >
-      {label}
-    </button>
-  );
-}
-
-function AccordionSection({
-  title,
-  isOpen,
-  onToggle,
-  children,
-}: {
-  title: React.ReactNode;
-  isOpen: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className='border-background-alt border-b'>
-      <button
-        onClick={onToggle}
-        className='flex w-full items-center justify-between py-4'
-      >
-        <span className='font-mulish flex items-center gap-2 text-sm font-bold'>
-          {title}
-        </span>
-        {isOpen ? <FiMinus size={16} /> : <FiPlus size={16} />}
-      </button>
-      {isOpen && <div className='pb-4'>{children}</div>}
-    </div>
-  );
-}
+};

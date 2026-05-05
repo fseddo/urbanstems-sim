@@ -7,6 +7,7 @@ import {
 import { useSetAtom } from 'jotai';
 import { cartItemsAtom } from '@/src/cart/cartAtoms';
 import { getStripe } from '@/src/checkout/stripeClient';
+import { asString } from '@/src/common/utils/asString';
 
 interface SuccessSearch {
   payment_intent?: string;
@@ -14,30 +15,9 @@ interface SuccessSearch {
   redirect_status?: string;
 }
 
-export const Route = createFileRoute('/checkout/success')({
-  validateSearch: (search): SuccessSearch => ({
-    payment_intent:
-      typeof search.payment_intent === 'string'
-        ? search.payment_intent
-        : undefined,
-    payment_intent_client_secret:
-      typeof search.payment_intent_client_secret === 'string'
-        ? search.payment_intent_client_secret
-        : undefined,
-    redirect_status:
-      typeof search.redirect_status === 'string'
-        ? search.redirect_status
-        : undefined,
-  }),
-  component: SuccessPage,
-  loader: () => {
-    document.title = 'Order confirmed | UrbanStems';
-  },
-});
-
 type Status = 'loading' | 'succeeded' | 'processing' | 'failed';
 
-function SuccessPage() {
+const SuccessPage = () => {
   const search = useSearch({ from: '/checkout/success' });
   const setCart = useSetAtom(cartItemsAtom);
   const [status, setStatus] = useState<Status>('loading');
@@ -136,4 +116,16 @@ function SuccessPage() {
       )}
     </div>
   );
-}
+};
+
+export const Route = createFileRoute('/checkout/success')({
+  validateSearch: (search): SuccessSearch => ({
+    payment_intent: asString(search.payment_intent),
+    payment_intent_client_secret: asString(search.payment_intent_client_secret),
+    redirect_status: asString(search.redirect_status),
+  }),
+  component: SuccessPage,
+  loader: () => {
+    document.title = 'Order confirmed | UrbanStems';
+  },
+});

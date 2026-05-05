@@ -1,6 +1,7 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { CalendarIcon } from '../common/icons/CalendarIcon';
+import { useDismissable } from '../common/useDismissable';
 
 const MONTH_NAMES = [
   'January',
@@ -92,21 +93,7 @@ export const DatePicker = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!open) return;
-    const onMouseDown = (e: MouseEvent) => {
-      if (!containerRef.current?.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onMouseDown);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
+  useDismissable(containerRef, open, () => setOpen(false));
 
   // When opening, jump back to the month containing the selected value
   // so the user always lands on context for what they picked.

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FiX } from 'react-icons/fi';
+import { useDismissable } from '../common/useDismissable';
 
 const TEST_CARD = '4242 4242 4242 4242';
 
@@ -9,21 +10,19 @@ interface Props {
 
 export const TestCardPopup = ({ onClose }: Props) => {
   const [copied, setCopied] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // Esc-to-close + body-scroll lock are real side effects (global event +
-  // DOM mutation), so they belong in an effect. Visibility itself is owned
-  // by the parent via the onClose prop.
+  // Esc + click-outside dismissal via the shared hook. Visibility itself
+  // is owned by the parent — when this component is mounted it's open.
+  useDismissable(contentRef, true, onClose);
+
+  // Body-scroll lock is a separate concern from dismissal — kept inline.
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
     return () => {
-      document.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
     };
-  }, [onClose]);
+  }, []);
 
   const copyCard = async () => {
     try {
@@ -36,12 +35,9 @@ export const TestCardPopup = ({ onClose }: Props) => {
   };
 
   return (
-    <div
-      className='fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4'
-      onClick={onClose}
-    >
+    <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4'>
       <div
-        onClick={(e) => e.stopPropagation()}
+        ref={contentRef}
         className='font-mulish bg-brand-primary relative flex w-full max-w-lg flex-col gap-5 rounded-md p-8 text-white shadow-2xl'
         role='dialog'
         aria-modal='true'

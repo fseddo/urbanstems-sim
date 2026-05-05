@@ -1,9 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import {
-  createFileRoute,
-  Link,
-  useSearch,
-} from '@tanstack/react-router';
+import { useEffect } from 'react';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useSetAtom } from 'jotai';
 import { cartItemsAtom } from '@/src/cart/cartAtoms';
 import { getStripe } from '@/src/checkout/stripeClient';
@@ -15,60 +11,35 @@ interface SuccessSearch {
   redirect_status?: string;
 }
 
-type Status = 'loading' | 'succeeded' | 'processing' | 'failed';
+type LoaderResult =
+  | { kind: 'succeeded'; amount: number }
+  | { kind: 'processing'; amount: number | null }
+  | { kind: 'failed' };
+
+const PendingPage = () => (
+  <div className='mx-auto flex min-h-[calc(100vh-var(--navbar-height))] max-w-xl flex-col items-center justify-center px-6 py-20 text-center'>
+    <p className='text-sm opacity-60'>Confirming your payment…</p>
+  </div>
+);
 
 const SuccessPage = () => {
-  const search = useSearch({ from: '/checkout/success' });
+  const result = Route.useLoaderData();
   const setCart = useSetAtom(cartItemsAtom);
-  const [status, setStatus] = useState<Status>('loading');
-  const [amount, setAmount] = useState<number | null>(null);
-  const clientSecret = search.payment_intent_client_secret;
 
+  // Cart-clear is a side effect of "payment succeeded," not of "we got a
+  // result" — keyed on the discriminator so it fires only once on success.
   useEffect(() => {
-    if (!clientSecret) {
-      setStatus('failed');
-      return;
-    }
-    let cancelled = false;
-    getStripe().then(async (stripe) => {
-      if (!stripe || cancelled) return;
-      const { paymentIntent } =
-        await stripe.retrievePaymentIntent(clientSecret);
-      if (cancelled) return;
-      if (!paymentIntent) {
-        setStatus('failed');
-        return;
-      }
-      setAmount(paymentIntent.amount);
-      switch (paymentIntent.status) {
-        case 'succeeded':
-          setStatus('succeeded');
-          setCart([]);
-          break;
-        case 'processing':
-          setStatus('processing');
-          break;
-        default:
-          setStatus('failed');
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [clientSecret, setCart]);
+    if (result.kind === 'succeeded') setCart([]);
+  }, [result.kind, setCart]);
 
-  const formattedAmount = useMemo(
-    () => (amount == null ? null : `$${(amount / 100).toFixed(2)}`),
-    [amount]
-  );
+  const formattedAmount =
+    result.kind !== 'failed' && result.amount != null
+      ? `$${(result.amount / 100).toFixed(2)}`
+      : null;
 
   return (
     <div className='mx-auto flex min-h-[calc(100vh-var(--navbar-height))] max-w-xl flex-col items-center justify-center px-6 py-20 text-center'>
-      {status === 'loading' && (
-        <p className='text-sm opacity-60'>Confirming your payment…</p>
-      )}
-
-      {status === 'succeeded' && (
+      {result.kind === 'succeeded' && (
         <>
           <h1 className='font-crimson mb-4 text-4xl'>Thank you!</h1>
           <p className='mb-2 text-base'>Your order is confirmed.</p>
@@ -87,7 +58,7 @@ const SuccessPage = () => {
         </>
       )}
 
-      {status === 'processing' && (
+      {result.kind === 'processing' && (
         <>
           <h1 className='font-crimson mb-4 text-4xl'>Almost there</h1>
           <p className='text-sm opacity-70'>
@@ -97,7 +68,7 @@ const SuccessPage = () => {
         </>
       )}
 
-      {status === 'failed' && (
+      {result.kind === 'failed' && (
         <>
           <h1 className='font-crimson mb-4 text-4xl'>
             Something went wrong
@@ -124,8 +95,25 @@ export const Route = createFileRoute('/checkout/success')({
     payment_intent_client_secret: asString(search.payment_intent_client_secret),
     redirect_status: asString(search.redirect_status),
   }),
-  component: SuccessPage,
-  loader: () => {
+  loaderDeps: ({ search }) => ({
+    clientSecret: search.payment_intent_client_secret,
+  }),
+  loader: async ({ deps }): Promise<LoaderResult> => {
     document.title = 'Order confirmed | UrbanStems';
+    const { clientSecret } = deps;
+    if (!clientSecret) return { kind: 'failed' };
+    const stripe = await getStripe();
+    if (!stripe) return { kind: 'failed' };
+    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+    if (!paymentIntent) return { kind: 'failed' };
+    if (paymentIntent.status === 'succeeded') {
+      return { kind: 'succeeded', amount: paymentIntent.amount };
+    }
+    if (paymentIntent.status === 'processing') {
+      return { kind: 'processing', amount: paymentIntent.amount };
+    }
+    return { kind: 'failed' };
   },
+  pendingComponent: PendingPage,
+  component: SuccessPage,
 });

@@ -12,6 +12,7 @@ import {
   useRef,
 } from 'react';
 import { PaginatedResponse } from '@/api/PaginatedResponse';
+import { prefetchImages } from './utils/prefetchImages';
 
 type Props<T> = {
   queryOptions: UseInfiniteQueryOptions<
@@ -96,12 +97,7 @@ export const List = <T,>({
 
   useEffect(() => {
     if (!getItemImageUrls) return;
-    items.forEach((item) => {
-      for (const url of getItemImageUrls(item)) {
-        const img = new Image();
-        img.src = url;
-      }
-    });
+    prefetchImages(items.flatMap((item) => getItemImageUrls(item)));
   }, [items, getItemImageUrls]);
 
   const getRowItems = useCallback(

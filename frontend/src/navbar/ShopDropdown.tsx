@@ -5,6 +5,8 @@ import { collectionQueries } from '@/api/collections/collectionQueries';
 import { occasionQueries } from '@/api/occasions/queries';
 import { useShopDropdown } from './NavbarContext';
 import { capitalizeString } from '../common/utils/capitalizeString';
+import { imageAtWidth } from '../common/utils/imageAtWidth';
+import { prefetchImages } from '../common/utils/prefetchImages';
 import { NavLink } from './NavLink';
 import { AnimatedButton } from '../common/AnimatedButton';
 
@@ -47,16 +49,13 @@ export const useShopDropdownPrefetch = () => {
   useEffect(() => {
     const urls: string[] = [];
     for (const cat of categories) {
-      if (cat.nav_img_src) urls.push(`${cat.nav_img_src}&width=120`);
+      if (cat.nav_img_src) urls.push(imageAtWidth(cat.nav_img_src, 120));
     }
     for (const col of HIGHLIGHTED_COLLECTIONS) {
       const c = collections.find((x) => x.slug === col.slug);
-      if (c?.nav_img_src) urls.push(`${c.nav_img_src}&width=500`);
+      if (c?.nav_img_src) urls.push(imageAtWidth(c.nav_img_src, 500));
     }
-    for (const url of urls) {
-      const img = new Image();
-      img.src = url;
-    }
+    prefetchImages(urls);
   }, [categories, collections]);
 };
 
@@ -110,7 +109,7 @@ export const ShopDropdown = () => {
                     {cat.nav_img_src && (
                       <div className='overflow-hidden rounded'>
                         <img
-                          src={`${cat.nav_img_src}&width=120`}
+                          src={imageAtWidth(cat.nav_img_src, 120)}
                           alt={cat.name}
                           className='h-14 w-14 object-cover transition-transform duration-300 group-hover:scale-105'
                         />
@@ -206,7 +205,7 @@ export const ShopDropdown = () => {
                 {collection?.nav_img_src ? (
                   <div className='overflow-hidden rounded-md'>
                     <img
-                      src={`${collection.nav_img_src}&width=500`}
+                      src={imageAtWidth(collection.nav_img_src, 500)}
                       alt={col.title}
                       className='aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105'
                     />

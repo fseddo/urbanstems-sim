@@ -1,6 +1,7 @@
 import { useAtomValue } from 'jotai';
 import { cartItemsAtom, cartCountAtom } from '../cart/cartAtoms';
 import { capitalizeString } from '../common/utils/capitalizeString';
+import { imageAtWidth } from '../common/utils/imageAtWidth';
 
 interface CheckoutSummaryProps {
   subtotalCents: number | null;
@@ -29,7 +30,7 @@ export const CheckoutSummary = ({
             <div className='relative shrink-0'>
               {line.item.main_image && (
                 <img
-                  src={`${line.item.main_image}&width=200`}
+                  src={imageAtWidth(line.item.main_image, 200)}
                   alt={line.item.name}
                   className='border-background-alt h-16 w-16 rounded-md border object-cover'
                 />

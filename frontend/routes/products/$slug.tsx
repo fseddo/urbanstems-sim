@@ -1,6 +1,8 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { productQueries } from '@/api/products/queries';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { imageAtWidth } from '@/src/common/utils/imageAtWidth';
+import { prefetchImages } from '@/src/common/utils/prefetchImages';
 import { useRef } from 'react';
 import { ProductBottomBar } from '@/src/products/ProductBottomBar';
 import { ProductBackgroundImages } from '@/src/products/ProductBackgroundImages';
@@ -66,19 +68,9 @@ export const Route = createFileRoute('/products/$slug')({
 
       const imageUrls = [product.main_image, product.hover_image]
         .filter((url): url is string => url != null)
-        .map((url) => `${url}&width=1600`);
+        .map((url) => imageAtWidth(url, 1600));
 
-      await Promise.all(
-        imageUrls.map(
-          (src) =>
-            new Promise<void>((resolve) => {
-              const img = new Image();
-              img.onload = () => resolve();
-              img.onerror = () => resolve();
-              img.src = src;
-            })
-        )
-      );
+      await prefetchImages(imageUrls);
     } catch {
       throw redirect({ to: '/collections/$slug', params: { slug: 'all' } });
     }

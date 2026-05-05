@@ -7,6 +7,7 @@ import { useIsFetching } from '@tanstack/react-query';
 import { checkoutKeys } from '@/api/checkout/checkoutQueries';
 import { usePortal } from '../common/usePortal';
 import { capitalizeString } from '../common/utils/capitalizeString';
+import { imageAtWidth } from '../common/utils/imageAtWidth';
 import {
   CartLine,
   cartItemsAtom,
@@ -150,7 +151,7 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
     <div className='border-background-alt flex gap-4 border-b py-5'>
       {item.main_image && (
         <img
-          src={`${item.main_image}&width=400`}
+          src={imageAtWidth(item.main_image, 400)}
           alt={item.name}
           className='h-24 w-24 shrink-0 rounded-sm object-cover'
         />

@@ -1,5 +1,6 @@
 import { Product } from '@/api/products/Product';
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
+import { imageAtWidth } from '@/src/common/utils/imageAtWidth';
 import { FaCheck } from 'react-icons/fa';
 import { VARIANT_TYPE_TO_PRODUCT_SIZE } from '../constants';
 import { Link } from '@tanstack/react-router';
@@ -36,7 +37,7 @@ export const ProductDetailVariantOptions = ({
                 <img
                   className='aspect-square rounded-full'
                   alt={variant.variant_type}
-                  src={`${variant.main_image}&width=700`}
+                  src={imageAtWidth(variant.main_image, 700)}
                   height={80}
                   width={80}
                 />

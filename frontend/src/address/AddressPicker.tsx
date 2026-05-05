@@ -6,6 +6,7 @@ import {
   type PlacePrediction,
 } from '@/api/places/placeQueries';
 import { tw } from '@/src/common/utils/tw';
+import { useDismissable } from '@/src/common/useDismissable';
 import type { DeliveryAddress } from './deliveryAddressAtom';
 
 export interface AddressPickerTriggerApi {
@@ -53,21 +54,7 @@ export const AddressPicker = ({
     return () => clearTimeout(id);
   }, [input]);
 
-  useEffect(() => {
-    if (!open) return;
-    const onMouseDown = (e: MouseEvent) => {
-      if (!containerRef.current?.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onMouseDown);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
+  useDismissable(containerRef, open, () => setOpen(false));
 
   // A Google Places "session" begins on open and ends on selection — bundling
   // keystrokes + the final details call into a single billable session.

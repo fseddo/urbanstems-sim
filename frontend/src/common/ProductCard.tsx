@@ -1,4 +1,5 @@
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
+import { imageAtWidth } from '@/src/common/utils/imageAtWidth';
 import { memo, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { StarRating } from './StarRating';
@@ -47,7 +48,7 @@ export const ProductCard = memo(
               'rounded-md object-cover opacity-0 transition-opacity duration-300',
               !fixed && 'absolute inset-0 h-full w-full'
             )}
-            src={`${visibleProduct.main_image}&width=700`}
+            src={imageAtWidth(visibleProduct.main_image, 700)}
             alt={visibleProduct.name}
             height={fixed ? 490 : undefined}
             width={fixed ? 430 : undefined}
@@ -56,7 +57,7 @@ export const ProductCard = memo(
           {visibleProduct.hover_image && (
             <img
               className='absolute inset-0 h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100'
-              src={`${visibleProduct.hover_image}&width=700`}
+              src={imageAtWidth(visibleProduct.hover_image, 700)}
               alt={`${visibleProduct.name} hover`}
             />
           )}
@@ -68,7 +69,7 @@ export const ProductCard = memo(
           {visibleProduct.badge_image_src && detailedView && (
             <div className='absolute right-8 bottom-10'>
               <img
-                src={`${visibleProduct.badge_image_src}&width=240`}
+                src={imageAtWidth(visibleProduct.badge_image_src, 240)}
                 className='h-35'
               />
             </div>
@@ -134,7 +135,7 @@ export const ProductCard = memo(
                             : 'hover:ring-1 hover:ring-gray-300 hover:ring-offset-2 hover:ring-offset-white'
                         )}
                         alt={variant.variant_type}
-                        src={`${variant.main_image}&width=700`}
+                        src={imageAtWidth(variant.main_image, 700)}
                         height={30}
                         width={30}
                       />

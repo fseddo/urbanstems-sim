@@ -32,7 +32,7 @@ export const CheckoutForm = () => {
     const { error: stripeError } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/checkout/success`,
+        return_url: `${window.location.origin}/checkout/result`,
         receipt_email: email || undefined,
       },
     });

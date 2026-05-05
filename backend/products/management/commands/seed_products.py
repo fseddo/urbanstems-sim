@@ -375,43 +375,6 @@ class Command(BaseCommand):
                     defaults=variation_data
                 )
 
-        # Populate full variant data from sibling products
-        self.stdout.write('Populating variant data...')
-        all_products = Product.objects.all().order_by('base_name', 'id')
-
-        variant_groups = {}
-        for product in all_products:
-            base_name = product.base_name or product.name
-            variant_groups.setdefault(base_name, []).append(product)
-
-        for product in all_products:
-            base_name = product.base_name or product.name
-            siblings = variant_groups[base_name]
-
-            variants = []
-            for sibling in siblings:
-                variant_type = sibling.variant_type or 'single'
-                price_dollars = sibling.price / 100 if sibling.price else None
-                discounted_price_dollars = sibling.discounted_price / 100 if sibling.discounted_price else None
-
-                variants.append({
-                    'id': sibling.id,
-                    'name': sibling.name,
-                    'slug': sibling.slug,
-                    'variant_type': variant_type,
-                    'main_image': sibling.main_image,
-                    'hover_image': sibling.hover_image,
-                    'delivery_lead_time': sibling.delivery_lead_time,
-                    'badge_text': sibling.badge_text,
-                    'badge_image_src': sibling.badge_image_src,
-                    'price_dollars': price_dollars,
-                    'discounted_price_dollars': discounted_price_dollars,
-                })
-
-            variants.sort(key=lambda v: v['id'])
-            product.variants = variants
-            product.save(update_fields=['variants'])
-
         # Summary
         self.stdout.write(
             self.style.SUCCESS(

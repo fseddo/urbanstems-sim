@@ -27,6 +27,23 @@ _POSITION_ORDERINGS = (
 )
 
 
+def _attach_variants_cache(products: list[Product]) -> None:
+    """Bulk-fetch sibling products for a list of products and attach them as
+    `_variants_cache` on each instance, so per-product serialization reads
+    from the cache instead of firing one query per row. One additional query
+    for the entire page, regardless of page size.
+    """
+    if not products:
+        return
+    base_names = {p.base_name for p in products}
+    siblings = Product.objects.filter(base_name__in=base_names).order_by('base_name', 'id')
+    by_base_name: dict[str, list[Product]] = {}
+    for sibling in siblings:
+        by_base_name.setdefault(sibling.base_name, []).append(sibling)
+    for product in products:
+        product._variants_cache = by_base_name.get(product.base_name, [])
+
+
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for Product model
@@ -62,6 +79,19 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
             if request.query_params.get(param):
                 return queryset.order_by(ordering)
         return queryset.order_by('external_id')
+
+    def list(self, request, *args, **kwargs):
+        """Override to bulk-fetch sibling products for the visible page so the
+        per-product `variants` serializer doesn't fire one query per row.
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        items = page if page is not None else list(queryset)
+        _attach_variants_cache(items)
+        serializer = self.get_serializer(items, many=True)
+        if page is not None:
+            return self.get_paginated_response(serializer.data)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['get'], url_path='filter-options')
     def filter_options(self, request):

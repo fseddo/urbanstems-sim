@@ -49,9 +49,6 @@ class Product(models.Model):
     # Derived flags
     vase_included = models.BooleanField(default=False, help_text="Product comes with a vase/vessel (derived from text at seed time)")
 
-    # Variants
-    variants = models.JSONField(default=list, blank=True, help_text="Array of variant objects with id, name, variant_type, main_image, hover_image, delivery_lead_time, badge_text, price_dollars, and discounted_price_dollars")
-
     # Taxonomy memberships. Each through-model carries a `position` field for
     # curated ordering within a single category/collection/occasion (used by
     # ProductViewSet's position-ordering when ?category=foo etc. is set).
@@ -88,6 +85,23 @@ class Product(models.Model):
     def discounted_price_dollars(self):
         """Convert discounted price from cents to dollars"""
         return self.discounted_price / 100 if self.discounted_price else None
+
+    def variants(self) -> list['Product']:
+        """Sibling products sharing this product's `base_name` (single/double/
+        triple variants of the same bouquet). Includes the product itself —
+        the frontend's variant chooser shows all options including the
+        currently-selected one.
+
+        Reads from `_variants_cache` if set (the list-view path bulk-fetches
+        siblings for the whole page in one query and attaches the cache to
+        avoid N+1). Detail-view queries inline — one extra query per render.
+        """
+        cache = getattr(self, '_variants_cache', None)
+        if cache is not None:
+            return cache
+        return list(
+            Product.objects.filter(base_name=self.base_name).order_by('id')
+        )
 
 
 class Taxonomy(models.Model):

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { categoryQueries } from '@/api/categories/categoryQueries';
 import { collectionQueries } from '@/api/collections/collectionQueries';
-import { occasionQueries } from '@/api/occasions/queries';
+import { occasionQueries } from '@/api/occasions/occasionQueries';
 import { useShopDropdown } from './NavbarContext';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';

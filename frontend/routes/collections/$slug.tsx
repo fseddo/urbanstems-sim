@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { categoryQueries } from '@/api/categories/categoryQueries';
 import { collectionQueries } from '@/api/collections/collectionQueries';
-import { occasionQueries } from '@/api/occasions/queries';
+import { occasionQueries } from '@/api/occasions/occasionQueries';
 import { productQueries } from '@/api/products/queries';
 import { CollectionPage } from '@/src/collections/CollectionPage';
 import {

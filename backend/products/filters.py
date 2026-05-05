@@ -4,7 +4,7 @@ from .models import Product, Review
 
 
 class ProductFilter(django_filters.FilterSet):
-    # Single-slug taxonomy. The viewset reads these to decide position ordering
+    # Single-slug facet. The viewset reads these to decide position ordering
     # when no explicit `?ordering=` is supplied.
     category = django_filters.CharFilter(field_name='productcategory__category__slug')
     collection = django_filters.CharFilter(field_name='productcollection__collection__slug')

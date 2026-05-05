@@ -56,7 +56,7 @@ class Product(models.Model):
     # Derived flags
     vase_included = models.BooleanField(default=False, help_text="Product comes with a vase/vessel (derived from text at seed time)")
 
-    # Taxonomy memberships. Each through-model carries a `position` field for
+    # Facet memberships. Each through-model carries a `position` field for
     # curated ordering within a single category/collection/occasion (used by
     # ProductViewSet's position-ordering when ?category=foo etc. is set).
     # Consumers wanting a product's tag set use the manager: product.categories.all().
@@ -111,12 +111,15 @@ class Product(models.Model):
         )
 
 
-class Taxonomy(models.Model):
-    """Shared schema for taxonomy-like models (Category, Collection, Occasion).
+class Facet(models.Model):
+    """Shared schema for the project's facets — Category, Collection, Occasion.
 
-    Each is a tag set products belong to via a through-model with a `position`
-    field for curated ordering. Fields and Meta.ordering are identical; only
-    the table and verbose names differ.
+    Each facet is a dimension of classification on Product (a "kind of tag");
+    each row is a tag within that facet ("Birthday" is a tag of the Occasion
+    facet, "Flowers" is a tag of the Category facet). Products are joined to
+    facet tags via a through-model carrying a `position` field for curated
+    ordering. Fields and Meta.ordering are identical across facets; only the
+    table and verbose names differ.
     """
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
@@ -135,16 +138,16 @@ class Taxonomy(models.Model):
         return self.name
 
 
-class Category(Taxonomy):
-    class Meta(Taxonomy.Meta):
+class Category(Facet):
+    class Meta(Facet.Meta):
         verbose_name_plural = "categories"
 
 
-class Collection(Taxonomy):
+class Collection(Facet):
     pass
 
 
-class Occasion(Taxonomy):
+class Occasion(Facet):
     pass
 
 

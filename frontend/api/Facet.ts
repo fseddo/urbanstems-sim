@@ -1,4 +1,8 @@
-export interface Collection {
+// Shared shape for the project's facets — Category, Collection, Occasion.
+// Mirrors the backend's abstract `Facet` model. All three concrete types
+// alias this directly.
+
+export interface Facet {
   id: number;
   name: string;
   slug: string;

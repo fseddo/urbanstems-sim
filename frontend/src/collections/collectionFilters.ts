@@ -1,10 +1,8 @@
 // Helpers for translating a /collections/$slug URL into the right filter
 // shape for the products query layer. Pure functions — no React, no router.
 
-import { CategoryType } from '@/api/categories/Category';
-import type { Category } from '@/api/categories/Category';
-import type { Collection } from '@/api/collections/Collection';
-import type { Occasion } from '@/api/occasions/Occasion';
+import { CategoryType } from '@/api/categories/CategoryType';
+import type { Facet } from '@/api/Facet';
 import { FilterOptionsScope } from '@/api/products/FilterOptions';
 import { ProductFilters } from '@/api/products/ProductFilters';
 import { UIFilters } from '@/src/filters/filterSpecs';
@@ -13,15 +11,15 @@ export type SlugType = 'all' | 'category' | 'collection' | 'occasion';
 
 export type RouteSearch = UIFilters & { search?: string };
 
-// Returns the slug's taxonomy bucket, or `null` when the slug doesn't match
-// any known category / collection / occasion. The route loader is expected
-// to redirect to `/collections/all` on null — otherwise downstream queries
+// Returns which facet (category / collection / occasion) the slug belongs
+// to, or `null` when no facet matches. The route loader is expected to
+// redirect to `/collections/all` on null — otherwise downstream queries
 // would 404 with no recovery.
 export const getSlugType = (
   slug: string,
-  categories: Category[],
-  collections: Collection[],
-  occasions: Occasion[]
+  categories: Facet[],
+  collections: Facet[],
+  occasions: Facet[]
 ): SlugType | null => {
   if (slug === 'all') return 'all';
   if (categories.some((c) => c.slug === slug)) return 'category';

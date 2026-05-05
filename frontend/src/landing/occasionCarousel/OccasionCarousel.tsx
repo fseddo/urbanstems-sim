@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { occasionQueries } from '@/api/occasions/queries';
+import { occasionQueries } from '@/api/occasions/occasionQueries';
 import { OccasionCard } from './OccasionCard';
 import { HorizontalList } from '@/src/common/HorizontalList';
 

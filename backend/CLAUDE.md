@@ -1,5 +1,15 @@
 # Claude rules for the Django backend
 
+## Vocabulary: facet, tag, taxonomy
+
+When talking about how products are classified:
+
+- **Facet** — a *dimension of classification* on Product. The project has three: Category, Collection, Occasion. Each Django model (`Category`, `Collection`, `Occasion`) is one facet, sharing the abstract `Facet` model's schema.
+- **Tag** — an *individual row* inside a facet. "Birthday" is a tag of the Occasion facet; "Flowers" is a tag of the Category facet; "Spring 2026" is a tag of the Collection facet. The M2M relationship from Product points at tags.
+- **Taxonomy** — the *whole system* of facets + their tags + the joins. Use this when describing the categorization architecture as a whole, not when naming specific code (factories, models, helpers).
+
+Don't use "taxonomy" as a label for a facet model, serializer, or factory — `Facet` / `FacetSerializer` / `createFacetQueries` describe specific things. Reserve "taxonomy" for the system-level concept.
+
 These are the conventions established by the audit fixes tracked in [`docs/improvements/backend.md`](../docs/improvements/backend.md). Each rule is backed by a concrete reference in the repo. Architecture and feature docs live in [`docs/backend/`](../docs/backend/).
 
 ## Reseeding the catalog (`SEED_ON_BOOT`)
@@ -61,7 +71,7 @@ When the relation is "products in this category in curated order" — i.e., a th
 
 Position-ordered queries still use the through-model lookup syntax (`order_by('producttag__position')`) — that's unaffected by the M2M declaration.
 
-Reference: [`Product` taxonomy fields](products/models.py).
+Reference: [`Product` facet fields](products/models.py).
 
 ## Derive denormalized data at request time
 

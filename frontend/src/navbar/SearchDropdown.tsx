@@ -7,7 +7,7 @@ import { NavLink } from './NavLink';
 import { ProductCard } from '../common/ProductCard';
 import { HorizontalScrollbar } from '../common/HorizontalScrollbar';
 import { Link } from '@tanstack/react-router';
-import { CategoryType } from '@/api/categories/Category';
+import { CategoryType } from '@/api/categories/CategoryType';
 
 const TOP_SEARCHES = ['Roses', 'Peonies', 'Orchids'];
 

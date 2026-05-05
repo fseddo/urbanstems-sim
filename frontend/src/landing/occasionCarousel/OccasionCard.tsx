@@ -1,8 +1,8 @@
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
-import { Occasion } from '@/api/occasions/Occasion';
+import type { Facet } from '@/api/Facet';
 import { Link } from '@tanstack/react-router';
 
-export const OccasionCard = ({ occasion }: { occasion: Occasion }) => {
+export const OccasionCard = ({ occasion }: { occasion: Facet }) => {
   return (
     <Link
       to='/collections/$slug'
@@ -12,7 +12,7 @@ export const OccasionCard = ({ occasion }: { occasion: Occasion }) => {
       <div className='w-[330px] overflow-hidden rounded-lg'>
         <img
           className='w-full transition-transform duration-300 hover:scale-105'
-          src={occasion.image_src}
+          src={occasion.image_src ?? undefined}
         />
       </div>
       <div className='font-crimson flex items-center justify-center text-3xl'>

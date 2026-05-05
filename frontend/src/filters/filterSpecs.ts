@@ -1,4 +1,4 @@
-import { CategoryType } from '@/api/categories/Category';
+import { CategoryType } from '@/api/categories/CategoryType';
 import { ProductSortKey } from '@/api/products/ProductFilters';
 import { SortOrder } from '@/api/PaginatedResponse';
 

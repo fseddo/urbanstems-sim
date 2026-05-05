@@ -2,25 +2,25 @@ from rest_framework import serializers
 from .models import Product, Category, Collection, Occasion, Review
 
 
-class TaxonomySerializer(serializers.ModelSerializer):
-    """Shared serializer for the three Taxonomy subclasses (Category, Collection,
+class FacetSerializer(serializers.ModelSerializer):
+    """Shared serializer for the three Facet subclasses (Category, Collection,
     Occasion). Concrete subclasses just point Meta.model at the right model."""
     class Meta:
         fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
 
 
-class CategorySerializer(TaxonomySerializer):
-    class Meta(TaxonomySerializer.Meta):
+class CategorySerializer(FacetSerializer):
+    class Meta(FacetSerializer.Meta):
         model = Category
 
 
-class CollectionSerializer(TaxonomySerializer):
-    class Meta(TaxonomySerializer.Meta):
+class CollectionSerializer(FacetSerializer):
+    class Meta(FacetSerializer.Meta):
         model = Collection
 
 
-class OccasionSerializer(TaxonomySerializer):
-    class Meta(TaxonomySerializer.Meta):
+class OccasionSerializer(FacetSerializer):
+    class Meta(FacetSerializer.Meta):
         model = Occasion
 
 

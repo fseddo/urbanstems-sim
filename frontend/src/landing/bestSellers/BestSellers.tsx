@@ -4,7 +4,7 @@ import { productQueries } from '@/api/products/queries';
 import { BestSellersHeaderItem } from './BestSellersHeaderItem';
 import { HorizontalList } from '@/src/common/HorizontalList';
 import { ProductCard } from '@/src/common/ProductCard';
-import { CategoryType } from '@/api/categories/Category';
+import { CategoryType } from '@/api/categories/CategoryType';
 
 const RESULT_LIMIT = 8;
 

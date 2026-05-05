@@ -1,4 +1,4 @@
-import { CategoryType } from '@/api/categories/Category';
+import { CategoryType } from '@/api/categories/CategoryType';
 
 // The set of filter values that have ≥1 matching product within a given
 // scope (collection / category / occasion / search). Computed by the

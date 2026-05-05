@@ -1,5 +1,5 @@
 import { Paginated, SortOrder } from '@/api/PaginatedResponse';
-import { CategoryType } from '@/api/categories/Category';
+import { CategoryType } from '@/api/categories/CategoryType';
 import { ProductBadgeText } from './ProductBadgeText';
 import { VariantType } from './ProductVariant';
 

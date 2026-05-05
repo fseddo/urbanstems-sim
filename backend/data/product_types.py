@@ -1,5 +1,10 @@
 """
-Type definitions for Urban Stems scraper
+Type definitions for the Urban Stems scraper output. Documents the wire-format
+contract that `data/products.json` follows and that
+`products/management/commands/seed_products.py` consumes.
+
+Not imported at runtime — Python doesn't enforce TypedDicts — but kept as the
+canonical schema reference for any new scrape job.
 """
 
 from typing import TypedDict, Optional, List

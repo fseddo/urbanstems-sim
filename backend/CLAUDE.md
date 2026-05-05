@@ -1,6 +1,6 @@
 # Claude rules for the Django backend
 
-These are the conventions established by the audit fixes in `docs/improvements/backend/`. Each rule is backed by a concrete reference in the repo.
+These are the conventions established by the audit fixes tracked in [`docs/improvements/backend.md`](../docs/improvements/backend.md). Each rule is backed by a concrete reference in the repo. Architecture and feature docs live in [`docs/backend/`](../docs/backend/).
 
 ## Reseeding the catalog (`SEED_ON_BOOT`)
 

@@ -46,6 +46,10 @@ def stripe_webhook(request):
     event_type = event['type']
     intent = event['data']['object']
 
+    logger.info(
+        'Stripe event received: %s for intent %s', event_type, intent.get('id')
+    )
+
     if event_type == 'payment_intent.succeeded':
         send_order_confirmation(intent)
     elif event_type == 'payment_intent.payment_failed':

@@ -256,11 +256,6 @@ EMAIL_LOGO_URL = config(
     'EMAIL_LOGO_URL',
     default='https://media.licdn.com/dms/image/v2/C4E0BAQE30cC9hM4k9A/company-logo_200_200/company-logo_200_200/0/1630593771861/urbanstems_logo?e=2147483647&v=beta&t=z4q6y0lLO8f_W8pfs9qim9FYppDUxj9gW7J7A5NL2YQ',
 )
-# Store URL used for the "Continue Shopping" CTA in the email. Defaults to
-# the production frontend.
-STORE_URL = config(
-    'STORE_URL', default='https://urbanstems.francescoseddo.me'
-)
 # Sales tax percentage applied to the order subtotal in the PaymentIntent.
 # 8.875 matches NYC combined sales tax — easy to swap for a real lookup later.
 CHECKOUT_TAX_RATE_PCT = config('CHECKOUT_TAX_RATE_PCT', default=8.875, cast=float)

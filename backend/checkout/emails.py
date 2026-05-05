@@ -4,6 +4,7 @@ and shipping fields, then sent via Resend.
 The webhook handler is the only caller. Idempotency is enforced via Django's
 cache so duplicate webhook deliveries don't double-send.
 """
+import html
 import json
 import logging
 import re
@@ -28,7 +29,12 @@ def _format_cents(cents: int | None) -> str:
 
 def _format_address(name: str | None, address: dict | None) -> str:
     """Render an address as HTML lines: name, line1, line2, city/state/zip.
-    Country is omitted — same convention real US ecommerce emails use."""
+    Country is omitted — same convention real US ecommerce emails use.
+
+    All fragments are HTML-escaped: name + address come from the customer
+    (via Stripe), so defense-in-depth says treat them as untrusted before
+    interpolating into HTML.
+    """
     if not address:
         return ''
     line1 = address.get('line1')
@@ -40,7 +46,7 @@ def _format_address(name: str | None, address: dict | None) -> str:
     if zip_code:
         city_line = f'{city_line} {zip_code}'.strip()
     parts = [name, line1, line2, city_line]
-    return '<br>'.join(p for p in parts if p)
+    return '<br>'.join(html.escape(p) for p in parts if p)
 
 
 def _order_number(intent_id: str) -> str:
@@ -171,7 +177,10 @@ def _build_html(intent: dict) -> str:
 
     shipping = intent.get('shipping') or {}
     full_name = (shipping.get('name') or '').strip()
-    first_name = full_name.split(' ', 1)[0] if full_name else 'there'
+    # first_name is interpolated into the HTML body and the preview text;
+    # escape once at extraction. shipping_html / billing_html are escaped
+    # inside _format_address.
+    first_name = html.escape(full_name.split(' ', 1)[0]) if full_name else 'there'
     shipping_html = _format_address(full_name, shipping.get('address'))
 
     charge = _expanded_charge(intent)

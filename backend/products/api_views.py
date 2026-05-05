@@ -48,6 +48,13 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         request = cast(Request, self.request)
         queryset = Product.objects.all().distinct()
 
+        # Detail view serializes nested categories/collections/occasions —
+        # prefetch them so a single detail render is one query per relation
+        # instead of one per relation per access. List view's serializer
+        # doesn't include taxonomies, so we don't pay for prefetch there.
+        if self.action == 'retrieve':
+            queryset = queryset.prefetch_related('categories', 'collections', 'occasions')
+
         if request.query_params.get('ordering'):
             return queryset
 

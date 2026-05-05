@@ -52,10 +52,22 @@ class Product(models.Model):
     # Variants
     variants = models.JSONField(default=list, blank=True, help_text="Array of variant objects with id, name, variant_type, main_image, hover_image, delivery_lead_time, badge_text, price_dollars, and discounted_price_dollars")
 
+    # Taxonomy memberships. Each through-model carries a `position` field for
+    # curated ordering within a single category/collection/occasion (used by
+    # ProductViewSet's position-ordering when ?category=foo etc. is set).
+    # Consumers wanting a product's tag set use the manager: product.categories.all().
+    # Consumers wanting "members of this category in curated order" query the
+    # through-model directly: queryset.order_by('productcategory__position').
+    categories = models.ManyToManyField('Category', through='ProductCategory', related_name='products')
+    collections = models.ManyToManyField('Collection', through='ProductCollection', related_name='products')
+    occasions = models.ManyToManyField('Occasion', through='ProductOccasion', related_name='products')
+    stem_types = models.ManyToManyField('StemType', through='ProductStemType', related_name='products')
+    colors = models.ManyToManyField('Color', through='ProductColor', related_name='products')
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ['name']
         indexes = [
@@ -63,7 +75,7 @@ class Product(models.Model):
             models.Index(fields=['base_name']),
             models.Index(fields=['price']),
         ]
-    
+
     def __str__(self):
         return f"{self.name} ({self.variant_type or 'no variant'})"
 
@@ -71,36 +83,11 @@ class Product(models.Model):
     def price_dollars(self):
         """Convert price from cents to dollars"""
         return self.price / 100 if self.price else None
-    
+
     @property
     def discounted_price_dollars(self):
         """Convert discounted price from cents to dollars"""
         return self.discounted_price / 100 if self.discounted_price else None
-
-    @property
-    def categories(self):
-        """Get all categories for this product"""
-        return Category.objects.filter(productcategory__product=self)
-    
-    @property
-    def collections(self):
-        """Get all collections for this product"""
-        return Collection.objects.filter(productcollection__product=self)
-    
-    @property
-    def occasions(self):
-        """Get all occasions for this product"""
-        return Occasion.objects.filter(productoccasion__product=self)
-
-    @property
-    def stem_types(self):
-        """Get all stem types for this product"""
-        return StemType.objects.filter(productstemtype__product=self)
-
-    @property
-    def colors(self):
-        """Get all colors for this product"""
-        return Color.objects.filter(productcolor__product=self)
 
 
 class Taxonomy(models.Model):

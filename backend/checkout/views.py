@@ -8,6 +8,8 @@ from rest_framework.response import Response
 
 from products.models import Product
 
+from .serializers import CreatePaymentIntentSerializer
+
 
 def _missing_key_response() -> Response:
     return Response(
@@ -23,20 +25,25 @@ def _compute_totals(line_items: list[dict]) -> tuple[int, list[dict]]:
     Prices come from the DB, never the client — the request body only carries
     slug + quantity. Discounted price wins when set.
     """
-    slugs = [item.get('slug') for item in line_items if item.get('slug')]
+    slugs = [item['slug'] for item in line_items]
     products = {p.slug: p for p in Product.objects.filter(slug__in=slugs)}
 
     resolved: list[dict] = []
     subtotal_cents = 0
     for raw in line_items:
-        slug = raw.get('slug')
-        quantity = int(raw.get('quantity') or 0)
-        if not slug or quantity <= 0:
-            continue
+        slug = raw['slug']
+        quantity = raw['quantity']
         product = products.get(slug)
         if not product:
             continue
-        unit_cents = product.discounted_price or product.price
+        # Discounted price wins when set. Explicit `is not None` so a 0-cent
+        # discounted price (e.g. gift-with-purchase) doesn't fall through to
+        # the regular price.
+        unit_cents = (
+            product.discounted_price
+            if product.discounted_price is not None
+            else product.price
+        )
         if unit_cents is None:
             continue
         line_cents = unit_cents * quantity
@@ -69,12 +76,9 @@ def create_payment_intent(request):
     if not settings.STRIPE_SECRET_KEY:
         return _missing_key_response()
 
-    line_items = request.data.get('line_items') or []
-    if not isinstance(line_items, list) or not line_items:
-        return Response(
-            {'detail': 'line_items is required and must be non-empty.'},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+    serializer = CreatePaymentIntentSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    line_items = serializer.validated_data['line_items']
 
     subtotal_cents, resolved = _compute_totals(line_items)
     if not resolved:

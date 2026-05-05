@@ -1,4 +1,5 @@
 import ipaddress
+import logging
 from pathlib import Path
 
 import geoip2.database
@@ -10,6 +11,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
+
+logger = logging.getLogger(__name__)
 
 
 def _real_client_ip(request) -> str | None:
@@ -96,6 +99,9 @@ def autocomplete(request):
             bias_lng = float(lng_raw)
         except ValueError:
             pass
+        else:
+            if not (-90 <= bias_lat <= 90 and -180 <= bias_lng <= 180):
+                bias_lat = bias_lng = None
 
     # Cache key intentionally excludes the session token: the same input
     # should hit cache regardless of which session asked for it. lat/lng are
@@ -133,15 +139,21 @@ def autocomplete(request):
             },
             timeout=UPSTREAM_TIMEOUT_S,
         )
-    except requests.RequestException as e:
+    except requests.RequestException:
+        logger.exception('Google Places autocomplete request failed')
         return Response(
-            {'detail': f'Upstream request failed: {e}'},
+            {'detail': 'Upstream error.'},
             status=status.HTTP_502_BAD_GATEWAY,
         )
 
     if not resp.ok:
+        logger.warning(
+            'Google Places autocomplete upstream %d: %s',
+            resp.status_code,
+            resp.text,
+        )
         return Response(
-            {'detail': 'Google Places autocomplete failed.', 'upstream': resp.text},
+            {'detail': 'Upstream error.'},
             status=status.HTTP_502_BAD_GATEWAY,
         )
 
@@ -198,15 +210,21 @@ def details(request):
             },
             timeout=UPSTREAM_TIMEOUT_S,
         )
-    except requests.RequestException as e:
+    except requests.RequestException:
+        logger.exception('Google Places details request failed')
         return Response(
-            {'detail': f'Upstream request failed: {e}'},
+            {'detail': 'Upstream error.'},
             status=status.HTTP_502_BAD_GATEWAY,
         )
 
     if not resp.ok:
+        logger.warning(
+            'Google Places details upstream %d: %s',
+            resp.status_code,
+            resp.text,
+        )
         return Response(
-            {'detail': 'Google Places details failed.', 'upstream': resp.text},
+            {'detail': 'Upstream error.'},
             status=status.HTTP_502_BAD_GATEWAY,
         )
 

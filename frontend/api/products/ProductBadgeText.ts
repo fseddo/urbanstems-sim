@@ -2,5 +2,5 @@ export enum ProductBadgeText {
   New = 'New!',
   Sale = 'Sale',
   BestSeller = 'Best Seller',
-  VaseIncluded = 'Vase Included',
+  LimitedTimeSale20Off = 'Limited Time Sale: 20% Off',
 }

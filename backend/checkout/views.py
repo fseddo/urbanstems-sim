@@ -1,6 +1,6 @@
 import json
+import logging
 
-import stripe
 from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -9,6 +9,9 @@ from rest_framework.response import Response
 from products.models import Product
 
 from .serializers import CreatePaymentIntentSerializer
+from .stripe_client import stripe
+
+logger = logging.getLogger(__name__)
 
 
 def _missing_key_response() -> Response:
@@ -107,7 +110,6 @@ def create_payment_intent(request):
         separators=(',', ':'),
     )
 
-    stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         intent = stripe.PaymentIntent.create(
             amount=total_cents,
@@ -122,6 +124,7 @@ def create_payment_intent(request):
             },
         )
     except stripe.error.StripeError as e:
+        logger.exception('PaymentIntent.create failed')
         return Response(
             {'detail': f'Stripe error: {e.user_message or str(e)}'},
             status=status.HTTP_502_BAD_GATEWAY,

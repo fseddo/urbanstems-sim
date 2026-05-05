@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from products.models import (
     Product, Category, Collection, Occasion, Review,
     ProductCategory, ProductCollection, ProductOccasion,
-    ProductVariation, StemType, Color, ProductStemType, ProductColor,
+    StemType, Color, ProductStemType, ProductColor,
 )
 
 
@@ -138,7 +138,6 @@ class Command(BaseCommand):
         if options['clear']:
             self.stdout.write('Clearing existing data...')
             Review.objects.all().delete()
-            ProductVariation.objects.all().delete()
             ProductCategory.objects.all().delete()
             ProductCollection.objects.all().delete()
             ProductOccasion.objects.all().delete()
@@ -353,28 +352,6 @@ class Command(BaseCommand):
                     }
                 )
 
-        # Handle product variations
-        self.stdout.write('Processing product variations...')
-        for product_data in products_data:
-            product = created_products[product_data['id']]
-
-            variation_data = {}
-
-            if product_data.get('single_variation') and product_data['single_variation'] in created_products:
-                variation_data['single_variation'] = created_products[product_data['single_variation']]
-
-            if product_data.get('double_variation') and product_data['double_variation'] in created_products:
-                variation_data['double_variation'] = created_products[product_data['double_variation']]
-
-            if product_data.get('triple_variation') and product_data['triple_variation'] in created_products:
-                variation_data['triple_variation'] = created_products[product_data['triple_variation']]
-
-            if variation_data:
-                ProductVariation.objects.update_or_create(
-                    product=product,
-                    defaults=variation_data
-                )
-
         # Summary
         self.stdout.write(
             self.style.SUCCESS(
@@ -385,7 +362,6 @@ class Command(BaseCommand):
                 f'  Occasions: {Occasion.objects.count()}\n'
                 f'  Stem Types: {StemType.objects.count()} ({ProductStemType.objects.count()} links)\n'
                 f'  Colors: {Color.objects.count()} ({ProductColor.objects.count()} links)\n'
-                f'  Reviews: {Review.objects.count()}\n'
-                f'  Product Variations: {ProductVariation.objects.count()}'
+                f'  Reviews: {Review.objects.count()}'
             )
         )

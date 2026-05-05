@@ -10,11 +10,12 @@ import logging
 import re
 
 import resend
-import stripe
 from django.conf import settings
 from django.core.cache import cache
 
 from products.models import Product
+
+from .stripe_client import stripe
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +77,6 @@ def _expanded_charge(intent: dict) -> dict:
     if not intent_id or not settings.STRIPE_SECRET_KEY:
         return {}
     try:
-        stripe.api_key = settings.STRIPE_SECRET_KEY
         expanded = stripe.PaymentIntent.retrieve(
             intent_id, expand=['latest_charge']
         ).to_dict()

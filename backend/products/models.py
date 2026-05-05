@@ -3,8 +3,15 @@ from django.db import models
 
 class VariantType(models.TextChoices):
     SINGLE = "single", "Single"
-    DOUBLE = "double", "Double" 
+    DOUBLE = "double", "Double"
     TRIPLE = "triple", "Triple"
+
+
+class BadgeText(models.TextChoices):
+    NEW = "New!", "New!"
+    SALE = "Sale", "Sale"
+    BEST_SELLER = "Best Seller", "Best Seller"
+    LIMITED_TIME_SALE_20_OFF = "Limited Time Sale: 20% Off", "Limited Time Sale: 20% Off"
 
 
 class Product(models.Model):
@@ -27,7 +34,7 @@ class Product(models.Model):
 
     # Product details
     subtitle = models.CharField(max_length=500, null=True, blank=True)
-    badge_text = models.CharField(max_length=100, null=True, blank=True)
+    badge_text = models.CharField(max_length=30, choices=BadgeText.choices, null=True, blank=True)
     badge_image_src = models.URLField(null=True, blank=True)
     delivery_lead_time = models.PositiveIntegerField(null=True, blank=True, help_text="Lead time in days")
     stock = models.PositiveIntegerField(default=0)
@@ -240,12 +247,3 @@ class ProductColor(models.Model):
         ordering = ['position']
 
 
-class ProductVariation(models.Model):
-    """Links product variations together"""
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    single_variation = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True, related_name="single_variants")
-    double_variation = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True, related_name="double_variants")
-    triple_variation = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True, related_name="triple_variants")
-    
-    class Meta:
-        unique_together = ['product']

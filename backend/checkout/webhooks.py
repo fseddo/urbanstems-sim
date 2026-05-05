@@ -11,13 +11,13 @@ The handler must:
 """
 import logging
 
-import stripe
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .emails import send_order_confirmation
+from .stripe_client import stripe
 
 logger = logging.getLogger(__name__)
 

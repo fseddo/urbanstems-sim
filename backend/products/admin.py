@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Collection, Occasion, Review, ProductCategory, ProductCollection, ProductOccasion, ProductVariation
+from .models import Product, Category, Collection, Occasion, Review, ProductCategory, ProductCollection, ProductOccasion
 
 
 @admin.register(Product)
@@ -55,7 +55,6 @@ class OccasionAdmin(admin.ModelAdmin):
 admin.site.register(ProductCategory)
 admin.site.register(ProductCollection)
 admin.site.register(ProductOccasion)
-admin.site.register(ProductVariation)
 
 
 @admin.register(Review)

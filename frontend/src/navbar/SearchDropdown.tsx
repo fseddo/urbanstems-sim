@@ -1,13 +1,12 @@
 import { useRef } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { collectionQueries } from '@/api/collections/collectionQueries';
+import { tagQueries } from '@/api/tags/tagQueries';
 import { productQueries } from '@/api/products/queries';
 import { useSearchDropdown } from './NavbarContext';
 import { NavLink } from './NavLink';
 import { ProductCard } from '../common/ProductCard';
 import { HorizontalScrollbar } from '../common/HorizontalScrollbar';
 import { Link } from '@tanstack/react-router';
-import { CategoryType } from '@/api/categories/CategoryType';
 
 const TOP_SEARCHES = ['Roses', 'Peonies', 'Orchids'];
 
@@ -19,7 +18,7 @@ export const SearchDropdown = () => {
 
   const isEmpty = searchTerm.length === 0;
 
-  const { data: collections = [] } = useQuery(collectionQueries.list());
+  const { data: collections = [] } = useQuery(tagQueries.list('collection'));
 
   const { data: searchProductData } = useQuery({
     ...productQueries.list({ search: searchTerm, size: 20 }),
@@ -29,7 +28,7 @@ export const SearchDropdown = () => {
 
   const { data: bestSellersData } = useQuery(
     productQueries.list({
-      category: CategoryType.Flowers,
+      category: ['flowers'],
       size: 8,
     })
   );

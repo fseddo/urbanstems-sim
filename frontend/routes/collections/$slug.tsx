@@ -1,13 +1,10 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { categoryQueries } from '@/api/categories/categoryQueries';
-import { collectionQueries } from '@/api/collections/collectionQueries';
-import { occasionQueries } from '@/api/occasions/occasionQueries';
 import { productQueries } from '@/api/products/queries';
+import { tagQueries } from '@/api/tags/tagQueries';
 import { CollectionPage } from '@/src/collections/CollectionPage';
 import {
   buildFilterOptionsScope,
   buildFilters,
-  getSlugType,
   type RouteSearch,
 } from '@/src/collections/collectionFilters';
 import { parseUIFiltersSearch } from '@/src/filters/filterSpecs';
@@ -20,27 +17,24 @@ export const Route = createFileRoute('/collections/$slug')({
   }),
   loaderDeps: ({ search }) => ({ search }),
   loader: async ({ params, deps, context }) => {
-    // Fetch entity lists so we can determine slug type dynamically
-    const [categories, collections, occasions] = await Promise.all([
-      context.queryClient.ensureQueryData(categoryQueries.list()),
-      context.queryClient.ensureQueryData(collectionQueries.list()),
-      context.queryClient.ensureQueryData(occasionQueries.list()),
-    ]);
+    const isAll = params.slug === 'all';
 
-    const slugType = getSlugType(
-      params.slug,
-      categories,
-      collections,
-      occasions
-    );
-    if (slugType === null) {
-      throw redirect({ to: '/collections/$slug', params: { slug: 'all' } });
+    // Resolve the URL slug to a Tag (with its Facet inline) — one round trip,
+    // replaces the legacy 3-list-fetches + entity-detail dance.
+    let pageTag = null;
+    if (!isAll) {
+      try {
+        pageTag = await context.queryClient.ensureQueryData(
+          tagQueries.detail(params.slug)
+        );
+      } catch {
+        throw redirect({ to: '/collections/$slug', params: { slug: 'all' } });
+      }
     }
 
-    const filters = buildFilters(params.slug, slugType, deps.search);
+    const filters = buildFilters(pageTag, deps.search);
     const filterOptionsScope = buildFilterOptionsScope(
-      params.slug,
-      slugType,
+      pageTag,
       deps.search.search
     );
 
@@ -51,37 +45,16 @@ export const Route = createFileRoute('/collections/$slug')({
       productQueries.filterOptions(filterOptionsScope)
     );
 
-    if (slugType === 'all') {
-      document.title = 'Shop Our Collection | UrbanStems';
-      await Promise.all([productsPromise, filterOptionsPromise]);
-      const filterOptions = await filterOptionsPromise;
-      return { slugType, filters, filterOptions, entity: null };
-    }
-
-    const entityPromise =
-      slugType === 'category'
-        ? context.queryClient.ensureQueryData(
-            categoryQueries.detail(params.slug)
-          )
-        : slugType === 'collection'
-          ? context.queryClient.ensureQueryData(
-              collectionQueries.detail(params.slug)
-            )
-          : context.queryClient.ensureQueryData(
-              occasionQueries.detail(params.slug)
-            );
-
-    const [, entity, filterOptions] = await Promise.all([
-      productsPromise,
-      entityPromise,
-      filterOptionsPromise,
-    ]);
+    await Promise.all([productsPromise, filterOptionsPromise]);
+    const filterOptions = await filterOptionsPromise;
 
     document.title =
-      entity.page_title ??
-      `${entity.name} Delivery | Next Day Delivery | UrbanStems`;
+      pageTag?.page_title ??
+      (pageTag
+        ? `${pageTag.name} Delivery | Next Day Delivery | UrbanStems`
+        : 'Shop Our Collection | UrbanStems');
 
-    return { slugType, filters, filterOptions, entity };
+    return { pageTag, filters, filterOptions };
   },
   component: CollectionPage,
 });

@@ -4,9 +4,7 @@ import re
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from products.models import (
-    Product, Category, Collection, Occasion, Review,
-    ProductCategory, ProductCollection, ProductOccasion,
-    StemType, Color, ProductStemType, ProductColor,
+    Product, Review, Facet, Tag, ProductTag, FACET_DEFS,
 )
 
 
@@ -134,31 +132,41 @@ class Command(BaseCommand):
             )
             return
 
-        # Clear existing data if requested
+        # Clear existing data if requested. Order matters for FK constraints:
+        # Review → Product (FK to Product); ProductTag → Product+Tag;
+        # Tag → Facet. Cascading on Product/Tag/Facet would also work but
+        # explicit is clearer.
         if options['clear']:
             self.stdout.write('Clearing existing data...')
             Review.objects.all().delete()
-            ProductCategory.objects.all().delete()
-            ProductCollection.objects.all().delete()
-            ProductOccasion.objects.all().delete()
-            ProductStemType.objects.all().delete()
-            ProductColor.objects.all().delete()
+            ProductTag.objects.all().delete()
             Product.objects.all().delete()
-            Category.objects.all().delete()
-            Collection.objects.all().delete()
-            Occasion.objects.all().delete()
-            StemType.objects.all().delete()
-            Color.objects.all().delete()
+            Tag.objects.all().delete()
+            Facet.objects.all().delete()
 
-        # Seed stem-type and color tag rows from vocabularies
-        stem_types_cache = {
-            slug: StemType.objects.get_or_create(
-                slug=slug, defaults={'name': entry['name']}
+        # Seed the 5 Facet rows from the model-level FACET_DEFS constant
+        facets_by_slug = {
+            slug: Facet.objects.get_or_create(
+                slug=slug, defaults={'name': name, 'kind': kind}
+            )[0]
+            for slug, name, kind in FACET_DEFS
+        }
+
+        # Seed filter-kind tags (color, stem_type) from vocabularies
+        stem_facet = facets_by_slug['stem_type']
+        color_facet = facets_by_slug['color']
+
+        stem_tags_cache = {
+            slug: Tag.objects.get_or_create(
+                facet=stem_facet,
+                slug=slug,
+                defaults={'name': entry['name']},
             )[0]
             for slug, entry in STEM_VOCAB.items()
         }
-        colors_cache = {
-            slug: Color.objects.get_or_create(
+        color_tags_cache = {
+            slug: Tag.objects.get_or_create(
+                facet=color_facet,
                 slug=slug,
                 defaults={'name': entry['name'], 'hex': entry['hex']},
             )[0]
@@ -177,60 +185,44 @@ class Command(BaseCommand):
 
         self.stdout.write(f'Found {len(products_data)} products, {len(collections_data)} collections, {len(occasions_data)} occasions, {len(categories_data)} categories')
 
-        # Seed categories, collections, occasions from their dedicated arrays
-        categories_cache = {}
+        # Seed landing-kind tags (category, collection, occasion) from the
+        # JSON's dedicated arrays. Each entry's `name` is the display name;
+        # we slugify it for the URL slug. Landing-page metadata (image_src,
+        # page_title, header_*, nav_*) flows from the JSON onto the Tag.
+        def _seed_landing_tag(facet_slug, entry):
+            facet = facets_by_slug[facet_slug]
+            tag, _ = Tag.objects.get_or_create(
+                facet=facet,
+                slug=slugify(entry['name']),
+                defaults={
+                    'name': entry['name'],
+                    'image_src': strip_width_param(entry.get('image_src')),
+                    'page_title': entry.get('page_title'),
+                    'header_title': entry.get('header_title'),
+                    'header_subtitle': entry.get('header_subtitle'),
+                    'nav_img_src': strip_width_param(entry.get('nav_img_src')),
+                    'nav_description': entry.get('nav_description'),
+                },
+            )
+            return tag
+
+        # Cache landing-kind tags by (facet_slug, source_name) for fast
+        # lookup when linking products. Source uses display name as the key
+        # because product entries reference categories/collections/occasions
+        # by name (not slug) in the JSON.
+        landing_tags_by_name: dict[tuple[str, str], Tag] = {}
         for cat in categories_data:
-            category, _ = Category.objects.get_or_create(
-                name=cat['name'],
-                defaults={
-                    'slug': slugify(cat['name']),
-                    'image_src': strip_width_param(cat.get('image_src')),
-                    'page_title': cat.get('page_title'),
-                    'header_title': cat.get('header_title'),
-                    'header_subtitle': cat.get('header_subtitle'),
-                    'nav_img_src': strip_width_param(cat.get('nav_img_src')),
-                    'nav_description': cat.get('nav_description'),
-                }
-            )
-            categories_cache[cat['name']] = category
-        self.stdout.write(f'  Seeded {len(categories_cache)} categories')
-
-        collections_cache = {}
+            landing_tags_by_name[('category', cat['name'])] = _seed_landing_tag('category', cat)
         for col in collections_data:
-            collection, _ = Collection.objects.get_or_create(
-                name=col['name'],
-                defaults={
-                    'slug': slugify(col['name']),
-                    'image_src': strip_width_param(col.get('image_src')),
-                    'page_title': col.get('page_title'),
-                    'header_title': col.get('header_title'),
-                    'header_subtitle': col.get('header_subtitle'),
-                    'nav_img_src': strip_width_param(col.get('nav_img_src')),
-                    'nav_description': col.get('nav_description'),
-                }
-            )
-            collections_cache[col['name']] = collection
-        self.stdout.write(f'  Seeded {len(collections_cache)} collections')
-
-        occasions_cache = {}
+            landing_tags_by_name[('collection', col['name'])] = _seed_landing_tag('collection', col)
         for occ in occasions_data:
-            occasion, _ = Occasion.objects.get_or_create(
-                name=occ['name'],
-                defaults={
-                    'slug': slugify(occ['name']),
-                    'image_src': strip_width_param(occ.get('image_src')),
-                    'page_title': occ.get('page_title'),
-                    'header_title': occ.get('header_title'),
-                    'header_subtitle': occ.get('header_subtitle'),
-                    'nav_img_src': strip_width_param(occ.get('nav_img_src')),
-                    'nav_description': occ.get('nav_description'),
-                }
-            )
-            occasions_cache[occ['name']] = occasion
-        self.stdout.write(f'  Seeded {len(occasions_cache)} occasions')
+            landing_tags_by_name[('occasion', occ['name'])] = _seed_landing_tag('occasion', occ)
+        self.stdout.write(
+            f'  Seeded landing tags: {len(categories_data)} category, '
+            f'{len(collections_data)} collection, {len(occasions_data)} occasion'
+        )
 
         # Create products
-        created_products = {}
         for product_data in products_data:
             self.stdout.write(f'Processing: {product_data["name"]}')
 
@@ -272,45 +264,27 @@ class Command(BaseCommand):
                 }
             )
 
-            created_products[product_data['id']] = product
-
             if created:
                 self.stdout.write(f'  Created: {product.name}')
             else:
                 self.stdout.write(f'  Already exists: {product.name}')
 
-            # Link categories
-            for cat_entry in product_data.get('categories', []):
-                cat_name = cat_entry['name'] if isinstance(cat_entry, dict) else cat_entry
-                cat_index = cat_entry.get('index', 0) if isinstance(cat_entry, dict) else 0
-                if cat_name in categories_cache:
-                    ProductCategory.objects.update_or_create(
-                        product=product,
-                        category=categories_cache[cat_name],
-                        defaults={'position': cat_index}
+            # Link landing-kind tags (categories / collections / occasions),
+            # preserving the per-tag `position` from the JSON entry.
+            def _link_landing(facet_slug, json_field):
+                for entry in product_data.get(json_field, []):
+                    tag_name = entry['name'] if isinstance(entry, dict) else entry
+                    position = entry.get('index', 0) if isinstance(entry, dict) else 0
+                    tag = landing_tags_by_name.get((facet_slug, tag_name))
+                    if tag is None:
+                        continue
+                    ProductTag.objects.update_or_create(
+                        product=product, tag=tag, defaults={'position': position}
                     )
 
-            # Link collections
-            for col_entry in product_data.get('collections', []):
-                col_name = col_entry['name'] if isinstance(col_entry, dict) else col_entry
-                col_index = col_entry.get('index', 0) if isinstance(col_entry, dict) else 0
-                if col_name in collections_cache:
-                    ProductCollection.objects.update_or_create(
-                        product=product,
-                        collection=collections_cache[col_name],
-                        defaults={'position': col_index}
-                    )
-
-            # Link occasions
-            for occ_entry in product_data.get('occasions', []):
-                occ_name = occ_entry['name'] if isinstance(occ_entry, dict) else occ_entry
-                occ_index = occ_entry.get('index', 0) if isinstance(occ_entry, dict) else 0
-                if occ_name in occasions_cache:
-                    ProductOccasion.objects.update_or_create(
-                        product=product,
-                        occasion=occasions_cache[occ_name],
-                        defaults={'position': occ_index}
-                    )
+            _link_landing('category', 'categories')
+            _link_landing('collection', 'collections')
+            _link_landing('occasion', 'occasions')
 
             # Derive stem-type + color tags from product text
             text_blob = ' '.join(filter(None, [
@@ -320,9 +294,9 @@ class Command(BaseCommand):
             ]))
 
             for position, stem_slug in enumerate(match_vocab(text_blob, STEM_VOCAB)):
-                ProductStemType.objects.update_or_create(
+                ProductTag.objects.update_or_create(
                     product=product,
-                    stem_type=stem_types_cache[stem_slug],
+                    tag=stem_tags_cache[stem_slug],
                     defaults={'position': position},
                 )
 
@@ -331,9 +305,9 @@ class Command(BaseCommand):
             if len(color_slugs) >= ASSORTED_COLOR_THRESHOLD:
                 color_slugs.append('assorted')
             for position, color_slug in enumerate(color_slugs):
-                ProductColor.objects.update_or_create(
+                ProductTag.objects.update_or_create(
                     product=product,
-                    color=colors_cache[color_slug],
+                    tag=color_tags_cache[color_slug],
                     defaults={'position': position},
                 )
 
@@ -357,11 +331,9 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 f'\nSuccessfully seeded:\n'
                 f'  Products: {Product.objects.count()}\n'
-                f'  Categories: {Category.objects.count()}\n'
-                f'  Collections: {Collection.objects.count()}\n'
-                f'  Occasions: {Occasion.objects.count()}\n'
-                f'  Stem Types: {StemType.objects.count()} ({ProductStemType.objects.count()} links)\n'
-                f'  Colors: {Color.objects.count()} ({ProductColor.objects.count()} links)\n'
+                f'  Facets: {Facet.objects.count()}\n'
+                f'  Tags: {Tag.objects.count()} '
+                f'({ProductTag.objects.count()} product-tag links)\n'
                 f'  Reviews: {Review.objects.count()}'
             )
         )

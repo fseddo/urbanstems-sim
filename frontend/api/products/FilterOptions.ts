@@ -1,13 +1,13 @@
-import { CategoryType } from '@/api/categories/CategoryType';
-
 // The set of filter values that have ≥1 matching product within a given
-// scope (collection / category / occasion / search). Computed by the
-// backend's /products/filter-options/ endpoint and used by the sidebar to
-// hide irrelevant options (e.g. "Hydrangea" stem-type on the Plants page).
+// scope (the URL's page tag + free-text search). Computed by the backend's
+// /products/filter-options/ endpoint and used by the sidebar to hide
+// irrelevant options (e.g. "Hydrangea" stem_type on the Plants page).
+//
+// `facets` is keyed by facet slug; the value is the list of tag slugs in
+// that facet that have at least one matching product.
+
 export type FilterOptions = {
-  categories: CategoryType[];
-  stem_types: string[];
-  colors: string[];
+  facets: Record<string, string[]>;
   vase_included: boolean;
   price_range: {
     min: number | null;
@@ -15,9 +15,13 @@ export type FilterOptions = {
   };
 };
 
+// Scope sent to /products/filter-options/. The page's URL tag (one slug
+// per landing facet) plus search; user-selected sidebar filters are
+// intentionally NOT included so toggling one doesn't make the others
+// disappear from the sidebar.
 export type FilterOptionsScope = {
-  collection?: string;
   category?: string;
+  collection?: string;
   occasion?: string;
   search?: string;
 };

@@ -1,8 +1,8 @@
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
-import type { Facet } from '@/api/Facet';
+import type { Tag } from '@/api/tags/Tag';
 import { Link } from '@tanstack/react-router';
 
-export const OccasionCard = ({ occasion }: { occasion: Facet }) => {
+export const OccasionCard = ({ occasion }: { occasion: Tag }) => {
   return (
     <Link
       to='/collections/$slug'

@@ -2,7 +2,6 @@ import { useAtom } from 'jotai';
 import {
   useLoaderData,
   useNavigate,
-  useParams,
   useSearch,
 } from '@tanstack/react-router';
 import { useCallback, useState } from 'react';
@@ -22,27 +21,28 @@ import { UIFilters } from '@/src/filters/filterSpecs';
 import { ListingHeaderBarItem } from './ListingHeaderBarItem';
 
 export const CollectionPage = () => {
-  const { filters, entity, slugType, filterOptions } = useLoaderData({
+  const { filters, pageTag, filterOptions } = useLoaderData({
     from: '/collections/$slug',
   });
-  const { slug } = useParams({ from: '/collections/$slug' });
   const routeSearch = useSearch({ from: '/collections/$slug' });
   const navigate = useNavigate({ from: '/collections/$slug' });
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
 
   const { search: searchTerm, ...uiFilters } = routeSearch;
 
-  // Hide the URL slug's own value from the sidebar — toggling "Flowers" on
-  // /collections/flowers is a no-op for the user. Other dimensions are
-  // unaffected (stem/color slugs don't overlap with category/collection
-  // slugs).
-  const sidebarOptions =
-    slugType === 'category'
-      ? {
-          ...filterOptions,
-          categories: filterOptions.categories.filter((c) => c !== slug),
-        }
-      : filterOptions;
+  // Hide the page tag's own slug from its facet section in the sidebar —
+  // toggling "Flowers" on /collections/flowers is a no-op for the user.
+  const sidebarOptions = pageTag
+    ? {
+        ...filterOptions,
+        facets: {
+          ...filterOptions.facets,
+          [pageTag.facet.slug]: (
+            filterOptions.facets[pageTag.facet.slug] ?? []
+          ).filter((s) => s !== pageTag.slug),
+        },
+      }
+    : filterOptions;
 
   const setUiFilters = (next: UIFilters) => {
     navigate({
@@ -65,7 +65,7 @@ export const CollectionPage = () => {
       />
       <header className='font-crimson flex flex-col items-center justify-center gap-2 py-18 text-[40px]'>
         <span className='flex flex-col items-center gap-4'>
-          {slugType === 'all' ? (
+          {!pageTag ? (
             searchTerm ? (
               <span className='text-5xl'>{`Results for "${searchTerm}"`}</span>
             ) : (
@@ -79,9 +79,9 @@ export const CollectionPage = () => {
             )
           ) : (
             <>
-              <span className='text-5xl'>{entity?.header_title}</span>
+              <span className='text-5xl'>{pageTag.header_title}</span>
               <span className='font-mulish text-center text-base'>
-                {entity?.header_subtitle}
+                {pageTag.header_subtitle}
               </span>
             </>
           )}

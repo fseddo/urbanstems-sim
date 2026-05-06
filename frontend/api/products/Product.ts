@@ -1,4 +1,3 @@
-import type { Facet } from '../Facet';
 import { ProductBadgeText } from './ProductBadgeText';
 import { VariantType, ProductVariant } from './ProductVariant';
 
@@ -30,9 +29,6 @@ export interface Product {
   is_main_detail_video: boolean;
   detail_image_1_src: string | null;
   detail_image_2_src: string | null;
-  categories?: Facet[];
-  collections?: Facet[];
-  occasions?: Facet[];
   variants: ProductVariant[];
   created_at: string;
   updated_at?: string;

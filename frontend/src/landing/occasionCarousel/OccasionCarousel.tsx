@@ -1,12 +1,12 @@
 import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { occasionQueries } from '@/api/occasions/occasionQueries';
+import { tagQueries } from '@/api/tags/tagQueries';
 import { OccasionCard } from './OccasionCard';
 import { HorizontalList } from '@/src/common/HorizontalList';
 
 export const OccasionCarousel = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { data: occasions } = useQuery(occasionQueries.list());
+  const { data: occasions } = useQuery(tagQueries.list('occasion'));
 
   return (
     <section className='flex w-full flex-col gap-6 pl-20'>

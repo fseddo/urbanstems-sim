@@ -1,29 +1,15 @@
 from typing import Any, cast
-from django.db.models import Min, Max
+from django.db.models import Min, Max, OuterRef, Subquery
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
-from .filters import ProductFilter, ReviewFilter
-from .models import (
-    Product, Category, Collection, Occasion, Review,
-    StemType, Color,
-)
+from .filters import ProductFilter, ReviewFilter, TagFilter, LANDING_FACET_SLUGS
+from .models import Product, Review, Facet, Tag, ProductTag
 from .serializers import (
     ProductListSerializer, ProductDetailSerializer,
-    CategorySerializer, CollectionSerializer, OccasionSerializer,
-    ReviewSerializer
-)
-
-
-# Position-ordering taxonomies: when ?category|collection|occasion is set and
-# no explicit ?ordering= is supplied, sort by the through-model's `position`
-# so curated ordering takes effect. First match wins.
-_POSITION_ORDERINGS = (
-    ('category', 'productcategory__position'),
-    ('collection', 'productcollection__position'),
-    ('occasion', 'productoccasion__position'),
+    ReviewSerializer, FacetSerializer, TagSerializer,
 )
 
 
@@ -44,11 +30,29 @@ def _attach_variants_cache(products: list[Product]) -> None:
         product._variants_cache = by_base_name.get(product.base_name, [])
 
 
+def _single_landing_tag(request: Request) -> tuple[str, str] | None:
+    """If the request supplies exactly one landing-facet param with exactly
+    one value, return (facet_slug, tag_slug). Used by the viewset to apply
+    curated `position` ordering. Returns None for multi-select or zero
+    landing-tag scopes. Param name === facet slug."""
+    matched: tuple[str, str] | None = None
+    for facet_slug in LANDING_FACET_SLUGS:
+        raw = request.query_params.getlist(facet_slug)
+        slugs: list[str] = []
+        for v in raw:
+            slugs.extend(s.strip() for s in v.split(','))
+        slugs = [s for s in slugs if s]
+        if not slugs:
+            continue
+        if len(slugs) > 1 or matched is not None:
+            return None  # multi-select or multiple landing facets → no curated order
+        matched = (facet_slug, slugs[0])
+    return matched
+
+
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet for Product model
-    Provides list and detail views
-    """
+    """List + detail for products. Filtering via ProductFilter (per-facet
+    tag params + price + vase_included + badge_text + variant_type)."""
     queryset = Product.objects.all()
     lookup_field = 'slug'
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
@@ -65,19 +69,28 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         request = cast(Request, self.request)
         queryset = Product.objects.all().distinct()
 
-        # Detail view serializes nested categories/collections/occasions —
-        # prefetch them so a single detail render is one query per relation
-        # instead of one per relation per access. List view's serializer
-        # doesn't include taxonomies, so we don't pay for prefetch there.
+        # Detail view serializes nested tags — prefetch with select_related
+        # on facet so each tag carries its facet without extra queries.
         if self.action == 'retrieve':
-            queryset = queryset.prefetch_related('categories', 'collections', 'occasions')
+            queryset = queryset.prefetch_related('tags__facet')
 
         if request.query_params.get('ordering'):
             return queryset
 
-        for param, ordering in _POSITION_ORDERINGS:
-            if request.query_params.get(param):
-                return queryset.order_by(ordering)
+        # Curated ordering when filtered to exactly one landing tag — annotate
+        # with the matching ProductTag.position so the order is unambiguous
+        # even when other facet filters add joins on the same ProductTag table.
+        if (single := _single_landing_tag(request)) is not None:
+            facet_slug, tag_slug = single
+            position_subquery = ProductTag.objects.filter(
+                product=OuterRef('pk'),
+                tag__facet__slug=facet_slug,
+                tag__slug=tag_slug,
+            ).values('position')[:1]
+            return queryset.annotate(
+                _curated_position=Subquery(position_subquery)
+            ).order_by('_curated_position', 'name')
+
         return queryset.order_by('external_id')
 
     def list(self, request, *args, **kwargs):
@@ -96,45 +109,46 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False, methods=['get'], url_path='filter-options')
     def filter_options(self, request):
         """Return the set of filter values that have ≥1 matching product
-        within the current scope (collection / category / occasion / search).
+        within the current scope. Scope is defined by URL-path-level params
+        (the landing tag the user is on, plus search). UI-applied multi-select
+        filters (the sidebar checkboxes) are intentionally NOT applied — the
+        sidebar should keep showing all base-scope options so the user can
+        multi-select without options vanishing from under them.
 
-        UI-applied multi-select filters (categories[], stem_types[], colors[],
-        vase_included, min_price, max_price) are intentionally NOT applied
-        here — the sidebar should keep showing all base-scope options so the
-        user can multi-select without options vanishing from under them.
+        Response shape groups available tag slugs by facet slug, plus
+        price_range + vase_included presence.
         """
         queryset = Product.objects.all()
 
-        if collection := request.query_params.get('collection'):
-            queryset = queryset.filter(productcollection__collection__slug=collection)
-        if category := request.query_params.get('category'):
-            queryset = queryset.filter(productcategory__category__slug=category)
-        if occasion := request.query_params.get('occasion'):
-            queryset = queryset.filter(productoccasion__occasion__slug=occasion)
+        # Scope filters: the URL-context landing tag + free-text search
+        for facet_slug in LANDING_FACET_SLUGS:
+            scope_slugs = request.query_params.getlist(facet_slug)
+            scope_slugs = [s for raw in scope_slugs for s in raw.split(',') if s.strip()]
+            if scope_slugs:
+                tag_ids = list(
+                    Tag.objects.filter(facet__slug=facet_slug, slug__in=scope_slugs)
+                    .values_list('id', flat=True)
+                )
+                queryset = queryset.filter(producttag__tag_id__in=tag_ids)
         if search := request.query_params.get('search'):
             queryset = queryset.filter(name__icontains=search)
-
         queryset = queryset.distinct()
 
-        categories = list(
-            Category.objects.filter(productcategory__product__in=queryset)
-            .distinct().values_list('slug', flat=True)
-        )
-        stem_types = list(
-            StemType.objects.filter(productstemtype__product__in=queryset)
-            .distinct().values_list('slug', flat=True)
-        )
-        colors = list(
-            Color.objects.filter(productcolor__product__in=queryset)
-            .distinct().values_list('slug', flat=True)
-        )
+        # Per-facet available tag slugs in the scope
+        facets: dict[str, list[str]] = {}
+        for facet in Facet.objects.all():
+            facets[facet.slug] = list(
+                Tag.objects.filter(
+                    facet=facet,
+                    producttag__product__in=queryset,
+                ).distinct().values_list('slug', flat=True)
+            )
+
         vase_included = queryset.filter(vase_included=True).exists()
         price = queryset.aggregate(min=Min('price'), max=Max('price'))
 
         return Response({
-            'categories': categories,
-            'stem_types': stem_types,
-            'colors': colors,
+            'facets': facets,
             'vase_included': vase_included,
             'price_range': {
                 # Stored cents → dollars for the UI; null when scope is empty
@@ -144,41 +158,34 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         })
 
 
-class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet for Category model
-    """
-    queryset = Category.objects.order_by('id')
-    serializer_class = CategorySerializer
+class FacetViewSet(viewsets.ReadOnlyModelViewSet):
+    """List + detail for Facet definitions (5 rows). No pagination."""
+    queryset = Facet.objects.all()
+    serializer_class = FacetSerializer
     lookup_field = 'slug'
     pagination_class = None
 
 
-class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet for Collection model
-    """
-    queryset = Collection.objects.order_by('id')
-    serializer_class = CollectionSerializer
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    """List + detail for Tag rows. List filterable by `?facet=<slug>`. Detail
+    by slug only resolves landing-kind tags (slug uniqueness only enforced
+    among them — filter-kind tags can collide e.g. 'peonies' is both
+    category and stem_type)."""
+    serializer_class = TagSerializer
     lookup_field = 'slug'
     pagination_class = None
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TagFilter
 
-
-class OccasionViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet for Occasion model
-    """
-    queryset = Occasion.objects.order_by('id')
-    serializer_class = OccasionSerializer
-    lookup_field = 'slug'
-    pagination_class = None
+    def get_queryset(self) -> Any:
+        if self.action == 'retrieve':
+            return Tag.objects.select_related('facet').filter(facet__kind='landing')
+        return Tag.objects.select_related('facet')
 
 
 class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet for Review model.
-    Filter by product slug: /api/reviews/?product_slug=the-sorbet
-    """
+    """ViewSet for Review model. Filter by product slug:
+    /api/reviews/?product_slug=the-sorbet"""
     queryset = Review.objects.select_related('product').all()
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend]

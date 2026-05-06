@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { categoryQueries } from '@/api/categories/categoryQueries';
-import { collectionQueries } from '@/api/collections/collectionQueries';
-import { occasionQueries } from '@/api/occasions/occasionQueries';
+import { tagQueries } from '@/api/tags/tagQueries';
 import { useShopDropdown } from './NavbarContext';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
@@ -43,8 +41,8 @@ const NAV_DESCRIPTIONS: Record<string, string> = {
 // component (the Navbar) — calling it from inside ShopDropdown would defeat
 // the purpose since the dropdown only mounts on first open.
 export const useShopDropdownPrefetch = () => {
-  const { data: categories = [] } = useQuery(categoryQueries.list());
-  const { data: collections = [] } = useQuery(collectionQueries.list());
+  const { data: categories = [] } = useQuery(tagQueries.list('category'));
+  const { data: collections = [] } = useQuery(tagQueries.list('collection'));
 
   useEffect(() => {
     const urls: string[] = [];
@@ -65,9 +63,9 @@ export const ShopDropdown = () => {
   // This is a bit hacky and should be refactored in the future to be more robust.
   const close = () => setTimeout(() => setShopOpen(false), 80);
 
-  const { data: categories = [] } = useQuery(categoryQueries.list());
-  const { data: collections = [] } = useQuery(collectionQueries.list());
-  const { data: occasions = [] } = useQuery(occasionQueries.list());
+  const { data: categories = [] } = useQuery(tagQueries.list('category'));
+  const { data: collections = [] } = useQuery(tagQueries.list('collection'));
+  const { data: occasions = [] } = useQuery(tagQueries.list('occasion'));
 
   const featuredCollections = collections.filter(
     (c) => !isDeliveryCollection(c.slug) && !isHiddenCollection(c.slug)

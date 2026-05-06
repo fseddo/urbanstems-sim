@@ -68,10 +68,16 @@ export const FilterSidebar = ({
     });
   };
 
-  const toggleTag = <K extends 'categories' | 'stem_types' | 'colors'>(
-    key: K,
-    tag: string
-  ) => {
+  // Keys of UIFilters whose value is a slug array. Derived so adding/removing
+  // a tag-typed field on UIFilters automatically updates this constraint —
+  // no second place to maintain.
+  type TagFieldKey = {
+    [K in keyof UIFilters]-?: NonNullable<UIFilters[K]> extends string[]
+      ? K
+      : never;
+  }[keyof UIFilters];
+
+  const toggleTag = <K extends TagFieldKey>(key: K, tag: string) => {
     const current = (filters[key] as string[] | undefined) ?? [];
     const next = current.includes(tag)
       ? current.filter((c) => c !== tag)
@@ -193,11 +199,11 @@ export const FilterSidebar = ({
           {/* Category */}
           <TagSection
             title='Category'
-            options={availableOptions.categories}
-            selected={filters.categories ?? []}
+            options={availableOptions.facets.category ?? []}
+            selected={filters.category ?? []}
             isOpen={openSections.has('category')}
             onToggleSection={() => toggleSection('category')}
-            onToggleSlug={(slug) => toggleTag('categories', slug)}
+            onToggleSlug={(slug) => toggleTag('category', slug)}
             renderChip={(slug, isSelected, onClick) => (
               <FilterChip
                 key={slug}
@@ -235,11 +241,11 @@ export const FilterSidebar = ({
           {/* Color */}
           <TagSection
             title='Color'
-            options={availableOptions.colors}
-            selected={filters.colors ?? []}
-            isOpen={openSections.has('colors')}
-            onToggleSection={() => toggleSection('colors')}
-            onToggleSlug={(slug) => toggleTag('colors', slug)}
+            options={availableOptions.facets.color ?? []}
+            selected={filters.color ?? []}
+            isOpen={openSections.has('color')}
+            onToggleSection={() => toggleSection('color')}
+            onToggleSlug={(slug) => toggleTag('color', slug)}
             renderChip={(slug, isSelected, onClick) => {
               const display = COLOR_DISPLAY[slug];
               return (
@@ -257,11 +263,11 @@ export const FilterSidebar = ({
           {/* Stem Type */}
           <TagSection
             title='Stem Type'
-            options={availableOptions.stem_types}
-            selected={filters.stem_types ?? []}
-            isOpen={openSections.has('stem_types')}
-            onToggleSection={() => toggleSection('stem_types')}
-            onToggleSlug={(slug) => toggleTag('stem_types', slug)}
+            options={availableOptions.facets.stem_type ?? []}
+            selected={filters.stem_type ?? []}
+            isOpen={openSections.has('stem_type')}
+            onToggleSection={() => toggleSection('stem_type')}
+            onToggleSlug={(slug) => toggleTag('stem_type', slug)}
             renderChip={(slug, isSelected, onClick) => (
               <FilterChip
                 key={slug}

@@ -4,11 +4,11 @@
 
 When talking about how products are classified:
 
-- **Facet** — a *dimension of classification* on Product. The project has three: Category, Collection, Occasion. Each Django model (`Category`, `Collection`, `Occasion`) is one facet, sharing the abstract `Facet` model's schema.
-- **Tag** — an *individual row* inside a facet. "Birthday" is a tag of the Occasion facet; "Flowers" is a tag of the Category facet; "Spring 2026" is a tag of the Collection facet. The M2M relationship from Product points at tags.
-- **Taxonomy** — the *whole system* of facets + their tags + the joins. Use this when describing the categorization architecture as a whole, not when naming specific code (factories, models, helpers).
+- **Facet** — a *dimension of classification* on Product. The project has 5 — `category`, `collection`, `occasion` (`kind=landing`); `color`, `stem_type` (`kind=filter`). Each is one row in the `Facet` table. Landing-kind facets have URL-routable tag pages (`/collections/<slug>`); filter-kind facets only surface in the filter sidebar.
+- **Tag** — an *individual classification value* within a facet. "Birthday" is a tag of the Occasion facet; "Red" is a tag of the Color facet; "Spring 2026" is a tag of the Collection facet. Stored in the `Tag` table with FK to Facet, plus per-facet-kind nullable fields (landing tags carry hero/SEO metadata; color tags carry `hex`).
+- **Taxonomy** — the *whole system-level concept* of facets + tags + the `ProductTag` through-table. Code names use the specific term: `Facet` / `Tag` / `ProductTag` / `FacetSerializer` / `TagSerializer`.
 
-Don't use "taxonomy" as a label for a facet model, serializer, or factory — `Facet` / `FacetSerializer` / `createFacetQueries` describe specific things. Reserve "taxonomy" for the system-level concept.
+Adding a 6th facet is a data insert (one Facet row + the Tag rows), not a code change. URL-param naming uses the facet slug directly (`?category=foo,bar&color=red` — singular, multi-value via comma-sep or repeated params). Backend filter logic is data-driven over `Facet.objects.all()`.
 
 These are the conventions established by the audit fixes tracked in [`docs/improvements/backend.md`](../docs/improvements/backend.md). Each rule is backed by a concrete reference in the repo. Architecture and feature docs live in [`docs/backend/`](../docs/backend/).
 

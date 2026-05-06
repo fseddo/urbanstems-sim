@@ -1,12 +1,16 @@
-import { CategoryType } from '@/api/categories/CategoryType';
 import { capitalizeString } from '@/src/common/utils/capitalizeString';
 import { tw } from '@/src/common/utils/tw';
 import { Dispatch, SetStateAction } from 'react';
 
-export const BestSellersHeaderItem = (props: {
-  item: CategoryType;
-  selected: CategoryType;
-  onClick: Dispatch<SetStateAction<CategoryType>>;
+// Generic over the slug type so callers' narrowed unions
+// (e.g. 'flowers' | 'plants') flow through to onClick. Without the
+// generic, a `Dispatch<SetStateAction<'flowers' | 'plants'>>` setter
+// can't be passed to a wider `Dispatch<SetStateAction<string>>` param
+// (state setters are contravariant).
+export const BestSellersHeaderItem = <T extends string>(props: {
+  item: T;
+  selected: T;
+  onClick: Dispatch<SetStateAction<T>>;
 }) => {
   return (
     <div

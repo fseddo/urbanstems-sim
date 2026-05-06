@@ -1,27 +1,27 @@
 from rest_framework import serializers
-from .models import Product, Category, Collection, Occasion, Review
+from .models import Product, Review, Facet, Tag
 
 
 class FacetSerializer(serializers.ModelSerializer):
-    """Shared serializer for the three Facet subclasses (Category, Collection,
-    Occasion). Concrete subclasses just point Meta.model at the right model."""
+    """The Facet definition (slug, name, kind). 5 rows total in the DB."""
     class Meta:
-        fields = ['id', 'name', 'slug', 'image_src', 'page_title', 'header_title', 'header_subtitle', 'nav_img_src', 'nav_description']
+        model = Facet
+        fields = ['slug', 'name', 'kind']
 
 
-class CategorySerializer(FacetSerializer):
-    class Meta(FacetSerializer.Meta):
-        model = Category
+class TagSerializer(serializers.ModelSerializer):
+    """A single tag with its facet nested inline. Landing-page metadata
+    fields and `hex` are nullable per facet kind."""
+    facet = FacetSerializer(read_only=True)
 
-
-class CollectionSerializer(FacetSerializer):
-    class Meta(FacetSerializer.Meta):
-        model = Collection
-
-
-class OccasionSerializer(FacetSerializer):
-    class Meta(FacetSerializer.Meta):
-        model = Occasion
+    class Meta:
+        model = Tag
+        fields = [
+            'id', 'slug', 'name', 'facet',
+            'image_src', 'page_title', 'header_title', 'header_subtitle',
+            'nav_img_src', 'nav_description',
+            'hex',
+        ]
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -74,12 +74,11 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
-    """Serializer for detailed product view"""
+    """Serializer for detailed product view. Nested `tags` flow through with
+    each tag's facet inline (per `TagSerializer`)."""
     price_dollars = serializers.ReadOnlyField()
     discounted_price_dollars = serializers.ReadOnlyField()
-    categories = CategorySerializer(many=True, read_only=True)
-    collections = CollectionSerializer(many=True, read_only=True)
-    occasions = OccasionSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
     variants = serializers.SerializerMethodField()
 
     class Meta:
@@ -91,7 +90,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'badge_image_src', 'delivery_lead_time', 'stock',
             'reviews_rating', 'reviews_count', 'description', 'care_instructions',
             'main_detail_src', 'is_main_detail_video', 'detail_image_1_src', 'detail_image_2_src',
-            'categories', 'collections', 'occasions', 'variants', 'created_at', 'updated_at'
+            'tags',
+            'variants', 'created_at', 'updated_at'
         ]
 
     def get_variants(self, obj):

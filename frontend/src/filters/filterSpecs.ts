@@ -1,13 +1,15 @@
-import { CategoryType } from '@/api/categories/CategoryType';
 import { ProductSortKey } from '@/api/products/ProductFilters';
 import { SortOrder } from '@/api/PaginatedResponse';
 
+// UIFilters covers what the sidebar can toggle. Collection/occasion are
+// not in here — those are URL-path-driven (the user reaches them via
+// /collections/<slug>, not by ticking a sidebar checkbox).
 export type UIFilters = {
   sortKey?: ProductSortKey;
   sortOrder?: SortOrder;
-  categories?: CategoryType[];
-  stem_types?: string[];
-  colors?: string[];
+  category?: string[];
+  stem_type?: string[];
+  color?: string[];
   vase_included?: true;
   min_price?: number;
   max_price?: number;
@@ -31,8 +33,7 @@ export type FilterSpec = {
 export type SortOption = {
   label: string;
   // Shown in the accordion header when this option is selected; falls back
-  // to `label` if omitted. Useful when the option-grid wording doesn't read
-  // well inline (e.g. 'Price: Low to High' → 'Price Ascending').
+  // to `label` if omitted.
   activeLabel?: string;
   sortKey?: ProductSortKey;
   sortOrder?: SortOrder;
@@ -56,20 +57,16 @@ export const SORT_OPTIONS: SortOption[] = [
   { label: 'Best Rated', sortKey: 'reviews_rating', sortOrder: 'desc' },
 ];
 
-// Display data lookups for tag-based filters. The list of available slugs
-// per scope is the source of truth (driven by the API's filter-options
-// endpoint); these records just supply human-readable labels and any
-// presentation-only attributes (e.g. color hex) that the API doesn't carry.
-//
-// Slugs here must match keys in the backend's STEM_VOCAB / COLOR_VOCAB
-// (seed_products.py).
+// Display data lookups for tag-based filters. Slugs here must match the
+// backend's seeded tag slugs (Color/StemType vocabularies in
+// seed_products.py, plus the 5 hardcoded categories from the data file).
 
-export const CATEGORY_DISPLAY: Record<CategoryType, { label: string }> = {
-  [CategoryType.Flowers]: { label: 'Flowers' },
-  [CategoryType.Plants]: { label: 'Plants' },
-  [CategoryType.Gifts]: { label: 'Gifts' },
-  [CategoryType.Centerpieces]: { label: 'Centerpieces' },
-  [CategoryType.Peonies]: { label: 'Peonies' },
+export const CATEGORY_DISPLAY: Record<string, { label: string }> = {
+  flowers: { label: 'Flowers' },
+  plants: { label: 'Plants' },
+  gifts: { label: 'Gifts' },
+  centerpieces: { label: 'Centerpieces' },
+  peonies: { label: 'Peonies' },
 };
 
 export const STEM_TYPE_DISPLAY: Record<string, { label: string }> = {
@@ -116,15 +113,15 @@ const VALID_SORT_KEYS: ReadonlySet<string> = new Set<ProductSortKey>([
   'external_id',
 ]);
 
-const VALID_CATEGORIES: ReadonlySet<string> = new Set<string>(
-  Object.values(CategoryType)
+const VALID_CATEGORIES: ReadonlySet<string> = new Set(
+  Object.keys(CATEGORY_DISPLAY)
 );
 
-const VALID_STEM_TYPES: ReadonlySet<string> = new Set<string>(
+const VALID_STEM_TYPES: ReadonlySet<string> = new Set(
   Object.keys(STEM_TYPE_DISPLAY)
 );
 
-const VALID_COLORS: ReadonlySet<string> = new Set<string>(
+const VALID_COLORS: ReadonlySet<string> = new Set(
   Object.keys(COLOR_DISPLAY)
 );
 
@@ -147,7 +144,7 @@ const parseSlugArray = (
 
 // Shared helper: remove a single tag from a slug array, clearing the field
 // when the result is empty.
-const removeTag = <K extends 'categories' | 'stem_types' | 'colors'>(
+const removeTag = <K extends 'category' | 'stem_type' | 'color'>(
   filters: UIFilters,
   key: K,
   tag: string
@@ -164,8 +161,6 @@ const removeTag = <K extends 'categories' | 'stem_types' | 'colors'>(
 export const FILTER_SPECS = {
   sort: {
     isActive: (f) => !!f.sortKey,
-    // Sort doesn't surface as an applied-filter chip — the sort section itself
-    // shows the current selection.
     chips: () => [],
     parseSearch: (s) => {
       const sortKey =
@@ -179,51 +174,49 @@ export const FILTER_SPECS = {
       return { sortKey, sortOrder };
     },
   },
-  categories: {
-    isActive: (f) => (f.categories ?? []).length > 0,
+  category: {
+    isActive: (f) => (f.category ?? []).length > 0,
     chips: (f, update) =>
-      (f.categories ?? []).map((cat) => {
-        const label = CATEGORY_DISPLAY[cat]?.label ?? cat;
+      (f.category ?? []).map((slug) => {
+        const label = CATEGORY_DISPLAY[slug]?.label ?? slug;
         return {
-          key: `category-${cat}`,
+          key: `category-${slug}`,
           label: `Category: ${label}`,
-          onRemove: () => update(removeTag(f, 'categories', cat)),
+          onRemove: () => update(removeTag(f, 'category', slug)),
         };
       }),
     parseSearch: (s) => ({
-      categories: parseSlugArray(s.categories, VALID_CATEGORIES) as
-        | CategoryType[]
-        | undefined,
+      category: parseSlugArray(s.category, VALID_CATEGORIES),
     }),
   },
-  stem_types: {
-    isActive: (f) => (f.stem_types ?? []).length > 0,
+  stem_type: {
+    isActive: (f) => (f.stem_type ?? []).length > 0,
     chips: (f, update) =>
-      (f.stem_types ?? []).map((slug) => {
+      (f.stem_type ?? []).map((slug) => {
         const label = STEM_TYPE_DISPLAY[slug]?.label ?? slug;
         return {
           key: `stem-${slug}`,
           label: `Stem: ${label}`,
-          onRemove: () => update(removeTag(f, 'stem_types', slug)),
+          onRemove: () => update(removeTag(f, 'stem_type', slug)),
         };
       }),
     parseSearch: (s) => ({
-      stem_types: parseSlugArray(s.stem_types, VALID_STEM_TYPES),
+      stem_type: parseSlugArray(s.stem_type, VALID_STEM_TYPES),
     }),
   },
-  colors: {
-    isActive: (f) => (f.colors ?? []).length > 0,
+  color: {
+    isActive: (f) => (f.color ?? []).length > 0,
     chips: (f, update) =>
-      (f.colors ?? []).map((slug) => {
+      (f.color ?? []).map((slug) => {
         const label = COLOR_DISPLAY[slug]?.label ?? slug;
         return {
           key: `color-${slug}`,
           label: `Color: ${label}`,
-          onRemove: () => update(removeTag(f, 'colors', slug)),
+          onRemove: () => update(removeTag(f, 'color', slug)),
         };
       }),
     parseSearch: (s) => ({
-      colors: parseSlugArray(s.colors, VALID_COLORS),
+      color: parseSlugArray(s.color, VALID_COLORS),
     }),
   },
   vase_included: {

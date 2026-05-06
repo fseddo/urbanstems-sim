@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Collection, Occasion, Review, ProductCategory, ProductCollection, ProductOccasion
+from .models import Product, Review, Facet, Tag, ProductTag
 
 
 @admin.register(Product)
@@ -34,27 +34,21 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
+@admin.register(Facet)
+class FacetAdmin(admin.ModelAdmin):
+    list_display = ['slug', 'name', 'kind']
+    list_filter = ['kind']
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['slug', 'name', 'facet']
+    list_filter = ['facet']
+    search_fields = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
 
-@admin.register(Collection)
-class CollectionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
-    prepopulated_fields = {'slug': ('name',)}
-
-
-@admin.register(Occasion)
-class OccasionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
-    prepopulated_fields = {'slug': ('name',)}
-
-
-admin.site.register(ProductCategory)
-admin.site.register(ProductCollection)
-admin.site.register(ProductOccasion)
+admin.site.register(ProductTag)
 
 
 @admin.register(Review)

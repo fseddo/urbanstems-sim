@@ -125,7 +125,7 @@ export const AccordionSection = ({
 // Multi-select tag accordion: gates render on >1 option (a single option is
 // always-on, no toggle worth showing), then maps the option slugs to chips
 // via the caller-supplied renderChip. Generic on the slug type so callers
-// keep typed enums (e.g. CategoryType for `availableOptions.categories`)
+// keep their narrowed slug types (e.g. a 'flowers' | 'plants' literal union)
 // instead of being widened to string. Used by Category / Color / Stem Type.
 export const TagSection = <T extends string>(props: {
   title: string;

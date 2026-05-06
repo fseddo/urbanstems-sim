@@ -8,19 +8,18 @@ import {
   useEffect,
   useLayoutEffect,
   useState,
-  useCallback,
   useRef,
 } from 'react';
 import { PaginatedResponse } from '@/api/PaginatedResponse';
 import { prefetchImages } from './utils/prefetchImages';
 
-type Props<T> = {
+type Props<T, TQueryKey extends readonly unknown[] = readonly unknown[]> = {
   queryOptions: UseInfiniteQueryOptions<
     PaginatedResponse<T>,
     Error,
     T[],
-    any,
-    any
+    TQueryKey,
+    number
   >;
   renderItem: (item: T, index: number) => ReactNode;
   estimateRowHeight?: number;
@@ -43,12 +42,15 @@ const useColumns = () => {
   return columns;
 };
 
-export const List = <T,>({
+export const List = <
+  T,
+  TQueryKey extends readonly unknown[] = readonly unknown[],
+>({
   queryOptions,
   renderItem,
   estimateRowHeight = 600,
   getItemImageUrls,
-}: Props<T>) => {
+}: Props<T, TQueryKey>) => {
   const {
     data,
     fetchNextPage,
@@ -100,13 +102,10 @@ export const List = <T,>({
     prefetchImages(items.flatMap((item) => getItemImageUrls(item)));
   }, [items, getItemImageUrls]);
 
-  const getRowItems = useCallback(
-    (rowIndex: number) => {
-      const startIndex = rowIndex * columns;
-      return items.slice(startIndex, startIndex + columns);
-    },
-    [items, columns]
-  );
+  const getRowItems = (rowIndex: number) => {
+    const startIndex = rowIndex * columns;
+    return items.slice(startIndex, startIndex + columns);
+  };
 
   if (isLoading) {
     return (

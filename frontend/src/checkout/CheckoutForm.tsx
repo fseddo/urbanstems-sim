@@ -2,17 +2,14 @@ import { FormEvent, useState } from 'react';
 import {
   AddressElement,
   PaymentElement,
-  useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
 import { tw } from '../common/utils/tw';
+import { useConfirmPayment } from './useConfirmPayment';
 
 export const CheckoutForm = () => {
   const stripe = useStripe();
-  const elements = useElements();
   const [email, setEmail] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   // Stripe iframes mount at near-zero height and only post their final height
   // back ~50–200ms later. Each iframe wrapper has a min-height roughly matching
   // its final size so the labels between them don't jump; the PAY NOW button
@@ -22,25 +19,11 @@ export const CheckoutForm = () => {
   const formReady = readyCount === 2;
   const markReady = () => setReadyCount((c) => c + 1);
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const confirmPayment = useConfirmPayment();
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
-
-    setSubmitting(true);
-    setError(null);
-
-    const { error: stripeError } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/checkout/result`,
-        receipt_email: email || undefined,
-      },
-    });
-
-    // confirmPayment redirects to return_url on success; we only get here if
-    // there's an immediate error (validation, declined card, etc.).
-    setError(stripeError?.message ?? 'Something went wrong. Please try again.');
-    setSubmitting(false);
+    confirmPayment.mutate({ email });
   };
 
   return (
@@ -87,18 +70,18 @@ export const CheckoutForm = () => {
           formReady ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}
       >
-        {error && (
+        {confirmPayment.error && (
           <p className='bg-error-bg text-error rounded-md px-4 py-3 text-sm'>
-            {error}
+            {confirmPayment.error.message}
           </p>
         )}
 
         <button
           type='submit'
-          disabled={!stripe || submitting}
+          disabled={!stripe || confirmPayment.isPending}
           className='bg-brand-primary mt-2 w-full rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60'
         >
-          {submitting ? 'PROCESSING…' : 'PAY NOW'}
+          {confirmPayment.isPending ? 'PROCESSING…' : 'PAY NOW'}
         </button>
 
         <p className='text-center text-[11px] opacity-60'>

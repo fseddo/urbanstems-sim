@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { Ref, useEffect, useRef, useState } from 'react';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { PiMagnifyingGlass } from 'react-icons/pi';
 import { IoClose } from 'react-icons/io5';
@@ -22,7 +22,7 @@ const NAV_ITEMS: NavItem[] = [
   { slug: 'sale', label: 'Sale' },
 ];
 
-export const Navbar = forwardRef<HTMLElement>((_, ref) => {
+export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
   const { shopOpen, setShopOpen } = useShopDropdown();
   const { searchOpen, setSearchOpen, setSearchTerm, setSearchInputRef } =
     useSearchDropdown();
@@ -156,9 +156,7 @@ export const Navbar = forwardRef<HTMLElement>((_, ref) => {
       </div>
     </header>
   );
-});
-
-Navbar.displayName = 'Navbar';
+};
 
 const CartButton = ({ onMouseEnter }: { onMouseEnter: () => void }) => {
   const setCartOpen = useSetAtom(cartOpenAtom);

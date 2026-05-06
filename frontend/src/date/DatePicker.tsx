@@ -1,6 +1,7 @@
 import { ReactNode, useRef, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { CalendarIcon } from '../common/icons/CalendarIcon';
+import { tw } from '../common/utils/tw';
 import { useDismissable } from '../common/useDismissable';
 
 const MONTH_NAMES = [
@@ -208,17 +209,15 @@ export const DatePicker = ({
                   onClick={() => select(day)}
                   aria-label={day.toDateString()}
                   aria-pressed={selected}
-                  className={[
+                  className={tw(
                     'font-crimson rounded-full py-2 text-center text-lg transition-colors',
                     disabled
                       ? 'cursor-default opacity-30'
                       : 'hover:bg-background-alt/40 cursor-pointer',
                     !inMonth && !disabled && 'opacity-60',
                     isToday && !selected && 'font-bold',
-                    selected && 'bg-brand-primary text-white',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
+                    selected && 'bg-brand-primary text-white'
+                  )}
                 >
                   {day.getDate()}
                 </button>

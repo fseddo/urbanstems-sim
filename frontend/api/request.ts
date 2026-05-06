@@ -6,6 +6,20 @@ type ApiRequestParams = {
   body?: unknown;
 };
 
+// Thrown when the server returns a non-2xx response. Carries `.status` so
+// callers (route loaders especially) can branch on the HTTP code without
+// parsing the message string.
+export class ApiError extends Error {
+  constructor(
+    public status: number,
+    public statusText: string,
+    message: string
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
 async function baseRequest<T>({
   path,
   method,
@@ -21,7 +35,6 @@ async function baseRequest<T>({
       body: body ? JSON.stringify(body) : undefined,
     });
     if (!response.ok) {
-      let errorMessage = `API request failed: ${response.status} ${response.statusText}`;
       let errorDetails = '';
 
       try {
@@ -51,12 +64,14 @@ async function baseRequest<T>({
         } else {
           errorDetails = await response.text();
         }
-      } catch (parseError) {
+      } catch {
         errorDetails = 'Unable to parse error response';
       }
 
-      const detailedError = new Error(
-        `${errorMessage}\nURL: ${url}\nDetails: ${errorDetails}`
+      const apiError = new ApiError(
+        response.status,
+        response.statusText,
+        `API request failed: ${response.status} ${response.statusText}\nURL: ${url}\nDetails: ${errorDetails}`
       );
       if (import.meta.env.DEV) {
         console.error('API Error Details:', {
@@ -66,15 +81,12 @@ async function baseRequest<T>({
           details: errorDetails,
         });
       }
-      throw detailedError;
+      throw apiError;
     }
     const data = await response.json();
     return data as T;
   } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message.includes('API request failed')
-    ) {
+    if (error instanceof ApiError) {
       throw error;
     }
     const networkError = new Error(

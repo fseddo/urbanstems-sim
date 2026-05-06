@@ -3,7 +3,9 @@ import { atomWithStorage } from 'jotai/utils';
 
 const storedDeliveryDateAtom = atomWithStorage<string | null>(
   'urbanstems-delivery-date',
-  null
+  null,
+  undefined,
+  { getOnInit: true }
 );
 
 const tomorrow = () => {

@@ -11,5 +11,7 @@ export interface DeliveryAddress {
 
 export const deliveryAddressAtom = atomWithStorage<DeliveryAddress | null>(
   'urbanstems-delivery-address',
-  null
+  null,
+  undefined,
+  { getOnInit: true }
 );

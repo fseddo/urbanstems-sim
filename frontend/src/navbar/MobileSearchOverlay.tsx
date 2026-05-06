@@ -57,7 +57,7 @@ export const MobileSearchOverlay = () => {
 
   return (
     <div
-      className='font-mulish bg-background border-brand-primary animate-fade-in absolute top-full left-0 w-full overflow-y-auto border-y'
+      className='font-mulish bg-background border-brand-primary absolute top-full left-0 w-full overflow-y-auto border-y'
       style={{ height: 'calc(100dvh - var(--navbar-height))' }}
     >
       <div className='flex flex-col gap-8 px-4 py-6'>

@@ -48,6 +48,24 @@ html {
   }
 }
 
+/* View Transitions API timing for the menu-search-bar morph.
+ *
+ * The group animates position/size between old and new bounds at 600ms.
+ * We hide the OLD snapshot entirely so the morph reads as a single element
+ * (default cross-fade would render two "Search Here"s overlapping). The
+ * NEW snapshot keeps its default fade so it matches the timing of the
+ * surrounding content's cross-fade — without this, opening the menu from
+ * a closed state would pop the search-bar in instantly while the rest
+ * fades in over ~250ms. */
+::view-transition-group(search-bar) {
+  animation-duration: 400ms;
+  animation-timing-function: ease-out;
+}
+::view-transition-old(search-bar) {
+  animation: none;
+  opacity: 0;
+}
+
 @layer utilities {
   .hide-scrollbar {
     -ms-overflow-style: none;

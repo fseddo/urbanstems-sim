@@ -6,10 +6,12 @@ import { NavNotificationBanner } from './NavNotificationBanner';
 import { ShopDropdown, useShopDropdownPrefetch } from './ShopDropdown';
 import { SearchDropdown } from './SearchDropdown';
 import { MobileSearchOverlay } from './MobileSearchOverlay';
+import { MobileMenuPanel } from './MobileMenuPanel';
 import { searchTermAtom, useNavbarPanel } from './navbarAtoms';
 import { Link } from '@tanstack/react-router';
 import { CartIcon } from '../common/icons/CartIcon';
 import { useIsDesktop } from '../common/useIsDesktop';
+import { withViewTransition } from '../common/withViewTransition';
 import { NavLink } from './NavLink';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { cartCountAtom, cartOpenAtom } from '../cart/cartAtoms';
@@ -27,6 +29,7 @@ const NAV_ITEMS: NavItem[] = [
 export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
   const [shopOpen, setShopOpen] = useNavbarPanel('shop');
   const [searchOpen, setSearchOpen] = useNavbarPanel('search');
+  const [mobileMenuOpen, setMobileMenuOpen] = useNavbarPanel('mobileMenu');
   const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
   const isDesktop = useIsDesktop();
 
@@ -37,10 +40,14 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
   // starts fresh; focusing on open is handled by `autoFocus` on the input
   // (the input only mounts inside the searchOpen branch, so each open is
   // a fresh mount that fires autoFocus).
-  const toggleSearch = () => {
-    if (searchOpen) setSearchTerm('');
-    setSearchOpen(!searchOpen);
-  };
+  const toggleSearch = () =>
+    withViewTransition(() => {
+      if (searchOpen) setSearchTerm('');
+      setSearchOpen(!searchOpen);
+    });
+
+  const toggleMobileMenu = () =>
+    withViewTransition(() => setMobileMenuOpen(!mobileMenuOpen));
 
   return (
     <header
@@ -52,8 +59,15 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
         {searchOpen ? (
           /* Replace normal navbar content with the search input. Same shape
            * across viewports — only the dropdown panel below differs (see the
-           * <SearchDropdown> vs <MobileSearchOverlay> branch further down). */
-          <div className='flex items-center gap-4 px-4 py-4.75 lg:px-40'>
+           * <SearchDropdown> vs <MobileSearchOverlay> branch further down).
+           *
+           * `viewTransitionName: 'search-bar'` pairs with the menu's search
+           * button so opening search from the mobile menu morphs between
+           * the two via the View Transitions API. */
+          <div
+            className='flex items-center gap-4 px-4 py-4.75 lg:px-40'
+            style={{ viewTransitionName: 'search-bar' }}
+          >
             <PiMagnifyingGlass
               size={20}
               className='text-brand-primary shrink-0'
@@ -97,14 +111,12 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
               ))}
             </div>
 
-            {/* Mobile-only left cluster: menu + search. The menu button is
-              * a placeholder until the mobile menu panel lands — disabled so
-              * it doesn't masquerade as a working control. */}
+            {/* Mobile-only left cluster: menu + search. */}
             <div className='flex items-center gap-3 lg:hidden'>
               <button
-                className='text-brand-primary cursor-not-allowed opacity-60'
-                aria-label='Open menu'
-                disabled
+                onClick={toggleMobileMenu}
+                className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               >
                 <HiOutlineMenu size={22} />
               </button>
@@ -160,6 +172,10 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
         {/* Search experience: desktop dropdown vs mobile fullscreen overlay */}
         {searchOpen &&
           (isDesktop ? <SearchDropdown /> : <MobileSearchOverlay />)}
+
+        {/* Mobile menu (burger) — same `absolute top-full` shape as the
+         * search and shop dropdowns; covers the rest of the viewport. */}
+        {mobileMenuOpen && <MobileMenuPanel />}
       </div>
     </header>
   );

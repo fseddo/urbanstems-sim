@@ -11,6 +11,11 @@ export const tagKeys = {
   // a facet share one cache entry.
   list: (facetSlug?: string) =>
     [...tagKeys.lists(), facetSlug ?? null] as const,
+  searches: () => [...tagKeys.all, 'search'] as const,
+  // Backend `?search=<term>` matches name (icontains) and restricts to
+  // landing-kind tags. Each term gets its own cache entry — typical for an
+  // autosuggest where consumers pass the live debounced value.
+  search: (term: string) => [...tagKeys.searches(), term] as const,
   details: () => [...tagKeys.all, 'detail'] as const,
   // Detail is by slug only — the backend resolves slug → tag using
   // `facet__kind='landing'` (slug uniqueness only enforced among landing
@@ -26,6 +31,18 @@ export const tagQueries = {
         const { queryString } = createQueryParams(
           facetSlug ? { facet: facetSlug } : {}
         );
+        return request<Tag[]>({
+          method: 'get',
+          path: `/tags/${queryString}`,
+        });
+      },
+    }),
+
+  search: (term: string) =>
+    queryOptions({
+      queryKey: tagKeys.search(term),
+      queryFn: () => {
+        const { queryString } = createQueryParams({ search: term });
         return request<Tag[]>({
           method: 'get',
           path: `/tags/${queryString}`,

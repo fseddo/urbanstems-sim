@@ -6,19 +6,30 @@ import { useSearchDropdown } from './NavbarContext';
 import { NavLink } from './NavLink';
 import { ProductCard } from '../common/ProductCard';
 import { HorizontalScrollbar } from '../common/HorizontalScrollbar';
+import { capitalizeString } from '../common/utils/capitalizeString';
 import { Link } from '@tanstack/react-router';
 
 const TOP_SEARCHES = ['Roses', 'Peonies', 'Orchids'];
 
 export const SearchDropdown = () => {
-  const { setSearchOpen, searchTerm, setSearchTerm, setSearchInputRef } = useSearchDropdown();
+  const { setSearchOpen, searchTerm, setSearchTerm, setSearchInputRef } =
+    useSearchDropdown();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const close = () => setSearchOpen(false);
 
   const isEmpty = searchTerm.length === 0;
 
-  const { data: collections = [] } = useQuery(tagQueries.list('collection'));
+  // Backend handles the name match + landing-kind restriction. Surfaces
+  // any URL-routable tag (Birthday in Occasion, Same-Day in Category, etc.),
+  // not just Collection-facet rows. Variable is `filteredTags` because the
+  // results aren't all Collections; the section heading stays "Collections"
+  // as the user-facing label.
+  const { data: filteredTags = [] } = useQuery({
+    ...tagQueries.search(searchTerm),
+    enabled: !isEmpty,
+    placeholderData: keepPreviousData,
+  });
 
   const { data: searchProductData } = useQuery({
     ...productQueries.list({ search: searchTerm, size: 20 }),
@@ -32,12 +43,6 @@ export const SearchDropdown = () => {
       size: 8,
     })
   );
-
-  const filteredCollections = isEmpty
-    ? []
-    : collections.filter((c) =>
-        c.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
 
   const products = isEmpty
     ? (bestSellersData?.data ?? [])
@@ -58,7 +63,10 @@ export const SearchDropdown = () => {
                 {TOP_SEARCHES.map((term) => (
                   <button
                     key={term}
-                    onClick={() => { setSearchInputRef.current(term); setSearchTerm(term); }}
+                    onClick={() => {
+                      setSearchInputRef.current(term);
+                      setSearchTerm(term);
+                    }}
                     className='border-brand-primary/30 hover:border-brand-primary text-brand-primary rounded-sm border bg-white px-3 py-1.5 text-sm transition-colors'
                   >
                     {term}
@@ -71,16 +79,16 @@ export const SearchDropdown = () => {
               <h3 className='text-brand-primary mb-4 text-sm font-bold'>
                 Collections
               </h3>
-              {filteredCollections.length > 0 ? (
+              {filteredTags.length > 0 ? (
                 <div className='flex flex-wrap gap-2'>
-                  {filteredCollections.map((col) => (
+                  {filteredTags.map((tag) => (
                     <NavLink
-                      key={col.slug}
-                      slug={col.slug}
+                      key={tag.slug}
+                      slug={tag.slug}
                       onClick={() => setTimeout(close, 80)}
                       className='font-mulish hover:border-brand-primary border-brand-primary/30 rounded-sm border bg-white px-3 py-2 text-sm hover:opacity-100'
                     >
-                      {col.name}
+                      {capitalizeString(tag.name)}
                     </NavLink>
                   ))}
                 </div>

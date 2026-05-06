@@ -1,13 +1,15 @@
 import { Ref, useEffect, useRef, useState } from 'react';
-import { HiOutlineChevronDown } from 'react-icons/hi';
+import { HiOutlineChevronDown, HiOutlineMenu } from 'react-icons/hi';
 import { PiMagnifyingGlass } from 'react-icons/pi';
 import { IoClose } from 'react-icons/io5';
 import { NavNotificationBanner } from './NavNotificationBanner';
 import { ShopDropdown, useShopDropdownPrefetch } from './ShopDropdown';
 import { SearchDropdown } from './SearchDropdown';
+import { MobileSearchOverlay } from './MobileSearchOverlay';
 import { useShopDropdown, useSearchDropdown } from './NavbarContext';
 import { Link } from '@tanstack/react-router';
 import { CartIcon } from '../common/icons/CartIcon';
+import { useIsDesktop } from '../common/useIsDesktop';
 import { NavLink } from './NavLink';
 import { useSetAtom, useAtomValue } from 'jotai';
 import { cartCountAtom, cartOpenAtom } from '../cart/cartAtoms';
@@ -28,6 +30,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
     useSearchDropdown();
   const [searchInput, setSearchInput] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const isDesktop = useIsDesktop();
 
   useShopDropdownPrefetch();
 
@@ -64,8 +67,10 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
       <NavNotificationBanner />
       <div onMouseLeave={() => setShopOpen(false)}>
         {searchOpen ? (
-          /* Search bar row — replaces normal navbar content */
-          <div className='flex items-center gap-4 px-40 py-4.75'>
+          /* Replace normal navbar content with the search input. Same shape
+           * across viewports — only the dropdown panel below differs (see the
+           * <SearchDropdown> vs <MobileSearchOverlay> branch further down). */
+          <div className='flex items-center gap-4 px-4 py-4.75 lg:px-40'>
             <PiMagnifyingGlass
               size={20}
               className='text-brand-primary shrink-0'
@@ -80,10 +85,10 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
             />
             <button
               onClick={closeSearch}
-              className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
+              className='border-brand-primary text-brand-primary flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-opacity hover:opacity-60'
               aria-label='Close search'
             >
-              <IoClose size={22} />
+              <IoClose size={18} />
             </button>
           </div>
         ) : (
@@ -109,9 +114,24 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
               ))}
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className='lg:hidden'>
-              <button className='text-brand-primary'>☰</button>
+            {/* Mobile-only left cluster: menu + search. The menu button is
+              * a placeholder until the mobile menu panel lands — disabled so
+              * it doesn't masquerade as a working control. */}
+            <div className='flex items-center gap-3 lg:hidden'>
+              <button
+                className='text-brand-primary cursor-not-allowed opacity-60'
+                aria-label='Open menu'
+                disabled
+              >
+                <HiOutlineMenu size={22} />
+              </button>
+              <button
+                onClick={openSearch}
+                className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
+                aria-label='Open search'
+              >
+                <PiMagnifyingGlass size={20} />
+              </button>
             </div>
 
             {/* Centered Logo */}
@@ -143,16 +163,20 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
               <CartButton onMouseEnter={() => setShopOpen(false)} />
             </div>
 
-            {/* Mobile Right Placeholder */}
-            <div className='w-6 md:hidden'></div>
+            {/* Mobile-only right cluster: cart only for now. Account icon
+              * deferred until there's a route to link to. */}
+            <div className='flex items-center lg:hidden'>
+              <CartButton onMouseEnter={() => setShopOpen(false)} />
+            </div>
           </div>
         )}
 
         {/* Shop Dropdown */}
         {shopOpen && <ShopDropdown />}
 
-        {/* Search Dropdown */}
-        {searchOpen && <SearchDropdown />}
+        {/* Search experience: desktop dropdown vs mobile fullscreen overlay */}
+        {searchOpen &&
+          (isDesktop ? <SearchDropdown /> : <MobileSearchOverlay />)}
       </div>
     </header>
   );

@@ -85,12 +85,28 @@ class ProductFilter(django_filters.FilterSet):
 
 
 class TagFilter(django_filters.FilterSet):
-    """Filter `/api/tags/` by facet slug: `?facet=color`."""
+    """Filter `/api/tags/` by facet slug or by name search.
+
+    `?facet=<slug>` — restrict to one facet (sidebar / nav-list use).
+    `?search=<term>` — case-insensitive name match, restricted to landing-kind
+    tags whose page is actually surfaced (`header_title` populated). Used by
+    the navbar search bar's autosuggest; non-landing tags are excluded
+    because they're not navigable on their own, and landing tags missing
+    `header_title` are excluded because their page would render with an empty
+    hero — i.e., they're not yet wired up for visitors."""
     facet = django_filters.CharFilter(field_name='facet__slug')
+    search = django_filters.CharFilter(method='_filter_search')
 
     class Meta:
         model = Tag
         fields: list[str] = []
+
+    def _filter_search(self, queryset, name, value):
+        return queryset.filter(
+            facet__kind='landing',
+            header_title__isnull=False,
+            name__icontains=value,
+        )
 
 
 class ReviewFilter(django_filters.FilterSet):

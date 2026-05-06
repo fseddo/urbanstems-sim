@@ -4,12 +4,14 @@ import { tw } from './utils/tw';
 interface HorizontalScrollbarProps {
   targetRef: React.RefObject<HTMLDivElement | null>;
   height?: string;
+  width?: string;
   thumbColor?: string;
 }
 
 export const HorizontalScrollbar = ({
   targetRef,
   height = 'h-2.5',
+  width = 'w-[30%]',
   thumbColor = 'bg-brand-primary',
 }: HorizontalScrollbarProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -125,7 +127,8 @@ export const HorizontalScrollbar = ({
     <div
       ref={trackRef}
       className={tw(
-        'bg-background-alt relative w-[30%] self-center rounded-4xl',
+        'bg-background-alt relative self-center rounded-4xl',
+        width,
         height
       )}
     >

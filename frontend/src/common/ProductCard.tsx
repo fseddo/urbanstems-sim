@@ -30,12 +30,18 @@ export const ProductCard = memo(
       <Link
         to='/products/$slug'
         params={{ slug: product.slug }}
-        className='flex flex-shrink-0 cursor-pointer flex-col gap-4'
+        className='@container flex flex-shrink-0 cursor-pointer flex-col gap-4'
       >
         <div
           className={tw(
             'group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat',
-            !fixed && 'aspect-[43/39]'
+            // Aspect ratio scales with the card's own width via container
+            // queries — narrower/taller for tight cards (4-col listings,
+            // mobile search), squarer for wide cards (1-col mobile listing,
+            // 2-col desktop). Container queries let the same component shape
+            // itself based on its rendered size, not the viewport.
+            !fixed &&
+              'aspect-[3/4] @[300px]:aspect-[4/5] @[500px]:aspect-[43/39]'
           )}
           style={
             product.blur_data_url
@@ -66,13 +72,11 @@ export const ProductCard = memo(
               {visibleProduct.badge_text}
             </div>
           )}
-          {visibleProduct.badge_image_src && detailedView && (
-            <div className='absolute right-8 bottom-10'>
-              <img
-                src={imageAtWidth(visibleProduct.badge_image_src, 240)}
-                className='h-35'
-              />
-            </div>
+          {visibleProduct.badge_image_src && (
+            <img
+              src={imageAtWidth(visibleProduct.badge_image_src, 240)}
+              className='absolute right-[5%] bottom-[5%] h-[23%] w-auto'
+            />
           )}
         </div>
 

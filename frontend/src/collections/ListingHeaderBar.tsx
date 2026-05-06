@@ -46,7 +46,7 @@ export const ListingHeaderBar = ({
       trigger={({ toggle, formatted }) => (
         <ListingHeaderBarItem
           Icon={CalendarIcon}
-          className='flex-1 cursor-pointer'
+          className='min-w-[310px] flex-1 cursor-pointer'
           onClick={toggle}
         >
           <div>
@@ -68,7 +68,7 @@ export const ListingHeaderBar = ({
           className='flex-3 cursor-pointer'
           onClick={toggle}
         >
-          <div>
+          <div className='line-clamp-1 overflow-hidden'>
             Sending to:{' '}
             <span className='font-normal'>
               {value ? formatted : DEFAULT_DELIVERY_LOCATION}

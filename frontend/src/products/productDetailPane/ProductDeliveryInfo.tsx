@@ -8,7 +8,10 @@ import {
   startOfDay,
 } from '@/src/date/DatePicker';
 import { deliveryDateAtom } from '@/src/date/deliveryDateAtom';
-import { deliveryAddressAtom } from '@/src/address/deliveryAddressAtom';
+import {
+  DEFAULT_DELIVERY_LOCATION,
+  deliveryAddressAtom,
+} from '@/src/address/deliveryAddressAtom';
 
 export const DeliveryInformation = ({ product }: { product: Product }) => {
   const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);
@@ -65,7 +68,7 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
         <div className='flex flex-3 flex-col gap-0.5 px-2 py-4 text-sm'>
           <div className='text-brand-primary font-bold'>Send to:</div>
           <div className='text-foreground/60'>
-            {deliveryAddress?.mainText ?? 'New York City, NY'}
+            {deliveryAddress?.mainText ?? DEFAULT_DELIVERY_LOCATION}
           </div>
         </div>
       </div>

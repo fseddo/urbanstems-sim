@@ -1,24 +1,18 @@
-import { useAtom } from 'jotai';
 import {
   useLoaderData,
   useNavigate,
   useSearch,
 } from '@tanstack/react-router';
-import { useCallback, useState } from 'react';
-import { SlLocationPin } from 'react-icons/sl';
+import { useCallback, useEffect, useState } from 'react';
 import type { Product } from '@/api/products/Product';
 import { productQueries } from '@/api/products/productQueries';
-import { CalendarIcon } from '@/src/common/icons/CalendarIcon';
-import { FilterIcon } from '@/src/common/icons/FilterIcon';
-import { List } from '@/src/common/List';
+import { List, type ColumnCount } from '@/src/common/List';
 import { ProductCard } from '@/src/common/ProductCard';
-import { AddressPicker } from '@/src/address/AddressPicker';
-import { deliveryAddressAtom } from '@/src/address/deliveryAddressAtom';
-import { DatePicker } from '@/src/date/DatePicker';
-import { deliveryDateAtom } from '@/src/date/deliveryDateAtom';
+import { useIsDesktop } from '@/src/common/useIsDesktop';
 import { FilterSidebar } from '@/src/filters/FilterSidebar';
 import { UIFilters } from '@/src/filters/filterSpecs';
-import { ListingHeaderBarItem } from './ListingHeaderBarItem';
+import { CollectionHero } from './CollectionHero';
+import { ListingHeaderBar } from './ListingHeaderBar';
 
 export const CollectionPage = () => {
   const { filters, pageTag, filterOptions } = useLoaderData({
@@ -51,8 +45,18 @@ export const CollectionPage = () => {
     });
   };
 
-  const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);
-  const [deliveryAddress, setDeliveryAddress] = useAtom(deliveryAddressAtom);
+  const isDesktop = useIsDesktop();
+  const [columnCount, setColumnCount] = useState<ColumnCount>(() =>
+    isDesktop ? 3 : 1
+  );
+
+  // When the breakpoint flips, snap the column count back to the new
+  // viewport's default rather than carrying the prior preference into the new
+  // range. Desktop default is 3, mobile default is 1.
+  useEffect(() => {
+    if (isDesktop && columnCount < 2) setColumnCount(3);
+    if (!isDesktop && columnCount > 2) setColumnCount(1);
+  }, [isDesktop, columnCount]);
 
   return (
     <main>
@@ -63,76 +67,15 @@ export const CollectionPage = () => {
         onFiltersChange={setUiFilters}
         availableOptions={sidebarOptions}
       />
-      <header className='font-crimson flex flex-col items-center justify-center gap-2 py-18 text-[40px]'>
-        <span className='flex flex-col items-center gap-4'>
-          {!pageTag ? (
-            searchTerm ? (
-              <span className='text-5xl'>{`Results for "${searchTerm}"`}</span>
-            ) : (
-              <>
-                <span className='text-5xl'>Shop All</span>
-                <span className='font-mulish text-center text-base'>
-                  The flowers and gifts designed in-house with style and
-                  sophistication.
-                </span>
-              </>
-            )
-          ) : (
-            <>
-              <span className='text-5xl'>{pageTag.header_title}</span>
-              <span className='font-mulish text-center text-base'>
-                {pageTag.header_subtitle}
-              </span>
-            </>
-          )}
-        </span>
-      </header>
-      <header className='flex flex-col border-y border-b-0 lg:flex-row lg:border-b'>
-        <ListingHeaderBarItem
-          Icon={FilterIcon}
-          className='cursor-pointer'
-          onClick={() => setFilterPanelOpen(true)}
-        >
-          Filter & Sort
-        </ListingHeaderBarItem>
-        <DatePicker
-          className='flex flex-1'
-          value={deliveryDate}
-          onChange={setDeliveryDate}
-          trigger={({ toggle, formatted }) => (
-            <ListingHeaderBarItem
-              Icon={CalendarIcon}
-              className='flex-1 cursor-pointer'
-              onClick={toggle}
-            >
-              <div>
-                Delivery date: <span className='font-normal'>{formatted}</span>
-              </div>
-            </ListingHeaderBarItem>
-          )}
-        />
-        <AddressPicker
-          className='flex flex-3'
-          value={deliveryAddress}
-          onChange={setDeliveryAddress}
-          trigger={({ toggle, value, formatted }) => (
-            <ListingHeaderBarItem
-              Icon={SlLocationPin}
-              className='flex-3 cursor-pointer border-r-0 lg:border-r-0'
-              onClick={toggle}
-            >
-              <div>
-                Sending to:{' '}
-                <span className='font-normal'>
-                  {value ? formatted : 'New York City, NY'}
-                </span>
-              </div>
-            </ListingHeaderBarItem>
-          )}
-        />
-      </header>
+      <CollectionHero pageTag={pageTag} searchTerm={searchTerm} />
+      <ListingHeaderBar
+        onOpenFilters={() => setFilterPanelOpen(true)}
+        columnCount={columnCount}
+        onColumnCountChange={setColumnCount}
+      />
       <List
         queryOptions={productQueries.infiniteList(filters)}
+        columnCount={columnCount}
         renderItem={(product) => (
           <ProductCard key={product.id} product={product} detailedView />
         )}

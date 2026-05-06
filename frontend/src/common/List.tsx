@@ -13,6 +13,8 @@ import {
 import { PaginatedResponse } from '@/api/PaginatedResponse';
 import { prefetchImages } from './utils/prefetchImages';
 
+export type ColumnCount = 1 | 2 | 3 | 4;
+
 type Props<T, TQueryKey extends readonly unknown[] = readonly unknown[]> = {
   queryOptions: UseInfiniteQueryOptions<
     PaginatedResponse<T>,
@@ -22,24 +24,9 @@ type Props<T, TQueryKey extends readonly unknown[] = readonly unknown[]> = {
     number
   >;
   renderItem: (item: T, index: number) => ReactNode;
+  columnCount: ColumnCount;
   estimateRowHeight?: number;
   getItemImageUrls?: (item: T) => string[];
-};
-
-const useColumns = () => {
-  const [columns, setColumns] = useState(3);
-
-  useEffect(() => {
-    const updateColumns = () => {
-      setColumns(window.innerWidth >= 1024 ? 3 : 2);
-    };
-
-    updateColumns();
-    window.addEventListener('resize', updateColumns);
-    return () => window.removeEventListener('resize', updateColumns);
-  }, []);
-
-  return columns;
 };
 
 export const List = <
@@ -48,6 +35,7 @@ export const List = <
 >({
   queryOptions,
   renderItem,
+  columnCount,
   estimateRowHeight = 600,
   getItemImageUrls,
 }: Props<T, TQueryKey>) => {
@@ -61,9 +49,8 @@ export const List = <
     error,
   } = useInfiniteQuery(queryOptions);
 
-  const columns = useColumns();
   const items = data ?? [];
-  const rowCount = Math.ceil(items.length / columns);
+  const rowCount = Math.ceil(items.length / columnCount);
   const listRef = useRef<HTMLDivElement>(null);
   const [scrollMargin, setScrollMargin] = useState(0);
 
@@ -103,8 +90,8 @@ export const List = <
   }, [items, getItemImageUrls]);
 
   const getRowItems = (rowIndex: number) => {
-    const startIndex = rowIndex * columns;
-    return items.slice(startIndex, startIndex + columns);
+    const startIndex = rowIndex * columnCount;
+    return items.slice(startIndex, startIndex + columnCount);
   };
 
   if (isLoading) {
@@ -143,14 +130,15 @@ export const List = <
               key={virtualRow.key}
               data-index={virtualRow.index}
               ref={virtualizer.measureElement}
-              className='absolute right-0 left-0 grid grid-cols-2 gap-4 px-[clamp(0.5rem,2vw,3rem)] py-2 lg:grid-cols-3'
+              className='absolute right-0 left-0 grid gap-4 px-[clamp(0.5rem,2vw,3rem)] py-2'
               style={{
+                gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
                 transform: `translateY(${virtualRow.start - virtualizer.options.scrollMargin}px)`,
               }}
             >
               {rowItems.map((item, colIndex) => (
-                <div key={virtualRow.index * columns + colIndex}>
-                  {renderItem(item, virtualRow.index * columns + colIndex)}
+                <div key={virtualRow.index * columnCount + colIndex}>
+                  {renderItem(item, virtualRow.index * columnCount + colIndex)}
                 </div>
               ))}
             </div>

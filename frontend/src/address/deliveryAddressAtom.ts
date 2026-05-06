@@ -9,6 +9,8 @@ export interface DeliveryAddress {
   lng: number | null;
 }
 
+export const DEFAULT_DELIVERY_LOCATION = 'New York City, NY';
+
 export const deliveryAddressAtom = atomWithStorage<DeliveryAddress | null>(
   'urbanstems-delivery-address',
   null,

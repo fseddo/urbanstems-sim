@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { tagQueries } from '@/api/tags/tagQueries';
-import { useShopDropdown } from './NavbarContext';
+import { useNavbarPanel } from './navbarAtoms';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
 import { prefetchImages } from '../common/utils/prefetchImages';
@@ -58,7 +58,7 @@ export const useShopDropdownPrefetch = () => {
 };
 
 export const ShopDropdown = () => {
-  const { setShopOpen } = useShopDropdown();
+  const [, setShopOpen] = useNavbarPanel('shop');
   //TODO: this is hard coded to an 80ms delay to allow the click event to register on the Link before the dropdown unmounts.
   // This is a bit hacky and should be refactored in the future to be more robust.
   const close = () => setTimeout(() => setShopOpen(false), 80);
@@ -75,7 +75,7 @@ export const ShopDropdown = () => {
   );
 
   return (
-    <div className='font-mulish border-brand-primary absolute top-full left-0 w-full border-y bg-white shadow-md'>
+    <div className='font-mulish border-brand-primary animate-fade-in absolute top-full left-0 w-full border-y bg-white shadow-md'>
       <div className='flex px-20'>
         {/* Left: Shop header + link columns */}
         <div className='flex flex-8 flex-col px-6'>

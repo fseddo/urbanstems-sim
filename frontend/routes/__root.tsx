@@ -4,24 +4,20 @@ import {
   Outlet,
 } from '@tanstack/react-router';
 import { QueryClient } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
+import { useRef } from 'react';
 import { Footer } from '@/src/common/Footer';
-import {
-  NavbarProvider,
-  useNavbar,
-  useSearchDropdown,
-  useShopDropdown,
-} from '@/src/navbar/NavbarContext';
 import { Navbar } from '@/src/navbar/Navbar';
+import { navbarDropdownOpenAtom } from '@/src/navbar/navbarAtoms';
 import { useNavbarCssHeight } from '@/src/navbar/useElementHeight';
 import { useHideOnScroll } from '@/src/navbar/useHideOnScroll';
 import { useLoadingFavicon } from '@/src/common/useLoadingFavicon';
 import { DisclaimerPopup } from '@/src/common/DisclaimerPopup';
 import { CartPane } from '@/src/cart/CartPane';
 
-const RootLayoutInner = () => {
-  const navbarRef = useNavbar();
-  const { shopOpen } = useShopDropdown();
-  const { searchOpen } = useSearchDropdown();
+const RootLayout = () => {
+  const navbarRef = useRef<HTMLElement | null>(null);
+  const dropdownOpen = useAtomValue(navbarDropdownOpenAtom);
   useNavbarCssHeight(navbarRef);
   useHideOnScroll(navbarRef);
   useLoadingFavicon();
@@ -33,7 +29,7 @@ const RootLayoutInner = () => {
       <DisclaimerPopup />
       <div style={{ height: 'var(--navbar-height)' }} />
       <div className='relative'>
-        {(shopOpen || searchOpen) && (
+        {dropdownOpen && (
           <div className='absolute inset-0 z-40 bg-black/60' />
         )}
         <main className='min-h-screen'>
@@ -42,14 +38,6 @@ const RootLayoutInner = () => {
         <Footer />
       </div>
     </>
-  );
-};
-
-const RootLayout = () => {
-  return (
-    <NavbarProvider>
-      <RootLayoutInner />
-    </NavbarProvider>
   );
 };
 

@@ -1,24 +1,29 @@
 import { useRef } from 'react';
+import { useAtom } from 'jotai';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { tagQueries } from '@/api/tags/tagQueries';
 import { productQueries } from '@/api/products/productQueries';
-import { useSearchDropdown } from './NavbarContext';
+import { searchTermAtom, useNavbarPanel } from './navbarAtoms';
 import { NavLink } from './NavLink';
 import { ProductCard } from '../common/ProductCard';
 import { HorizontalScrollbar } from '../common/HorizontalScrollbar';
+import { useDebounce } from '../common/useDebounce';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { Link } from '@tanstack/react-router';
 
 const TOP_SEARCHES = ['Roses', 'Peonies', 'Orchids'];
 
 export const SearchDropdown = () => {
-  const { setSearchOpen, searchTerm, setSearchTerm, setSearchInputRef } =
-    useSearchDropdown();
+  const [, setSearchOpen] = useNavbarPanel('search');
+  const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const close = () => setSearchOpen(false);
 
-  const isEmpty = searchTerm.length === 0;
+  // Local debounce — lets the input update on every keystroke without firing
+  // a backend request per character.
+  const debouncedTerm = useDebounce(searchTerm, 300);
+  const isEmpty = debouncedTerm.length === 0;
 
   // Backend handles the name match + landing-kind restriction. Surfaces
   // any URL-routable tag (Birthday in Occasion, Same-Day in Category, etc.),
@@ -26,13 +31,13 @@ export const SearchDropdown = () => {
   // results aren't all Collections; the section heading stays "Collections"
   // as the user-facing label.
   const { data: filteredTags = [] } = useQuery({
-    ...tagQueries.search(searchTerm),
+    ...tagQueries.search(debouncedTerm),
     enabled: !isEmpty,
     placeholderData: keepPreviousData,
   });
 
   const { data: searchProductData } = useQuery({
-    ...productQueries.list({ search: searchTerm, size: 20 }),
+    ...productQueries.list({ search: debouncedTerm, size: 20 }),
     enabled: !isEmpty,
     placeholderData: keepPreviousData,
   });
@@ -50,7 +55,7 @@ export const SearchDropdown = () => {
   const productTotal = isEmpty ? null : (searchProductData?.total ?? 0);
 
   return (
-    <div className='font-mulish border-brand-primary absolute top-full left-0 w-full border-y bg-[#f5f5f3] shadow-md'>
+    <div className='font-mulish border-brand-primary animate-fade-in-slow absolute top-full left-0 w-full border-y bg-[#f5f5f3] shadow-md'>
       <div className='flex px-40 py-8'>
         {/* Left column */}
         <div className='w-64 shrink-0 pr-8'>
@@ -63,10 +68,7 @@ export const SearchDropdown = () => {
                 {TOP_SEARCHES.map((term) => (
                   <button
                     key={term}
-                    onClick={() => {
-                      setSearchInputRef.current(term);
-                      setSearchTerm(term);
-                    }}
+                    onClick={() => setSearchTerm(term)}
                     className='border-brand-primary/30 hover:border-brand-primary text-brand-primary rounded-sm border bg-white px-3 py-1.5 text-sm transition-colors'
                   >
                     {term}

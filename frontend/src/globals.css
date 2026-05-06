@@ -31,6 +31,21 @@ html {
   --font-crimson: var(--font-crimson);
   --font-mulish: var(--font-mulish);
   --breakpoint-2xl: 87.5rem;
+
+  /* Three fade-in speeds. `animate-fade-in` is the default; the -fast and
+   * -slow variants pair with snappier or more deliberate reveals. */
+  --animate-fade-in-fast: fade-in 100ms ease-out;
+  --animate-fade-in: fade-in 200ms ease-out;
+  --animate-fade-in-slow: fade-in 600ms ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @layer utilities {

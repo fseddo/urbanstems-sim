@@ -1,4 +1,4 @@
-import { Ref, useEffect, useRef, useState } from 'react';
+import { Ref } from 'react';
 import { HiOutlineChevronDown, HiOutlineMenu } from 'react-icons/hi';
 import { PiMagnifyingGlass } from 'react-icons/pi';
 import { IoClose } from 'react-icons/io5';
@@ -6,12 +6,12 @@ import { NavNotificationBanner } from './NavNotificationBanner';
 import { ShopDropdown, useShopDropdownPrefetch } from './ShopDropdown';
 import { SearchDropdown } from './SearchDropdown';
 import { MobileSearchOverlay } from './MobileSearchOverlay';
-import { useShopDropdown, useSearchDropdown } from './NavbarContext';
+import { searchTermAtom, useNavbarPanel } from './navbarAtoms';
 import { Link } from '@tanstack/react-router';
 import { CartIcon } from '../common/icons/CartIcon';
 import { useIsDesktop } from '../common/useIsDesktop';
 import { NavLink } from './NavLink';
-import { useSetAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { cartCountAtom, cartOpenAtom } from '../cart/cartAtoms';
 
 type NavItem = { slug: string; label: string };
@@ -25,39 +25,22 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
-  const { shopOpen, setShopOpen } = useShopDropdown();
-  const { searchOpen, setSearchOpen, setSearchTerm, setSearchInputRef } =
-    useSearchDropdown();
-  const [searchInput, setSearchInput] = useState('');
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [shopOpen, setShopOpen] = useNavbarPanel('shop');
+  const [searchOpen, setSearchOpen] = useNavbarPanel('search');
+  const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
   const isDesktop = useIsDesktop();
 
   useShopDropdownPrefetch();
 
-  // Register setter so SearchDropdown can update the visible input (e.g. pill clicks)
-  setSearchInputRef.current = setSearchInput;
-
-  // Debounce raw input → context searchTerm (only this effect propagates to SearchDropdown)
-  useEffect(() => {
-    const timer = setTimeout(() => setSearchTerm(searchInput), 300);
-    return () => clearTimeout(timer);
-  }, [searchInput]);
-
-  useEffect(() => {
-    if (searchOpen) {
-      searchInputRef.current?.focus();
-    } else {
-      setSearchInput('');
-      setSearchTerm('');
-    }
-  }, [searchOpen]);
-
-  const openSearch = () => {
-    setShopOpen(false);
-    setSearchOpen(true);
+  // Opening search implicitly closes the shop dropdown via navbarPanelAtom's
+  // single-active-panel encoding. Closing clears the term so the next open
+  // starts fresh; focusing on open is handled by `autoFocus` on the input
+  // (the input only mounts inside the searchOpen branch, so each open is
+  // a fresh mount that fires autoFocus).
+  const toggleSearch = () => {
+    if (searchOpen) setSearchTerm('');
+    setSearchOpen(!searchOpen);
   };
-
-  const closeSearch = () => setSearchOpen(false);
 
   return (
     <header
@@ -76,15 +59,15 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
               className='text-brand-primary shrink-0'
             />
             <input
-              ref={searchInputRef}
               type='text'
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              autoFocus
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder='Search Here'
               className='text-brand-primary font-mulish flex-1 bg-transparent text-xl outline-none placeholder:text-gray-400'
             />
             <button
-              onClick={closeSearch}
+              onClick={toggleSearch}
               className='border-brand-primary text-brand-primary flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-opacity hover:opacity-60'
               aria-label='Close search'
             >
@@ -126,7 +109,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
                 <HiOutlineMenu size={22} />
               </button>
               <button
-                onClick={openSearch}
+                onClick={toggleSearch}
                 className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
                 aria-label='Open search'
               >
@@ -153,7 +136,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
             {/* Right Navigation */}
             <div className='font-crimson text-brand-primary hidden items-center gap-4.5 text-[clamp(13px,1.2vw,18px)] lg:flex'>
               <button
-                onClick={openSearch}
+                onClick={toggleSearch}
                 onMouseEnter={() => setShopOpen(false)}
                 className='text-brand-primary cursor-pointer transition-opacity hover:opacity-60'
                 aria-label='Open search'

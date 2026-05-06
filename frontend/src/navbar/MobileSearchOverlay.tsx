@@ -1,13 +1,15 @@
 import { useRef } from 'react';
+import { useAtom } from 'jotai';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { productQueries } from '@/api/products/productQueries';
 import { tagQueries } from '@/api/tags/tagQueries';
 import { HorizontalScrollbar } from '../common/HorizontalScrollbar';
 import { ProductCard } from '../common/ProductCard';
+import { useDebounce } from '../common/useDebounce';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { NavLink } from './NavLink';
-import { useSearchDropdown } from './NavbarContext';
+import { searchTermAtom, useNavbarPanel } from './navbarAtoms';
 
 const TOP_SEARCHES = ['Roses', 'Peonies', 'Orchids'];
 
@@ -20,15 +22,16 @@ const TOP_SEARCHES = ['Roses', 'Peonies', 'Orchids'];
 // ship dead UI per the dynamic-sizing doc.
 
 export const MobileSearchOverlay = () => {
-  const { setSearchOpen, searchTerm, setSearchTerm, setSearchInputRef } =
-    useSearchDropdown();
+  const [, setSearchOpen] = useNavbarPanel('search');
+  const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const close = () => setSearchOpen(false);
-  const isEmpty = searchTerm.length === 0;
+  const debouncedTerm = useDebounce(searchTerm, 300);
+  const isEmpty = debouncedTerm.length === 0;
 
   const { data: searchProductData } = useQuery({
-    ...productQueries.list({ search: searchTerm, size: 20 }),
+    ...productQueries.list({ search: debouncedTerm, size: 20 }),
     enabled: !isEmpty,
     placeholderData: keepPreviousData,
   });
@@ -42,7 +45,7 @@ export const MobileSearchOverlay = () => {
   // `filteredTags` since the results aren't all Collections; section heading
   // stays "Collections" as the user-facing label.
   const { data: filteredTags = [] } = useQuery({
-    ...tagQueries.search(searchTerm),
+    ...tagQueries.search(debouncedTerm),
     enabled: !isEmpty,
     placeholderData: keepPreviousData,
   });
@@ -54,7 +57,7 @@ export const MobileSearchOverlay = () => {
 
   return (
     <div
-      className='font-mulish bg-background border-brand-primary absolute top-full left-0 w-full overflow-y-auto border-y'
+      className='font-mulish bg-background border-brand-primary animate-fade-in absolute top-full left-0 w-full overflow-y-auto border-y'
       style={{ height: 'calc(100dvh - var(--navbar-height))' }}
     >
       <div className='flex flex-col gap-8 px-4 py-6'>
@@ -116,10 +119,7 @@ export const MobileSearchOverlay = () => {
               {TOP_SEARCHES.map((term) => (
                 <button
                   key={term}
-                  onClick={() => {
-                    setSearchInputRef.current(term);
-                    setSearchTerm(term);
-                  }}
+                  onClick={() => setSearchTerm(term)}
                   className='border-brand-primary/30 hover:border-brand-primary text-brand-primary rounded-sm border bg-white px-4 py-2 text-sm transition-colors'
                 >
                   {term}

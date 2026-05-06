@@ -1,4 +1,4 @@
-import { productQueries } from '@/api/products/queries';
+import { productQueries } from '@/api/products/productQueries';
 import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { Link } from '@tanstack/react-router';

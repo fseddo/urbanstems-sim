@@ -18,7 +18,7 @@ export const reviewQueries = {
   list: (filters: ReviewFilters) =>
     queryOptions({
       queryKey: reviewKeys.list(filters),
-      queryFn: async () =>
+      queryFn: () =>
         paginatedRequest<Review>({
           method: 'get',
           path: `/reviews/${createQueryParams(filters).queryString}`,

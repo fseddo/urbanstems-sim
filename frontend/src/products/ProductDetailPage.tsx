@@ -1,7 +1,7 @@
 import { useParams } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
-import { productQueries } from '@/api/products/queries';
+import { productQueries } from '@/api/products/productQueries';
 import { ProductBottomBar } from './ProductBottomBar';
 import { ProductBackgroundImages } from './ProductBackgroundImages';
 import { ProductHeader } from './ProductHeader';

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { productQueries } from '@/api/products/queries';
+import { productQueries } from '@/api/products/productQueries';
 import { BestSellersHeaderItem } from './BestSellersHeaderItem';
 import { HorizontalList } from '@/src/common/HorizontalList';
 import { ProductCard } from '@/src/common/ProductCard';

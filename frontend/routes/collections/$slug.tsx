@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { productQueries } from '@/api/products/queries';
+import { productQueries } from '@/api/products/productQueries';
 import { tagQueries } from '@/api/tags/tagQueries';
 import { CollectionPage } from '@/src/collections/CollectionPage';
 import {

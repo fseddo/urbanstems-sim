@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 import { request } from '../request';
+import { createQueryParams } from '../createQueryParams';
 
 export interface PlacePrediction {
   place_id: string;
@@ -27,19 +28,6 @@ export interface AutocompleteParams {
   session?: string;
 }
 
-const buildAutocompletePath = ({
-  q,
-  lat,
-  lng,
-  session,
-}: AutocompleteParams) => {
-  const sp = new URLSearchParams({ q });
-  if (lat != null) sp.set('lat', String(lat));
-  if (lng != null) sp.set('lng', String(lng));
-  if (session) sp.set('session', session);
-  return `/places/autocomplete/?${sp.toString()}`;
-};
-
 export interface DetectResponse {
   lat: number;
   lng: number;
@@ -51,23 +39,25 @@ export interface DetectResponse {
 
 export const placeKeys = {
   all: ['places'] as const,
-  // Session token is intentionally excluded from the cache key — same input
-  // should hit cache regardless of which session asked for it.
-  autocomplete: (q: string, lat?: number, lng?: number) =>
-    [...placeKeys.all, 'autocomplete', q, lat, lng] as const,
-  details: (placeId: string) =>
-    [...placeKeys.all, 'details', placeId] as const,
+  autocomplete: (params: AutocompleteParams) =>
+    [...placeKeys.all, 'autocomplete', createQueryParams(params).key] as const,
+  details: (placeId: string, session?: string) =>
+    [
+      ...placeKeys.all,
+      'details',
+      createQueryParams({ place_id: placeId, session }).key,
+    ] as const,
   detect: () => [...placeKeys.all, 'detect'] as const,
 };
 
 export const placeQueries = {
   autocomplete: (params: AutocompleteParams) =>
     queryOptions({
-      queryKey: placeKeys.autocomplete(params.q, params.lat, params.lng),
-      queryFn: async () =>
+      queryKey: placeKeys.autocomplete(params),
+      queryFn: () =>
         request<AutocompleteResponse>({
           method: 'get',
-          path: buildAutocompletePath(params),
+          path: `/places/autocomplete/${createQueryParams(params).queryString}`,
         }),
       enabled: params.q.length >= 3,
       staleTime: 5 * 60 * 1000,
@@ -75,15 +65,12 @@ export const placeQueries = {
 
   details: (placeId: string, session?: string) =>
     queryOptions({
-      queryKey: placeKeys.details(placeId),
-      queryFn: async () => {
-        const sp = new URLSearchParams({ place_id: placeId });
-        if (session) sp.set('session', session);
-        return request<PlaceDetailsResponse>({
+      queryKey: placeKeys.details(placeId, session),
+      queryFn: () =>
+        request<PlaceDetailsResponse>({
           method: 'get',
-          path: `/places/details/?${sp.toString()}`,
-        });
-      },
+          path: `/places/details/${createQueryParams({ place_id: placeId, session }).queryString}`,
+        }),
       staleTime: 24 * 60 * 60 * 1000,
     }),
 
@@ -92,7 +79,7 @@ export const placeQueries = {
   detect: () =>
     queryOptions({
       queryKey: placeKeys.detect(),
-      queryFn: async () =>
+      queryFn: () =>
         request<DetectResponse>({
           method: 'get',
           path: '/places/detect/',

@@ -16,7 +16,7 @@ export const productKeys = {
   infiniteList: (filters: ProductFilters) =>
     [...productKeys.infiniteLists(), createQueryParams(toApiSortParams(filters)).key] as const,
   details: () => [...productKeys.all, 'detail'] as const,
-  detail: (id: string) => [...productKeys.details(), id] as const,
+  detail: (slug: string) => [...productKeys.details(), slug] as const,
   filterOptions: (scope: FilterOptionsScope) =>
     [...productKeys.all, 'filter-options', createQueryParams(scope).key] as const,
 };
@@ -25,7 +25,7 @@ export const productQueries = {
   list: (filters: ProductFilters) =>
     queryOptions({
       queryKey: productKeys.list(filters),
-      queryFn: async () =>
+      queryFn: () =>
         paginatedRequest<Product>({
           method: 'get',
           path: `/products/${createQueryParams(toApiSortParams(filters)).queryString}`,
@@ -35,7 +35,7 @@ export const productQueries = {
   infiniteList: (filters: ProductFilters) =>
     infiniteQueryOptions({
       queryKey: productKeys.infiniteList(filters),
-      queryFn: async ({ pageParam }) =>
+      queryFn: ({ pageParam }) =>
         paginatedRequest<Product>({
           method: 'get',
           path: `/products/${createQueryParams({ ...toApiSortParams(filters), page: pageParam }).queryString}`,
@@ -46,7 +46,7 @@ export const productQueries = {
   detail: (slug: string) =>
     queryOptions({
       queryKey: productKeys.detail(slug),
-      queryFn: async () =>
+      queryFn: () =>
         request<Product>({
           method: 'get',
           path: `/products/${slug}/`,
@@ -56,7 +56,7 @@ export const productQueries = {
   filterOptions: (scope: FilterOptionsScope) =>
     queryOptions({
       queryKey: productKeys.filterOptions(scope),
-      queryFn: async () =>
+      queryFn: () =>
         request<FilterOptions>({
           method: 'get',
           path: `/products/filter-options/${createQueryParams(scope).queryString}`,

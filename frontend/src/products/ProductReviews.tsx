@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { StarRating } from '@/src/common/StarRating';
 import { Product } from '@/api/products/Product';
-import { reviewQueries } from '@/api/reviews/queries';
+import { reviewQueries } from '@/api/reviews/reviewQueries';
 import { ReviewCard } from './ReviewCard';
 
 export const ProductReviews = ({ product }: { product: Product }) => {

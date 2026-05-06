@@ -7,7 +7,7 @@ import {
 import { useCallback, useState } from 'react';
 import { SlLocationPin } from 'react-icons/sl';
 import type { Product } from '@/api/products/Product';
-import { productQueries } from '@/api/products/queries';
+import { productQueries } from '@/api/products/productQueries';
 import { CalendarIcon } from '@/src/common/icons/CalendarIcon';
 import { FilterIcon } from '@/src/common/icons/FilterIcon';
 import { List } from '@/src/common/List';

@@ -58,12 +58,14 @@ async function baseRequest<T>({
       const detailedError = new Error(
         `${errorMessage}\nURL: ${url}\nDetails: ${errorDetails}`
       );
-      console.error('API Error Details:', {
-        url,
-        status: response.status,
-        statusText: response.statusText,
-        details: errorDetails,
-      });
+      if (import.meta.env.DEV) {
+        console.error('API Error Details:', {
+          url,
+          status: response.status,
+          statusText: response.statusText,
+          details: errorDetails,
+        });
+      }
       throw detailedError;
     }
     const data = await response.json();
@@ -78,7 +80,9 @@ async function baseRequest<T>({
     const networkError = new Error(
       `Network error while fetching ${url}: ${error instanceof Error ? error.message : 'Unknown error'}`
     );
-    console.error('Network Error:', networkError);
+    if (import.meta.env.DEV) {
+      console.error('Network Error:', networkError);
+    }
     throw networkError;
   }
 }

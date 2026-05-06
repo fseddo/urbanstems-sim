@@ -54,21 +54,23 @@ export const AddressPicker = ({
     return () => clearTimeout(id);
   }, [input]);
 
-  useDismissable(containerRef, open, () => setOpen(false));
-
   // A Google Places "session" begins on open and ends on selection — bundling
   // keystrokes + the final details call into a single billable session.
-  useEffect(() => {
-    if (open) {
+  const setPickerOpen = (next: boolean) => {
+    setOpen(next);
+    if (next) {
       setSession(newSessionToken());
       requestAnimationFrame(() => inputRef.current?.focus());
     } else {
       setInput('');
       setDebounced('');
+      setSession('');
     }
-  }, [open]);
+  };
 
-  const toggle = () => setOpen((o) => !o);
+  useDismissable(containerRef, open, () => setPickerOpen(false));
+
+  const toggle = () => setPickerOpen(!open);
 
   const { data, isFetching } = useQuery(
     placeQueries.autocomplete({
@@ -91,8 +93,7 @@ export const AddressPicker = ({
       lat: detail.lat,
       lng: detail.lng,
     });
-    setOpen(false);
-    setSession('');
+    setPickerOpen(false);
   };
 
   const formatted = value?.mainText || value?.description || 'Choose address';

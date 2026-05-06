@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { productQueries } from '@/api/products/queries';
+import { productQueries } from '@/api/products/productQueries';
 import { imageAtWidth } from '@/src/common/utils/imageAtWidth';
 import { prefetchImages } from '@/src/common/utils/prefetchImages';
 import { ProductDetailPage } from '@/src/products/ProductDetailPage';

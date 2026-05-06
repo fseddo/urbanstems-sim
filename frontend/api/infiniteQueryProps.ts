@@ -5,6 +5,11 @@ import {
   QueryKey,
 } from '@tanstack/react-query';
 
+// `staleTime: Infinity` is intentional for infinite queries. Pages are
+// accumulated as the user scrolls; a background refetch would either drop
+// the user's scroll position or merge new data into existing pages, both
+// of which are surprising. Consumers can override per-call if they need
+// fresher data.
 export const infiniteQueryProps = <
   TError,
   TSchema,

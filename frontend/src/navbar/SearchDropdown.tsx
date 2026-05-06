@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { tagQueries } from '@/api/tags/tagQueries';
-import { productQueries } from '@/api/products/queries';
+import { productQueries } from '@/api/products/productQueries';
 import { useSearchDropdown } from './NavbarContext';
 import { NavLink } from './NavLink';
 import { ProductCard } from '../common/ProductCard';

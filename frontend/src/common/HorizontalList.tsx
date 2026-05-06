@@ -8,7 +8,7 @@ export const HorizontalList = (props: {
   return (
     <div className='flex w-full flex-col gap-14'>
       <div
-        className='hide-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden pr-20'
+        className='hide-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden pr-page'
         ref={props.scrollRef}
       >
         {props.children}

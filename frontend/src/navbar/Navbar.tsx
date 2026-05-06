@@ -65,7 +65,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
            * button so opening search from the mobile menu morphs between
            * the two via the View Transitions API. */
           <div
-            className='flex items-center gap-4 px-4 py-4.75 lg:px-40'
+            className='flex items-center gap-4 py-4.75 px-page'
             style={{ viewTransitionName: 'search-bar' }}
           >
             <PiMagnifyingGlass
@@ -89,7 +89,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
             </button>
           </div>
         ) : (
-          <div className='relative mx-auto flex items-center justify-between px-[clamp(34px,15.3vw,40px)] py-4.75'>
+          <div className='relative mx-auto flex items-center justify-between py-4.75 px-page'>
             {/* Left Navigation */}
             <div className='font-crimson text-brand-primary hidden gap-[clamp(18px,15.3vw,19px)] text-sm text-[clamp(13px,1.2vw,18px)] lg:flex'>
               <div

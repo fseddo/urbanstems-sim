@@ -9,7 +9,7 @@ export const ProductRecommendations = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: flowerData } = useQuery(
-    productQueries.list({ category: ['flowers'] })
+    productQueries.list({ category: ['flowers'], size: 8 })
   );
 
   return (
@@ -25,11 +25,11 @@ export const ProductRecommendations = () => {
         </Link>
       </div>
       <HorizontalList scrollRef={scrollRef}>
-        {flowerData?.data?.flatMap((product, idx) =>
-          idx < 8
-            ? [<ProductCard key={product.id} product={product} fixed />]
-            : []
-        )}
+        {flowerData?.data?.map((product) => (
+          <div key={product.id} className='w-carousel-card shrink-0'>
+            <ProductCard product={product} compact />
+          </div>
+        ))}
       </HorizontalList>
     </div>
   );

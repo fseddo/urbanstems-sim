@@ -17,6 +17,33 @@ html {
   --navbar-height: 90px;
   --navbar-offset: 90px;
   --bottom-bar-height: 0px;
+
+  /* Page-level x-padding and carousel card width are tied to the same set
+   * of viewport breakpoints, mirroring urbanstems.com:
+   *   <1024px : 16px page padding, 300px card
+   *   1024–1400px : 34px page padding, card scales 215→320 fluidly
+   *   ≥1400px : 40px page padding, 320px card
+   * Driving these from CSS vars (not Tailwind variants) keeps the rule in
+   * one place — every consumer is `px-page` / `w-carousel-card`. */
+  --page-px: 16px;
+  --carousel-card-w: 300px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-px: 34px;
+    --carousel-card-w: clamp(
+      215px,
+      calc(215px + (100vw - 1024px) * 105 / 376),
+      320px
+    );
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --page-px: 40px;
+  }
 }
 
 @theme inline {
@@ -107,6 +134,22 @@ html {
   &:active {
     opacity: 1;
   }
+}
+
+@utility px-page {
+  padding-inline: var(--page-px);
+}
+
+@utility pl-page {
+  padding-left: var(--page-px);
+}
+
+@utility pr-page {
+  padding-right: var(--page-px);
+}
+
+@utility w-carousel-card {
+  width: var(--carousel-card-w);
 }
 
 body {

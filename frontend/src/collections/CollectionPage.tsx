@@ -77,7 +77,7 @@ export const CollectionPage = () => {
         queryOptions={productQueries.infiniteList(filters)}
         columnCount={columnCount}
         renderItem={(product) => (
-          <ProductCard key={product.id} product={product} detailedView />
+          <ProductCard key={product.id} product={product} />
         )}
         getItemImageUrls={useCallback(
           (product: Product) =>

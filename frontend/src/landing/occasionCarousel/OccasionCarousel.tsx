@@ -9,7 +9,7 @@ export const OccasionCarousel = () => {
   const { data: occasions } = useQuery(tagQueries.list('occasion'));
 
   return (
-    <section className='flex w-full flex-col gap-6 pl-20'>
+    <section className='flex w-full flex-col gap-6 pl-page'>
       <header className='font-crimson text-[52px] font-medium'>
         Flowers & Gifts For Every Occasion
       </header>

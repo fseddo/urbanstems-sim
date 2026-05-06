@@ -7,7 +7,7 @@ export const Reviews = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className='flex w-full flex-col gap-14 pl-20'>
+    <section className='flex w-full flex-col gap-14 pl-page'>
       <header className='font-crimson text-[52px] font-medium'>
         More than 20,000 Five-Star Reviews
       </header>

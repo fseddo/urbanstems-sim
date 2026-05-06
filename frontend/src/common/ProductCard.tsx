@@ -11,13 +11,9 @@ import { tw } from './utils/tw';
 export const ProductCard = memo(
   ({
     product,
-    fixed = false,
-    detailedView,
     compact = false,
   }: {
     product: Product;
-    fixed?: boolean;
-    detailedView?: boolean;
     compact?: boolean;
   }) => {
     const [visibleProduct, setVisibleProduct] = useState<
@@ -30,19 +26,10 @@ export const ProductCard = memo(
       <Link
         to='/products/$slug'
         params={{ slug: product.slug }}
-        className='@container flex flex-shrink-0 cursor-pointer flex-col gap-4'
+        className='@container flex w-full cursor-pointer flex-col gap-4'
       >
         <div
-          className={tw(
-            'group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat',
-            // Aspect ratio scales with the card's own width via container
-            // queries — narrower/taller for tight cards (4-col listings,
-            // mobile search), squarer for wide cards (1-col mobile listing,
-            // 2-col desktop). Container queries let the same component shape
-            // itself based on its rendered size, not the viewport.
-            !fixed &&
-              'aspect-[3/4] @[300px]:aspect-[4/5] @[500px]:aspect-[43/39]'
-          )}
+          className='group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat aspect-[3/4] @[300px]:aspect-[4/5] @[500px]:aspect-[43/39]'
           style={
             product.blur_data_url
               ? { backgroundImage: `url(${product.blur_data_url})` }
@@ -50,14 +37,9 @@ export const ProductCard = memo(
           }
         >
           <img
-            className={tw(
-              'rounded-md object-cover opacity-0 transition-opacity duration-300',
-              !fixed && 'absolute inset-0 h-full w-full'
-            )}
+            className='absolute inset-0 h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-300'
             src={imageAtWidth(visibleProduct.main_image, 700)}
             alt={visibleProduct.name}
-            height={fixed ? 490 : undefined}
-            width={fixed ? 430 : undefined}
             onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
           />
           {visibleProduct.hover_image && (
@@ -67,7 +49,7 @@ export const ProductCard = memo(
               alt={`${visibleProduct.name} hover`}
             />
           )}
-          {visibleProduct.badge_text && detailedView && (
+          {visibleProduct.badge_text && !compact && (
             <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
               {visibleProduct.badge_text}
             </div>
@@ -81,7 +63,7 @@ export const ProductCard = memo(
         </div>
 
         <div className='flex flex-col items-center gap-1'>
-          {visibleProduct.delivery_lead_time != null && !fixed && !compact && (
+          {visibleProduct.delivery_lead_time != null && !compact && (
             <div className='border-brand-primary/10 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-semibold'>
               Receive on{' '}
               {getDeliveryDate(visibleProduct.delivery_lead_time, 'short')}
@@ -117,7 +99,7 @@ export const ProductCard = memo(
               </span>
             )}
           </div>
-          {detailedView && product.variants && product.variants.length > 1 && (
+          {!compact && product.variants && product.variants.length > 1 && (
             <div className='flex gap-1'>
               {product.variants.map((variant) => {
                 return (

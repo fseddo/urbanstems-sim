@@ -12,7 +12,7 @@ export const LandingVideo = () => {
         fetchPriority='high'
         loading='eager'
       />
-      <div className='absolute inset-0 bg-black/70 md:bg-black/30' />
+      <div className='absolute inset-0 bg-black/55 md:bg-black/52 lg:bg-black/50' />
 
       <img
         src='/2025_NYT_WIRECUTTER_OUR-PICK_LOGO_BLACK_RGB.png'

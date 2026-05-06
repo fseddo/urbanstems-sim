@@ -5,7 +5,7 @@ import { CgSpinner } from 'react-icons/cg';
 import { useNavigate } from '@tanstack/react-router';
 import { useIsFetching } from '@tanstack/react-query';
 import { checkoutKeys } from '@/api/checkout/checkoutQueries';
-import { usePortal } from '../common/usePortal';
+import { SlidePane } from '../common/SlidePane';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
 import {
@@ -16,7 +16,6 @@ import {
   removeLineAtom,
   setLineQuantityAtom,
 } from './cartAtoms';
-import { tw } from '../common/utils/tw';
 
 const FREE_SHIPPING_THRESHOLD = 140;
 
@@ -24,7 +23,6 @@ export const CartPane = () => {
   const [open, setOpen] = useAtom(cartOpenAtom);
   const lines = useAtomValue(cartItemsAtom);
   const total = useAtomValue(cartTotalAtom);
-  const renderPortal = usePortal(open);
   const navigate = useNavigate();
 
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0);
@@ -40,27 +38,9 @@ export const CartPane = () => {
   };
 
   return (
-    <>
-      {renderPortal(
-        <div
-          className={tw(
-            'fixed inset-0 z-[51] bg-black/60 transition-opacity duration-300',
-            open
-              ? 'pointer-events-auto opacity-100'
-              : 'pointer-events-none opacity-0'
-          )}
-          onClick={close}
-        />
-      )}
-
-      <div
-        className={tw(
-          'bg-background fixed top-[3vh] right-6 z-[52] flex h-[92vh] w-full max-w-[480px] flex-col rounded-md shadow-2xl transition-transform duration-300',
-          open ? 'translate-x-0' : 'translate-x-[calc(100%+10rem)]'
-        )}
-      >
-        {/* Header */}
-        <div className='flex items-start justify-between p-7'>
+    <SlidePane isOpen={open} onClose={close} side='right'>
+      {/* Header */}
+      <div className='flex items-start justify-between p-7'>
           <span className='font-crimson px-4 pt-7 text-4xl'>
             {itemCount > 0 ? `Cart (${itemCount})` : 'Cart'}
           </span>
@@ -104,7 +84,7 @@ export const CartPane = () => {
         </div>
 
         {lines.length > 0 && (
-          <div className='flex flex-col gap-3 rounded-b-md bg-white px-10 pt-6 pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.03)]'>
+          <div className='flex flex-col gap-3 bg-white px-10 pt-6 pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.03)] min-[1020px]:rounded-b-md'>
             <div className='flex items-center justify-between text-base'>
               <span>Total</span>
               <span className='font-bold'>${total.toFixed(0)}</span>
@@ -127,13 +107,12 @@ export const CartPane = () => {
               )}
             </button>
             <p className='text-center text-[11px] opacity-60'>
-              Total, final shipping amount, discounts, taxes, and fees are
-              calculated at checkout
+              Total, shipping amount, discounts, taxes are calculated at
+              checkout
             </p>
           </div>
         )}
-      </div>
-    </>
+    </SlidePane>
   );
 };
 

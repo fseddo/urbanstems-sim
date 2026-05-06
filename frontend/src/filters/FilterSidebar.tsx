@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { usePortal } from '../common/usePortal';
+import { SlidePane } from '../common/SlidePane';
 import { FiX } from 'react-icons/fi';
 import { FilterOptions } from '@/api/products/FilterOptions';
 import {
@@ -11,7 +11,6 @@ import {
   STEM_TYPE_DISPLAY,
   UIFilters,
 } from './filterSpecs';
-import { tw } from '../common/utils/tw';
 import {
   AccordionSection,
   ColorChip,
@@ -41,7 +40,6 @@ export const FilterSidebar = ({
   availableOptions,
 }: FilterSidebarProps) => {
   const [openSections, setOpenSections] = useState<Set<string>>(new Set());
-  const renderPortal = usePortal(isOpen);
 
   const toggleSection = (section: string) => {
     setOpenSections((prev) => {
@@ -117,27 +115,8 @@ export const FilterSidebar = ({
   );
 
   return (
-    <>
-      {/* Backdrop overlay — portaled to body to escape stacking contexts */}
-      {renderPortal(
-        <div
-          className={tw(
-            'fixed inset-0 z-[51] bg-black/60 transition-opacity duration-300',
-            isOpen
-              ? 'pointer-events-auto opacity-100'
-              : 'pointer-events-none opacity-0'
-          )}
-          onClick={onClose}
-        />
-      )}
-
-      {/* Floating slide-in panel — above overlay, content-sized with max-height guard */}
-      <div
-        className={tw(
-          'bg-background fixed top-[3vh] left-6 z-[52] h-[92vh] w-120 overflow-y-auto rounded-md p-6 shadow-2xl transition-transform duration-300',
-          isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+10rem)]'
-        )}
-      >
+    <SlidePane isOpen={isOpen} onClose={onClose} side='left'>
+      <div className='flex-1 overflow-y-auto p-6'>
         {/* Header */}
         <div className='flex items-start justify-between'>
           <span className='font-crimson px-4 pt-7 pb-3 text-4xl'>
@@ -301,6 +280,6 @@ export const FilterSidebar = ({
           )}
         </div>
       </div>
-    </>
+    </SlidePane>
   );
 };

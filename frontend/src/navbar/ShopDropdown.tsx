@@ -82,7 +82,8 @@ export const ShopDropdown = () => {
           <div className='flex items-center justify-between py-6 pb-10'>
             <h2 className='font-crimson text-brand-primary text-4xl'>Shop</h2>
             <AnimatedButton
-              href='/collections/all'
+              to='/collections/$slug'
+              params={{ slug: 'all' }}
               label='SHOP ALL'
               onClick={close}
               className='hover:bg-brand-primary hover:border-brand-primary px-7 py-3 text-xs opacity-100 shadow-none'

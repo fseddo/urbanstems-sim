@@ -1,22 +1,32 @@
-import { Link } from '@tanstack/react-router';
+import { Link, LinkProps } from '@tanstack/react-router';
 import { tw } from './utils/tw';
 
-export const AnimatedButton = (props: {
-  onClick?: () => void;
+type AnimatedButtonProps = Omit<LinkProps, 'children' | 'className'> & {
   label: string;
-  href: string;
+  onClick?: () => void;
   className?: string;
-}) => (
-  <Link to={props.href}>
+};
+
+export const AnimatedButton = ({
+  label,
+  onClick,
+  className,
+  ...linkProps
+}: AnimatedButtonProps) => (
+  <Link {...linkProps}>
     <button
-      onClick={props.onClick}
+      onClick={onClick}
       className={tw(
-        'cursor-pointer rounded-sm border px-7 py-4 text-sm font-bold tracking-[1px] opacity-90 shadow-lg',
-        'border-brand-primary text-brand-primary bg-white transition-colors duration-200 hover:border-white hover:bg-transparent hover:text-white',
-        props.className
+        'rounded-sm border px-7 py-4',
+        'text-[12px] font-extrabold tracking-[1.68px]',
+        'bg-white hover:bg-transparent',
+        'text-brand-primary hover:text-white',
+        'border-brand-primary hover:border-white',
+        'cursor-pointer shadow-lg transition-colors duration-200',
+        className
       )}
     >
-      {props.label}
+      {label}
     </button>
   </Link>
 );

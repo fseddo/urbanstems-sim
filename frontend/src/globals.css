@@ -21,6 +21,33 @@ html {
   --navbar-offset: 90px;
   --bottom-bar-height: 0px;
 
+  /* ──────────────────────────────────────────────────────────────────
+   * Fluid-curve convention
+   *
+   * Most responsive tokens below follow the same shape so readers learn
+   * one curve and apply it everywhere. Per-token comments document the
+   * specific values, not the why-of-the-shape.
+   *
+   *   <1024px        : floor (mobile / tablet baseline)
+   *   1024–1400px    : first ramp (desktop kicks in)
+   *   1400–2250px    : optional second ramp (large desktops)
+   *   ≥2250px        : ceiling
+   *
+   * Floors live in `:root`. Ramps live inside `@media (min-width: 1024px)`
+   * and `@media (min-width: 1400px)`. The same anchor breakpoints — 1024
+   * and 1400 — are reused across paddings, card widths, and type. A
+   * "two-ramp with plateau" variant (e.g. `--hero-headline-size`) keeps
+   * the floor static for a stretch above 1024 by setting `floor` higher
+   * than the calc()'s starting value, so the calc only reaches the floor
+   * later in the range. Curves that diverge from this convention
+   * (`--occasion-card-w`, `--about-us-py`) call out their own breakpoints
+   * in the per-token comment.
+   *
+   * Layout-flip media queries (stepwise, not fluid) also live at 1024 —
+   * the navbar mobile/desktop split, the hero `<picture>` source swap,
+   * landing-section padding rhythm. There is no separate tablet tier.
+   * ────────────────────────────────────────────────────────────────── */
+
   /* Horizontal padding has two separate scales:
    * `--navbar-px` (px-navbar/pl-navbar/pr-navbar) — sized to the navbar
    * layout, stepwise the whole way. Caps at 40 from 1400 onward.
@@ -33,6 +60,17 @@ html {
    * at 1400+. */
   --navbar-px: 16px;
   --page-px: 16px;
+
+  /* Product-carousel card width — sized for the home/PDP product
+   * carousels and the listing-page grid cells. Mobile floor is taller
+   * than the desktop ramp's start so phones show ~1.x cards in view at
+   * a generous size; the ramp catches up by 1400 with a wider ceiling.
+   *   <1024px : 300 (mobile floor)
+   *   1024–1400px : ramp 215→320 (step DOWN at 1024, then climbs)
+   *   ≥1400px : 320 (ceiling — caps narrower than `--occasion-card-w`
+   *                  on purpose; product cards stay grid-friendly while
+   *                  the occasion carousel keeps growing on wide screens)
+   * Consumed via the `w-carousel-card` utility. */
   --carousel-card-w: 300px;
 
   /* Hero typography is a two-ramp scale with a flat plateau in between.
@@ -100,11 +138,11 @@ html {
   --review-card-w: 280px;
 
   /* Occasion-carousel card width — two ramps split by an intentional
-   * step DOWN at 1020. Mobile shows fewer, bigger cards; at 1020 the
+   * step DOWN at 1024. Mobile shows fewer, bigger cards; at 1024 the
    * layout reflows to fit more smaller cards.
    *   <450px : 158px (floor — small phones)
-   *   450–1020px : ramp 158→222 (mobile range)
-   *   1020–1400px : 157→250 (step down at 1020, then ramp)
+   *   450–1024px : ramp 158→222 (mobile range)
+   *   1024–1400px : 157→250 (step down at 1024, then ramp)
    *   1400–3000px : 250→500
    *   ≥3000px : 500px
    * Hits 300 at 1720 and 500 at 3000 per spec.
@@ -113,14 +151,14 @@ html {
    * Consumed via the `w-occasion-card` utility. */
   --occasion-card-w: clamp(
     158px,
-    calc(158px + (100vw - 450px) * 64 / 570),
+    calc(158px + (100vw - 450px) * 64 / 574),
     222px
   );
 
   /* Hero backdrop gradient — anchored bottom-left under the copy lockup,
    * fading toward transparent at top-right. The mobile image is busier
    * so it gets a heavier wash (0.62); desktop is calmer (0.22). Swaps at
-   * 1020px to match the hero's `<picture>` art-direction breakpoint.
+   * 1024px alongside the hero's `<picture>` art-direction breakpoint.
    * Consumed via `bg-hero-overlay`. */
   --hero-overlay: linear-gradient(
     to top right,
@@ -133,8 +171,8 @@ html {
    * at the top, looser at the bottom. The hero's bottom padding matches
    * `--landing-section-pt` so the gap between hero and the first section
    * stays the same as section-to-section top breathing.
-   *   <1020px : pt 16, pb 30, hero-pb 16
-   *   ≥1020px : pt 24, pb 54, hero-pb 24
+   *   <1024px : pt 16, pb 30, hero-pb 16
+   *   ≥1024px : pt 24, pb 54, hero-pb 24
    * Consumed via `pt-landing-section`, `pb-landing-section`,
    * `pb-landing-hero`. */
   --landing-section-pt: 16px;
@@ -143,8 +181,8 @@ html {
 
   /* AboutUs is a "statement" section — symmetric, generous vertical
    * padding (each side, not split) and stepwise at fixed breakpoints.
-   *   <1020px : 104
-   *   1020–1730px : 124
+   *   <1024px : 104
+   *   1024–1730px : 124
    *   ≥1730px : 150
    * Consumed via `py-about-us`. */
   --about-us-py: 104px;
@@ -164,29 +202,24 @@ html {
   );
 }
 
-@media (min-width: 1020px) {
+@media (min-width: 1024px) {
   :root {
+    --navbar-px: 34px;
+    --page-px: 34px;
+    --landing-section-pt: 24px;
+    --landing-section-pb: 54px;
+    --landing-hero-pb: 24px;
+    --about-us-py: 124px;
     --hero-overlay: linear-gradient(
       to top right,
       rgba(0, 0, 0, 0.22),
       transparent
     );
-    --landing-section-pt: 24px;
-    --landing-section-pb: 54px;
-    --landing-hero-pb: 24px;
-    --about-us-py: 124px;
     --occasion-card-w: clamp(
       157px,
-      calc(157px + (100vw - 1020px) * 93 / 380),
+      calc(157px + (100vw - 1024px) * 93 / 376),
       250px
     );
-  }
-}
-
-@media (min-width: 1024px) {
-  :root {
-    --navbar-px: 34px;
-    --page-px: 34px;
     --carousel-card-w: clamp(
       215px,
       calc(215px + (100vw - 1024px) * 105 / 376),
@@ -282,7 +315,7 @@ html {
   --text-review-description: var(--review-description-size);
 
   /* Hero backdrop gradient — see `:root` for the two opacity variants
-   * and the 1020px swap. Exposed as a `bg-hero-overlay` utility. */
+   * and the 1024px swap. Exposed as a `bg-hero-overlay` utility. */
   --background-image-hero-overlay: var(--hero-overlay);
 
   /* Three fade-in speeds. `animate-fade-in` is the default; the -fast and

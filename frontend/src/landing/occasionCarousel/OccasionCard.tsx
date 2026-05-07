@@ -19,7 +19,7 @@ export const OccasionCard = ({ occasion }: { occasion: Tag }) => {
       <div
         className={tw(
           'font-crimson flex items-center justify-center',
-          'text-[15px] min-[1020px]:text-[24px]'
+          'text-[15px] lg:text-[24px]'
         )}
       >
         {capitalizeString(occasion.name)}

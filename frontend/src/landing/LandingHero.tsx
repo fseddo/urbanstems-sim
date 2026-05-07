@@ -13,12 +13,12 @@ export const LandingHero = () => {
       <div
         className={tw(
           'relative flex flex-col justify-end',
-          'h-[503px] w-full min-[1020px]:h-[585px]'
+          'h-[503px] w-full lg:h-[585px]'
         )}
       >
         <picture>
           <source
-            media='(min-width: 1020px)'
+            media='(min-width: 1024px)'
             srcSet={imageAtWidth(DESKTOP_HERO, 1800)}
           />
           <img
@@ -34,8 +34,8 @@ export const LandingHero = () => {
           src='/2025_NYT_WIRECUTTER_OUR-PICK_LOGO_BLACK_RGB.png'
           alt='NY Times Wirecutter Our Pick'
           className={tw(
-            'absolute top-[3%] left-[6%] min-[1020px]:left-[4%]',
-            'h-auto w-[96px] min-[1020px]:w-[116px]',
+            'absolute top-[3%] left-[6%] lg:left-[4%]',
+            'h-auto w-[96px] lg:w-[116px]',
             'transition-[width,left] duration-300'
           )}
         />

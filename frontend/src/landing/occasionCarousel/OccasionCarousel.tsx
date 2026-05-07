@@ -15,7 +15,7 @@ export const OccasionCarousel = () => {
       </header>
       <HorizontalList
         scrollRef={scrollRef}
-        className='gap-2 min-[1020px]:gap-4'
+        className='gap-2 lg:gap-4'
       >
         {occasions?.flatMap(
           (occasion) =>

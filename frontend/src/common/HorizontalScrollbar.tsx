@@ -10,8 +10,8 @@ interface HorizontalScrollbarProps {
 
 export const HorizontalScrollbar = ({
   targetRef,
-  height = 'h-2.5',
-  width = 'w-[30%]',
+  height = 'h-1.5',
+  width = 'w-[70%]',
   thumbColor = 'bg-brand-primary',
 }: HorizontalScrollbarProps) => {
   const trackRef = useRef<HTMLDivElement>(null);

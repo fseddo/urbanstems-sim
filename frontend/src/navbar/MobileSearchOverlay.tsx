@@ -97,11 +97,7 @@ export const MobileSearchOverlay = () => {
                   </div>
                 ))}
               </div>
-              <HorizontalScrollbar
-                targetRef={scrollRef}
-                height='h-1.5'
-                width='w-[60%]'
-              />
+              <HorizontalScrollbar targetRef={scrollRef} />
             </div>
           ) : (
             !isEmpty && (

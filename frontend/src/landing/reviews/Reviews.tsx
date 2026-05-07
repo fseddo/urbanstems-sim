@@ -13,8 +13,8 @@ export const Reviews = () => {
       </header>
 
       <HorizontalList scrollRef={scrollRef}>
-        {LANDING_REVIEWS?.map((review, idx) => (
-          <ReviewCard key={idx} {...review} />
+        {LANDING_REVIEWS.map((review) => (
+          <ReviewCard key={review.id} {...review} />
         ))}
       </HorizontalList>
     </section>

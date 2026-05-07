@@ -1,3 +1,10 @@
+import { tw } from '@/src/common/utils/tw';
+
+/* Frame is `w-review-card` + `aspect-[9/8]` (the 450×400 reference shape).
+ * All image sizes/positions/hover offsets are percentages of that frame, so
+ * the entire overlap composition scales with `--review-card-w` without
+ * warping. Each percentage is derived from the original pixel value over
+ * 450 (horizontal) or 400 (vertical) and rounded to the nearest whole. */
 export const ReviewCard = ({
   name,
   location,
@@ -16,54 +23,65 @@ export const ReviewCard = ({
   imgSrc3: string;
 }) => {
   return (
-    <div className='flex flex-shrink-0 flex-col gap-4'>
-      <div className='group relative h-[400px] w-[450px]'>
-        {/* Front image - upright */}
+    <div className='flex flex-shrink-0 flex-col items-center'>
+      <div className={tw('group relative', 'w-review-card aspect-[9/8]')}>
+        {/* Front image — upright, centered. The three-photo composition
+         * shows the same delivery from different angles, so only the
+         * front carries a descriptive alt; the other two are marked
+         * decorative to avoid screen readers reading the same thing 3x. */}
         <img
-          className='absolute top-10 left-28 z-30 h-[340px] w-[230px] rounded-lg object-cover shadow-lg transition-all duration-800 group-hover:top-5'
+          className={tw(
+            'absolute z-30 rounded-lg object-cover shadow-lg',
+            'h-[85%] w-[51%]',
+            'top-[10%] left-[25%] transition-all duration-800 group-hover:top-[5%]'
+          )}
           src={imgSrc1}
+          alt={`Flowers from ${name}'s review`}
         />
 
-        {/* Middle image - tilted behind */}
+        {/* Middle image — tilted left, slides further left on hover. */}
         <img
-          className='absolute top-6 left-18 z-20 h-[340px] w-[230px] rounded-lg object-cover shadow-lg transition-all duration-800 group-hover:top-10 group-hover:left-8'
+          className={tw(
+            'absolute z-20 rounded-lg object-cover shadow-lg',
+            'h-[85%] w-[51%]',
+            'top-[6%] left-[16%] transition-all duration-800',
+            'group-hover:top-[10%] group-hover:left-[7%]'
+          )}
           src={imgSrc2}
+          alt=''
           style={{ transform: 'rotate(-10deg)' }}
         />
 
-        {/* Back image - tilted behind */}
+        {/* Back image — tilted right, slides further right on hover. */}
         <img
-          className='absolute top-6 left-38 z-10 h-[340px] w-[230px] rounded-lg object-cover shadow-lg transition-all duration-800 group-hover:top-10 group-hover:left-48'
+          className={tw(
+            'absolute z-10 rounded-lg object-cover shadow-lg',
+            'h-[85%] w-[51%]',
+            'top-[6%] left-[34%] transition-all duration-800',
+            'group-hover:top-[10%] group-hover:left-[43%]'
+          )}
           src={imgSrc3}
+          alt=''
           style={{ transform: 'rotate(10deg)' }}
         />
       </div>
-
-      <div className='flex flex-col items-center gap-4'>
-        <div className='flex flex-col items-center gap-2'>
-          <div className='font-crimson flex items-center justify-center text-3xl'>
-            {name}
-          </div>
-          <div className='text-foreground/60 text-sm'>
-            {`Verified Buyer - ${location}`}
-          </div>
+      <div className='font-crimson text-review-name text-center'>{name}</div>
+      <div className='gap-review-card flex flex-col items-center'>
+        <div className='text-foreground/60 text-review-caption'>
+          {`Verified Buyer - ${location}`}
         </div>
 
-        <div className='flex flex-col items-center gap-2'>
-          <div className='flex gap-1'>
-            {new Array(rating).fill(null).map((_, i) => (
-              <img
-                key={i}
-                src='/full_star.svg'
-                alt='Full star rating'
-                width={15}
-                height={15}
-              />
-            ))}
-          </div>
-          <div className='font-crimson flex w-[450px] text-center text-lg italic'>
-            {description}
-          </div>
+        <div
+          className='flex gap-1'
+          role='img'
+          aria-label={`${rating} out of 5 stars`}
+        >
+          {new Array(rating).fill(null).map((_, i) => (
+            <img key={i} src='/full_star.svg' alt='' width={15} height={15} />
+          ))}
+        </div>
+        <div className='font-crimson w-review-card text-review-description flex text-center italic'>
+          {description}
         </div>
       </div>
     </div>

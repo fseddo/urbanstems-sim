@@ -65,6 +65,40 @@ html {
     40px
   );
 
+  /* Review card type — name, caption, and description all scale on the
+   * same 1024→1400 ramp as `--review-card-w`, so the text block never
+   * gets visually disconnected from the photo composition. The mobile
+   * floors are aggressive (18/12/14) so the card reads as compact on
+   * small screens.
+   *   <1024px : floor (18 name / 12 caption / 14 description)
+   *   1024–1400px : 18→30 / 12→14 / 14→18
+   *   ≥1400px : ceiling (30 / 14 / 18 — matches text-3xl / text-sm / text-lg)
+   * Consumed via `text-review-name` / `text-review-caption` /
+   * `text-review-description`. */
+  --review-name-size: 18px;
+  --review-caption-size: 12px;
+  --review-description-size: 14px;
+
+  /* Review card vertical gap between the image frame and the text block.
+   * Tightens on small screens so the card reads compact, then opens up
+   * to the original 16px at the desktop ceiling.
+   *   <1024px : 8
+   *   1024–1400px : 8→16
+   *   ≥1400px : 16
+   * Consumed via the `gap-review-card` utility. */
+  --review-card-gap: 5px;
+
+  /* Review card width — drives the entire overlapping-images
+   * composition. The frame uses `aspect-[9/8]` so height tracks width,
+   * and every internal image (size, position, hover offset) is a
+   * percentage of this token, so the whole stack scales together
+   * without warping the overlap.
+   *   <1024px : 280 (floor)
+   *   1024–1400px : ramp 280→450
+   *   ≥1400px : 450 (ceiling — matches the original design width)
+   * Consumed via the `w-review-card` utility. */
+  --review-card-w: 280px;
+
   /* Occasion-carousel card width — two ramps split by an intentional
    * step DOWN at 1020. Mobile shows fewer, bigger cards; at 1020 the
    * layout reflows to fit more smaller cards.
@@ -106,6 +140,28 @@ html {
   --landing-section-pt: 16px;
   --landing-section-pb: 30px;
   --landing-hero-pb: 16px;
+
+  /* AboutUs is a "statement" section — symmetric, generous vertical
+   * padding (each side, not split) and stepwise at fixed breakpoints.
+   *   <1020px : 104
+   *   1020–1730px : 124
+   *   ≥1730px : 150
+   * Consumed via `py-about-us`. */
+  --about-us-py: 104px;
+
+  /* AboutUs headline — same two-ramp + plateau shape as the hero/landing
+   * tokens, but with a higher ceiling so the statement copy keeps growing
+   * on very wide screens.
+   *   <1024px : 28
+   *   1024–1400px : 28→40
+   *   1400–2250px : 40→60
+   *   ≥2250px : 60
+   * Consumed via `text-about-us-header`. */
+  --about-us-header-size: clamp(
+    28px,
+    calc(28px + (100vw - 1024px) * 12 / 376),
+    40px
+  );
 }
 
 @media (min-width: 1020px) {
@@ -118,6 +174,7 @@ html {
     --landing-section-pt: 24px;
     --landing-section-pb: 54px;
     --landing-hero-pb: 24px;
+    --about-us-py: 124px;
     --occasion-card-w: clamp(
       157px,
       calc(157px + (100vw - 1020px) * 93 / 380),
@@ -135,17 +192,34 @@ html {
       calc(215px + (100vw - 1024px) * 105 / 376),
       320px
     );
+    --review-card-w: clamp(
+      280px,
+      calc(280px + (100vw - 1024px) * 170 / 376),
+      450px
+    );
+    --review-name-size: clamp(
+      18px,
+      calc(18px + (100vw - 1024px) * 12 / 376),
+      30px
+    );
+    --review-caption-size: clamp(
+      12px,
+      calc(12px + (100vw - 1024px) * 2 / 376),
+      14px
+    );
+    --review-description-size: clamp(
+      14px,
+      calc(14px + (100vw - 1024px) * 4 / 376),
+      18px
+    );
+    --review-card-gap: clamp(8px, calc(8px + (100vw - 1024px) * 8 / 376), 16px);
   }
 }
 
 @media (min-width: 1400px) {
   :root {
     --navbar-px: 40px;
-    --page-px: clamp(
-      65px,
-      calc(65px + (100vw - 1400px) * 39 / 850),
-      104px
-    );
+    --page-px: clamp(65px, calc(65px + (100vw - 1400px) * 39 / 850), 104px);
     --hero-headline-size: clamp(
       40px,
       calc(40px + (100vw - 1400px) * 32 / 850),
@@ -161,11 +235,22 @@ html {
       calc(40px + (100vw - 1400px) * 12 / 850),
       52px
     );
+    --about-us-header-size: clamp(
+      40px,
+      calc(40px + (100vw - 1400px) * 20 / 850),
+      60px
+    );
     --occasion-card-w: clamp(
       250px,
       calc(250px + (100vw - 1400px) * 250 / 1600),
       500px
     );
+  }
+}
+
+@media (min-width: 1730px) {
+  :root {
+    --about-us-py: 150px;
   }
 }
 
@@ -191,6 +276,10 @@ html {
   --text-hero-headline: var(--hero-headline-size);
   --text-hero-subtext: var(--hero-subtext-size);
   --text-landing-section-header: var(--landing-section-header-size);
+  --text-about-us-header: var(--about-us-header-size);
+  --text-review-name: var(--review-name-size);
+  --text-review-caption: var(--review-caption-size);
+  --text-review-description: var(--review-description-size);
 
   /* Hero backdrop gradient — see `:root` for the two opacity variants
    * and the 1020px swap. Exposed as a `bg-hero-overlay` utility. */
@@ -309,12 +398,24 @@ html {
   padding-bottom: var(--landing-hero-pb);
 }
 
+@utility py-about-us {
+  padding-block: var(--about-us-py);
+}
+
 @utility w-carousel-card {
   width: var(--carousel-card-w);
 }
 
 @utility w-occasion-card {
   width: var(--occasion-card-w);
+}
+
+@utility w-review-card {
+  width: var(--review-card-w);
+}
+
+@utility gap-review-card {
+  gap: var(--review-card-gap);
 }
 
 body {

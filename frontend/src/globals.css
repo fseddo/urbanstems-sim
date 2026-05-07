@@ -30,6 +30,43 @@ html {
    * one place — every consumer is `px-page` / `w-carousel-card`. */
   --page-px: 16px;
   --carousel-card-w: 300px;
+
+  /* Hero typography is a two-ramp scale with a flat plateau in between.
+   * The two ramps meet at exactly 40px / 14px at viewport 1400px, so the
+   * headline stays continuous across the breakpoint.
+   *   <1233px : floor (32px headline / 14px subtext)
+   *   1233–1400px : first ramp, headline 32→40, subtext flat at 14
+   *   1400–2250px : second ramp, headline 40→72, subtext 14→20
+   *   ≥2250px : ceiling (72px / 20px)
+   * Consumed via `text-hero-headline` / `text-hero-subtext` Tailwind
+   * utilities defined in `@theme inline` below. */
+  --hero-headline-size: clamp(
+    32px,
+    calc(22px + (100vw - 1024px) * 18 / 376),
+    40px
+  );
+  --hero-subtext-size: 14px;
+
+  /* Hero backdrop gradient — anchored bottom-left under the copy lockup,
+   * fading toward transparent at top-right. The mobile image is busier
+   * so it gets a heavier wash (0.62); desktop is calmer (0.22). Swaps at
+   * 1020px to match the hero's `<picture>` art-direction breakpoint.
+   * Consumed via `bg-hero-overlay`. */
+  --hero-overlay: linear-gradient(
+    to top right,
+    rgba(0, 0, 0, 0.62),
+    transparent
+  );
+}
+
+@media (min-width: 1020px) {
+  :root {
+    --hero-overlay: linear-gradient(
+      to top right,
+      rgba(0, 0, 0, 0.22),
+      transparent
+    );
+  }
 }
 
 @media (min-width: 1024px) {
@@ -46,6 +83,16 @@ html {
 @media (min-width: 1400px) {
   :root {
     --page-px: 40px;
+    --hero-headline-size: clamp(
+      40px,
+      calc(40px + (100vw - 1400px) * 32 / 850),
+      72px
+    );
+    --hero-subtext-size: clamp(
+      14px,
+      calc(14px + (100vw - 1400px) * 6 / 850),
+      20px
+    );
   }
 }
 
@@ -64,6 +111,16 @@ html {
   --font-mulish: var(--font-mulish);
 
   --breakpoint-2xl: 87.5rem;
+
+  /* Fluid hero type tokens — definitions and the two-ramp curve live in
+   * `:root` above and inside the 1400px media query. These just expose
+   * them as Tailwind font-size utilities (`text-hero-headline`, etc.). */
+  --text-hero-headline: var(--hero-headline-size);
+  --text-hero-subtext: var(--hero-subtext-size);
+
+  /* Hero backdrop gradient — see `:root` for the two opacity variants
+   * and the 1020px swap. Exposed as a `bg-hero-overlay` utility. */
+  --background-image-hero-overlay: var(--hero-overlay);
 
   /* Three fade-in speeds. `animate-fade-in` is the default; the -fast and
    * -slow variants pair with snappier or more deliberate reveals. */

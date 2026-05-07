@@ -27,29 +27,23 @@ export const LandingHero = () => {
           loading='eager'
         />
       </picture>
-      <div
-        className={tw(
-          'absolute inset-0',
-          'bg-[linear-gradient(to_top_right,rgba(0,0,0,0.62),transparent)] min-[1020px]:bg-[linear-gradient(to_top_right,rgba(0,0,0,0.22),transparent)]'
-        )}
-      />
+      <div className='bg-hero-overlay absolute inset-0' />
 
       <img
         src='/2025_NYT_WIRECUTTER_OUR-PICK_LOGO_BLACK_RGB.png'
         alt='NY Times Wirecutter Our Pick'
-        //TODO: left is 6% on mobile
         className={tw(
-          'absolute top-[3%] left-[4%]',
+          'absolute top-[3%] left-[6%] min-[1020px]:left-[4%]',
           'h-auto w-[96px] min-[1020px]:w-[116px]',
-          'transition-[width] duration-300'
+          'transition-[width,left] duration-300'
         )}
       />
       <div className='px-page relative flex flex-col gap-2 pb-16 text-white'>
-        <div className='font-crimson text-shadow text-[clamp(32px,3.3vw,50px)]'>
+        <div className='font-crimson text-shadow text-hero-headline'>
           Spring In Full Bloom
         </div>
 
-        <div className='text-shadow w-[37ch] text-sm'>
+        <div className='text-shadow text-hero-subtext w-[37ch]'>
           Fresh seasonal bouquets, thoughtfully arranged for spring hosting,
           celebrating, and effortless gifting.
         </div>

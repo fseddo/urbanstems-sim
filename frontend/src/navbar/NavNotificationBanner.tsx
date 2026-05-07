@@ -6,7 +6,7 @@ export const NavNotificationBanner = () => {
     <div
       className={tw(
         'bg-brand-summer font-crimson text-center text-white',
-        'px-page w-full py-1.5',
+        'px-navbar w-full py-1.5',
         'text-[16px] max-[560px]:text-[14px] max-[560px]:leading-3'
       )}
     >

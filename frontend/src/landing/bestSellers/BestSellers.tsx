@@ -22,8 +22,8 @@ export const BestSellers = () => {
   });
 
   return (
-    <section className='flex w-full flex-col gap-6 py-10 pl-page'>
-      <header className='font-crimson text-[52px] font-medium'>
+    <section className='pt-landing-section pb-landing-section pl-page flex w-full flex-col gap-6'>
+      <header className='font-crimson text-landing-section-header font-medium'>
         Shop Our Best Sellers
       </header>
 

@@ -21,13 +21,17 @@ html {
   --navbar-offset: 90px;
   --bottom-bar-height: 0px;
 
-  /* Page-level x-padding and carousel card width are tied to the same set
-   * of viewport breakpoints, mirroring urbanstems.com:
-   *   <1024px : 16px page padding, 300px card
-   *   1024–1400px : 34px page padding, card scales 215→320 fluidly
-   *   ≥1400px : 40px page padding, 320px card
-   * Driving these from CSS vars (not Tailwind variants) keeps the rule in
-   * one place — every consumer is `px-page` / `w-carousel-card`. */
+  /* Horizontal padding has two separate scales:
+   * `--navbar-px` (px-navbar/pl-navbar/pr-navbar) — sized to the navbar
+   * layout, stepwise the whole way. Caps at 40 from 1400 onward.
+   *   <1024px: 16, 1024–1400px: 34, ≥1400px: 40
+   * `--page-px` (px-page/pl-page/pr-page) — sized for body content, with
+   * a fluid ramp past 1400 so the page keeps breathing as the viewport
+   * widens. Hits 80 at viewport 1728 per spec.
+   *   <1024px: 16, 1024–1400px: 34, 1400–2250px: 65→104, ≥2250px: 104
+   * Both share the same floor (16) and 1024-step (34); they only diverge
+   * at 1400+. */
+  --navbar-px: 16px;
   --page-px: 16px;
   --carousel-card-w: 300px;
 
@@ -47,6 +51,38 @@ html {
   );
   --hero-subtext-size: 14px;
 
+  /* Landing-section header type — same two-ramp shape as the hero, sized
+   * for the smaller "Flowers & Gifts...", "Best Sellers", "Reviews"
+   * section headers across the landing page.
+   *   <1024px : floor (28px)
+   *   1024–1400px : first ramp, 28→40
+   *   1400–2250px : second ramp, 40→52
+   *   ≥2250px : ceiling (52px)
+   * Consumed via `text-landing-section-header`. */
+  --landing-section-header-size: clamp(
+    28px,
+    calc(28px + (100vw - 1024px) * 12 / 376),
+    40px
+  );
+
+  /* Occasion-carousel card width — two ramps split by an intentional
+   * step DOWN at 1020. Mobile shows fewer, bigger cards; at 1020 the
+   * layout reflows to fit more smaller cards.
+   *   <450px : 158px (floor — small phones)
+   *   450–1020px : ramp 158→222 (mobile range)
+   *   1020–1400px : 157→250 (step down at 1020, then ramp)
+   *   1400–3000px : 250→500
+   *   ≥3000px : 500px
+   * Hits 300 at 1720 and 500 at 3000 per spec.
+   * Sits next to product cards' `--carousel-card-w` (which caps at 1400);
+   * the asymmetry is intentional — see memory.
+   * Consumed via the `w-occasion-card` utility. */
+  --occasion-card-w: clamp(
+    158px,
+    calc(158px + (100vw - 450px) * 64 / 570),
+    222px
+  );
+
   /* Hero backdrop gradient — anchored bottom-left under the copy lockup,
    * fading toward transparent at top-right. The mobile image is busier
    * so it gets a heavier wash (0.62); desktop is calmer (0.22). Swaps at
@@ -57,6 +93,19 @@ html {
     rgba(0, 0, 0, 0.62),
     transparent
   );
+
+  /* Landing-page vertical rhythm. Each section gets a small `pt` and a
+   * larger `pb`, so consecutive sections breathe asymmetrically — tight
+   * at the top, looser at the bottom. The hero's bottom padding matches
+   * `--landing-section-pt` so the gap between hero and the first section
+   * stays the same as section-to-section top breathing.
+   *   <1020px : pt 16, pb 30, hero-pb 16
+   *   ≥1020px : pt 24, pb 54, hero-pb 24
+   * Consumed via `pt-landing-section`, `pb-landing-section`,
+   * `pb-landing-hero`. */
+  --landing-section-pt: 16px;
+  --landing-section-pb: 30px;
+  --landing-hero-pb: 16px;
 }
 
 @media (min-width: 1020px) {
@@ -66,11 +115,20 @@ html {
       rgba(0, 0, 0, 0.22),
       transparent
     );
+    --landing-section-pt: 24px;
+    --landing-section-pb: 54px;
+    --landing-hero-pb: 24px;
+    --occasion-card-w: clamp(
+      157px,
+      calc(157px + (100vw - 1020px) * 93 / 380),
+      250px
+    );
   }
 }
 
 @media (min-width: 1024px) {
   :root {
+    --navbar-px: 34px;
     --page-px: 34px;
     --carousel-card-w: clamp(
       215px,
@@ -82,7 +140,12 @@ html {
 
 @media (min-width: 1400px) {
   :root {
-    --page-px: 40px;
+    --navbar-px: 40px;
+    --page-px: clamp(
+      65px,
+      calc(65px + (100vw - 1400px) * 39 / 850),
+      104px
+    );
     --hero-headline-size: clamp(
       40px,
       calc(40px + (100vw - 1400px) * 32 / 850),
@@ -92,6 +155,16 @@ html {
       14px,
       calc(14px + (100vw - 1400px) * 6 / 850),
       20px
+    );
+    --landing-section-header-size: clamp(
+      40px,
+      calc(40px + (100vw - 1400px) * 12 / 850),
+      52px
+    );
+    --occasion-card-w: clamp(
+      250px,
+      calc(250px + (100vw - 1400px) * 250 / 1600),
+      500px
     );
   }
 }
@@ -112,11 +185,12 @@ html {
 
   --breakpoint-2xl: 87.5rem;
 
-  /* Fluid hero type tokens — definitions and the two-ramp curve live in
+  /* Fluid type tokens — definitions and the two-ramp curves live in
    * `:root` above and inside the 1400px media query. These just expose
    * them as Tailwind font-size utilities (`text-hero-headline`, etc.). */
   --text-hero-headline: var(--hero-headline-size);
   --text-hero-subtext: var(--hero-subtext-size);
+  --text-landing-section-header: var(--landing-section-header-size);
 
   /* Hero backdrop gradient — see `:root` for the two opacity variants
    * and the 1020px swap. Exposed as a `bg-hero-overlay` utility. */
@@ -211,8 +285,36 @@ html {
   padding-right: var(--page-px);
 }
 
+@utility px-navbar {
+  padding-inline: var(--navbar-px);
+}
+
+@utility pl-navbar {
+  padding-left: var(--navbar-px);
+}
+
+@utility pr-navbar {
+  padding-right: var(--navbar-px);
+}
+
+@utility pt-landing-section {
+  padding-top: var(--landing-section-pt);
+}
+
+@utility pb-landing-section {
+  padding-bottom: var(--landing-section-pb);
+}
+
+@utility pb-landing-hero {
+  padding-bottom: var(--landing-hero-pb);
+}
+
 @utility w-carousel-card {
   width: var(--carousel-card-w);
+}
+
+@utility w-occasion-card {
+  width: var(--occasion-card-w);
 }
 
 body {

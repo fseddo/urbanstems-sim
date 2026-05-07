@@ -6,7 +6,7 @@ import { Reviews } from './reviews/Reviews';
 
 export const HomePage = () => {
   return (
-    <div className='flex w-full flex-col gap-12'>
+    <div className='flex w-full flex-col'>
       <LandingHero />
       <OccasionCarousel />
       <Reviews />

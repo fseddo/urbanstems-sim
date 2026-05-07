@@ -9,11 +9,14 @@ export const OccasionCarousel = () => {
   const { data: occasions } = useQuery(tagQueries.list('occasion'));
 
   return (
-    <section className='flex w-full flex-col gap-6 pl-page'>
-      <header className='font-crimson text-[52px] font-medium'>
+    <section className='pt-landing-section pb-landing-section pl-page flex w-full flex-col gap-6'>
+      <header className='font-crimson text-landing-section-header font-medium'>
         Flowers & Gifts For Every Occasion
       </header>
-      <HorizontalList scrollRef={scrollRef}>
+      <HorizontalList
+        scrollRef={scrollRef}
+        className='gap-2 min-[1020px]:gap-4'
+      >
         {occasions?.flatMap(
           (occasion) =>
             occasion.image_src && (

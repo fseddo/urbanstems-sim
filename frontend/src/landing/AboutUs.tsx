@@ -1,6 +1,6 @@
 export const AboutUs = () => {
   return (
-    <section className='flex w-full flex-col items-center gap-14 border-y-2 py-40'>
+    <section className='pt-landing-section pb-landing-section flex w-full flex-col items-center gap-14 border-y-2'>
       <header className='font-crimson w-2/3 text-center text-4xl font-medium'>
         Curated for those with an eye for luxury, our bouquets are designed with{' '}
         <span className='italic'>style and sophistication</span> in the heart of

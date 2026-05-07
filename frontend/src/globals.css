@@ -152,15 +152,15 @@ html {
   /* AboutUs headline — same two-ramp + plateau shape as the hero/landing
    * tokens, but with a higher ceiling so the statement copy keeps growing
    * on very wide screens.
-   *   <1024px : 28
-   *   1024–1400px : 28→40
-   *   1400–2250px : 40→60
-   *   ≥2250px : 60
+   *   <1024px : 26
+   *   1024–1400px : 26→36
+   *   1400–2250px : 36→56
+   *   ≥2250px : 56
    * Consumed via `text-about-us-header`. */
   --about-us-header-size: clamp(
-    28px,
-    calc(28px + (100vw - 1024px) * 12 / 376),
-    40px
+    26px,
+    calc(26px + (100vw - 1024px) * 10 / 376),
+    36px
   );
 }
 
@@ -236,9 +236,9 @@ html {
       52px
     );
     --about-us-header-size: clamp(
-      40px,
-      calc(40px + (100vw - 1400px) * 20 / 850),
-      60px
+      36px,
+      calc(36px + (100vw - 1400px) * 20 / 850),
+      56px
     );
     --occasion-card-w: clamp(
       250px,

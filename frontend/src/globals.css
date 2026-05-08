@@ -206,12 +206,65 @@ html {
     calc(26px + (100vw - 1024px) * 10 / 376),
     36px
   );
+
+  /* CollectionHero vertical padding. Skips the 1024 step and only
+   * changes at 1400 — the looser desktop rhythm doesn't kick in until
+   * the wide-screen tier. (Horizontal padding uses `--page-px`
+   * directly, applied via `px-page` in the component.)
+   *   <1400px : pt 22, pb 40
+   *   ≥1400px : pt 28, pb 62
+   * Consumed via `pt-collection-hero`, `pb-collection-hero`. */
+  --collection-hero-pt: 22px;
+  --collection-hero-pb: 40px;
+
+  /* CollectionHero title type — single ramp from 1200 (not the usual
+   * 1024) all the way to 2250. Diverges from the two-ramp convention.
+   *   ≤1200px : 28 (floor)
+   *   1200–2250px : 28→52 (passes 37 at 1600)
+   *   ≥2250px : 52 (ceiling)
+   * Consumed via `text-collection-hero-header`. */
+  --collection-hero-header-size: clamp(
+    28px,
+    calc(28px + (100vw - 1200px) * 24 / 1050),
+    52px
+  );
+
+  /* CollectionHero subtitle type — single ramp 1600→2250, flat below
+   * 1600. The subtitle holds its mobile size for longer than the title
+   * because at narrower widths it's already long descriptive copy.
+   *   ≤1600px : 14 (floor)
+   *   1600–2250px : 14→21
+   *   ≥2250px : 21 (ceiling)
+   * Consumed via `text-collection-hero-subheader`. */
+  --collection-hero-subheader-size: clamp(
+    14px,
+    calc(14px + (100vw - 1600px) * 7 / 650),
+    21px
+  );
+
+  /* Listing-page breadcrumb wrapper padding. `pl` steps 16→34 at 1024
+   * and holds (no further ramp — caps narrower than `--page-px` past
+   * 1400). `py` follows its own clamp 1140→1480, diverging from the
+   * 1024-step convention.
+   *   <1024px : pl 16
+   *   ≥1024px : pl 34
+   *   ≤1140px : py 16
+   *   1140–1480px : py 16→20
+   *   ≥1480px : py 20
+   * Consumed via `pl-listing-breadcrumb` / `py-listing-breadcrumb`. */
+  --listing-breadcrumb-pl: 16px;
+  --listing-breadcrumb-py: clamp(
+    16px,
+    calc(16px + (100vw - 1140px) * 4 / 340),
+    20px
+  );
 }
 
 @media (min-width: 1024px) {
   :root {
     --navbar-px: 34px;
     --page-px: 34px;
+    --listing-breadcrumb-pl: 34px;
     --landing-section-pt: 24px;
     --landing-section-pb: 54px;
     --landing-hero-pb: 24px;
@@ -284,6 +337,8 @@ html {
       calc(250px + (100vw - 1400px) * 250 / 1600),
       500px
     );
+    --collection-hero-pt: 28px;
+    --collection-hero-pb: 62px;
   }
 }
 
@@ -316,6 +371,9 @@ html {
   --text-hero-subtext: var(--hero-subtext-size);
   --text-landing-section-header: var(--landing-section-header-size);
   --text-about-us-header: var(--about-us-header-size);
+  --text-collection-hero-header: var(--collection-hero-header-size);
+  --text-collection-hero-header--line-height: 1;
+  --text-collection-hero-subheader: var(--collection-hero-subheader-size);
   --text-review-name: var(--review-name-size);
   --text-review-caption: var(--review-caption-size);
   --text-review-description: var(--review-description-size);
@@ -435,6 +493,22 @@ html {
 
 @utility pb-landing-hero {
   padding-bottom: var(--landing-hero-pb);
+}
+
+@utility pt-collection-hero {
+  padding-top: var(--collection-hero-pt);
+}
+
+@utility pb-collection-hero {
+  padding-bottom: var(--collection-hero-pb);
+}
+
+@utility pl-listing-breadcrumb {
+  padding-left: var(--listing-breadcrumb-pl);
+}
+
+@utility py-listing-breadcrumb {
+  padding-block: var(--listing-breadcrumb-py);
 }
 
 @utility py-about-us {

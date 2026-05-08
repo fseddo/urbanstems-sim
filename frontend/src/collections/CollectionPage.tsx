@@ -1,14 +1,12 @@
-import {
-  useLoaderData,
-  useNavigate,
-  useSearch,
-} from '@tanstack/react-router';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import { useCallback, useEffect, useState } from 'react';
 import type { Product } from '@/api/products/Product';
 import { productQueries } from '@/api/products/productQueries';
 import { List, type ColumnCount } from '@/src/common/List';
+import { NavigationBreadcrumbs } from '@/src/common/NavigationBreadcrumbs';
 import { ProductCard } from '@/src/common/ProductCard';
 import { useIsDesktop } from '@/src/common/useIsDesktop';
+import { stripBrandSuffix } from '@/src/common/utils/stripBrandSuffix';
 import { FilterSidebar } from '@/src/filters/FilterSidebar';
 import { UIFilters } from '@/src/filters/filterSpecs';
 import { CollectionHero } from './CollectionHero';
@@ -67,6 +65,14 @@ export const CollectionPage = () => {
         onFiltersChange={setUiFilters}
         availableOptions={sidebarOptions}
       />
+      {pageTag && (
+        <div className='pl-listing-breadcrumb py-listing-breadcrumb'>
+          <NavigationBreadcrumbs
+            leaf={stripBrandSuffix(pageTag.page_title ?? pageTag.name)}
+            className='gap-3 px-0 py-0'
+          />
+        </div>
+      )}
       <CollectionHero pageTag={pageTag} searchTerm={searchTerm} />
       <ListingHeaderBar
         onOpenFilters={() => setFilterPanelOpen(true)}

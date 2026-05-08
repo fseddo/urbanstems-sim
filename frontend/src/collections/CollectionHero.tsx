@@ -11,15 +11,15 @@ type Props = {
 
 export const CollectionHero = ({ pageTag, searchTerm }: Props) => {
   return (
-    <header className='font-crimson flex flex-col items-center justify-center gap-2 py-18 text-[40px]'>
+    <header className='font-crimson px-page pt-collection-hero pb-collection-hero flex flex-col items-center justify-center gap-2 text-center'>
       <span className='flex flex-col items-center gap-4'>
         {!pageTag ? (
           searchTerm ? (
-            <span className='text-5xl'>{`Results for "${searchTerm}"`}</span>
+            <span className='text-collection-hero-header'>{`Results for "${searchTerm}"`}</span>
           ) : (
             <>
-              <span className='text-5xl'>Shop All</span>
-              <span className='font-mulish text-center text-base'>
+              <span className='text-collection-hero-header'>Shop All</span>
+              <span className='font-mulish text-collection-hero-subheader text-center'>
                 The flowers and gifts designed in-house with style and
                 sophistication.
               </span>
@@ -27,8 +27,10 @@ export const CollectionHero = ({ pageTag, searchTerm }: Props) => {
           )
         ) : (
           <>
-            <span className='text-5xl'>{pageTag.header_title}</span>
-            <span className='font-mulish text-center text-base'>
+            <span className='text-collection-hero-header'>
+              {pageTag.header_title}
+            </span>
+            <span className='font-mulish text-collection-hero-subheader text-center'>
               {pageTag.header_subtitle}
             </span>
           </>

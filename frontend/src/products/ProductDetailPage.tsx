@@ -2,9 +2,9 @@ import { useParams } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { productQueries } from '@/api/products/productQueries';
+import { NavigationBreadcrumbs } from '@/src/common/NavigationBreadcrumbs';
 import { ProductBottomBar } from './ProductBottomBar';
 import { ProductBackgroundImages } from './ProductBackgroundImages';
-import { ProductHeader } from './ProductHeader';
 import { ProductDetailPane } from './productDetailPane/ProductDetailPane';
 import { ProductImageGrid } from './ProductImageGrid';
 import { ProductInfoAccordion } from './ProductInfoAccordion';
@@ -25,7 +25,7 @@ export const ProductDetailPage = () => {
           style={{ height: 'calc(100dvh - var(--navbar-height))' }}
         >
           <ProductBackgroundImages product={product} />
-          <ProductHeader product={product} />
+          <NavigationBreadcrumbs shopAll leaf={product.name} />
         </div>
         <div className='ml-20 flex w-[50%] flex-col gap-5 pt-20 pr-4'>
           <ProductDetailPane product={product} addToCartRef={addToCartRef} />

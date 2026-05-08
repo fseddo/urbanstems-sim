@@ -62,16 +62,22 @@ html {
   --page-px: 16px;
 
   /* Product-carousel card width — sized for the home/PDP product
-   * carousels and the listing-page grid cells. Mobile floor is taller
-   * than the desktop ramp's start so phones show ~1.x cards in view at
-   * a generous size; the ramp catches up by 1400 with a wider ceiling.
-   *   <1024px : 300 (mobile floor)
+   * carousels and the listing-page grid cells. Mobile shrinks on a
+   * 450→1024 ramp (parallel to `--occasion-card-w`) so small phones
+   * get more cards in view; at 1024 the layout reflows and steps DOWN
+   * to start the desktop ramp.
+   *   <450px : 220 (floor — small phones)
+   *   450–1024px : ramp 220→300 (mobile range)
    *   1024–1400px : ramp 215→320 (step DOWN at 1024, then climbs)
    *   ≥1400px : 320 (ceiling — caps narrower than `--occasion-card-w`
    *                  on purpose; product cards stay grid-friendly while
    *                  the occasion carousel keeps growing on wide screens)
    * Consumed via the `w-carousel-card` utility. */
-  --carousel-card-w: 300px;
+  --carousel-card-w: clamp(
+    220px,
+    calc(220px + (100vw - 450px) * 80 / 574),
+    300px
+  );
 
   /* Hero typography is a two-ramp scale with a flat plateau in between.
    * The two ramps meet at exactly 40px / 14px at viewport 1400px, so the

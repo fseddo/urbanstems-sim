@@ -27,8 +27,8 @@ export const BestSellers = () => {
         Shop Our Best Sellers
       </header>
 
-      <div className='flex w-full flex-col pr-page'>
-        <div className='flex gap-5 pb-2'>
+      <div className='pr-page'>
+        <div className='border-foreground/40 flex gap-5 border-b'>
           {FEATURED_CATEGORY_SLUGS.map((item) => (
             <BestSellersHeaderItem
               key={item}
@@ -38,10 +38,9 @@ export const BestSellers = () => {
             />
           ))}
         </div>
-        <div className='w-full border-b opacity-40' />
       </div>
 
-      <HorizontalList scrollRef={scrollRef}>
+      <HorizontalList scrollRef={scrollRef} className='gap-2 lg:gap-4'>
         {productData?.data.map((product) => (
           <div key={product.id} className='w-carousel-card shrink-0'>
             <ProductCard product={product} compact />

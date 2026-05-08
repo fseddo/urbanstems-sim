@@ -16,10 +16,11 @@ export const BestSellersHeaderItem = <T extends string>(props: {
     <div
       onClick={() => props.onClick(props.item)}
       className={tw(
-        'cursor-pointer',
+        'cursor-pointer border-b-2 pb-2 -mb-px',
+        'text-[14px] lg:text-[18px]',
         props.selected === props.item
-          ? 'text-foreground underline decoration-[2.5px] underline-offset-12'
-          : 'text-foreground/40'
+          ? 'border-foreground'
+          : 'border-transparent text-foreground/40'
       )}
     >
       {capitalizeString(props.item)}

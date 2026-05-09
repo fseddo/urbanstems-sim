@@ -8,12 +8,12 @@ import {
 import { tw } from '@/src/common/utils/tw';
 import { CollectionListHeaderCell } from '../CollectionListHeaderCell';
 
-export const AddressCell = () => {
+export const AddressCell = ({ className }: { className?: string }) => {
   const [deliveryAddress, setDeliveryAddress] = useAtom(deliveryAddressAtom);
 
   return (
     <AddressPicker
-      className={tw('flex flex-3')}
+      className={tw('flex flex-3', className)}
       value={deliveryAddress}
       onChange={setDeliveryAddress}
       resultRowClassName='lg:px-listing-cell'

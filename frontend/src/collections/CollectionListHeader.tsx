@@ -1,5 +1,7 @@
+import { useEffect, useRef, useState } from 'react';
 import type { ColumnCount } from '@/src/common/List';
 import { useIsDesktop } from '@/src/common/useIsDesktop';
+import { tw } from '@/src/common/utils/tw';
 import { AddressCell } from './cells/AddressCell';
 import { ColumnChooserCell } from './cells/ColumnChooserCell';
 import { DateCell } from './cells/DateCell';
@@ -12,10 +14,13 @@ type Props = {
   onColumnCountChange: (next: ColumnCount) => void;
 };
 
-// The bar above the product grid: Filter & Sort, delivery date, sending-to,
-// column-count chooser. Layout differs between viewports — on desktop all
-// four cells share one row; on mobile the date and address stack on top with
-// Filter & Sort and the chooser sharing the bottom row.
+// The bar above the product grid. Sticks to the top of the viewport once
+// scrolled past, but only the Filter & Sort + Column chooser portion stays
+// visible while stuck — Date and Address scroll away with the rest of the
+// page. Mobile achieves this structurally (Date/Address are non-sticky rows
+// above a sticky Filter+Chooser sub-row); desktop keeps a single 4-cell row
+// at rest and detects the stuck state via an IntersectionObserver on a
+// sentinel just above the bar, hiding Date/Address while stuck.
 
 export const CollectionListHeader = ({
   onOpenFilters,
@@ -24,23 +29,53 @@ export const CollectionListHeader = ({
   onColumnCountChange,
 }: Props) => {
   const isDesktop = useIsDesktop();
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const [isStuck, setIsStuck] = useState(false);
+
+  useEffect(() => {
+    if (!isDesktop) {
+      setIsStuck(false);
+      return;
+    }
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsStuck(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [isDesktop]);
 
   if (isDesktop) {
     return (
-      <header className='flex border-y text-sm'>
-        <FilterCell
-          count={activeFilterCount}
-          onOpen={onOpenFilters}
-          className='px-navbar cursor-pointer gap-3'
-        />
-        <DateCell />
-        <AddressCell />
-        <ColumnChooserCell
-          value={columnCount}
-          onChange={onColumnCountChange}
-          className='px-listing-cell lg:border-r-0'
-        />
-      </header>
+      <>
+        <div ref={sentinelRef} aria-hidden className='h-px' />
+        <header className='bg-background sticky top-0 z-40 flex border-y text-sm'>
+          <FilterCell
+            count={activeFilterCount}
+            onOpen={onOpenFilters}
+            className='px-navbar cursor-pointer gap-3'
+          />
+          <DateCell
+            className={tw(
+              'transition-opacity duration-200',
+              isStuck && 'pointer-events-none opacity-0'
+            )}
+          />
+          <AddressCell
+            className={tw(
+              'transition-opacity duration-200',
+              isStuck && 'pointer-events-none opacity-0'
+            )}
+          />
+          <ColumnChooserCell
+            value={columnCount}
+            onChange={onColumnCountChange}
+            className='px-listing-cell lg:border-r-0'
+          />
+        </header>
+      </>
     );
   }
 
@@ -48,7 +83,7 @@ export const CollectionListHeader = ({
     <header className='flex flex-col border-t text-sm'>
       <DateCell />
       <AddressCell />
-      <div className='flex'>
+      <div className='bg-background sticky top-0 z-40 flex'>
         <FilterCell
           count={activeFilterCount}
           onOpen={onOpenFilters}

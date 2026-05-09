@@ -71,6 +71,16 @@ For TanStack Query `queryFn`s, `() => request(...)` is canonical: errors belong 
 
 Deep dive: [`docs/frontend/architecture/styling.md`](../docs/frontend/architecture/styling.md).
 
+## Motion
+
+Anything entering or leaving the UI must transition — never pop. Default to a **fade** (`transition-opacity duration-200`, matching the codebase's `--animate-fade-in/out` 200ms tokens in [`globals.css`](src/globals.css)); use a **slide transform** when motion direction carries meaning (drawers, sheets, top-arriving bars).
+
+- **Slot stays reserved** → keep mounted, toggle `opacity-0 pointer-events-none` with `transition-opacity`. Cleanest path; no reflow.
+- **Element must leave the DOM** → delayed-unmount state machine. `exiting` flag → `setTimeout(FADE_DURATION_MS)` → unmount. Reference: [`DatePicker`](src/date/DatePicker.tsx).
+- **Hiding would reflow neighbors** → hold the slot via flex/grid sizing or `visibility: hidden` so the fade plays clean before layout changes.
+
+Deep dive: [`docs/frontend/architecture/dynamic-sizing.md`](../docs/frontend/architecture/dynamic-sizing.md) — "Mount/unmount fade-in/out pattern".
+
 ## Extract when repetition is real
 
 Don't abstract on the first instance — you don't know the variation surface yet. **At 3+ near-identical bodies** (JSX blocks, conditionals, helpers), extract a small reusable component or helper. Trigger is *observed* repetition, not anticipated future use.

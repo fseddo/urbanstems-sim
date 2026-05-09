@@ -117,7 +117,16 @@ export const AccordionSection = ({
         </span>
         {isOpen ? <FiMinus size={16} /> : <FiPlus size={16} />}
       </button>
-      {isOpen && <div className='pb-4'>{children}</div>}
+      <div
+        className={tw(
+          'grid transition-[grid-template-rows] duration-300 ease-out',
+          isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        )}
+      >
+        <div className='overflow-hidden'>
+          <div className='pb-4'>{children}</div>
+        </div>
+      </div>
     </div>
   );
 };

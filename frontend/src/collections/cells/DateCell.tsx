@@ -5,12 +5,12 @@ import { DatePicker } from '@/src/date/DatePicker';
 import { deliveryDateAtom } from '@/src/date/deliveryDateAtom';
 import { CollectionListHeaderCell } from '../CollectionListHeaderCell';
 
-export const DateCell = () => {
+export const DateCell = ({ className }: { className?: string }) => {
   const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);
 
   return (
     <DatePicker
-      className='flex'
+      className={tw('flex', className)}
       value={deliveryDate}
       onChange={setDeliveryDate}
       trigger={({ toggle, formatted }) => (

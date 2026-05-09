@@ -14,7 +14,7 @@ export const ProductInfoAccordion = ({
   return (
     <div
       className={tw(
-        'border-background-alt/80 flex flex-col gap-4 border-b py-4',
+        'border-background-alt/80 flex flex-col border-b py-4',
         label === 'Description' ? 'border-t' : ''
       )}
     >
@@ -27,11 +27,20 @@ export const ProductInfoAccordion = ({
           {isExpanded ? <FiMinus /> : <FiPlus />}
         </div>
       </header>
-      {isExpanded && data && (
-        <div className='flex flex-col gap-4 text-sm opacity-90'>
-          {parse(data)}
+      <div
+        className={tw(
+          'grid transition-[grid-template-rows] duration-300 ease-out',
+          isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        )}
+      >
+        <div className='overflow-hidden'>
+          {data && (
+            <div className='flex flex-col gap-4 pt-4 text-sm opacity-90'>
+              {parse(data)}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

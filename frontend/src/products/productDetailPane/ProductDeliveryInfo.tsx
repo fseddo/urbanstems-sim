@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { Product } from '@/api/products/Product';
+import { AddressPicker } from '@/src/address/AddressPicker';
+import { tw } from '@/src/common/utils/tw';
 import {
   DatePicker,
   addDays,
@@ -15,7 +17,7 @@ import {
 
 export const DeliveryInformation = ({ product }: { product: Product }) => {
   const [deliveryDate, setDeliveryDate] = useAtom(deliveryDateAtom);
-  const deliveryAddress = useAtomValue(deliveryAddressAtom);
+  const [deliveryAddress, setDeliveryAddress] = useAtom(deliveryAddressAtom);
   const [bumpedFrom, setBumpedFrom] = useState<Date | null>(null);
 
   const earliestDate = useMemo(
@@ -65,12 +67,30 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
             </button>
           )}
         />
-        <div className='flex flex-3 flex-col gap-0.5 px-2 py-4 text-sm'>
-          <div className='text-brand-primary font-bold'>Send to:</div>
-          <div className='text-foreground/60'>
-            {deliveryAddress?.mainText ?? DEFAULT_DELIVERY_LOCATION}
-          </div>
-        </div>
+        <AddressPicker
+          className='flex flex-3'
+          value={deliveryAddress}
+          onChange={setDeliveryAddress}
+          trigger={({ inputProps, value }) => (
+            <div
+              onClick={() => inputProps.ref.current?.focus()}
+              className='flex flex-1 cursor-text flex-col gap-0.5 px-2 py-4 text-sm'
+            >
+              <div className='text-brand-primary font-bold'>Send to:</div>
+              <input
+                {...inputProps}
+                placeholder={
+                  value ? inputProps.placeholder : DEFAULT_DELIVERY_LOCATION
+                }
+                className={tw(
+                  'text-foreground/60 w-full min-w-0 bg-transparent outline-none',
+                  'placeholder:text-foreground/60 placeholder:opacity-100',
+                  'placeholder:transition-colors placeholder:duration-100 focus:placeholder:text-transparent'
+                )}
+              />
+            </div>
+          )}
+        />
       </div>
     </div>
   );

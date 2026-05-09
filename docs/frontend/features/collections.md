@@ -31,8 +31,10 @@ Wrapper padding lives in `--listing-breadcrumb-pl` (16/34 step at 1024) and `--l
 
 Layout differs **structurally** between viewports (different DOM trees, not just CSS), so [`<CollectionListHeader>`](../../../frontend/src/collections/CollectionListHeader.tsx) keys off `useIsDesktop` and returns one of two shapes:
 
-- **Desktop** (≥1024): Filter / Date / Address / Chooser in one row.
-- **Mobile**: Date and Address each as their own full-width row; Filter & Sort and Chooser share a third sub-row.
+- **Desktop** (≥1024): Filter / Date / Address / Chooser in one row. The bar is `sticky top-0 z-40`; when stuck, Date and Address fade to `opacity-0 pointer-events-none` (200ms) — they stay mounted and keep their flex slots, so Filter and Chooser remain pinned at the row's left/right ends without any layout reflow. Stuck state comes from an `IntersectionObserver` on a 1px sentinel rendered just above the bar.
+- **Mobile**: Date and Address each as their own full-width (non-sticky) row; Filter & Sort and Chooser share a third sub-row that is itself `sticky top-0 z-40` — so only that bottom strip pins once the page scrolls past it. No JS needed; the structural separation does the work.
+
+Z-stack: bar `z-40`, navbar `z-50` (covers the bar when visible, so only one occupies vertical space), filter sidebar `z-51`+.
 
 Each cell's height comes from `h-listing-bar` (65 mobile / 80 desktop), set on the shared base [`<CollectionListHeaderCell>`](../../../frontend/src/collections/CollectionListHeaderCell.tsx) — every cell self-sizes; the bar's row containers stretch around them.
 

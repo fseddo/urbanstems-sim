@@ -5,8 +5,8 @@ import { Link } from '@tanstack/react-router';
 import { StarRating } from './StarRating';
 import { Product } from '@/api/products/Product';
 import { ProductVariant } from '@/api/products/ProductVariant';
-import { getDeliveryDate } from '../products/constants';
-import { tw } from './utils/tw';
+import { getDeliveryDate } from '../../products/constants';
+import { tw } from '../utils/tw';
 
 export const ProductCard = memo(
   ({ product, compact = false }: { product: Product; compact?: boolean }) => {

@@ -1,4 +1,4 @@
-import { AnimatedButton } from '../common/AnimatedButton';
+import { AnimatedButton } from '../common/components/AnimatedButton';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
 import { tw } from '../common/utils/tw';
 

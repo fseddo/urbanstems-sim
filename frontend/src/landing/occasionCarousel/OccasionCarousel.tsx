@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { tagQueries } from '@/api/tags/tagQueries';
 import { OccasionCard } from './OccasionCard';
-import { HorizontalList } from '@/src/common/HorizontalList';
+import { HorizontalList } from '@/src/common/components/HorizontalList';
 
 export const OccasionCarousel = () => {
   const scrollRef = useRef<HTMLDivElement>(null);

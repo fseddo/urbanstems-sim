@@ -6,13 +6,13 @@ import {
 import { QueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { useRef } from 'react';
-import { Footer } from '@/src/common/Footer';
+import { Footer } from '@/src/common/components/Footer';
 import { Navbar } from '@/src/navbar/Navbar';
 import { navbarDropdownOpenAtom } from '@/src/navbar/navbarAtoms';
 import { useNavbarCssHeight } from '@/src/navbar/useElementHeight';
 import { useHideOnScroll } from '@/src/navbar/useHideOnScroll';
-import { useLoadingFavicon } from '@/src/common/useLoadingFavicon';
-import { DisclaimerPopup } from '@/src/common/DisclaimerPopup';
+import { useLoadingFavicon } from '@/src/common/hooks/useLoadingFavicon';
+import { DisclaimerPopup } from '@/src/common/components/DisclaimerPopup';
 import { CartPane } from '@/src/cart/CartPane';
 
 const RootLayout = () => {

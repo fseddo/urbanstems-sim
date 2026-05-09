@@ -1,6 +1,7 @@
 // Internal helper components for FilterSidebar. Tightly coupled to it (only
 // consumer) but split out to keep the parent file scannable.
 import { FiMinus, FiPlus } from 'react-icons/fi';
+import { CollapsiblePanel } from '../common/components/CollapsiblePanel';
 import { tw } from '../common/utils/tw';
 
 export const ColorChip = ({
@@ -117,16 +118,9 @@ export const AccordionSection = ({
         </span>
         {isOpen ? <FiMinus size={16} /> : <FiPlus size={16} />}
       </button>
-      <div
-        className={tw(
-          'grid transition-[grid-template-rows] duration-300 ease-out',
-          isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-        )}
-      >
-        <div className='overflow-hidden'>
-          <div className='pb-4'>{children}</div>
-        </div>
-      </div>
+      <CollapsiblePanel open={isOpen}>
+        <div className='pb-4'>{children}</div>
+      </CollapsiblePanel>
     </div>
   );
 };

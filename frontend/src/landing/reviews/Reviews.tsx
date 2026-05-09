@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { ReviewCard } from './ReviewCard';
 import { LANDING_REVIEWS } from './constants';
-import { HorizontalList } from '@/src/common/HorizontalList';
+import { HorizontalList } from '@/src/common/components/HorizontalList';
 
 export const Reviews = () => {
   const scrollRef = useRef<HTMLDivElement>(null);

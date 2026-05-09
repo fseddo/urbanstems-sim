@@ -2,8 +2,8 @@ import { useRef, useState } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { productQueries } from '@/api/products/productQueries';
 import { BestSellersHeaderItem } from './BestSellersHeaderItem';
-import { HorizontalList } from '@/src/common/HorizontalList';
-import { ProductCard } from '@/src/common/ProductCard';
+import { HorizontalList } from '@/src/common/components/HorizontalList';
+import { ProductCard } from '@/src/common/components/ProductCard';
 
 // The category-tag slugs surfaced as tabs on the landing's BestSellers
 // section. The array is the single source of truth; the union type is

@@ -13,7 +13,7 @@ import {
   type PlacePrediction,
 } from '@/api/places/placeQueries';
 import { tw } from '@/src/common/utils/tw';
-import { useDismissable } from '@/src/common/useDismissable';
+import { useDismissable } from '@/src/common/hooks/useDismissable';
 import type { DeliveryAddress } from './deliveryAddressAtom';
 
 export interface AddressPickerTriggerApi {

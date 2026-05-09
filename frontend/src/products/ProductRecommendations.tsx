@@ -2,8 +2,8 @@ import { productQueries } from '@/api/products/productQueries';
 import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { Link } from '@tanstack/react-router';
-import { HorizontalList } from '../common/HorizontalList';
-import { ProductCard } from '../common/ProductCard';
+import { HorizontalList } from '../common/components/HorizontalList';
+import { ProductCard } from '../common/components/ProductCard';
 
 export const ProductRecommendations = () => {
   const scrollRef = useRef<HTMLDivElement>(null);

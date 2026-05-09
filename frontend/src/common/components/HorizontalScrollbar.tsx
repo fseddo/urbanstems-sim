@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { tw } from './utils/tw';
+import { tw } from '../utils/tw';
 
 interface HorizontalScrollbarProps {
   targetRef: React.RefObject<HTMLDivElement | null>;

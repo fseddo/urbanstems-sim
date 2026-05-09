@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
-import { capitalizeString } from './utils/capitalizeString';
-import { tw } from './utils/tw';
+import { capitalizeString } from '../utils/capitalizeString';
+import { tw } from '../utils/tw';
 
 type Props = {
   includeShopAll?: boolean;

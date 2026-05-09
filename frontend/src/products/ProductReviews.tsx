@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { StarRating } from '@/src/common/StarRating';
+import { StarRating } from '@/src/common/components/StarRating';
 import { Product } from '@/api/products/Product';
 import { reviewQueries } from '@/api/reviews/reviewQueries';
 import { ReviewCard } from './ReviewCard';

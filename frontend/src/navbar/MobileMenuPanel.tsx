@@ -6,7 +6,7 @@ import { PiMagnifyingGlass } from 'react-icons/pi';
 import { tagQueries } from '@/api/tags/tagQueries';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
-import { withViewTransition } from '../common/withViewTransition';
+import { withViewTransition } from '../common/utils/withViewTransition';
 import { AccordionSection } from '../filters/FilterSidebarParts';
 import { NavLink } from './NavLink';
 import { useNavbarPanel } from './navbarAtoms';

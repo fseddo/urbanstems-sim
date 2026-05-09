@@ -24,8 +24,8 @@ Don't add `@container` everywhere by default — only when a component actually 
 The app has **one global breakpoint** for app-level layout: `lg` (≥ 1024px) via `useIsDesktop()` and the standard Tailwind `lg:` prefix. Used by `<CollectionListHeader>`, the navbar mobile/desktop split, etc.
 
 Component-internal responsive logic is allowed to introduce **local breakpoints** when the component has its own visual states. Examples:
-- [`<SlidePane>`](../../../frontend/src/common/SlidePane.tsx) uses 530px + 1020px (full-screen → wall-attached → floating popover).
-- [`<ProductCard>`](../../../frontend/src/common/ProductCard.tsx) uses container queries at 300px + 500px (aspect ratio progression).
+- [`<SlidePane>`](../../../frontend/src/common/components/SlidePane.tsx) uses 530px + 1020px (full-screen → wall-attached → floating popover).
+- [`<ProductCard>`](../../../frontend/src/common/components/ProductCard.tsx) uses container queries at 300px + 500px (aspect ratio progression).
 
 The bias is still away from a tablet *tier* — there's no `md`-shaped layout tier in app code. Per-component values exist where the visual transition happens at a different point than the global `lg`.
 
@@ -78,7 +78,7 @@ When a viewport flip needs to mutate state (e.g. clamping `columnCount` into the
 
 ## Transitions across breakpoints — keep values numeric
 
-If a `transition-all` is supposed to animate the breakpoint flip itself (e.g. a pane resizing), make sure every property being transitioned uses **explicit numeric values** in both states. `inset-0` → `left-auto` doesn't tween (the `auto` keyword can't be interpolated); `width: 100vw` → `width: 480px` does. The `<SlidePane>` shell pins `top/right/bottom` numerically and only changes `width` between viewports for this reason — see [the file's comment](../../../frontend/src/common/SlidePane.tsx) for the gotcha.
+If a `transition-all` is supposed to animate the breakpoint flip itself (e.g. a pane resizing), make sure every property being transitioned uses **explicit numeric values** in both states. `inset-0` → `left-auto` doesn't tween (the `auto` keyword can't be interpolated); `width: 100vw` → `width: 480px` does. The `<SlidePane>` shell pins `top/right/bottom` numerically and only changes `width` between viewports for this reason — see [the file's comment](../../../frontend/src/common/components/SlidePane.tsx) for the gotcha.
 
 ## View Transitions API — gotchas
 
@@ -94,12 +94,12 @@ Custom timing per named transition goes in `globals.css` via `::view-transition-
 
 Reusable bits that show up in the principles above:
 
-- [`useMediaQuery`](../../../frontend/src/common/useMediaQuery.ts) — generic `matchMedia(query)` subscription hook. Underlying primitive for the named viewport hooks below; consume the named hook at call sites rather than passing breakpoint strings around.
-- [`useIsDesktop`](../../../frontend/src/common/useIsDesktop.ts) — `(min-width: 1024px)`. Single source for "are we above the `lg` breakpoint."
-- [`useIsNarrow`](../../../frontend/src/common/useIsNarrow.ts) — `(max-width: 374px)`. Used by [`<CollectionPage>`](../../../frontend/src/collections/CollectionPage.tsx) to force the product grid to 1 column when two cards (each `min-w-[160px]`) plus padding/gap stop fitting.
-- [`useIsTouch`](../../../frontend/src/common/useIsTouch.ts) — `(pointer: coarse)`. Drives interaction-model decisions (modal vs anchored, hover affordances) — NOT layout decisions, which stay on viewport hooks. See "Touch capability vs viewport size" above.
-- [`useDebounce`](../../../frontend/src/common/useDebounce.ts) — `useDebounce(value, ms)` returns a value that lags behind the input. Used by the search dropdowns to avoid firing a backend query per keystroke.
-- [`<SlidePane>`](../../../frontend/src/common/SlidePane.tsx) — shell-only reusable container for slide-in panes. Three states: `< 530px` full-screen, `530-1019px` wall-attached fixed-width, `≥ 1020px` floating popover. Used by [`<CartPane>`](../../../frontend/src/cart/CartPane.tsx) (right) and [`<FilterSidebar>`](../../../frontend/src/filters/FilterSidebar.tsx) (left). Includes portaled backdrop with click-to-close and body-scroll lock.
+- [`useMediaQuery`](../../../frontend/src/common/hooks/useMediaQuery.ts) — generic `matchMedia(query)` subscription hook. Underlying primitive for the named viewport hooks below; consume the named hook at call sites rather than passing breakpoint strings around.
+- [`useIsDesktop`](../../../frontend/src/common/hooks/useIsDesktop.ts) — `(min-width: 1024px)`. Single source for "are we above the `lg` breakpoint."
+- [`useIsNarrow`](../../../frontend/src/common/hooks/useIsNarrow.ts) — `(max-width: 374px)`. Used by [`<CollectionPage>`](../../../frontend/src/collections/CollectionPage.tsx) to force the product grid to 1 column when two cards (each `min-w-[160px]`) plus padding/gap stop fitting.
+- [`useIsTouch`](../../../frontend/src/common/hooks/useIsTouch.ts) — `(pointer: coarse)`. Drives interaction-model decisions (modal vs anchored, hover affordances) — NOT layout decisions, which stay on viewport hooks. See "Touch capability vs viewport size" above.
+- [`useDebounce`](../../../frontend/src/common/hooks/useDebounce.ts) — `useDebounce(value, ms)` returns a value that lags behind the input. Used by the search dropdowns to avoid firing a backend query per keystroke.
+- [`<SlidePane>`](../../../frontend/src/common/components/SlidePane.tsx) — shell-only reusable container for slide-in panes. Three states: `< 530px` full-screen, `530-1019px` wall-attached fixed-width, `≥ 1020px` floating popover. Used by [`<CartPane>`](../../../frontend/src/cart/CartPane.tsx) (right) and [`<FilterSidebar>`](../../../frontend/src/filters/FilterSidebar.tsx) (left). Includes portaled backdrop with click-to-close and body-scroll lock.
 - [`withViewTransition`](../../../frontend/src/common/withViewTransition.ts) — wraps a React state update in `document.startViewTransition()` + `flushSync` so the browser snapshots the DOM before/after and animates between them. Falls through to a plain call in unsupported browsers (Firefox without the flag) — no flicker, no animation.
 - [`navbarPanelAtom`](../../../frontend/src/navbar/navbarAtoms.ts) — single-active-panel state for navbar surfaces, with `useNavbarPanel(name)` hook for `useState`-shaped consumption.
 - **Animation tokens** — three `animate-fade-in-{fast,base,slow}` utilities (100ms / 200ms / 600ms) plus a single `animate-fade-out` (200ms), defined in [`globals.css`](../../../frontend/src/globals.css) `@theme inline`. Pair `animate-fade-in` + `animate-fade-out` with the mount/unmount delay pattern above when both directions need to animate.

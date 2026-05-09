@@ -42,7 +42,7 @@ Names match the reader's expectation from the name alone — no hovering for typ
 - **Variables and value props** → name what the value *is*: `columnCount: number` over `columns: number` (which reads as an array). `selectedTagSlug` over `selectedTag` when the value is the slug.
 - **Boolean props** → name the *action*: `withBackdrop`, `includeShopAll`, `hasIcon`, `showCount` over `pill`, `chip`, `slim`. Verb prefix signals it's a toggle. Avoid structural jargon (`leaf`, `head`, `tail`).
 
-References: [`columnCount` in CollectionPage](src/collections/CollectionPage.tsx), [`NavigationBreadcrumbs`](src/common/NavigationBreadcrumbs.tsx).
+References: [`columnCount` in CollectionPage](src/collections/CollectionPage.tsx), [`NavigationBreadcrumbs`](src/common/components/NavigationBreadcrumbs.tsx).
 
 ## Reuse and derive types
 
@@ -78,6 +78,7 @@ Anything entering or leaving the UI must transition — never pop. Default to a 
 - **Slot stays reserved** → keep mounted, toggle `opacity-0 pointer-events-none` with `transition-opacity`. Cleanest path; no reflow.
 - **Element must leave the DOM** → delayed-unmount state machine. `exiting` flag → `setTimeout(FADE_DURATION_MS)` → unmount. Reference: [`DatePicker`](src/date/DatePicker.tsx).
 - **Hiding would reflow neighbors** → hold the slot via flex/grid sizing or `visibility: hidden` so the fade plays clean before layout changes.
+- **Content collapses / expands in place** (accordion section, info panel, sidebar dropdown) → use [`<CollapsiblePanel open={…}>`](src/common/components/CollapsiblePanel.tsx). Wraps content in a `grid-template-rows: 0fr ↔ 1fr` transition so any content height slides cleanly without measuring. Polymorphic via `as` for semantic outer elements.
 
 Deep dive: [`docs/frontend/architecture/dynamic-sizing.md`](../docs/frontend/architecture/dynamic-sizing.md) — "Mount/unmount fade-in/out pattern".
 
@@ -85,7 +86,7 @@ Deep dive: [`docs/frontend/architecture/dynamic-sizing.md`](../docs/frontend/arc
 
 Don't abstract on the first instance — you don't know the variation surface yet. **At 3+ near-identical bodies** (JSX blocks, conditionals, helpers), extract a small reusable component or helper. Trigger is *observed* repetition, not anticipated future use.
 
-Recently landed: [`useDismissable`](src/common/useDismissable.ts), [`useMediaQuery`](src/common/useMediaQuery.ts), [`imageAtWidth`](src/common/utils/imageAtWidth.ts), [`prefetchImages`](src/common/utils/prefetchImages.ts), [`asString`](src/common/utils/asString.ts).
+Recently landed: [`useDismissable`](src/common/hooks/useDismissable.ts), [`useMediaQuery`](src/common/hooks/useMediaQuery.ts), [`imageAtWidth`](src/common/utils/imageAtWidth.ts), [`prefetchImages`](src/common/utils/prefetchImages.ts), [`asString`](src/common/utils/asString.ts).
 
 ## Other conventions
 

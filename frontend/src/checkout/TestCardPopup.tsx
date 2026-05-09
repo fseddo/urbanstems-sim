@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { FiX } from 'react-icons/fi';
-import { useDismissable } from '../common/useDismissable';
+import { useDismissable } from '../common/hooks/useDismissable';
 
 const TEST_CARD = '4242 4242 4242 4242';
 

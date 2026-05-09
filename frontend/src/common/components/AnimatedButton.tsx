@@ -1,5 +1,5 @@
 import { Link, LinkProps } from '@tanstack/react-router';
-import { tw } from './utils/tw';
+import { tw } from '../utils/tw';
 
 type AnimatedButtonProps = Omit<LinkProps, 'children' | 'className'> & {
   label: string;

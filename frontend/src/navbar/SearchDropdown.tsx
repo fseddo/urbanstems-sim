@@ -5,9 +5,9 @@ import { tagQueries } from '@/api/tags/tagQueries';
 import { productQueries } from '@/api/products/productQueries';
 import { searchTermAtom, useNavbarPanel } from './navbarAtoms';
 import { NavLink } from './NavLink';
-import { ProductCard } from '../common/ProductCard';
-import { HorizontalScrollbar } from '../common/HorizontalScrollbar';
-import { useDebounce } from '../common/useDebounce';
+import { ProductCard } from '../common/components/ProductCard';
+import { HorizontalScrollbar } from '../common/components/HorizontalScrollbar';
+import { useDebounce } from '../common/hooks/useDebounce';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { Link } from '@tanstack/react-router';
 

@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { useSetAtom } from 'jotai';
-import { StarRating } from '@/src/common/StarRating';
+import { StarRating } from '@/src/common/components/StarRating';
 import { Product } from '@/api/products/Product';
 import { addToCartAtom } from '@/src/cart/cartAtoms';
 import { AddOns } from './ProductAddOns';

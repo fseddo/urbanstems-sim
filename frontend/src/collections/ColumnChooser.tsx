@@ -2,9 +2,9 @@ import { Columns1Icon } from '@/src/common/icons/Columns1Icon';
 import { Columns2Icon } from '@/src/common/icons/Columns2Icon';
 import { Columns3Icon } from '@/src/common/icons/Columns3Icon';
 import { Columns4Icon } from '@/src/common/icons/Columns4Icon';
-import type { ColumnCount } from '@/src/common/List';
-import { useIsDesktop } from '@/src/common/useIsDesktop';
-import { useIsNarrow } from '@/src/common/useIsNarrow';
+import type { ColumnCount } from '@/src/common/components/List';
+import { useIsDesktop } from '@/src/common/hooks/useIsDesktop';
+import { useIsNarrow } from '@/src/common/hooks/useIsNarrow';
 import { tw } from '@/src/common/utils/tw';
 import { JSX } from 'react';
 

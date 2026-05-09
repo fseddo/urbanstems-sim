@@ -2,7 +2,7 @@ import { useParams } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { productQueries } from '@/api/products/productQueries';
-import { NavigationBreadcrumbs } from '@/src/common/NavigationBreadcrumbs';
+import { NavigationBreadcrumbs } from '@/src/common/components/NavigationBreadcrumbs';
 import { ProductBottomBar } from './ProductBottomBar';
 import { ProductBackgroundImages } from './ProductBackgroundImages';
 import { ProductDetailPane } from './productDetailPane/ProductDetailPane';

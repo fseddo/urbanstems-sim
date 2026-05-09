@@ -4,10 +4,10 @@ The `/collections/$slug` route. Renders a tag-driven product listing — breadcr
 
 Composition top-down, in [`CollectionPage.tsx`](../../../frontend/src/collections/CollectionPage.tsx):
 
-1. [`<NavigationBreadcrumbs>`](../../../frontend/src/common/NavigationBreadcrumbs.tsx) — Home → page name. Only renders when there's a `pageTag` (omitted on /collections/all and search-results).
+1. [`<NavigationBreadcrumbs>`](../../../frontend/src/common/components/NavigationBreadcrumbs.tsx) — Home → page name. Only renders when there's a `pageTag` (omitted on /collections/all and search-results).
 2. [`<CollectionHero>`](../../../frontend/src/collections/CollectionHero.tsx) — title + subtitle, branches per render path.
 3. [`<CollectionListHeader>`](../../../frontend/src/collections/CollectionListHeader.tsx) — filter trigger, delivery date, sending-to, column chooser.
-4. [`<List>`](../../../frontend/src/common/List.tsx) — virtualized infinite grid of [`<ProductCard>`](../../../frontend/src/common/ProductCard.tsx).
+4. [`<List>`](../../../frontend/src/common/components/List.tsx) — virtualized infinite grid of [`<ProductCard>`](../../../frontend/src/common/components/ProductCard.tsx).
 
 [`<FilterSidebar>`](../../../frontend/src/filters/FilterSidebar.tsx) is mounted at the page level and toggled by the filter cell.
 
@@ -60,7 +60,7 @@ Same calendar content, different shell. See [`architecture/dynamic-sizing.md`](.
 
 ## Filter sidebar
 
-[`<FilterSidebar>`](../../../frontend/src/filters/FilterSidebar.tsx) lives in a [`<SlidePane>`](../../../frontend/src/common/SlidePane.tsx) — full-screen <530, wall-attached 530-1019, floating popover ≥1020.
+[`<FilterSidebar>`](../../../frontend/src/filters/FilterSidebar.tsx) lives in a [`<SlidePane>`](../../../frontend/src/common/components/SlidePane.tsx) — full-screen <530, wall-attached 530-1019, floating popover ≥1020.
 
 Filter spec system: each filter dimension declares an `isActive` predicate, a `chips()` function, and a `parseSearch` function in [`FILTER_SPECS`](../../../frontend/src/filters/filterSpecs.ts). The Filter & Sort cell's active-filter count = total `chips` across all specs (same source the sidebar's chip strip uses).
 
@@ -68,7 +68,7 @@ URL is the source of truth — sidebar writes via `navigate({ search })`. No loc
 
 ## Product grid
 
-[`<List>`](../../../frontend/src/common/List.tsx) is a virtualized infinite grid in `common/`; collections is currently the only consumer. Each row is a CSS grid with `gridTemplateColumns: repeat(N, minmax(0, 1fr))` where N = `columnCount`.
+[`<List>`](../../../frontend/src/common/components/List.tsx) is a virtualized infinite grid in `common/`; collections is currently the only consumer. Each row is a CSS grid with `gridTemplateColumns: repeat(N, minmax(0, 1fr))` where N = `columnCount`.
 
 Spacing:
 - Outer pt/pb — `pt-[40px] pb-[47px] lg:pt-[53px] lg:pb-[64px]`. Combined with each row's `py-[17px] lg:py-[27px]`, the visual top/bottom from the outer edge to the first/last card content lands at 57/64 mobile, 80/91 desktop.
@@ -95,7 +95,7 @@ The narrow tier exists because below 375px viewport, two product cards (each `mi
 
 ## Product card
 
-[`<ProductCard>`](../../../frontend/src/common/ProductCard.tsx) uses `@container` so its internal layout responds to its own rendered width, not the viewport — a card at 160px on a small phone gets different aspect ratio + badge sizing than the same component at 600px in a 2-col desktop view.
+[`<ProductCard>`](../../../frontend/src/common/components/ProductCard.tsx) uses `@container` so its internal layout responds to its own rendered width, not the viewport — a card at 160px on a small phone gets different aspect ratio + badge sizing than the same component at 600px in a 2-col desktop view.
 
 - Aspect ratio: `aspect-[3/4]` → `@[300px]:aspect-[4/5]` → `@[500px]:aspect-[43/39]`.
 - `badge_text` (top-left): positioned `top-[5%] left-[5%]` (percent-based so the offset scales with the card), `truncate` + `max-w-[90%]` so long copy can't extend past the card. Font + padding step at `@[300px]`.

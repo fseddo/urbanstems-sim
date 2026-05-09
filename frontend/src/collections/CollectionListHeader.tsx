@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import type { ColumnCount } from '@/src/common/List';
-import { useIsDesktop } from '@/src/common/useIsDesktop';
+import type { ColumnCount } from '@/src/common/components/List';
+import { useIsDesktop } from '@/src/common/hooks/useIsDesktop';
+import { useIsSticky } from '@/src/common/hooks/useIsSticky';
 import { tw } from '@/src/common/utils/tw';
 import { AddressCell } from './cells/AddressCell';
 import { ColumnChooserCell } from './cells/ColumnChooserCell';
@@ -29,23 +29,7 @@ export const CollectionListHeader = ({
   onColumnCountChange,
 }: Props) => {
   const isDesktop = useIsDesktop();
-  const sentinelRef = useRef<HTMLDivElement>(null);
-  const [isStuck, setIsStuck] = useState(false);
-
-  useEffect(() => {
-    if (!isDesktop) {
-      setIsStuck(false);
-      return;
-    }
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsStuck(!entry.isIntersecting),
-      { threshold: 0 }
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, [isDesktop]);
+  const { sentinelRef, isStuck } = useIsSticky(isDesktop);
 
   if (isDesktop) {
     return (

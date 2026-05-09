@@ -5,7 +5,7 @@ import {
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { ReactNode, useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { PaginatedResponse } from '@/api/PaginatedResponse';
-import { prefetchImages } from './utils/prefetchImages';
+import { prefetchImages } from '../utils/prefetchImages';
 
 export type ColumnCount = 1 | 2 | 3 | 4;
 

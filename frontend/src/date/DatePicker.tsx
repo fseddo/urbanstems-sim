@@ -1,9 +1,9 @@
 import { ReactNode, useRef, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { CalendarIcon } from '../common/icons/CalendarIcon';
-import { useIsTouch } from '../common/useIsTouch';
+import { useIsTouch } from '../common/hooks/useIsTouch';
 import { tw } from '../common/utils/tw';
-import { useDismissable } from '../common/useDismissable';
+import { useDismissable } from '../common/hooks/useDismissable';
 
 const MONTH_NAMES = [
   'January',

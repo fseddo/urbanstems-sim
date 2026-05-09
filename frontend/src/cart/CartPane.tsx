@@ -5,7 +5,7 @@ import { CgSpinner } from 'react-icons/cg';
 import { useNavigate } from '@tanstack/react-router';
 import { useIsFetching } from '@tanstack/react-query';
 import { checkoutKeys } from '@/api/checkout/checkoutQueries';
-import { SlidePane } from '../common/SlidePane';
+import { SlidePane } from '../common/components/SlidePane';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
 import {

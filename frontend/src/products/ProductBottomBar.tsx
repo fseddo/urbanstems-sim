@@ -2,7 +2,7 @@ import { useEffect, useState, RefObject } from 'react';
 import { useSetAtom } from 'jotai';
 import { Product } from '@/api/products/Product';
 import { addToCartAtom } from '../cart/cartAtoms';
-import { StarRating } from '../common/StarRating';
+import { StarRating } from '../common/components/StarRating';
 
 export const ProductBottomBar = ({
   product,

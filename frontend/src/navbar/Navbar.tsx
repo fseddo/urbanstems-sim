@@ -10,8 +10,8 @@ import { MobileMenuPanel } from './MobileMenuPanel';
 import { searchTermAtom, useNavbarPanel } from './navbarAtoms';
 import { Link } from '@tanstack/react-router';
 import { CartIcon } from '../common/icons/CartIcon';
-import { useIsDesktop } from '../common/useIsDesktop';
-import { withViewTransition } from '../common/withViewTransition';
+import { useIsDesktop } from '../common/hooks/useIsDesktop';
+import { withViewTransition } from '../common/utils/withViewTransition';
 import { NavLink } from './NavLink';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { cartCountAtom, cartOpenAtom } from '../cart/cartAtoms';
@@ -65,7 +65,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
            * button so opening search from the mobile menu morphs between
            * the two via the View Transitions API. */
           <div
-            className='flex items-center gap-4 py-4.75 px-navbar'
+            className='px-navbar flex items-center gap-4 py-4.75'
             style={{ viewTransitionName: 'search-bar' }}
           >
             <PiMagnifyingGlass
@@ -89,7 +89,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
             </button>
           </div>
         ) : (
-          <div className='relative mx-auto flex items-center justify-between py-4.75 px-navbar'>
+          <div className='px-navbar relative mx-auto flex items-center justify-between py-4.75'>
             {/* Left Navigation */}
             <div className='font-crimson text-brand-primary hidden gap-[clamp(18px,15.3vw,19px)] text-sm text-[clamp(13px,1.2vw,18px)] lg:flex'>
               <div
@@ -159,7 +159,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
             </div>
 
             {/* Mobile-only right cluster: cart only for now. Account icon
-              * deferred until there's a route to link to. */}
+             * deferred until there's a route to link to. */}
             <div className='flex items-center lg:hidden'>
               <CartButton onMouseEnter={() => setShopOpen(false)} />
             </div>

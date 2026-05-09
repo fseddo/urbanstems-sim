@@ -1,4 +1,4 @@
-import type { ColumnCount } from '@/src/common/List';
+import type { ColumnCount } from '@/src/common/components/List';
 import { ColumnChooser } from '../ColumnChooser';
 import { CollectionListHeaderCell } from '../CollectionListHeaderCell';
 

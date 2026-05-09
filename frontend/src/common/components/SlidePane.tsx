@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { usePortal } from './usePortal';
-import { tw } from './utils/tw';
+import { usePortal } from '../hooks/usePortal';
+import { tw } from '../utils/tw';
 
 type Props = {
   isOpen: boolean;

@@ -6,7 +6,7 @@ import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
 import { prefetchImages } from '../common/utils/prefetchImages';
 import { NavLink } from './NavLink';
-import { AnimatedButton } from '../common/AnimatedButton';
+import { AnimatedButton } from '../common/components/AnimatedButton';
 
 const isDeliveryCollection = (slug: string) =>
   slug.includes('day') || slug.includes('delivery');

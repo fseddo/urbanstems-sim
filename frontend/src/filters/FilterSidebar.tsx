@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SlidePane } from '../common/SlidePane';
+import { SlidePane } from '../common/components/SlidePane';
 import { FiX } from 'react-icons/fi';
 import { FilterOptions } from '@/api/products/FilterOptions';
 import {

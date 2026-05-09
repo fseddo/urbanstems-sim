@@ -1,6 +1,7 @@
 import parse from 'html-react-parser';
 import { useState } from 'react';
 import { FiMinus, FiPlus } from 'react-icons/fi';
+import { CollapsiblePanel } from '../common/components/CollapsiblePanel';
 import { tw } from '../common/utils/tw';
 
 export const ProductInfoAccordion = ({
@@ -27,20 +28,13 @@ export const ProductInfoAccordion = ({
           {isExpanded ? <FiMinus /> : <FiPlus />}
         </div>
       </header>
-      <div
-        className={tw(
-          'grid transition-[grid-template-rows] duration-300 ease-out',
-          isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+      <CollapsiblePanel open={isExpanded}>
+        {data && (
+          <div className='flex flex-col gap-4 pt-4 text-sm opacity-90'>
+            {parse(data)}
+          </div>
         )}
-      >
-        <div className='overflow-hidden'>
-          {data && (
-            <div className='flex flex-col gap-4 pt-4 text-sm opacity-90'>
-              {parse(data)}
-            </div>
-          )}
-        </div>
-      </div>
+      </CollapsiblePanel>
     </div>
   );
 };

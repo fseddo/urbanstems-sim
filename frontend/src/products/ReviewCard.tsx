@@ -1,4 +1,4 @@
-import { StarRating } from '@/src/common/StarRating';
+import { StarRating } from '@/src/common/components/StarRating';
 import { Review } from '@/api/reviews/Review';
 
 export const ReviewCard = ({ review }: { review: Review }) => {

@@ -11,7 +11,7 @@ export const AboutUs = () => {
       </header>
       <div
         className={tw(
-          'hover:text-foreground/60 flex cursor-pointer font-extrabold tracking-[0.2em] underline underline-offset-6',
+          'hover:text-foreground/60 flex cursor-pointer font-extrabold tracking-action underline underline-offset-6',
           'text-[12px] lg:text-[16px]'
         )}
       >

@@ -48,7 +48,7 @@ export const DisclaimerPopup = () => {
         </div>
         <button
           onClick={dismiss}
-          className='mt-1 self-end text-xs font-bold tracking-wider text-white/60 underline underline-offset-4 transition-colors hover:text-white'
+          className='mt-1 self-end text-xs font-bold tracking-action text-white/60 underline underline-offset-4 transition-colors hover:text-white'
         >
           GOT IT
         </button>

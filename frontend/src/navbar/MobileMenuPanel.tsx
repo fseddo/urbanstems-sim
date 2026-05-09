@@ -176,7 +176,7 @@ const ShopView = ({
           to='/collections/$slug'
           params={{ slug: 'all' }}
           onClick={() => setTimeout(onClose, 80)}
-          className='border-brand-primary rounded-sm border px-5 py-2.5 text-xs font-bold tracking-[0.2em]'
+          className='border-brand-primary rounded-sm border px-5 py-2.5 text-xs font-bold tracking-action'
         >
           SHOP ALL
         </Link>

@@ -22,7 +22,7 @@ export const CheckoutResultPage = () => {
           )}
           <Link
             to='/'
-            className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity hover:opacity-90'
+            className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-action text-white/90 transition-opacity hover:opacity-90'
           >
             CONTINUE SHOPPING
           </Link>
@@ -50,7 +50,7 @@ export const CheckoutResultPage = () => {
           </p>
           <Link
             to='/checkout'
-            className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-[0.2em] text-white/90'
+            className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-action text-white/90'
           >
             BACK TO CHECKOUT
           </Link>

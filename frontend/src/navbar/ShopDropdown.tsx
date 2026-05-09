@@ -219,7 +219,7 @@ export const ShopDropdown = () => {
                   <div className='text-brand-primary/90 text-xs'>
                     {collection?.nav_description || col.description}
                   </div>
-                  <span className='text-brand-primary group-hover:text-brand-primary/80 mt-1 text-xs font-bold tracking-wider underline underline-offset-4 transition-colors duration-300'>
+                  <span className='text-brand-primary group-hover:text-brand-primary/80 mt-1 text-xs font-bold tracking-action underline underline-offset-4 transition-colors duration-300'>
                     SHOP NOW
                   </span>
                 </div>

@@ -78,7 +78,7 @@ export const ProductBottomBar = ({
           </div>
           <button
             onClick={() => addToCart(product)}
-            className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary rounded-md border px-70 py-5 text-xs font-black tracking-wider text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'
+            className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary rounded-md border px-70 py-5 text-xs font-black tracking-action text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'
           >
             {`ADD TO BAG - $${product.price_dollars}`}
           </button>
@@ -94,7 +94,7 @@ export const ProductBottomBar = ({
           )}
           <button
             onClick={() => addToCart(product)}
-            className='bg-brand-primary flex-1 rounded-md py-3 text-xs font-black tracking-wider text-white/90 active:scale-95'
+            className='bg-brand-primary flex-1 rounded-md py-3 text-xs font-black tracking-action text-white/90 active:scale-95'
           >
             {`ADD TO BAG - $${product.price_dollars}`}
           </button>

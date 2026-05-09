@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { tw } from '../utils/tw';
 
-interface HorizontalScrollbarProps {
+export interface HorizontalScrollbarProps {
   targetRef: React.RefObject<HTMLDivElement | null>;
   height?: string;
   width?: string;

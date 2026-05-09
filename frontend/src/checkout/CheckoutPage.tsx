@@ -31,7 +31,7 @@ export const CheckoutPage = () => {
         <p className='mb-6 text-sm opacity-70'>{result.message}</p>
         <Link
           to='/'
-          className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-[0.2em] text-white/90'
+          className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-action text-white/90'
         >
           BACK TO SHOP
         </Link>

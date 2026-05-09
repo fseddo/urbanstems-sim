@@ -79,7 +79,7 @@ export const CheckoutForm = () => {
         <button
           type='submit'
           disabled={!stripe || confirmPayment.isPending}
-          className='bg-brand-primary mt-2 w-full rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60'
+          className='bg-brand-primary mt-2 w-full rounded-md py-5 text-xs font-black tracking-action text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60'
         >
           {confirmPayment.isPending ? 'PROCESSING…' : 'PAY NOW'}
         </button>

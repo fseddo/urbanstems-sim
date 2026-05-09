@@ -71,7 +71,9 @@ export const ProductCard = memo(
           <div
             className={tw(
               'font-crimson flex items-center justify-center',
-              compact ? 'text-base' : 'text-[clamp(15px,1.5vw,30px)]'
+              compact
+                ? 'text-product-card-compact-name'
+                : 'text-product-card-name'
             )}
           >
             {capitalizeString(visibleProduct.name)}
@@ -80,7 +82,9 @@ export const ProductCard = memo(
           <div
             className={tw(
               'flex gap-2',
-              compact ? 'text-sm' : 'text-[clamp(12px,1.5vw,18px)]'
+              compact
+                ? 'text-product-card-compact-price'
+                : 'text-product-card-price'
             )}
           >
             <div>{`$${visibleProduct.price_dollars}`}</div>

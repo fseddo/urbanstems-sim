@@ -12,8 +12,11 @@ export const ProductReviews = ({ product }: { product: Product }) => {
   const reviews = reviewsData?.data ?? [];
 
   return (
-    <div id='reviews' className='bg-background-alt/30 flex flex-col items-center gap-10 py-20'>
-      <div className='font-crimson flex flex-col items-center gap-2 text-5xl'>
+    <div
+      id='reviews'
+      className='bg-background-alt/30 flex flex-col items-center gap-10 py-20'
+    >
+      <div className='font-crimson flex flex-col items-center gap-2 text-center text-5xl'>
         {`${product.name} Reviews`}{' '}
         <div className='font-mulish flex items-center gap-2'>
           <StarRating rating={product.reviews_rating} size={20} />
@@ -25,7 +28,7 @@ export const ProductReviews = ({ product }: { product: Product }) => {
         </div>
       </div>
 
-      <button className='bg-brand-primary rounded-sm p-4 px-8 text-sm tracking-wider text-white'>
+      <button className='bg-brand-primary rounded-sm p-4 px-8 text-sm tracking-action text-white'>
         WRITE A REVIEW
       </button>
 
@@ -35,7 +38,7 @@ export const ProductReviews = ({ product }: { product: Product }) => {
           at mobile — when revisiting, introduce a dedicated token rather
           than reusing `px-page`. See `docs/frontend/features/products.md`. */}
       {reviews.length > 0 && (
-        <div className='flex w-full flex-col gap-6 px-page'>
+        <div className='px-page flex w-full flex-col gap-6'>
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}

@@ -95,7 +95,7 @@ export const ProductDetailPage = () => {
           </div>
         </section>
       ) : (
-        <section className='bg-background-alt/30 flex flex-col'>
+        <section className='bg-background-alt/10 flex flex-col'>
           <div className='px-page pt-4 pb-3'>
             <NavigationBreadcrumbs
               includeShopAll

@@ -87,7 +87,7 @@ export const ProductDetailContent = ({
       <button
         ref={addToCartRef}
         onClick={() => addToCart(product)}
-        className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-4 text-sm font-bold tracking-wider text-white transition-colors duration-300 hover:bg-white active:scale-95'
+        className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-4 text-sm font-bold tracking-action text-white transition-colors duration-300 hover:bg-white active:scale-95'
       >
         {`ADD TO BAG - $${product.price_dollars}`}
       </button>

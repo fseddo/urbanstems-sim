@@ -61,7 +61,7 @@ export const CartPane = () => {
               </div>
               <button
                 onClick={close}
-                className='bg-brand-primary rounded-md px-10 py-4 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99]'
+                className='bg-brand-primary rounded-md px-10 py-4 text-xs font-black tracking-action text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99]'
               >
                 CONTINUE SHOPPING
               </button>
@@ -98,7 +98,7 @@ export const CartPane = () => {
             <button
               onClick={goToCheckout}
               disabled={navigating}
-              className='bg-brand-primary mt-2 flex w-full items-center justify-center rounded-md py-5 text-xs font-black tracking-[0.2em] text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-80'
+              className='bg-brand-primary mt-2 flex w-full items-center justify-center rounded-md py-5 text-xs font-black tracking-action text-white/90 transition-opacity duration-300 hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-80'
             >
               {navigating ? (
                 <CgSpinner className='animate-spin' size={20} />

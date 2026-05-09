@@ -73,7 +73,7 @@ export const TestCardPopup = ({ onClose }: Props) => {
             </span>
             <button
               onClick={copyCard}
-              className='rounded-sm border border-white/30 px-3 py-1 text-xs font-bold tracking-wider transition-colors hover:bg-white/10'
+              className='rounded-sm border border-white/30 px-3 py-1 text-xs font-bold tracking-action transition-colors hover:bg-white/10'
             >
               {copied ? 'COPIED' : 'COPY'}
             </button>
@@ -85,7 +85,7 @@ export const TestCardPopup = ({ onClose }: Props) => {
 
         <button
           onClick={onClose}
-          className='text-brand-primary mt-1 self-end rounded-sm bg-white px-6 py-3 text-xs font-black tracking-[0.2em] transition-opacity hover:opacity-90'
+          className='text-brand-primary mt-1 self-end rounded-sm bg-white px-6 py-3 text-xs font-black tracking-action transition-opacity hover:opacity-90'
         >
           GOT IT
         </button>

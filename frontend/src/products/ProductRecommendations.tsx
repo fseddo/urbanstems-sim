@@ -13,24 +13,31 @@ export const ProductRecommendations = () => {
   );
 
   return (
-    <div className='flex flex-col gap-8 p-20'>
-      <div className='flex w-full items-end justify-between'>
-        <div className='font-crimson text-5xl'>You May Also Like</div>
+    <section className='py-pdp-section pl-page flex w-full flex-col gap-6'>
+      <div className='pr-page flex w-full items-end justify-between leading-none'>
+        <div className='font-crimson text-landing-section-header font-medium'>
+          You May Also Like
+        </div>
         <Link
           to='/collections/$slug'
           params={{ slug: 'all' }}
-          className='text-sm font-black tracking-widest underline'
+          className='tracking-action mb-1.5 text-[12px] font-extrabold underline underline-offset-4 lg:text-[14px]'
         >
           SHOP ALL
         </Link>
       </div>
-      <HorizontalList scrollRef={scrollRef}>
+      <HorizontalList
+        scrollRef={scrollRef}
+        className='gap-2 lg:gap-4'
+        outerClassName='gap-10'
+        scrollbar={{ width: 'w-[50%]' }}
+      >
         {flowerData?.data?.map((product) => (
           <div key={product.id} className='w-carousel-card shrink-0'>
             <ProductCard product={product} compact />
           </div>
         ))}
       </HorizontalList>
-    </div>
+    </section>
   );
 };

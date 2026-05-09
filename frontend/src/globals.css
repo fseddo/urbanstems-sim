@@ -66,18 +66,47 @@ html {
    * 450→1024 ramp (parallel to `--occasion-card-w`) so small phones
    * get more cards in view; at 1024 the layout reflows and steps DOWN
    * to start the desktop ramp.
-   *   <450px : 220 (floor — small phones)
-   *   450–1024px : ramp 220→300 (mobile range)
+   *   <450px : 200 (floor — small phones)
+   *   450–1024px : ramp 200→300 (mobile range)
    *   1024–1400px : ramp 215→320 (step DOWN at 1024, then climbs)
    *   ≥1400px : 320 (ceiling — caps narrower than `--occasion-card-w`
    *                  on purpose; product cards stay grid-friendly while
    *                  the occasion carousel keeps growing on wide screens)
    * Consumed via the `w-carousel-card` utility. */
   --carousel-card-w: clamp(
-    220px,
-    calc(220px + (100vw - 450px) * 80 / 574),
+    200px,
+    calc(200px + (100vw - 450px) * 100 / 574),
     300px
   );
+
+  /* Product-card type — two variants, mirroring the `compact` prop on
+   * <ProductCard>. The default (non-compact) variant is used in the
+   * listing grid; the compact variant is used in carousels and search
+   * dropdowns. They have intentionally different ramp shapes:
+   *
+   * Default (listing grid) — single continuous clamp, dramatic ramp
+   * since cards in the grid scale aggressively with viewport width.
+   *   ~<1000px : 15 name / 12 price (floor)
+   *   1000–2000px : 15→30 / 12→18 (continuous, slope 1.5vw)
+   *   ≥2000px : 30 / 18 (ceiling)
+   * Consumed via `text-product-card-name` / `text-product-card-price`.
+   *
+   * Compact (carousels, search results) — flat mobile floor, then
+   * switches to a desktop clamp at 1024 (defined in the 1024 media
+   * query). Both ramps captured from the reference design:
+   * - Name: `clamp(16px, 1.39vw, 30px)` — 16 floor below ~1150sw,
+   *   ramps to 30 at ~2158sw.
+   * - Price: `clamp(16px, 0.9259vw, 20.8px)` — 16 floor below ~1728sw,
+   *   ramps to 20.8 at ~2247sw.
+   * Both share the same 12px mobile floor below 1024sw.
+   *   <1024px : 12 / 12 (name / price)
+   *   1024sw onward : per the clamps above
+   * Consumed via `text-product-card-compact-name` /
+   * `text-product-card-compact-price`. */
+  --product-card-name-size: clamp(15px, 1.5vw, 30px);
+  --product-card-price-size: clamp(12px, 1.5vw, 18px);
+  --product-card-compact-name-size: 12px;
+  --product-card-compact-price-size: 12px;
 
   /* Hero typography is a two-ramp scale with a flat plateau in between.
    * The two ramps meet at exactly 40px / 14px at viewport 1400px, so the
@@ -185,6 +214,16 @@ html {
   --landing-section-pb: 30px;
   --landing-hero-pb: 16px;
 
+  /* PDP trailer section padding (recommendations, delivery instructions).
+   * Symmetric — these sections stack and read better with even breathing
+   * top and bottom rather than the asymmetric landing-section rhythm.
+   * Steps at the same 1024 / 1400 breakpoints used elsewhere.
+   *   <1024px : 40
+   *   1024–1400px : 60
+   *   ≥1400px : 80
+   * Consumed via `py-pdp-section`. */
+  --pdp-section-py: 40px;
+
   /* AboutUs is a "statement" section — symmetric, generous vertical
    * padding (each side, not split) and stepwise at fixed breakpoints.
    *   <1024px : 104
@@ -289,6 +328,7 @@ html {
     --landing-section-pt: 24px;
     --landing-section-pb: 54px;
     --landing-hero-pb: 24px;
+    --pdp-section-py: 60px;
     --about-us-py: 124px;
     --hero-overlay: linear-gradient(
       to top right,
@@ -305,6 +345,8 @@ html {
       calc(215px + (100vw - 1024px) * 105 / 376),
       320px
     );
+    --product-card-compact-name-size: clamp(16px, 1.39vw, 30px);
+    --product-card-compact-price-size: clamp(16px, 0.9259vw, 20.8px);
     --review-card-w: clamp(
       280px,
       calc(280px + (100vw - 1024px) * 170 / 376),
@@ -361,6 +403,7 @@ html {
     --listing-cell-px: 40px;
     --collection-hero-pt: 28px;
     --collection-hero-pb: 62px;
+    --pdp-section-py: 80px;
   }
 }
 
@@ -399,6 +442,15 @@ html {
   --text-review-name: var(--review-name-size);
   --text-review-caption: var(--review-caption-size);
   --text-review-description: var(--review-description-size);
+  --text-product-card-name: var(--product-card-name-size);
+  --text-product-card-price: var(--product-card-price-size);
+  --text-product-card-compact-name: var(--product-card-compact-name-size);
+  --text-product-card-compact-price: var(--product-card-compact-price-size);
+
+  /* Letter-spacing for action text — uppercase CTAs like ADD TO BAG,
+   * SHOP ALL, GOT IT, AnimatedButton labels. Use `tracking-action`
+   * for any uppercase button or text-link CTA across the app. */
+  --tracking-action: 1.68px;
 
   /* Hero backdrop gradient — see `:root` for the two opacity variants
    * and the 1024px swap. Exposed as a `bg-hero-overlay` utility. */
@@ -525,6 +577,10 @@ html {
 
 @utility pb-landing-hero {
   padding-bottom: var(--landing-hero-pb);
+}
+
+@utility py-pdp-section {
+  padding-block: var(--pdp-section-py);
 }
 
 @utility pt-collection-hero {

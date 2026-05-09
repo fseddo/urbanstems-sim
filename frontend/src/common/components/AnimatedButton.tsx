@@ -18,7 +18,7 @@ export const AnimatedButton = ({
       onClick={onClick}
       className={tw(
         'rounded-sm border px-7 py-4',
-        'text-[12px] font-extrabold tracking-[1.68px]',
+        'text-[12px] font-extrabold tracking-action',
         'bg-white hover:bg-transparent',
         'text-brand-primary hover:text-white',
         'border-brand-primary hover:border-white',

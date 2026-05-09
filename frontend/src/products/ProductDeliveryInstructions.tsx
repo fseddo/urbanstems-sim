@@ -8,7 +8,7 @@ export const ProductDeliveryInstructions = () => {
     // (more indented than `<ProductRecommendations>`) and a page-aligned
     // gutter at mobile — when revisiting, introduce a dedicated token
     // rather than reusing `px-page`. See `docs/frontend/features/products.md`.
-    <div className='border-brand-primary flex flex-col gap-12 border-t px-page py-20'>
+    <div className='border-brand-primary py-pdp-section flex flex-col gap-12 border-t px-page'>
       <div className='font-crimson w-[40%] text-6xl'>
         How Your Package Will Arrive At Your Door
       </div>

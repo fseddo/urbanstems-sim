@@ -11,7 +11,7 @@ import { stripBrandSuffix } from '@/src/common/utils/stripBrandSuffix';
 import { FilterSidebar } from '@/src/filters/FilterSidebar';
 import { FILTER_SPECS, UIFilters } from '@/src/filters/filterSpecs';
 import { CollectionHero } from './CollectionHero';
-import { ListingHeaderBar } from './ListingHeaderBar';
+import { CollectionListHeader } from './CollectionListHeader';
 
 export const CollectionPage = () => {
   const { filters, pageTag, filterOptions } = useLoaderData({
@@ -82,7 +82,7 @@ export const CollectionPage = () => {
         </div>
       )}
       <CollectionHero pageTag={pageTag} searchTerm={searchTerm} />
-      <ListingHeaderBar
+      <CollectionListHeader
         onOpenFilters={() => setFilterPanelOpen(true)}
         activeFilterCount={activeFilterCount}
         columnCount={columnCount}

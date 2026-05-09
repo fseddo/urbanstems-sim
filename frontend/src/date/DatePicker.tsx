@@ -1,6 +1,7 @@
 import { ReactNode, useRef, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { CalendarIcon } from '../common/icons/CalendarIcon';
+import { useIsTouch } from '../common/useIsTouch';
 import { tw } from '../common/utils/tw';
 import { useDismissable } from '../common/useDismissable';
 
@@ -20,6 +21,8 @@ const MONTH_NAMES = [
 ];
 
 const DAY_HEADERS = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+
+const FADE_DURATION_MS = 200;
 
 export const startOfDay = (d: Date) => {
   const x = new Date(d);
@@ -86,7 +89,9 @@ export const DatePicker = ({
   const min = startOfDay(minDate ?? today);
   const max = startOfDay(maxDate ?? addDays(today, 30));
 
+  const isTouch = useIsTouch();
   const [open, setOpen] = useState(false);
+  const [exiting, setExiting] = useState(false);
   const [view, setView] = useState(() => ({
     year: value.getFullYear(),
     month: value.getMonth(),
@@ -94,16 +99,28 @@ export const DatePicker = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useDismissable(containerRef, open, () => setOpen(false));
+  // Both layouts fade out before unmounting. The delay matches
+  // `--animate-fade-out`'s duration in globals.css.
+  const close = () => {
+    if (!open) return;
+    setExiting(true);
+    setTimeout(() => {
+      setOpen(false);
+      setExiting(false);
+    }, FADE_DURATION_MS);
+  };
+
+  useDismissable(containerRef, open, close);
 
   // When opening, jump back to the month containing the selected value
   // so the user always lands on context for what they picked.
   const toggle = () => {
-    setOpen((o) => {
-      const next = !o;
-      if (next) setView({ year: value.getFullYear(), month: value.getMonth() });
-      return next;
-    });
+    if (open) {
+      close();
+    } else {
+      setView({ year: value.getFullYear(), month: value.getMonth() });
+      setOpen(true);
+    }
   };
 
   const grid = buildMonthGrid(view.year, view.month);
@@ -124,10 +141,82 @@ export const DatePicker = ({
 
   const select = (day: Date) => {
     onChange(day);
-    setOpen(false);
+    close();
   };
 
   const formatted = formatDeliveryDate(value);
+
+  const calendar = (
+    <>
+      <div className='flex items-center px-4 py-3'>
+        <button
+          type='button'
+          onClick={goPrev}
+          disabled={!canGoPrev}
+          aria-label='Previous month'
+          className='disabled:cursor-default disabled:opacity-30'
+        >
+          <FiChevronLeft size={20} />
+        </button>
+        <div className='font-crimson flex-1 text-center text-lg'>
+          <span>{MONTH_NAMES[view.month]},</span>{' '}
+          <span className='opacity-50'>{view.year}</span>
+        </div>
+        <button
+          type='button'
+          onClick={goNext}
+          disabled={!canGoNext}
+          aria-label='Next month'
+          className='disabled:cursor-default disabled:opacity-30'
+        >
+          <FiChevronRight size={20} />
+        </button>
+      </div>
+
+      <div className='grid grid-cols-7 px-3 pb-1'>
+        {DAY_HEADERS.map((d) => (
+          <div
+            key={d}
+            className='font-mulish text-center text-xs font-bold opacity-50'
+          >
+            {d}
+          </div>
+        ))}
+      </div>
+
+      <div className='grid grid-cols-7 gap-y-1 px-3 pb-4'>
+        {grid.map((day) => {
+          const inMonth = day.getMonth() === view.month;
+          const inRange = day >= min && day <= max;
+          const selected = isSameDay(day, value);
+          const isToday = isSameDay(day, today);
+          const disabled = !inRange;
+
+          return (
+            <button
+              key={day.toISOString()}
+              type='button'
+              disabled={disabled}
+              onClick={() => select(day)}
+              aria-label={day.toDateString()}
+              aria-pressed={selected}
+              className={tw(
+                'font-crimson rounded-full py-2 text-center text-lg transition-colors',
+                disabled
+                  ? 'cursor-default opacity-30'
+                  : 'hover:bg-background-alt/40 cursor-pointer',
+                !inMonth && !disabled && 'opacity-60',
+                isToday && !selected && 'font-bold',
+                selected && 'bg-brand-primary text-white'
+              )}
+            >
+              {day.getDate()}
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
 
   return (
     <div
@@ -149,83 +238,33 @@ export const DatePicker = ({
         </button>
       )}
 
-      {open && (
-        <div className='absolute top-full left-4 z-30 mt-3 w-80 bg-white shadow-md'>
-          {/* caret */}
-          <div className='border-background-alt absolute -top-2 left-6 h-4 w-4 rotate-45 border-t border-l bg-white' />
-
-          {/* header */}
-          <div className='flex items-center px-4 py-3'>
-            <button
-              type='button'
-              onClick={goPrev}
-              disabled={!canGoPrev}
-              aria-label='Previous month'
-              className='disabled:cursor-default disabled:opacity-30'
+      {open &&
+        (isTouch ? (
+          <div
+            onClick={close}
+            className={tw(
+              'fixed inset-0 z-30 flex items-center justify-center bg-black/50',
+              exiting ? 'animate-fade-out' : 'animate-fade-in'
+            )}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className='max-h-[100dvh] w-80 max-w-[calc(100vw-32px)] overflow-y-auto bg-white shadow-md'
             >
-              <FiChevronLeft size={20} />
-            </button>
-            <div className='font-crimson flex-1 text-center text-lg'>
-              <span>{MONTH_NAMES[view.month]},</span>{' '}
-              <span className='opacity-50'>{view.year}</span>
+              {calendar}
             </div>
-            <button
-              type='button'
-              onClick={goNext}
-              disabled={!canGoNext}
-              aria-label='Next month'
-              className='disabled:cursor-default disabled:opacity-30'
-            >
-              <FiChevronRight size={20} />
-            </button>
           </div>
-
-          {/* day-of-week headers */}
-          <div className='grid grid-cols-7 px-3 pb-1'>
-            {DAY_HEADERS.map((d) => (
-              <div
-                key={d}
-                className='font-mulish text-center text-xs font-bold opacity-50'
-              >
-                {d}
-              </div>
-            ))}
+        ) : (
+          <div
+            className={tw(
+              'absolute top-full left-4 z-30 mt-3 w-80 bg-white shadow-md',
+              exiting ? 'animate-fade-out' : 'animate-fade-in'
+            )}
+          >
+            <div className='border-background-alt absolute -top-2 left-6 h-4 w-4 rotate-45 border-t border-l bg-white' />
+            {calendar}
           </div>
-
-          {/* day grid */}
-          <div className='grid grid-cols-7 gap-y-1 px-3 pb-4'>
-            {grid.map((day) => {
-              const inMonth = day.getMonth() === view.month;
-              const inRange = day >= min && day <= max;
-              const selected = isSameDay(day, value);
-              const isToday = isSameDay(day, today);
-              const disabled = !inRange;
-
-              return (
-                <button
-                  key={day.toISOString()}
-                  type='button'
-                  disabled={disabled}
-                  onClick={() => select(day)}
-                  aria-label={day.toDateString()}
-                  aria-pressed={selected}
-                  className={tw(
-                    'font-crimson rounded-full py-2 text-center text-lg transition-colors',
-                    disabled
-                      ? 'cursor-default opacity-30'
-                      : 'hover:bg-background-alt/40 cursor-pointer',
-                    !inMonth && !disabled && 'opacity-60',
-                    isToday && !selected && 'font-bold',
-                    selected && 'bg-brand-primary text-white'
-                  )}
-                >
-                  {day.getDate()}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+        ))}
     </div>
   );
 };

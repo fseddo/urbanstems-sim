@@ -242,6 +242,16 @@ html {
     21px
   );
 
+  /* Listing-bar row height. On mobile the bar is a flex column of 3
+   * rows (date / address / filter+chooser); on desktop it collapses to
+   * one row spanning the bar. The token is the row's height in each
+   * case — same utility applied to the mobile row wrappers and the
+   * desktop bar.
+   *   <1024px : 65
+   *   ≥1024px : 80
+   * Consumed via `h-listing-bar`. */
+  --listing-bar-h: 65px;
+
   /* Listing-page breadcrumb wrapper padding. `pl` steps 16→34 at 1024
    * and holds (no further ramp — caps narrower than `--page-px` past
    * 1400). `py` follows its own clamp 1140→1480, diverging from the
@@ -258,12 +268,23 @@ html {
     calc(16px + (100vw - 1140px) * 4 / 340),
     20px
   );
+
+  /* Listing-bar cell horizontal padding (desktop layout). Applies to
+   * the Date / Sending-to / Column-chooser cells; Filter & Sort uses
+   * `--navbar-px` instead. Steps at 1400; the upward ramp above 1800
+   * is not yet implemented (TBD slope/cap).
+   *   <1400px : 34
+   *   1400–1800px : 40
+   *   ≥1800px : 40+ (ramp TBD)
+   * Consumed via `px-listing-cell`. */
+  --listing-cell-px: 34px;
 }
 
 @media (min-width: 1024px) {
   :root {
     --navbar-px: 34px;
     --page-px: 34px;
+    --listing-bar-h: 80px;
     --listing-breadcrumb-pl: 34px;
     --landing-section-pt: 24px;
     --landing-section-pb: 54px;
@@ -337,6 +358,7 @@ html {
       calc(250px + (100vw - 1400px) * 250 / 1600),
       500px
     );
+    --listing-cell-px: 40px;
     --collection-hero-pt: 28px;
     --collection-hero-pb: 62px;
   }
@@ -387,6 +409,7 @@ html {
   --animate-fade-in-fast: fade-in 100ms ease-out;
   --animate-fade-in: fade-in 200ms ease-out;
   --animate-fade-in-slow: fade-in 600ms ease-out;
+  --animate-fade-out: fade-out 200ms ease-out;
 }
 
 @keyframes fade-in {
@@ -395,6 +418,15 @@ html {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
@@ -509,6 +541,14 @@ html {
 
 @utility py-listing-breadcrumb {
   padding-block: var(--listing-breadcrumb-py);
+}
+
+@utility h-listing-bar {
+  height: var(--listing-bar-h);
+}
+
+@utility px-listing-cell {
+  padding-inline: var(--listing-cell-px);
 }
 
 @utility py-about-us {

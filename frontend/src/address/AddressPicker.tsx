@@ -1,6 +1,13 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { SlLocationPin } from 'react-icons/sl';
 import {
   placeQueries,
   type PlacePrediction,
@@ -10,10 +17,15 @@ import { useDismissable } from '@/src/common/useDismissable';
 import type { DeliveryAddress } from './deliveryAddressAtom';
 
 export interface AddressPickerTriggerApi {
+  inputProps: {
+    value: string;
+    onChange: ChangeEventHandler<HTMLInputElement>;
+    onFocus: FocusEventHandler<HTMLInputElement>;
+    placeholder: string;
+    ref: RefObject<HTMLInputElement | null>;
+  };
   open: boolean;
-  toggle: () => void;
   value: DeliveryAddress | null;
-  formatted: string;
   label: string;
 }
 
@@ -23,7 +35,10 @@ interface AddressPickerProps {
   label?: string;
   placeholder?: string;
   className?: string;
-  trigger?: (api: AddressPickerTriggerApi) => ReactNode;
+  // Extra classes applied to each result row in the dropdown. Used by
+  // consumers that want results to align with surrounding cell padding.
+  resultRowClassName?: string;
+  trigger: (api: AddressPickerTriggerApi) => ReactNode;
 }
 
 const newSessionToken = () =>
@@ -35,12 +50,13 @@ export const AddressPicker = ({
   value,
   onChange,
   label = 'Sending to',
-  placeholder = 'Search address',
+  placeholder,
   className,
+  resultRowClassName,
   trigger,
 }: AddressPickerProps) => {
   const [open, setOpen] = useState(false);
-  const [input, setInput] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [debounced, setDebounced] = useState('');
   const [session, setSession] = useState('');
 
@@ -49,28 +65,34 @@ export const AddressPicker = ({
   const queryClient = useQueryClient();
   const { data: geo } = useQuery(placeQueries.detect());
 
-  useEffect(() => {
-    const id = setTimeout(() => setDebounced(input.trim()), 250);
-    return () => clearTimeout(id);
-  }, [input]);
+  const formatted = value?.mainText || value?.description || 'Choose address';
 
-  // A Google Places "session" begins on open and ends on selection — bundling
-  // keystrokes + the final details call into a single billable session.
-  const setPickerOpen = (next: boolean) => {
-    setOpen(next);
-    if (next) {
-      setSession(newSessionToken());
-      requestAnimationFrame(() => inputRef.current?.focus());
-    } else {
-      setInput('');
-      setDebounced('');
-      setSession('');
-    }
+  // Debounce input → debounced. Only update debounced when the trimmed
+  // input is ≥3 chars; if the user deletes back below 3 we leave the
+  // last valid query in place so stale results stay visible until blur.
+  useEffect(() => {
+    const id = setTimeout(() => {
+      const trimmed = inputValue.trim();
+      if (trimmed.length >= 3) setDebounced(trimmed);
+    }, 250);
+    return () => clearTimeout(id);
+  }, [inputValue]);
+
+  const close = () => {
+    setOpen(false);
+    setInputValue('');
+    setDebounced('');
+    setSession('');
   };
 
-  useDismissable(containerRef, open, () => setPickerOpen(false));
+  useDismissable(containerRef, open, close);
 
-  const toggle = () => setPickerOpen(!open);
+  const onFocus: FocusEventHandler<HTMLInputElement> = () => {
+    if (!open) {
+      setSession(newSessionToken());
+      setOpen(true);
+    }
+  };
 
   const { data, isFetching } = useQuery(
     placeQueries.autocomplete({
@@ -93,80 +115,61 @@ export const AddressPicker = ({
       lat: detail.lat,
       lng: detail.lng,
     });
-    setPickerOpen(false);
+    close();
   };
 
-  const formatted = value?.mainText || value?.description || 'Choose address';
-
+  const showResults = open && debounced.length >= 3;
   const showEmpty =
-    debounced.length >= 3 &&
-    !isFetching &&
-    (data?.predictions.length ?? 0) === 0;
+    showResults && !isFetching && (data?.predictions.length ?? 0) === 0;
+
+  const inputProps = {
+    value: inputValue,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+      setInputValue(e.target.value),
+    onFocus,
+    placeholder: placeholder ?? formatted,
+    ref: inputRef,
+  };
 
   return (
     <div
       ref={containerRef}
       className={tw('relative', className ?? 'inline-block')}
     >
-      {trigger ? (
-        trigger({ open, toggle, value, formatted, label })
-      ) : (
-        <button
-          type='button'
-          onClick={toggle}
-          className='border-brand-primary text-brand-primary flex items-center gap-3 border bg-white px-6 py-5 font-bold transition-colors hover:bg-white/60'
-        >
-          <SlLocationPin />
-          <span>
-            {label}: <span className='font-normal'>{formatted}</span>
-          </span>
-        </button>
-      )}
+      {trigger({ inputProps, open, value, label })}
 
-      {open && (
-        <div className='absolute top-full left-4 z-30 mt-3 w-[28rem] max-w-[calc(100vw-2rem)] bg-white shadow-md'>
-          <div className='border-background-alt absolute -top-2 left-6 h-4 w-4 rotate-45 border-t border-l bg-white' />
-
-          <div className='px-4 pt-4 pb-2'>
-            <input
-              ref={inputRef}
-              type='text'
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={placeholder}
-              className='font-mulish w-full border-b border-black/20 bg-transparent py-2 text-base outline-none focus:border-black/60'
-            />
-          </div>
-
-          <ul className='max-h-80 overflow-y-auto pb-2'>
-            {debounced.length < 3 && (
-              <li className='font-mulish px-4 py-3 text-sm opacity-50'>
-                Type at least 3 characters
-              </li>
-            )}
-            {showEmpty && (
-              <li className='font-mulish px-4 py-3 text-sm opacity-50'>
-                No results
-              </li>
-            )}
-            {data?.predictions.map((p) => (
-              <li key={p.place_id}>
-                <button
-                  type='button'
-                  onClick={() => select(p)}
-                  className='font-mulish hover:bg-background-alt/40 flex w-full cursor-pointer flex-col items-start px-4 py-3 text-left text-sm'
-                >
-                  <span>{p.main_text || p.description}</span>
-                  {p.secondary_text && (
-                    <span className='text-xs opacity-60'>
-                      {p.secondary_text}
-                    </span>
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {showResults && (
+        <ul className='absolute top-full right-0 left-0 z-30 max-h-80 overflow-y-auto bg-white shadow-md'>
+          {showEmpty && (
+            <li
+              className={tw(
+                'font-mulish px-4 py-3 text-sm opacity-50',
+                resultRowClassName
+              )}
+            >
+              No results
+            </li>
+          )}
+          {data?.predictions.map((p) => (
+            <li key={p.place_id}>
+              <button
+                type='button'
+                onClick={() => select(p)}
+                className={tw(
+                  'font-mulish hover:bg-background-alt/40 flex w-full cursor-pointer flex-col items-start px-4 py-3 text-left text-sm',
+                  resultRowClassName
+                )}
+              >
+                <span>{p.main_text || p.description}</span>
+                {p.secondary_text && (
+                  <span className='text-xs opacity-60'>
+                    {p.secondary_text}
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

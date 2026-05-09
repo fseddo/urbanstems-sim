@@ -3,13 +3,7 @@ import {
   UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
-import {
-  ReactNode,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useRef,
-} from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { PaginatedResponse } from '@/api/PaginatedResponse';
 import { prefetchImages } from './utils/prefetchImages';
 
@@ -121,7 +115,10 @@ export const List = <
   }
 
   return (
-    <div ref={listRef} className='pt-15'>
+    <div
+      ref={listRef}
+      className='pt-[40px] pb-[47px] lg:pt-[53px] lg:pb-[64px]'
+    >
       <div className='relative' style={{ height: virtualizer.getTotalSize() }}>
         {virtualRows.map((virtualRow) => {
           const rowItems = getRowItems(virtualRow.index);
@@ -130,7 +127,7 @@ export const List = <
               key={virtualRow.key}
               data-index={virtualRow.index}
               ref={virtualizer.measureElement}
-              className='absolute right-0 left-0 grid gap-4 px-[clamp(0.5rem,2vw,3rem)] py-2'
+              className='px-page absolute right-0 left-0 grid gap-x-[15px] py-[17px] lg:py-[27px]'
               style={{
                 gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
                 transform: `translateY(${virtualRow.start - virtualizer.options.scrollMargin}px)`,

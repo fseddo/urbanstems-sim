@@ -20,7 +20,7 @@ export const ListingHeaderBarItem = ({
   return (
     <div
       className={tw(
-        'flex items-center gap-3 border-b px-10 py-6 font-bold lg:border-r lg:border-b-0',
+        'flex items-center gap-2 border-b px-4 py-2.5 font-bold lg:border-r lg:border-b-0',
         className
       )}
       onClick={onClick}

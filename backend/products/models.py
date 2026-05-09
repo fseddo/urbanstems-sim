@@ -11,7 +11,6 @@ class BadgeText(models.TextChoices):
     NEW = "New!", "New!"
     SALE = "Sale", "Sale"
     BEST_SELLER = "Best Seller", "Best Seller"
-    LIMITED_TIME_SALE_20_OFF = "Limited Time Sale: 20% Off", "Limited Time Sale: 20% Off"
 
 
 class FacetKind(models.TextChoices):

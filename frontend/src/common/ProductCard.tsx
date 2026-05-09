@@ -9,13 +9,7 @@ import { getDeliveryDate } from '../products/constants';
 import { tw } from './utils/tw';
 
 export const ProductCard = memo(
-  ({
-    product,
-    compact = false,
-  }: {
-    product: Product;
-    compact?: boolean;
-  }) => {
+  ({ product, compact = false }: { product: Product; compact?: boolean }) => {
     const [visibleProduct, setVisibleProduct] = useState<
       Product | ProductVariant
     >(product);
@@ -26,10 +20,10 @@ export const ProductCard = memo(
       <Link
         to='/products/$slug'
         params={{ slug: product.slug }}
-        className='@container flex w-full cursor-pointer flex-col gap-4'
+        className='@container flex w-full min-w-[160px] cursor-pointer flex-col gap-4 text-center'
       >
         <div
-          className='group relative w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat aspect-[3/4] @[300px]:aspect-[4/5] @[500px]:aspect-[43/39]'
+          className='group relative aspect-[3/4] w-full overflow-hidden rounded-md bg-gray-100 bg-cover bg-center bg-no-repeat @[300px]:aspect-[4/5] @[500px]:aspect-[43/39]'
           style={
             product.blur_data_url
               ? { backgroundImage: `url(${product.blur_data_url})` }
@@ -50,14 +44,19 @@ export const ProductCard = memo(
             />
           )}
           {visibleProduct.badge_text && !compact && (
-            <div className='border-brand-primary absolute top-4 left-4 rounded-2xl border-1 bg-white/90 px-4 py-1 text-xs font-bold'>
+            <div
+              className={tw(
+                'border-brand-primary absolute top-[5%] left-[5%] max-w-[90%] rounded-2xl border-1 bg-white/90 px-2.5 py-[1px] font-bold',
+                'truncate text-[10px] @[300px]:px-4 @[300px]:py-1 @[300px]:text-sm'
+              )}
+            >
               {visibleProduct.badge_text}
             </div>
           )}
           {visibleProduct.badge_image_src && (
             <img
               src={imageAtWidth(visibleProduct.badge_image_src, 240)}
-              className='absolute right-[5%] bottom-[5%] h-[23%] w-auto'
+              className='absolute right-[5%] bottom-[5%] h-auto w-1/4'
             />
           )}
         </div>

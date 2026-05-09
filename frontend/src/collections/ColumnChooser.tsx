@@ -1,10 +1,23 @@
-import { ColumnsIcon } from '@/src/common/icons/ColumnsIcon';
+import { Columns1Icon } from '@/src/common/icons/Columns1Icon';
+import { Columns2Icon } from '@/src/common/icons/Columns2Icon';
+import { Columns3Icon } from '@/src/common/icons/Columns3Icon';
+import { Columns4Icon } from '@/src/common/icons/Columns4Icon';
 import type { ColumnCount } from '@/src/common/List';
 import { useIsDesktop } from '@/src/common/useIsDesktop';
+import { useIsNarrow } from '@/src/common/useIsNarrow';
 import { tw } from '@/src/common/utils/tw';
+import { JSX } from 'react';
 
 const DESKTOP_OPTIONS: ColumnCount[] = [2, 3, 4];
-const MOBILE_OPTIONS: ColumnCount[] = [1, 2];
+const MOBILE_OPTIONS: ColumnCount[] = [2, 1];
+const NARROW_OPTIONS: ColumnCount[] = [1];
+
+const ICON_BY_COUNT: Record<ColumnCount, () => JSX.Element> = {
+  1: Columns1Icon,
+  2: Columns2Icon,
+  3: Columns3Icon,
+  4: Columns4Icon,
+};
 
 type Props = {
   value: ColumnCount;
@@ -13,12 +26,18 @@ type Props = {
 
 export const ColumnChooser = ({ value, onChange }: Props) => {
   const isDesktop = useIsDesktop();
-  const options = isDesktop ? DESKTOP_OPTIONS : MOBILE_OPTIONS;
+  const isNarrow = useIsNarrow();
+  const options = isDesktop
+    ? DESKTOP_OPTIONS
+    : isNarrow
+      ? NARROW_OPTIONS
+      : MOBILE_OPTIONS;
 
   return (
-    <div className='flex items-center gap-1'>
+    <div className='flex items-center gap-3'>
       {options.map((count) => {
         const active = count === value;
+        const Icon = ICON_BY_COUNT[count];
         return (
           <button
             key={count}
@@ -27,13 +46,11 @@ export const ColumnChooser = ({ value, onChange }: Props) => {
             aria-pressed={active}
             onClick={() => onChange(count)}
             className={tw(
-              'flex h-8 w-8 cursor-pointer items-center justify-center rounded-sm transition-colors',
-              active
-                ? 'bg-foreground text-background'
-                : 'text-foreground hover:bg-foreground/10'
+              'text-foreground flex h-8 w-8 cursor-pointer items-center justify-center rounded-md transition-colors duration-400',
+              active ? 'bg-foreground/8' : 'hover:bg-foreground/8'
             )}
           >
-            <ColumnsIcon count={count} />
+            <Icon />
           </button>
         );
       })}

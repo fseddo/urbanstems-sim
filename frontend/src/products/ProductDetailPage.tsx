@@ -25,7 +25,11 @@ export const ProductDetailPage = () => {
           style={{ height: 'calc(100dvh - var(--navbar-height))' }}
         >
           <ProductBackgroundImages product={product} />
-          <NavigationBreadcrumbs shopAll leaf={product.name} />
+          <NavigationBreadcrumbs
+            includeShopAll
+            currentPageTitle={product.name}
+            withBackdrop
+          />
         </div>
         <div className='ml-20 flex w-[50%] flex-col gap-5 pt-20 pr-4'>
           <ProductDetailPane product={product} addToCartRef={addToCartRef} />

@@ -1,0 +1,8 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "reseed": "cd .. && docker compose exec web python manage.py seed_products --clear"
+  }
+}

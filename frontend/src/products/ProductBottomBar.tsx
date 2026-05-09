@@ -3,6 +3,7 @@ import { useSetAtom } from 'jotai';
 import { Product } from '@/api/products/Product';
 import { addToCartAtom } from '../cart/cartAtoms';
 import { StarRating } from '../common/components/StarRating';
+import { useIsDesktop } from '../common/hooks/useIsDesktop';
 
 export const ProductBottomBar = ({
   product,
@@ -13,6 +14,7 @@ export const ProductBottomBar = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const addToCart = useSetAtom(addToCartAtom);
+  const isDesktop = useIsDesktop();
 
   useEffect(() => {
     const button = addToCartRef.current;
@@ -43,42 +45,61 @@ export const ProductBottomBar = ({
 
   return (
     <div
-      className='fixed right-0 bottom-0 left-0 z-50 flex items-center justify-between bg-white px-8 py-4 shadow-md transition-transform duration-300'
+      className='fixed right-0 bottom-0 left-0 z-50 flex items-center gap-3 bg-white px-4 py-3 shadow-md transition-transform duration-300 lg:justify-between lg:px-8 lg:py-4'
       style={{ transform: visible ? 'translateY(0)' : 'translateY(100%)' }}
     >
-      <div className='flex items-center gap-12'>
-        <div className='flex items-center gap-4'>
+      {isDesktop ? (
+        <>
+          <div className='flex items-center gap-12'>
+            <div className='flex items-center gap-4'>
+              {product.main_image && (
+                <img
+                  src={product.main_image}
+                  alt={product.name}
+                  className='h-16 w-16 object-cover shadow-md'
+                />
+              )}
+              <div className='font-crimson text-4xl'>{product.name}</div>
+            </div>
+            <div className='flex flex-col'>
+              {product.reviews_count && (
+                <div className='flex gap-2'>
+                  <StarRating rating={product.reviews_rating} />
+                  <a
+                    href='#reviews'
+                    className='text-brand-primary text-xs underline'
+                  >
+                    {product.reviews_count} Reviews
+                  </a>
+                </div>
+              )}
+              <div className='text-sm'>{product.subtitle}</div>
+            </div>
+          </div>
+          <button
+            onClick={() => addToCart(product)}
+            className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary rounded-md border px-70 py-5 text-xs font-black tracking-wider text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'
+          >
+            {`ADD TO BAG - $${product.price_dollars}`}
+          </button>
+        </>
+      ) : (
+        <>
           {product.main_image && (
             <img
               src={product.main_image}
               alt={product.name}
-              className='h-16 w-16 object-cover shadow-md'
+              className='h-12 w-12 shrink-0 object-cover shadow-md'
             />
           )}
-          <div className='font-crimson text-4xl'>{product.name}</div>
-        </div>
-
-        <div className='flex flex-col'>
-          {product.reviews_count && (
-            <div className='flex gap-2'>
-              <StarRating rating={product.reviews_rating} />
-              <a
-                href='#reviews'
-                className='text-brand-primary text-xs underline'
-              >
-                {product.reviews_count} Reviews
-              </a>
-            </div>
-          )}
-          <div className='text-sm'>{product.subtitle}</div>
-        </div>
-      </div>
-      <button
-        onClick={() => addToCart(product)}
-        className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary rounded-md border px-70 py-5 text-xs font-black tracking-wider text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'
-      >
-        {`ADD TO BAG - $${product.price_dollars}`}
-      </button>
+          <button
+            onClick={() => addToCart(product)}
+            className='bg-brand-primary flex-1 rounded-md py-3 text-xs font-black tracking-wider text-white/90 active:scale-95'
+          >
+            {`ADD TO BAG - $${product.price_dollars}`}
+          </button>
+        </>
+      )}
     </div>
   );
 };

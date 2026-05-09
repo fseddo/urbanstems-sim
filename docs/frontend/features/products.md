@@ -1,0 +1,64 @@
+# Product detail page (PDP)
+
+The `/products/$slug` route. Renders a single product's hero imagery, buy-box, secondary product images, description/care accordions, and the trailer (reviews, recommendations, delivery instructions, sticky bottom bar).
+
+The page is composed in [`ProductDetailPage.tsx`](../../../frontend/src/products/ProductDetailPage.tsx). Layout differs **structurally** between viewports — different DOM trees, not just CSS — so the page keys off `useIsDesktop` and renders one of two main-content shapes. The trailer renders identically on both.
+
+## Viewport split
+
+| | Desktop (≥1024) | Mobile (<1024) |
+|---|---|---|
+| Layout | 2-column grid (`grid-cols-2`); breadcrumbs + hero + image grid + accordions stack in the left column, sticky pane in the right | Single flat column |
+| Hero | [`<ProductHeroGallery>`](../../../frontend/src/products/ProductHeroGallery.tsx) renders both images side-by-side (mouse input branch — see below) | Same component, touch input branch — single image at a time with `<SwipeCarousel>` + `<BubbleSelector>` |
+| Buy-box | [`<ProductDetailPane>`](../../../frontend/src/products/productDetailPane/ProductDetailPane.tsx) — sticky white-rounded shadowed card inside the right grid column, sticks below the navbar via `--navbar-offset` | [`<ProductDetailContent>`](../../../frontend/src/products/productDetailPane/ProductDetailContent.tsx) flat in document flow, wrapped in a white card |
+| Image grid | 2-column grid, fixed `460px × 460px` columns at `1100px` height; left column may span both rows | Single-column flex stack, each image `w-full` with natural aspect ratio |
+| Horizontal gutters | `pl-20 pr-4` on the left column, `px-10` on the right column | `px-page` (16/34/65 ramp) on every block |
+
+## Buy-box content (shared)
+
+[`<ProductDetailContent>`](../../../frontend/src/products/productDetailPane/ProductDetailContent.tsx) is the actual buy-box: rating + reviews link, name + subtitle, price (with optional discounted strike-through), variant options, delivery information (date + address pickers), add-ons, add-to-cart button.
+
+It's pure content — no positioning chrome — so:
+- Desktop wraps it in `<ProductDetailPane>`'s sticky-white-rounded shell, sized by the right grid column.
+- Mobile renders it directly inside a white-card-wrapped `px-page` block.
+
+The `addToCartRef` ref forwards to the add-to-cart button so [`<ProductBottomBar>`](../../../frontend/src/products/ProductBottomBar.tsx) can use an `IntersectionObserver` to know when to slide its sticky bottom-bar copy of the button into view.
+
+## Hero gallery
+
+[`<ProductHeroGallery>`](../../../frontend/src/products/ProductHeroGallery.tsx) is a single component that branches on [`useIsTouch`](../../../frontend/src/common/hooks/useIsTouch.ts) — the experience matches the input device, not the viewport size, so a touch tablet at 1280 still gets the swipe gallery and a small mouse-driven desktop window still gets both-side-by-side.
+
+- **Touch + 2 images** → [`<SwipeCarousel>`](../../../frontend/src/common/components/SwipeCarousel.tsx) (drag to advance, snaps on release past 25% of width) inside an `aspect-square max-h-[80vh]` frame, with a 2-bubble [`<BubbleSelector>`](../../../frontend/src/common/components/BubbleSelector.tsx) below for tap-to-jump.
+- **Mouse + 2 images** → `grid-cols-2` with both images at `aspect-[3/4]` portrait, no swipe affordance.
+- **Either + 1 image** → the lone image at `aspect-square max-h-[80vh]`, no carousel/selector.
+
+Both branches share the same image rendering via [`<PictureSrcset>`](../../../frontend/src/common/components/PictureSrcset.tsx) (widths `[400, 800, 1200, 1600]`). The first/main image is treated as the LCP candidate: `loading='eager'` + `fetchPriority='high'`. The secondary slide stays lazy on touch (only loads after the user swipes) and eager on non-touch (it's already on screen). `badge_text` and `badge_image_src` overlay absolutely on top of whichever frame is rendering.
+
+## Detail/lifestyle image grid
+
+[`<ProductImageGrid>`](../../../frontend/src/products/ProductImageGrid.tsx) reads `main_detail_src` (may be `is_main_detail_video`), `detail_image_1_src`, `detail_image_2_src`. Branches on `useIsDesktop`:
+
+- Desktop: 2-col grid with `gridTemplateColumns: '460px 460px'` and `gridTemplateRows: '2fr 4fr'` when both right-column images exist (`'1fr'` otherwise). Fixed `1100px` height. The left column spans both rows when both right images exist.
+- Mobile: flex-col stack; each image is `w-full rounded-md` with natural aspect ratio. The desktop fixed sizing would horizontally overflow at 920px+, so the mobile branch returns a different DOM rather than overriding the grid.
+
+## Accordions
+
+[`<ProductInfoAccordion>`](../../../frontend/src/products/ProductInfoAccordion.tsx) wraps content in [`<CollapsiblePanel>`](../../../frontend/src/common/components/CollapsiblePanel.tsx) for the slide-open animation. Two instances on the page: Description (open by default) and Care Instructions (collapsed by default). The first instance gets a `border-t` so the section reads as a closed group above and below.
+
+## Delivery info card
+
+[`<DeliveryInformation>`](../../../frontend/src/products/productDetailPane/ProductDeliveryInfo.tsx) is the bordered "Receive on / Send to" card inside the buy-box. Two flex children with no `gap` between them — instead each cell uses `px-3` so the date side's `border-r` sits flush against the address cell. Without that, a `gap-2` between cells would put 8px of empty whitespace between the divider and where the address dropdown anchors, making the dropdown read as misaligned. The Send-to side is an [`<AddressPicker>`](../../../frontend/src/address/AddressPicker.tsx) trigger, its results dropdown anchors to the address container's left edge (which is now flush with the divider) and its `resultRowClassName='px-3'` matches the trigger's padding so dropdown row text and input text align vertically.
+
+The date side enforces the product's `delivery_lead_time` via `minDate` on `<DatePicker>`. If the cart's selected delivery date falls before that, the page snaps the date forward and surfaces an explanatory error line with the previous date, so the user knows it changed.
+
+## Trailer (shared)
+
+Below the main section, both viewports render the same:
+- [`<ProductReviews>`](../../../frontend/src/products/ProductReviews.tsx)
+- [`<ProductRecommendations>`](../../../frontend/src/products/ProductRecommendations.tsx)
+- [`<ProductDeliveryInstructions>`](../../../frontend/src/products/ProductDeliveryInstructions.tsx)
+- [`<ProductBottomBar>`](../../../frontend/src/products/ProductBottomBar.tsx) — sticky-bottom add-to-cart that slides in (`translate-y-100% → 0`) once the in-flow add-to-cart button has scrolled above the viewport (detected via `IntersectionObserver` on `addToCartRef`). Sets `--bottom-bar-height` so other sticky elements can reserve space for it.
+
+## Data flow
+
+Loader fetches via `productQueries.detail(slug)` at the route level. The page calls `useSuspenseQuery(productQueries.detail(slug))` to read it (loader hydration). Variant selection, delivery date, delivery address all live in atoms (`deliveryDateAtom`, `deliveryAddressAtom`, etc.) so they sync with the listing-page header bar.

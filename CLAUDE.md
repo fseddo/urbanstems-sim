@@ -17,6 +17,7 @@ Auto-loaded CLAUDE files are not enough for area-specific work — read the rele
 | Touching | Read first |
 |---|---|
 | `frontend/src/collections/` or `frontend/routes/collections/` | [`docs/frontend/features/collections.md`](docs/frontend/features/collections.md) |
+| `frontend/src/products/` or `frontend/routes/products/` | [`docs/frontend/features/products.md`](docs/frontend/features/products.md) |
 | `frontend/src/checkout/` or `frontend/routes/checkout/` | [`docs/frontend/features/checkout.md`](docs/frontend/features/checkout.md) |
 | `frontend/src/address/`, `frontend/api/places/`, anything geo | [`docs/frontend/features/places.md`](docs/frontend/features/places.md) |
 | `frontend/api/` (any new query/mutation) | [`docs/frontend/architecture/data-fetching.md`](docs/frontend/architecture/data-fetching.md) |

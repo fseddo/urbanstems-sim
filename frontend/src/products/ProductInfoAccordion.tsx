@@ -7,11 +7,13 @@ import { tw } from '../common/utils/tw';
 export const ProductInfoAccordion = ({
   label,
   data,
+  defaultOpen = false,
 }: {
   label: string;
   data: string | null;
+  defaultOpen?: boolean;
 }) => {
-  const [isExpanded, setIsExpanded] = useState(label === 'Description');
+  const [isExpanded, setIsExpanded] = useState(defaultOpen);
   return (
     <div
       className={tw(

@@ -1,0 +1,138 @@
+<!--
+Reference HTML — UrbanStems upstream PDP secondary zone (image grid +
+accordions), non-touch. Captured during the PDP refactor. Delete when
+docs/improvements/pdp-refactor.md is removed.
+
+KEY OBSERVATIONS
+================
+
+1. Container is `.pdp__secondary` with these custom props:
+     --padding-desktop: 46px 0 0;
+     --padding-mobile: 59px 0 0;
+     --width-desktop: calc(848/1568 * 100%);  ← 54.1% of page width
+     --width-mobile: 100%;
+
+   This locks in the left zone width: 54.1% of viewport. Pair with the
+   pane's 40.8% width and 5.1% left margin (gutter) to get the page-level
+   layout: 54.1% (secondary) + 5.1% (gutter) + 40.8% (pane) = 100%.
+
+2. Three lifestyle items inside `.pdp__lifestyle-grid`:
+   - Item 1: aspect 438:779 (very tall portrait). Reference renders a
+     **video** here (with a poster fallback img). Our app uses
+     `is_main_detail_video` for this slot — same pattern.
+   - Item 2: aspect 389:284 (landscape). Static `<picture>`.
+   - Item 3: aspect 389:478 (portrait). Static `<picture>`.
+
+   Aspect ratios are set via inline custom props on each figure:
+     --aspect-ratio-height: N;
+     --aspect-ratio-width: N;
+   ...presumably consumed by an `aspect-ratio` declaration on
+   `.pdp__lifestyle-grid-item.aspect-ratio` somewhere in their CSS.
+
+3. **Accordions live in the secondary zone on non-touch.** Below the
+   `.pdp__lifestyle-grid` is `.pdp__accordions` containing two
+   `<details>` blocks (Description, Care Instructions) using native
+   `<details>`/`<summary>`. The Description accordion has `open` set
+   by default; Care Instructions is closed.
+
+4. Image srcset tiers for non-video items:
+   - `<source media="(min-width: 1024px)">` with widths 1024 / 1400 /
+     1600 / 1800.
+   - Default `<img srcset>` with width 352 (single tier).
+   - `src` attribute defaults to width 768 (the in-between fallback).
+   - Intrinsic `width="1024"` `height="1820"` on the img element (NOT
+     the rendered aspect — the rendered aspect comes from the figure's
+     `--aspect-ratio-*` vars).
+   - `loading="lazy"` `fetchpriority="auto"` (below the fold).
+
+5. Video item:
+   - `<video>` with poster `<img>` (`width=57 height=101` thumbnail —
+     a tiny placeholder). Video is `loop` `muted` `playsinline`,
+     auto-play handled via custom `<video-button>` element + lazy in-view
+     loading. We don't replicate that lazy mechanism; we autoplay
+     directly when in-view via a regular `<video autoPlay loop muted>`.
+
+PAGE-LEVEL LAYOUT IMPLICATION
+=============================
+
+Below the hero, the page is two side-by-side zones:
+  LEFT (`.pdp__secondary`, this file):
+    - `.pdp__lifestyle-grid` (image grid)
+    - `.pdp__accordions` (Description + Care Instructions)
+  RIGHT (`.pdp__info`):
+    - The pane (rating, title, price, swatches, delivery, add-to-cart)
+
+Both columns scroll together; the pane is sticky-positioned via
+`.pdp__info--sticky` so it appears to "float" while the left zone
+scrolls past underneath.
+-->
+
+<div class="pdp__secondary padding width in-view" data-in-view="pdp-secondary" id="pdpSecondary-template--22350215282936__main-8657903845624" style="
+      --padding-desktop: 46px 0 0;
+      --padding-mobile: 59px 0 0;
+      --width-desktop: calc(848/1568 * 100%);
+      --width-mobile: 100%;
+    "><div class="pdp__lifestyle-grid" id="pdp__lifestyle-grid"><figure class="pdp__lifestyle-grid-item aspect-ratio position--relative" style="
+--aspect-ratio-height: 779;
+                  --aspect-ratio-width: 438;"><img src="//urbanstems.com/cdn/shop/files/preview_images/102256faab384e7696c783b324af17e4.thumbnail.0000000000.jpg?v=1729106327&amp;width=57" alt="presentation video" srcset="//urbanstems.com/cdn/shop/files/preview_images/102256faab384e7696c783b324af17e4.thumbnail.0000000000.jpg?v=1729106327&amp;width=57 57w" width="57" height="101" loading="lazy" role="presentation" aria-hidden="true" fetchpriority="auto" class="border-radius object-fit">
+<video id="template--22350215282936__main----1778356293" class="no-js-hide border-radius cover object-fit in-view video--playing" aria-hidden="true" role="presentation" playsinline="" data-autoplay="" data-in-view="" loop="" muted="" preload="none" data-in-view-video-src="//urbanstems.com/cdn/shop/videos/c/vp/102256faab384e7696c783b324af17e4/102256faab384e7696c783b324af17e4.HD-1080p-2.5Mbps-36399669.mp4?v=0" type="video/mp4" src="//urbanstems.com/cdn/shop/videos/c/vp/102256faab384e7696c783b324af17e4/102256faab384e7696c783b324af17e4.HD-1080p-2.5Mbps-36399669.mp4?v=0"></video>
+<noscript><video id="template--22350215282936__main----1778356293" class=" border-radius cover object-fit" aria-hidden="true" role="presentation" playsinline autoplay data-in-view loop muted preload="none" src="//urbanstems.com/cdn/shop/videos/c/vp/102256faab384e7696c783b324af17e4/102256faab384e7696c783b324af17e4.HD-1080p-2.5Mbps-36399669.mp4?v=0" type="video/mp4"></video></noscript><video-button data-in-view="" data-in-view-script="{
+      &quot;src&quot;: &quot;\/\/urbanstems.com\/cdn\/shop\/t\/566\/assets\/video-button.js?v=138749193807839264771777552573&quot;
+    }" class="in-view video--playing">
+    <button class="video__button" aria-label="Toggle video paused state" aria-pressed="true" data-video-button="template--22350215282936__main----1778356293" type="button">
+    </button>
+  </video-button></figure><figure class="pdp__lifestyle-grid-item aspect-ratio position--relative" style="
+--aspect-ratio-height: 284;
+                  --aspect-ratio-width: 389;"><picture><source media="(min-width: 1024px)" srcset="
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&amp;width=1024 1024w,
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&amp;width=1400 1400w,
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&amp;width=1600 1600w,
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&amp;width=1800 1800w
+
+
+
+        ">
+  <img src="//urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&amp;width=768" alt="presentation image" srcset="//urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_1.jpg?v=1744731169&amp;width=352 352w" width="1024" height="1820" loading="lazy" aria-hidden="true" class="hover-zoom__el object-fit pdp__lifestyle-grid-asset" fetchpriority="auto" role="presentation">
+</picture></figure><figure class="pdp__lifestyle-grid-item aspect-ratio position--relative" style="
+--aspect-ratio-height: 478;
+                  --aspect-ratio-width: 389;"><picture><source media="(min-width: 1024px)" srcset="
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&amp;width=1024 1024w,
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&amp;width=1400 1400w,
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&amp;width=1600 1600w,
+
+              //urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&amp;width=1800 1800w
+
+
+
+        ">
+  <img src="//urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&amp;width=768" alt="presentation image" srcset="//urbanstems.com/cdn/shop/files/Sorbet_Lifestyle_2_b5433000-3ef5-4330-a933-8779080e7662.jpg?v=1729106311&amp;width=352 352w" width="1024" height="1820" loading="lazy" aria-hidden="true" class="hover-zoom__el object-fit pdp__lifestyle-grid-asset" fetchpriority="auto" role="presentation">
+</picture></figure></div><div class="pdp__accordions" id="pdpAccordions-template--22350215282936__main-8657903845624" style="
+      "><details class="pdp__accordion accordion" open="" id="description">
+              <summary class="pdp__accordion-toggle pseudo-plus-icon">
+                Description
+              </summary>
+              <div class="pdp__accordion-content rte links--color-inherit">
+                <p data-pm-slice="1 1 [&quot;list&quot;,{},&quot;list_item&quot;,{&quot;indent&quot;:2,&quot;type&quot;:&quot;bulleted&quot;}]"><span data-sheets-root="1">Discover the art of understated affection with this blend of delicate pink and creamy white roses. We like to think it offers a beautifully subtle way to send your love. Perfect for conveying deep emotions with a soft, elegant touch.&nbsp;</span></p>
+<p data-pm-slice="1 1 [&quot;list&quot;,{},&quot;list_item&quot;,{&quot;indent&quot;:2,&quot;type&quot;:&quot;bulleted&quot;}]"><span data-sheets-root="1">Recognized by New York Times Wirecutter as "a best online flower delivery service, with modern, florist-quality bouquets delivered reliably.”</span></p>
+<div class="pdp__includes">
+                    <strong class="pdp__includes-title" style="display: inline;">Includes:</strong>
+                    <span class="pdp__includes-content" style="display: inline;">Roses, Veronica, Carnations, Solomio, Eucalyptus, Greenery</span>
+                  </div></div>
+            </details><details class="pdp__accordion accordion">
+              <summary class="pdp__accordion-toggle lh-1 pseudo-plus-icon">
+                Care Instructions
+              </summary>
+
+              <div class="pdp__accordion-content rte">
+                <div class="metafield-rich_text_field"><p><strong>1) Find a Vase:</strong> You may have noticed your flowers no longer have roots, and that they’re not in soil. Bet they’re thirsty! Time to put them in your favorite vase with some fresh water.</p><p><strong>2) Trim Those Stems:</strong> Keep those stems trimmed! Always cut your flowers at an angle so they can absorb more water &amp; won’t suffocate on the bottom of the vase. After the initial cut, check the bottoms of your stems every couple of days, and if the ends are looking a bit slimy, just snip off an inch or so.</p><p><strong>3) Remove Leaves:</strong> Take off any excess leaves so that all the water is funneled into the petals. Pay special attention to leaves below the water line because they’ll decompose, causing rot and bacteria to grow, which will shorten the lifespan of your blooms.</p><p><strong>4) Remove Spent Blooms:</strong> Any flowers that are past their prime release ethylene gas which will age the flowers around them. Remove any flowers that are beginning to wilt to keep the rest of your bouquet fresh and happy.</p><p><strong>5) Keep Them Cool:</strong> Last but not least, keep your flowers in a cool area. Don’t put them near radiators, computers, televisions, fireplaces, ovens… you get the idea.</p></div>
+
+              </div>
+            </details></div>
+  </div>

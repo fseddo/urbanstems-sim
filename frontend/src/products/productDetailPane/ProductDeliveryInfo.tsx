@@ -50,7 +50,7 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
           {formatDeliveryDate(bumpedFrom)}.
         </div>
       )}
-      <div className='border-background-alt flex gap-2 rounded-md border'>
+      <div className='border-background-alt flex rounded-md border'>
         <DatePicker
           className='flex flex-1'
           value={deliveryDate}
@@ -60,7 +60,7 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
             <button
               type='button'
               onClick={toggle}
-              className='border-background-alt flex flex-1 cursor-pointer flex-col gap-0.5 border-r px-2 py-4 text-left text-sm'
+              className='border-background-alt flex flex-1 cursor-pointer flex-col gap-0.5 border-r px-3 py-4 text-left text-sm'
             >
               <div className='text-brand-primary font-bold'>Receive on:</div>
               <div className='text-foreground/60'>{formatted}</div>
@@ -71,10 +71,11 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
           className='flex flex-3'
           value={deliveryAddress}
           onChange={setDeliveryAddress}
+          resultRowClassName='px-3'
           trigger={({ inputProps, value }) => (
             <div
               onClick={() => inputProps.ref.current?.focus()}
-              className='flex flex-1 cursor-text flex-col gap-0.5 px-2 py-4 text-sm'
+              className='flex flex-1 cursor-text flex-col gap-0.5 px-3 py-4 text-sm'
             >
               <div className='text-brand-primary font-bold'>Send to:</div>
               <input

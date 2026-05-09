@@ -29,8 +29,13 @@ export const ProductReviews = ({ product }: { product: Product }) => {
         WRITE A REVIEW
       </button>
 
+      {/* TODO: gutter is `px-page` for now to avoid horizontal overflow at
+          narrow viewports. The design has a page-aligned gutter at desktop
+          (matches `<ProductRecommendations>`) and a wider-than-page gutter
+          at mobile — when revisiting, introduce a dedicated token rather
+          than reusing `px-page`. See `docs/frontend/features/products.md`. */}
       {reviews.length > 0 && (
-        <div className='flex w-full flex-col gap-6 px-50'>
+        <div className='flex w-full flex-col gap-6 px-page'>
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}

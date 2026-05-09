@@ -29,9 +29,7 @@ const RootLayout = () => {
       <DisclaimerPopup />
       <div style={{ height: 'var(--navbar-height)' }} />
       <div className='relative'>
-        {dropdownOpen && (
-          <div className='absolute inset-0 z-40 bg-black/60' />
-        )}
+        {dropdownOpen && <div className='absolute inset-0 z-40 bg-black/60' />}
         <main className='min-h-screen'>
           <Outlet />
         </main>

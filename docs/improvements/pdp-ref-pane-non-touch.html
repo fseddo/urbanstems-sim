@@ -1,0 +1,70 @@
+<!--
+Reference HTML — UrbanStems upstream PDP pane, non-touch (mouse).
+Captured during the PDP refactor. Delete when
+docs/improvements/pdp-refactor.md is removed.
+
+Inner content was truncated at paste time (the embedded swatches-JSON
+script alone is ~50K). Schematic content order, top → bottom:
+  1. <a class="ratings-stars"> — 5-star row + N-Reviews link
+  2. <h1 class="headline headline--m"> — title
+  3. <div class="pdp__subtitle"> — short metafield rich-text
+  4. <div class="pdp__price"> — price (regular + sale)
+  5. <a class="pdp__details-link"> — "View full details"
+  6. <product-swatches class="pdp__swatches"> — variant tiles + JSON blob
+  7. (further down, also truncated) — delivery-info card, add-ons,
+     add-to-cart button
+
+ACCORDIONS ARE NOT IN THIS PANE. On non-touch they live in the left
+`.pdp__secondary` zone (see `pdp-ref-image-grid-non-touch.html`),
+below the image grid. Compare to `pdp-ref-pane-touch.html` where
+accordions ARE inside the pane.
+
+PANE GEOMETRY TOKENS (Phase 3.1)
+================================
+
+```css
+.pdp__info {
+  --margin-desktop: 40px 0 0 calc(80/1568 * 100%);
+  --margin-mobile: 0;
+  --padding-desktop: var(--pdp-info-padding-desktop, 36px clamp(32px, calc(40/1728 * 100%), 74px) clamp(40px, calc(74/1728 * 100%), 74px));
+  --padding-mobile: 28px 16px 51px;
+  --width-desktop: calc(640/1568 * 100%);
+  --width-mobile: 100%;
+}
+```
+
+- Desktop width: `calc(640/1568 * 100%)` ≈ 40.8% of containing block.
+- Desktop margin: `40px 0 0 calc(80/1568 * 100%)` — top 40, no right/bottom,
+  left 5.1% of containing block (the gutter from the left zone).
+- Desktop padding: 36px top, sides clamp(32, ~2.31vw against 1728, 74),
+  bottom clamp(40, ~4.28vw against 1728, 74).
+- Mobile: 100% width, no margin, 28/16/51 padding.
+
+PAGE-LEVEL ZONES (deduced from cross-referencing image-grid HTML)
+================================================================
+
+Cross-referenced with `pdp-ref-image-grid-non-touch.html`:
+- `.pdp__secondary` (image grid + accordions zone): width 848/1568 ≈ 54.1%
+- gutter: 80/1568 ≈ 5.1% (the pane's left margin)
+- `.pdp__info` (this pane): width 640/1568 ≈ 40.8%
+- 54.1% + 5.1% + 40.8% = 100%
+
+So the page-level layout below the hero is a flex/grid with two zones:
+left = `.pdp__secondary` (54.1%), right = `.pdp__info` (40.8%), gap = 5.1%.
+The pane sticks via `.pdp__info--sticky`; the left zone scrolls normally.
+
+OUTER WRAPPER (geometry-bearing element)
+========================================
+-->
+
+<div id="ProductInfo-template--22350215282936__main-8657903845624" class="pdp__info pdp__info--sticky margin padding width" data-product-info="" style="
+      --margin-desktop: 40px 0 0 calc(80/1568 * 100%);
+      --margin-mobile: 0;
+      --padding-desktop: var(--pdp-info-padding-desktop, 36px clamp(32px, calc(40/1728 * 100%), 74px) clamp(40px, calc(74/1728 * 100%), 74px));
+      --padding-mobile: 28px 16px 51px;
+      --width-desktop: calc(640/1568 * 100%);
+      --width-mobile: 100%;
+    ">
+  <!-- ratings, title, subtitle, price, swatches, delivery card, add-ons,
+       add-to-cart. NO accordions (those live in .pdp__secondary on non-touch). -->
+</div>

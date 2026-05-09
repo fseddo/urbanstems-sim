@@ -1,0 +1,66 @@
+<!--
+Reference HTML — UrbanStems upstream PDP hero, non-touch (mouse) view.
+Captured during the PDP refactor for reference parity. Delete when
+docs/improvements/pdp-refactor.md is removed.
+
+Observations (so we don't have to re-parse this every time):
+
+- THREE slides, not two. Reference has main + supporting1 + supporting_lifestyle.
+  Our current data model is main_image + hover_image only — gallery would
+  need extending if we want 3-slide parity. (Our SwipeCarousel already
+  generic-over-T, so component side is fine; data model is the constraint.)
+
+- Wrapper is `.pdp__media-items.swiper-wrapper` (Swiper.js). On non-touch
+  all slides have `swiper-slide-visible` so they sit side-by-side. The
+  wrapper carries `transform: translate3d(0,0,0)` (no slide offset).
+
+- Per-slide CSS custom props: `--width-desktop: auto; --width-mobile: 100%;`.
+  On desktop each slide is `auto`-width — sized by the rendered image's
+  natural aspect × the wrapper's height. So **wrapper height controls
+  hero size**; slide widths fall out of intrinsic aspect ratios. (This is
+  why we'd need their CSS for `.pdp__media-items` to know the height ramp.)
+
+- Each `<img>`:
+  - Intrinsic dimensions: 420×449 (main) or 420×330 (supporting). Different
+    ratios → different rendered widths at any wrapper height.
+  - `loading="eager"` + `fetchpriority="high"` on slides 1 + 2.
+  - `loading="lazy"` + `fetchpriority="auto"` on slide 3 (offscreen until
+    swiped on touch; on non-touch may still be partially visible).
+
+- 5 srcset tiers: 1600+, 1200+, 1024+, 430+, default. Default img has
+  `srcset="...&width=352 352w, ...&width=420 420w"` and `src="...width=420"`.
+  Compare to our current `<PictureSrcset>` widths [400, 800, 1200, 1600] —
+  we should expand to match.
+-->
+
+<div class="pdp__media-items swiper-wrapper" id="swiper-wrapper-a48251435b291461" aria-live="polite" style="transform: translate3d(0px, 0px, 0px);"><figure class="pdp__media-item pdp__media-item--fill swiper-slide width swiper-slide-visible swiper-slide-active" style="
+            --width-desktop: auto;
+            --width-mobile: 100%;
+          " role="group" aria-label="1 / 3"><picture>
+                <source media="(min-width: 1600px)" srcset="//urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=1000 1000w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=1200 1200w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=1400 1400w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=1600 1600w">
+                <source media="(min-width: 1200px)" srcset="//urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=600 600w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=1000 1000w">
+                <source media="(min-width: 1024px)" srcset="//urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=600 600w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=1000 1000w">
+                <source media="(min-width: 430px)" srcset="//urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=500 500w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=600 600w">
+                <img src="//urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=420" alt="Bouquet of pink and white flowers in a clear vase on a beige background" srcset="//urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=352 352w, //urbanstems.com/cdn/shop/files/Mariposa_MainImage_PDP_1.jpg?v=1772552388&amp;width=420 420w" width="420" height="449" loading="eager" aria-hidden="false" fetchpriority="high" role="img" class="pdp__media-asset pdp__media-asset--image pdp__media-asset--fill">
+
+              </picture></figure><figure class="pdp__media-item pdp__media-item--fill swiper-slide width swiper-slide-next" style="
+            --width-desktop: auto;
+            --width-mobile: 100%;
+          " role="group" aria-label="2 / 3"><picture>
+                <source media="(min-width: 1600px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=1000 1000w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=1200 1200w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=1400 1400w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=1600 1600w">
+                <source media="(min-width: 1200px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=600 600w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=1000 1000w">
+                <source media="(min-width: 1024px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=600 600w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=1000 1000w">
+                <source media="(min-width: 430px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=500 500w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=600 600w">
+                <img src="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=420" alt="The Sorbet" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=352 352w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_1_PDP.jpg?v=1772552388&amp;width=420 420w" width="420" height="330" loading="eager" aria-hidden="false" fetchpriority="high" role="img" class="pdp__media-asset pdp__media-asset--image pdp__media-asset--fill">
+
+              </picture></figure><figure class="pdp__media-item pdp__media-item--fill swiper-slide width" style="
+            --width-desktop: auto;
+            --width-mobile: 100%;
+          " role="group" aria-label="3 / 3"><picture>
+                <source media="(min-width: 1600px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=1000 1000w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=1200 1200w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=1400 1400w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=1600 1600w">
+                <source media="(min-width: 1200px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=600 600w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=1000 1000w">
+                <source media="(min-width: 1024px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=600 600w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=800 800w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=1000 1000w">
+                <source media="(min-width: 430px)" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=500 500w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=600 600w">
+                <img src="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=420" alt="The Sorbet" srcset="//urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=352 352w, //urbanstems.com/cdn/shop/files/Sorbet_SupportingImage_lifestyle_PDP.jpg?v=1772552388&amp;width=420 420w" width="420" height="330" loading="lazy" aria-hidden="false" fetchpriority="auto" role="img" class="pdp__media-asset pdp__media-asset--image pdp__media-asset--fill">
+
+              </picture></figure></div>

@@ -1,11 +1,15 @@
 import { RefObject } from 'react';
-import { useSetAtom } from 'jotai';
-import { StarRating } from '@/src/common/components/StarRating';
 import { Product } from '@/api/products/Product';
-import { addToCartAtom } from '@/src/cart/cartAtoms';
-import { AddOns } from './ProductAddOns';
-import { DeliveryInformation } from './ProductDeliveryInfo';
-import { ProductDetailVariantOptions } from './ProductDetailVariantOptions';
+import { ProductDetailContent } from './ProductDetailContent';
+
+// Desktop-only sticky white card holding the buy-box content. The PDP page
+// places it inside an `absolute top-0 right-[calc(7vw-42px)] h-full
+// w-[calc(640/1568*100%)]` wrapper, so the card overlays the hero's right
+// side and continues to stick through the content area as the user scrolls.
+// Sticks below the navbar via `--navbar-offset` so it slides with the
+// hide-on-scroll navbar. Mobile renders
+// [`ProductDetailContent`](./ProductDetailContent.tsx) flat in document
+// flow inside its own white card.
 
 export const ProductDetailPane = ({
   product,
@@ -14,53 +18,15 @@ export const ProductDetailPane = ({
   product: Product;
   addToCartRef: RefObject<HTMLButtonElement | null>;
 }) => {
-  const addToCart = useSetAtom(addToCartAtom);
   return (
-    <div className='absolute top-0 right-[90px] z-10 h-full pb-20'>
-      <div
-        className='sticky flex w-[37vw] flex-col items-center gap-3 rounded-lg bg-white p-10 shadow-xl'
-        style={{
-          top: 'calc(var(--navbar-offset) + 40px)',
-          transition: 'var(--navbar-offset-transition, none)',
-        }}
-      >
-        {/* review rating */}
-        <div className='flex items-center gap-2'>
-          <StarRating rating={product.reviews_rating} />
-          {product.reviews_count && (
-            <a href='#reviews' className='text-brand-primary text-xs underline'>
-              {product.reviews_count} Reviews
-            </a>
-          )}
-        </div>
-        {/* name */}
-        <div className='font-crimson text-center text-5xl'>{product.name}</div>
-        <div className='text-center text-sm'>{product.subtitle}</div>
-        {/* price */}
-        <div className='flex gap-2 text-lg'>
-          <div>{`$${product.price_dollars}`}</div>
-          <div className='line-through opacity-60'>
-            {product.discounted_price_dollars != null &&
-              `$${product.discounted_price_dollars}`}
-          </div>
-        </div>
-        {/* variants */}
-        <ProductDetailVariantOptions product={product} />
-
-        {/* delivery options */}
-        <DeliveryInformation product={product} />
-
-        {/* add ons */}
-        <AddOns />
-
-        <button
-          ref={addToCartRef}
-          onClick={() => addToCart(product)}
-          className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-4 text-sm font-bold tracking-wider text-white transition-colors duration-300 hover:bg-white active:scale-95'
-        >
-          {`ADD TO BAG - $${product.price_dollars}`}
-        </button>
-      </div>
+    <div
+      className='sticky rounded-lg bg-white p-10 shadow-xl'
+      style={{
+        top: 'calc(var(--navbar-offset) + 40px)',
+        transition: 'var(--navbar-offset-transition, none)',
+      }}
+    >
+      <ProductDetailContent product={product} addToCartRef={addToCartRef} />
     </div>
   );
 };

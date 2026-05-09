@@ -35,6 +35,10 @@ interface AddressPickerProps {
   label?: string;
   placeholder?: string;
   className?: string;
+  // Extra classes applied to the absolute dropdown panel. Use to inset or
+  // extend its left/right edges relative to the trigger container — e.g.
+  // to align with the input element rather than its outer padding box.
+  panelClassName?: string;
   // Extra classes applied to each result row in the dropdown. Used by
   // consumers that want results to align with surrounding cell padding.
   resultRowClassName?: string;
@@ -52,6 +56,7 @@ export const AddressPicker = ({
   label = 'Sending to',
   placeholder,
   className,
+  panelClassName,
   resultRowClassName,
   trigger,
 }: AddressPickerProps) => {
@@ -139,7 +144,12 @@ export const AddressPicker = ({
       {trigger({ inputProps, open, value, label })}
 
       {showResults && (
-        <ul className='absolute top-full right-0 left-0 z-30 max-h-80 overflow-y-auto bg-white shadow-md'>
+        <ul
+          className={tw(
+            'absolute top-full right-0 left-0 z-30 max-h-80 overflow-y-auto bg-white shadow-md',
+            panelClassName
+          )}
+        >
           {showEmpty && (
             <li
               className={tw(

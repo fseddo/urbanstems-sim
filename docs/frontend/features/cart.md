@@ -13,14 +13,43 @@ Files: [`frontend/src/cart/`](../../../frontend/src/cart/) — two of them, [`ca
 | `cartItemsAtom` | The persistent line list. `atomWithStorage` keyed `urbanstems-cart`, with `getOnInit: true` so route loaders see the persisted value on hard refresh, not the empty initial. |
 | `cartOpenAtom` | Whether the slide-in pane is open. |
 | `cartCountAtom` | Derived: total quantity across lines. Used by the navbar's cart-icon badge. |
-| `cartTotalAtom` | Derived: `Σ price × quantity`. |
-| `addToCartAtom` (write-only) | Adds a product. Increments quantity if the slug already exists; otherwise pushes a new line with a `CartItem` snapshot of name/price/image. **Also opens the pane** as a side effect, so any "Add to bag" button gets the slide-in for free. |
-| `setLineQuantityAtom` (write-only) | Updates a line's quantity. Quantity ≤ 0 removes the line. |
-| `removeLineAtom` (write-only) | Removes a line by slug. |
+| `cartTotalAtom` | Derived: `Σ lineSetPrice(line) × line.quantity` — includes addon prices. |
+| `lineSetPrice(line)` | Per-set unit price (parent + addons, before quantity). Exported for both cart and checkout consumers. |
+| `lineFingerprint(line)` | Stable per-line identity (`parentSlug + sorted addon slugs`). Used as React key, line-mutation atom payload, and merge bucket. |
+| `addToCartAtom` (write-only) | Adds a bouquet, optionally with addons. Same-fingerprint lines merge (qty++); different addon configs stay as separate lines. **Also opens the pane.** |
+| `setLineQuantityAtom` (write-only) | Updates a line's quantity by `lineId`. Quantity ≤ 0 removes the line. |
+| `removeLineAtom` (write-only) | Removes a line by `lineId`. |
+| `attachAddonToLineAtom` (write-only) | Vase: 1-max per set, replaces existing. Gift: unlimited, appends. |
+| `removeAddonFromLineAtom` (write-only) | Removes the first addon match by slug — gifts can repeat, the per-row trash is one click per addon. |
+| `snapshotAddon(product)` | Selector callers convert a vase/gift `Product` to `CartItem` before passing to attach. |
 
 Why `atomWithStorage` with `getOnInit: true`: the checkout route's loader reads the cart synchronously to compute its payment intent. Without `getOnInit`, the loader fires before React mount has had a chance to hydrate the atom, so on hard refresh the loader would see `[]` and treat the cart as empty.
 
 `CartLine` is a deliberate snapshot of the product, not a reference. Storing the price/name/image at add-time means the cart doesn't desync when the catalog changes — if a price drops between add-to-cart and checkout, the cart shows what the user agreed to. Backend reconciles at checkout.
+
+## `CartLine` shape — sets
+
+```ts
+interface CartLine {
+  item: CartItem;        // parent bouquet
+  quantity: number;       // applies to the whole set
+  addons: CartItem[];     // attached vases/gifts; empty = plain bouquet
+}
+```
+
+The same `CartItem` shape covers both parent bouquets and addons — the role is implied by where the item sits (`item` vs. `addons[]`). `CartItem.addon_type` is `null` on parents, set on addons. `CartItem.vase_addon_eligible` is snapshotted on the parent at add time so the cart never re-derives from `vase_included` + tags.
+
+A `CartLine` shape change on a persisted cart would crash derived atoms reading `line.addons`. A one-shot module-load shape check in [`cartAtoms.ts`](../../../frontend/src/cart/cartAtoms.ts) clears the storage if the persisted shape predates `addons: []`. Drop the guard once enough time has passed that no live carts could still be on the old shape.
+
+## `lineFingerprint` — line identity
+
+Slug alone isn't unique once a parent can appear in multiple lines with different addon configs (e.g. "The Sorbet" alone AND "The Sorbet Set + vase" can coexist as two distinct lines). `lineFingerprint(line)` returns `parentSlug|addon1Slug,addon2Slug` (sorted). Used as:
+
+- React keys in [`<CartLineRow>`](../../../frontend/src/cart/CartPane.tsx) and [`<CheckoutSummary>`](../../../frontend/src/checkout/CheckoutSummary.tsx)
+- Payload for `setLineQuantityAtom` / `removeLineAtom` / `attachAddonToLineAtom` / `removeAddonFromLineAtom`
+- Merge bucket in `addToCartAtom`
+
+Quantity is excluded — qty changes shouldn't remount the row or split the merge bucket.
 
 ## `<CartPane>`
 
@@ -46,14 +75,16 @@ This matches the codebase's "read pending state from the source of truth" rule �
 
 ### Line row
 
-`<CartLineRow>` is defined in the same file (only used here, no need for a separate file). Each row:
-- Image (h-24 w-24, rounded-sm)
-- Name + variant type (e.g. "Size: Standard")
-- Quantity stepper (-/+ buttons; 0 removes the line)
-- Line total (with strike-through for `discounted_price_dollars` if present)
-- Trash icon to remove the line
+`<CartLineRow>` is defined in the same file. Receives `lineId` from the parent map (computed via `lineFingerprint`) and uses it for every line-mutation atom call.
 
-The variant type is only shown when the product had multiple variants (`hasVariantChoices` check inside `addToCartAtom`'s snapshot — products with a single variant store `variant_type: null`, so the row won't render the variant line).
+Two render modes branching on `line.addons.length > 0`:
+
+- **Plain bouquet**: image, name, variant type ("Size: Standard"), qty stepper, line total, trash.
+- **Set**: image (parent's), name becomes `${item.name} Set`, then a vertical stack of `<SetSubRow>` (parent + each addon — small thumb + "1 × Name", per-addon trash on addon rows only). Qty stepper applies to the whole set; line total = `lineSetPrice(line) × quantity`.
+
+### Cart-line trigger
+
+When `item.vase_addon_eligible && no vase in line.addons`, the line renders an "ADD A VASE" pill below the qty/total row. Click writes `addonSelectorAtom` with `{ type: 'vase', context: { kind: 'cart-line', lineId } }`. Gifts have no cart-line trigger — they're PDP-only.
 
 ## SlidePane integration
 
@@ -61,16 +92,13 @@ The variant type is only shown when the product had multiple variants (`hasVaria
 
 CartPane only fills in the content (header / list / footer) — no positioning or backdrop logic in CartPane itself. The same shell is used by `<FilterSidebar>` (left side); the `side` prop swaps the slide direction.
 
-`SlidePane`'s backdrop sits at `z-[51]` and the pane at `z-[52]` — both above the navbar (`z-50`) and the bottom-bar (`z-30`), so the cart cleanly covers everything when open.
+The `tier` prop on SlidePane (`'base' | 'over'`) bumps the z-index two steps so a second pane (the addon selector) can stack above the cart pane while both stay above the navbar. Cart uses `'base'` (z-52); addon selectors use `'over'` (z-54).
 
 ## Add-to-cart entry points
 
-Anywhere `useSetAtom(addToCartAtom)` is consumed — primarily:
-- [`<ProductDetailContent>`](../../../frontend/src/products/productDetailPane/ProductDetailContent.tsx) (in-flow ADD TO BAG button on the PDP)
-- [`<ProductBottomBar>`](../../../frontend/src/products/ProductBottomBar.tsx) (sticky bottom-bar copy of the same button)
+Both PDP surfaces ([`<ProductDetailContent>`](../../../frontend/src/products/productDetailPane/ProductDetailContent.tsx) and [`<ProductBottomBar>`](../../../frontend/src/products/ProductBottomBar.tsx)) consume [`useAddToBagButton(product)`](../../../frontend/src/products/useAddToBagButton.ts), which bundles any pending addons for the current product into the new line and clears pending on add. See [`docs/frontend/features/addons.md`](addons.md) for the full configurator flow.
 
-Both call `addToCart(product)`; the atom handles the quantity-increment vs new-line decision and opens the pane.
+## Cross-links
 
-## Backlog
-
-- **Add-on cart functionality** is unbuilt. The PDP's `<AddOns>` section (vase, card) doesn't yet wire to `addToCartAtom`; the buttons exist visually but don't add anything. Tracked as backlog — see the auto-memory entry `project_pdp_addons.md`.
+- Add-on selector pane, pending atoms, configurator flow — [`docs/frontend/features/addons.md`](addons.md)
+- Checkout summary set rendering — [`docs/frontend/features/checkout.md`](checkout.md)

@@ -1,5 +1,6 @@
 import { Paginated, SortOrder } from '@/api/PaginatedResponse';
 import type { FacetSlug } from '@/api/facets/Facet';
+import { AddonType } from './AddonType';
 import { ProductBadgeText } from './ProductBadgeText';
 import { VariantType } from './ProductVariant';
 
@@ -21,6 +22,8 @@ export type ProductFilters = Paginated &
     vase_included?: true;
     badge_text?: ProductBadgeText;
     variant_type?: VariantType;
+    // Opts in to add-on rows; default backend behavior excludes them.
+    addon_type?: AddonType;
     min_price?: number;
     max_price?: number;
     search?: string;

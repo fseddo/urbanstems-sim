@@ -7,6 +7,8 @@ The `products/` app owns the catalog: products, the unified facet/tag taxonomy (
 ### `Product`
 Basic catalog row — name, slug, prices in cents, images, badge, lead time, rating. `variant_type` is a `TextChoices` of `single` / `double` / `triple`; `base_name` groups siblings (a "single Roses" and a "double Roses" share the base name). `vase_included` is derived from product text at seed time (separate from `badge_text` after the dedicated bool was added).
 
+`addon_type` is a nullable `TextChoices` of `vase` / `gift`. `null` means a regular bouquet; otherwise the row is an add-on (vase / gift) attachable to a parent's cart line on the frontend. Add-ons share the same `Product` table — they reuse all the catalog machinery (serializer, image fields, description, the `/api/products/<slug>/` detail endpoint) without a parallel model. `url` is nullable since add-ons don't have a marketing-site source URL.
+
 ### `Facet`
 The 5 dimensions of classification on Product. Each facet is one row with `slug`, `name`, and `kind`:
 
@@ -58,7 +60,9 @@ This replaced an earlier denormalized `Product.variants` JSONField that drifted 
 ```
 OR within a facet (comma-sep or repeated params), AND across facets. Backend resolves the slugs to Tag rows scoped to the named facet, then filters products via `producttag__tag_id__in=...`. Adding a 6th facet means adding one entry to `ALL_FACET_SLUGS` and one `_filter_<slug>` method — no other plumbing.
 
-**Non-tag filters** are direct columns on Product: `vase_included`, `badge_text`, `variant_type`, `min_price`, `max_price`. The split between tag filters and column filters reflects cardinality (multi-valued vs single-valued) — see [`backend/CLAUDE.md`](../../../backend/CLAUDE.md) vocabulary section.
+**Non-tag filters** are direct columns on Product: `vase_included`, `badge_text`, `variant_type`, `addon_type`, `min_price`, `max_price`. The split between tag filters and column filters reflects cardinality (multi-valued vs single-valued) — see [`backend/CLAUDE.md`](../../../backend/CLAUDE.md) vocabulary section.
+
+**Add-on default-exclusion** — `ProductFilter.qs` excludes add-ons from listings unless `?addon_type=vase|gift` is supplied. The selector pane opts in via that param; every other consumer (collections, occasions, search, homepage carousels) gets only standalone bouquets without changing call sites. `ProductViewSet.filter_queryset` bypasses this on `retrieve` so add-on slugs still resolve via `/api/products/<slug>/` (the modal's "Learn More" view fetches there). `filter_options` filters its base queryset to `addon_type__isnull=True` so price ranges and facet counts stay bouquet-only.
 
 ## Pagination
 
@@ -113,6 +117,7 @@ Local dev runs `python manage.py runserver` directly via `docker-compose.yml`'s 
 2. Seed filter-kind tags (`color`, `stem_type`) from the `STEM_VOCAB` and `COLOR_VOCAB` constants.
 3. Seed landing-kind tags (`category`, `collection`, `occasion`) from the JSON's dedicated arrays — landing-page metadata flows from JSON onto Tag.
 4. For each product, link via `ProductTag`, preserving `position` from the JSON entry (landing) or match order (color/stem).
+5. Seed add-ons from [`data/addons.json`](../../../backend/data/addons.json) (after products) — each entry becomes a `Product` row with `addon_type` set, no tags, no reviews. The `addon_types` array in that JSON is UI-row metadata consumed by the frontend's `ADDON_TYPE_META` constants and is ignored at seed time.
 
 The stem and color vocabularies are case-insensitive whole-word lookups against product text. Order is longest-first so `garden roses` matches before `roses` can claim it. `assorted` color is derived (3+ distinct colors).
 

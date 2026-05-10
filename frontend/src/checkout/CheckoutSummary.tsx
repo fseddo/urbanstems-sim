@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { HiOutlineChevronDown } from 'react-icons/hi';
-import { CartLine, cartItemsAtom, cartCountAtom } from '../cart/cartAtoms';
+import {
+  CartItem,
+  CartLine,
+  cartItemsAtom,
+  cartCountAtom,
+  lineFingerprint,
+  lineSetPrice,
+} from '../cart/cartAtoms';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
 import { CollapsiblePanel } from '../common/components/CollapsiblePanel';
@@ -19,34 +26,63 @@ interface Totals {
 
 const LineList = ({ lines }: { lines: CartLine[] }) => (
   <ul className='flex flex-col gap-5'>
-    {lines.map((line) => (
-      <li key={line.item.slug} className='flex items-center gap-4'>
-        <div className='relative shrink-0'>
-          {line.item.main_image && (
-            <img
-              src={imageAtWidth(line.item.main_image, 200)}
-              alt={line.item.name}
-              className='border-background-alt h-16 w-16 rounded-md border object-cover'
-            />
-          )}
-          <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[11px] font-semibold text-white'>
-            {line.quantity}
-          </span>
-        </div>
-        <div className='flex-1'>
-          <div className='text-sm font-bold'>{line.item.name}</div>
-          {line.item.variant_type && (
-            <div className='text-xs opacity-60'>
-              {capitalizeString(line.item.variant_type)}
+    {lines.map((line) => {
+      const hasAddons = line.addons.length > 0;
+      const total = lineSetPrice(line) * line.quantity;
+      return (
+        <li key={lineFingerprint(line)} className='flex items-start gap-4'>
+          <div className='relative shrink-0'>
+            {line.item.main_image && (
+              <img
+                src={imageAtWidth(line.item.main_image, 200)}
+                alt={line.item.name}
+                className='border-background-alt h-16 w-16 rounded-md border object-cover'
+              />
+            )}
+            <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[11px] font-semibold text-white'>
+              {line.quantity}
+            </span>
+          </div>
+          <div className='min-w-0 flex-1'>
+            <div className='text-sm font-bold'>
+              {hasAddons ? `${line.item.name} Set` : line.item.name}
             </div>
-          )}
-        </div>
-        <div className='text-sm font-bold'>
-          ${(line.item.price_dollars * line.quantity).toFixed(2)}
-        </div>
-      </li>
-    ))}
+            {hasAddons ? (
+              <div className='mt-1.5 flex flex-col gap-1'>
+                <SetComponentRow item={line.item} />
+                {line.addons.map((a, i) => (
+                  // Slug isn't unique within addons (gifts can repeat); index suffix.
+                  <SetComponentRow key={`${a.slug}-${i}`} item={a} />
+                ))}
+              </div>
+            ) : (
+              line.item.variant_type && (
+                <div className='text-xs opacity-60'>
+                  {capitalizeString(line.item.variant_type)}
+                </div>
+              )
+            )}
+          </div>
+          <div className='shrink-0 text-sm font-bold'>${total.toFixed(2)}</div>
+        </li>
+      );
+    })}
   </ul>
+);
+
+// Read-only mirror of the cart pane's `SetSubRow`, scaled down for the
+// compact summary layout.
+const SetComponentRow = ({ item }: { item: CartItem }) => (
+  <div className='flex items-center gap-2 text-xs'>
+    {item.main_image && (
+      <img
+        src={imageAtWidth(item.main_image, 120)}
+        alt={item.name}
+        className='h-6 w-6 shrink-0 rounded-sm object-cover'
+      />
+    )}
+    <span className='leading-tight opacity-70'>1 × {item.name}</span>
+  </div>
 );
 
 const TotalsBreakdown = ({

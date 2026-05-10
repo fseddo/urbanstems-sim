@@ -1,12 +1,11 @@
 import { RefObject } from 'react';
-import { useSetAtom } from 'jotai';
 import { Product } from '@/api/products/Product';
-import { addToCartAtom } from '@/src/cart/cartAtoms';
 import { StarRating } from '@/src/common/components/StarRating';
 import { AddOns } from './ProductAddOns';
 import { DeliveryInformation } from './ProductDeliveryInfo';
 import { ProductDetailVariantOptions } from './ProductDetailVariantOptions';
 import { ProductInfoAccordion } from '../ProductInfoAccordion';
+import { useAddToBagButton } from '../useAddToBagButton';
 import { useIsDesktop } from '@/src/common/hooks/useIsDesktop';
 import { tw } from '@/src/common/utils/tw';
 
@@ -37,7 +36,7 @@ export const ProductDetailContent = ({
 }) => {
   const isDesktop = useIsDesktop();
   const accordionsInPane = !isDesktop;
-  const addToCart = useSetAtom(addToCartAtom);
+  const { setPrice, addToBag } = useAddToBagButton(product);
   return (
     <div
       className={tw(
@@ -83,13 +82,13 @@ export const ProductDetailContent = ({
           />
         </div>
       )}
-      <AddOns />
+      <AddOns product={product} />
       <button
         ref={addToCartRef}
-        onClick={() => addToCart(product)}
+        onClick={addToBag}
         className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-4 text-sm font-bold tracking-action text-white transition-colors duration-300 hover:bg-white active:scale-95'
       >
-        {`ADD TO BAG - $${product.price_dollars}`}
+        {`ADD TO BAG - $${setPrice}`}
       </button>
     </div>
   );

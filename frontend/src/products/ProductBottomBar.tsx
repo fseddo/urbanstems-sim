@@ -1,10 +1,9 @@
 import { useEffect, useState, RefObject } from 'react';
-import { useSetAtom } from 'jotai';
 import { Product } from '@/api/products/Product';
-import { addToCartAtom } from '../cart/cartAtoms';
 import { StarRating } from '../common/components/StarRating';
 import { useIsDesktop } from '../common/hooks/useIsDesktop';
 import { tw } from '../common/utils/tw';
+import { useAddToBagButton } from './useAddToBagButton';
 
 export const ProductBottomBar = ({
   product,
@@ -14,7 +13,7 @@ export const ProductBottomBar = ({
   addToCartRef: RefObject<HTMLButtonElement | null>;
 }) => {
   const [visible, setVisible] = useState(false);
-  const addToCart = useSetAtom(addToCartAtom);
+  const { setPrice, addToBag } = useAddToBagButton(product);
   const isDesktop = useIsDesktop();
 
   useEffect(() => {
@@ -88,7 +87,7 @@ export const ProductBottomBar = ({
         )}
       </div>
       <button
-        onClick={() => addToCart(product)}
+        onClick={addToBag}
         className={tw(
           'bg-brand-primary tracking-action shrink-0 rounded-sm border px-[clamp(32px,calc(32px+(100vw-1024px)*64/376),96px)] py-4.5 text-xs font-extrabold whitespace-nowrap text-white/90',
           'hover:border-brand-primary hover:text-brand-primary hover:bg-white active:scale-95',
@@ -98,7 +97,7 @@ export const ProductBottomBar = ({
       >
         ADD TO BAG
         <span className='hidden min-[300px]:inline'>
-          {` - $${product.price_dollars}`}
+          {` - $${setPrice}`}
         </span>
       </button>
     </div>

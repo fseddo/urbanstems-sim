@@ -20,6 +20,7 @@ Auto-loaded CLAUDE files are not enough for area-specific work — read the rele
 | `frontend/src/products/` or `frontend/routes/products/` | [`docs/frontend/features/products.md`](docs/frontend/features/products.md) |
 | `frontend/src/checkout/` or `frontend/routes/checkout/` | [`docs/frontend/features/checkout.md`](docs/frontend/features/checkout.md) |
 | `frontend/src/cart/` | [`docs/frontend/features/cart.md`](docs/frontend/features/cart.md) |
+| `frontend/src/addons/` | [`docs/frontend/features/addons.md`](docs/frontend/features/addons.md) |
 | `frontend/src/navbar/` | [`docs/frontend/features/navbar.md`](docs/frontend/features/navbar.md) |
 | `frontend/src/landing/` or the `/` route | [`docs/frontend/features/landing.md`](docs/frontend/features/landing.md) |
 | `frontend/src/address/`, `frontend/api/places/`, anything geo | [`docs/frontend/features/places.md`](docs/frontend/features/places.md) |

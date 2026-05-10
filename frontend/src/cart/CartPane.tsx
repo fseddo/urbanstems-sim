@@ -8,11 +8,17 @@ import { checkoutKeys } from '@/api/checkout/checkoutQueries';
 import { SlidePane } from '../common/components/SlidePane';
 import { capitalizeString } from '../common/utils/capitalizeString';
 import { imageAtWidth } from '../common/utils/imageAtWidth';
+import { addonSelectorAtom } from '../addons/addonAtoms';
+import { addonCtaLabel } from '../addons/addonTypeMeta';
 import {
+  CartItem,
   CartLine,
   cartItemsAtom,
   cartOpenAtom,
   cartTotalAtom,
+  lineFingerprint,
+  lineSetPrice,
+  removeAddonFromLineAtom,
   removeLineAtom,
   setLineQuantityAtom,
 } from './cartAtoms';
@@ -75,9 +81,12 @@ export const CartPane = () => {
               </div>
 
               <div className='flex flex-col gap-1 pt-6'>
-                {lines.map((line) => (
-                  <CartLineRow key={line.item.slug} line={line} />
-                ))}
+                {lines.map((line) => {
+                  const lineId = lineFingerprint(line);
+                  return (
+                    <CartLineRow key={lineId} lineId={lineId} line={line} />
+                  );
+                })}
               </div>
             </>
           )}
@@ -116,17 +125,32 @@ export const CartPane = () => {
   );
 };
 
-const CartLineRow = ({ line }: { line: CartLine }) => {
+const CartLineRow = ({
+  lineId,
+  line,
+}: {
+  lineId: string;
+  line: CartLine;
+}) => {
   const setQuantity = useSetAtom(setLineQuantityAtom);
   const removeLine = useSetAtom(removeLineAtom);
+  const removeAddon = useSetAtom(removeAddonFromLineAtom);
+  const openSelector = useSetAtom(addonSelectorAtom);
   const setOpen = useSetAtom(cartOpenAtom);
   const closeCart = () => setOpen(false);
-  const { item, quantity } = line;
-  const lineTotal = item.price_dollars * quantity;
+  const { item, quantity, addons } = line;
+  const hasAddons = addons.length > 0;
+  const setPrice = lineSetPrice(line);
+  const lineTotal = setPrice * quantity;
   const originalLineTotal =
     item.discounted_price_dollars != null
       ? item.discounted_price_dollars * quantity
       : null;
+
+  // Hidden once the set has a vase OR when the parent isn't vase-eligible.
+  // Gifts are PDP-only.
+  const showVaseTrigger =
+    item.vase_addon_eligible && !addons.some((a) => a.addon_type === 'vase');
 
   return (
     <div className='border-background-alt flex gap-4 border-b py-5'>
@@ -144,7 +168,7 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
           />
         </Link>
       )}
-      <div className='flex flex-1 flex-col justify-between'>
+      <div className='flex flex-1 flex-col justify-between gap-3'>
         <div className='flex items-start justify-between gap-2'>
           <div className='flex flex-col gap-0.5'>
             <Link
@@ -153,27 +177,44 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
               onClick={closeCart}
               className='text-base leading-tight font-bold'
             >
-              {item.name}
+              {hasAddons ? `${item.name} Set` : item.name}
             </Link>
-            {item.variant_type && (
+            {!hasAddons && item.variant_type && (
               <div className='text-sm'>
                 Size: {capitalizeString(item.variant_type)}
               </div>
             )}
           </div>
           <button
-            onClick={() => removeLine(item.slug)}
+            onClick={() => removeLine(lineId)}
             aria-label={`Remove ${item.name}`}
             className='shrink-0 transition-opacity hover:opacity-60'
           >
             <HiOutlineTrash size={18} />
           </button>
         </div>
+
+        {hasAddons && (
+          <div className='flex flex-col gap-1.5'>
+            <SetSubRow item={item} />
+            {addons.map((addon, i) => (
+              // Gifts can repeat — slug isn't unique; index keeps key stable.
+              <SetSubRow
+                key={`${addon.slug}-${i}`}
+                item={addon}
+                onRemove={() =>
+                  removeAddon({ lineId, addonSlug: addon.slug })
+                }
+              />
+            ))}
+          </div>
+        )}
+
         <div className='flex items-end justify-between'>
           <div className='border-background-alt flex items-center gap-3 rounded-sm border px-3 py-1.5 text-sm'>
             <button
               onClick={() =>
-                setQuantity({ slug: item.slug, quantity: quantity - 1 })
+                setQuantity({ lineId, quantity: quantity - 1 })
               }
               aria-label='Decrease quantity'
               className='transition-opacity hover:opacity-60'
@@ -183,7 +224,7 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
             <span className='min-w-[1ch] text-center'>{quantity}</span>
             <button
               onClick={() =>
-                setQuantity({ slug: item.slug, quantity: quantity + 1 })
+                setQuantity({ lineId, quantity: quantity + 1 })
               }
               aria-label='Increase quantity'
               className='transition-opacity hover:opacity-60'
@@ -200,7 +241,51 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
             <span>${lineTotal.toFixed(0)}</span>
           </div>
         </div>
+
+        {showVaseTrigger && (
+          <div className='flex justify-end'>
+            <button
+              onClick={() =>
+                openSelector({
+                  type: 'vase',
+                  context: { kind: 'cart-line', lineId },
+                })
+              }
+              className='bg-brand-primary tracking-action hover:border-brand-primary hover:text-brand-primary rounded-sm border px-6 py-3 text-xs font-extrabold text-white/90 transition-colors duration-300 hover:bg-white active:scale-95'
+            >
+              {addonCtaLabel('vase').toUpperCase()}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
+const SetSubRow = ({
+  item,
+  onRemove,
+}: {
+  item: CartItem;
+  onRemove?: () => void;
+}) => (
+  <div className='flex items-center gap-2 text-sm'>
+    {item.main_image && (
+      <img
+        src={imageAtWidth(item.main_image, 200)}
+        alt={item.name}
+        className='h-8 w-8 rounded-sm object-cover'
+      />
+    )}
+    <span className='flex-1 leading-tight'>1 × {item.name}</span>
+    {onRemove && (
+      <button
+        onClick={onRemove}
+        aria-label={`Remove ${item.name}`}
+        className='shrink-0 transition-opacity hover:opacity-60'
+      >
+        <HiOutlineTrash size={14} />
+      </button>
+    )}
+  </div>
+);

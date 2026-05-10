@@ -6,6 +6,11 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   side: 'left' | 'right';
+  // 'base' (default) is the standard z layer for the only-pane case (cart,
+  // filter sidebar). 'over' bumps two z steps so a second pane (e.g. the
+  // add-on selector opened over the cart) stacks above the base pane and
+  // its backdrop, while still sitting above the navbar.
+  tier?: 'base' | 'over';
   children: ReactNode;
 };
 
@@ -22,16 +27,24 @@ type Props = {
 // the use case wants). The portal is used for the backdrop only because
 // `usePortal` also locks body scroll while open.
 
-export const SlidePane = ({ isOpen, onClose, side, children }: Props) => {
+export const SlidePane = ({
+  isOpen,
+  onClose,
+  side,
+  tier = 'base',
+  children,
+}: Props) => {
   const renderPortal = usePortal(isOpen);
   const isLeft = side === 'left';
+  const isOver = tier === 'over';
 
   return (
     <>
       {renderPortal(
         <div
           className={tw(
-            'fixed inset-0 z-[51] bg-black/60 transition-opacity duration-300',
+            'fixed inset-0 bg-black/60 transition-opacity duration-300',
+            isOver ? 'z-[53]' : 'z-[51]',
             isOpen
               ? 'pointer-events-auto opacity-100'
               : 'pointer-events-none opacity-0'
@@ -42,7 +55,8 @@ export const SlidePane = ({ isOpen, onClose, side, children }: Props) => {
 
       <div
         className={tw(
-          'bg-background fixed z-[52] flex flex-col shadow-2xl transition-all duration-300',
+          'bg-background fixed flex flex-col shadow-2xl transition-all duration-300',
+          isOver ? 'z-[54]' : 'z-[52]',
           'top-0 bottom-0',
           isLeft ? 'left-0' : 'right-0',
           'w-screen min-[530px]:w-[480px]',

@@ -20,11 +20,18 @@ export interface CreatePaymentIntentResponse {
   lines: ResolvedCheckoutLine[];
 }
 
-// Stable hash of cart contents — same key for the same {slug, quantity} set
-// regardless of order, so dedup works across navigations.
+// Stable hash of cart contents (slug + quantity + sorted addon slugs per
+// line) so the payment-intent cache dedups across navigations and doesn't
+// collide between configs that share a parent slug.
 const lineHash = (lines: CartLine[]) =>
   lines
-    .map((l) => `${l.item.slug}:${l.quantity}`)
+    .map((l) => {
+      const addonHash = l.addons
+        .map((a) => a.slug)
+        .sort()
+        .join(',');
+      return `${l.item.slug}:${l.quantity}${addonHash ? `:[${addonHash}]` : ''}`;
+    })
     .sort()
     .join('|');
 
@@ -44,10 +51,16 @@ export const checkoutQueries = {
           method: 'post',
           path: '/checkout/create-payment-intent/',
           body: {
-            line_items: lines.map((l) => ({
-              slug: l.item.slug,
-              quantity: l.quantity,
-            })),
+            // Flatten sets into [parent, ...addons]. Stripe's PI has no
+            // set/parent concept; addon qty mirrors set qty (2 sets =
+            // 2 vases).
+            line_items: lines.flatMap((l) => [
+              { slug: l.item.slug, quantity: l.quantity },
+              ...l.addons.map((a) => ({
+                slug: a.slug,
+                quantity: l.quantity,
+              })),
+            ]),
           },
         }),
       // Cart contents are the cache key; if they don't change, reuse the intent.

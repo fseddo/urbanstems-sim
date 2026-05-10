@@ -21,15 +21,17 @@ export const ProductInfoAccordion = ({
         label === 'Description' ? 'border-t' : ''
       )}
     >
-      <header className='flex items-center justify-between'>
-        <div className='font-bold'>{label}</div>
-        <div
-          className='cursor-pointer opacity-70'
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
+      <button
+        type='button'
+        onClick={() => setIsExpanded(!isExpanded)}
+        aria-expanded={isExpanded}
+        className='flex w-full items-center justify-between text-left'
+      >
+        <span className='font-bold'>{label}</span>
+        <span className='opacity-70'>
           {isExpanded ? <FiMinus /> : <FiPlus />}
-        </div>
-      </header>
+        </span>
+      </button>
       <CollapsiblePanel open={isExpanded}>
         {data && (
           <div className='flex flex-col gap-4 pt-4 text-sm opacity-90'>

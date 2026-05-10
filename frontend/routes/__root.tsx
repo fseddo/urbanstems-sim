@@ -14,6 +14,7 @@ import { useHideOnScroll } from '@/src/navbar/useHideOnScroll';
 import { useLoadingFavicon } from '@/src/common/hooks/useLoadingFavicon';
 import { DisclaimerPopup } from '@/src/common/components/DisclaimerPopup';
 import { CartPane } from '@/src/cart/CartPane';
+import { AddonSelectorPane } from '@/src/addons/AddonSelectorPane';
 
 const RootLayout = () => {
   const navbarRef = useRef<HTMLElement | null>(null);
@@ -26,6 +27,7 @@ const RootLayout = () => {
     <>
       <Navbar ref={navbarRef} />
       <CartPane />
+      <AddonSelectorPane />
       <DisclaimerPopup />
       <div style={{ height: 'var(--navbar-height)' }} />
       <div className='relative'>

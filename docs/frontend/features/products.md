@@ -24,6 +24,12 @@ It's pure content — no positioning chrome — so:
 
 The `addToCartRef` ref forwards to the add-to-cart button so [`<ProductBottomBar>`](../../../frontend/src/products/ProductBottomBar.tsx) can use an `IntersectionObserver` to know when to slide its sticky bottom-bar copy of the button into view.
 
+The ADD TO BAG label and price come from [`useAddToBagButton(product)`](../../../frontend/src/products/useAddToBagButton.ts) — same hook drives the sticky bottom-bar button — so the bundled set price (parent + any pending add-ons selected via `<AddOns>`) stays consistent across both surfaces. The hook also clears pending on add so a re-add doesn't double-apply.
+
+## Add-ons section
+
+[`<AddOns>`](../../../frontend/src/products/productDetailPane/ProductAddOns.tsx) renders the configurator inside the buy-box — collapsible "Make It Extra Special" with a vase row (gated by `isVaseAddonEligible(product)`) and a gift row. Each row has empty (whole row is the click target → opens the selector pane) and selected (per-item rows + Edit/Add Another) states. Selections write into `pendingAddonsAtom[product.slug]` and bundle into the next ADD TO BAG via `useAddToBagButton`. Full flow + selector pane internals live in [`docs/frontend/features/addons.md`](addons.md).
+
 ## Hero gallery
 
 [`<ProductHeroGallery>`](../../../frontend/src/products/ProductHeroGallery.tsx) is a single component that branches on [`useIsTouch`](../../../frontend/src/common/hooks/useIsTouch.ts) — the experience matches the input device, not the viewport size, so a touch tablet at 1280 still gets the swipe gallery and a small mouse-driven desktop window still gets both-side-by-side.

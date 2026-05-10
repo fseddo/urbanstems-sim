@@ -66,7 +66,7 @@ class ProductListSerializer(serializers.ModelSerializer):
             'price', 'price_dollars', 'discounted_price', 'discounted_price_dollars',
             'main_image', 'hover_image', 'blur_data_url', 'subtitle', 'badge_text',
             'badge_image_src', 'delivery_lead_time', 'stock',
-            'reviews_rating', 'reviews_count', 'addon_type', 'variants', 'created_at'
+            'reviews_rating', 'reviews_count', 'vase_included', 'addon_type', 'variants', 'created_at'
         ]
 
     def get_variants(self, obj):
@@ -90,7 +90,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'badge_image_src', 'delivery_lead_time', 'stock',
             'reviews_rating', 'reviews_count', 'description', 'care_instructions',
             'main_detail_src', 'is_main_detail_video', 'detail_image_1_src', 'detail_image_2_src',
-            'tags', 'addon_type',
+            'tags', 'vase_included', 'addon_type',
             'variants', 'created_at', 'updated_at'
         ]
 

@@ -21,7 +21,7 @@ export const ProductRecommendations = () => {
         <Link
           to='/collections/$slug'
           params={{ slug: 'all' }}
-          className='tracking-action mb-1.5 text-[12px] font-extrabold underline underline-offset-4 lg:text-[14px]'
+          className='tracking-action mb-1.5 min-w-[75px] text-[12px] font-extrabold underline underline-offset-4 lg:text-[14px]'
         >
           SHOP ALL
         </Link>

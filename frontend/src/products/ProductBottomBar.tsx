@@ -46,7 +46,7 @@ export const ProductBottomBar = ({
 
   return (
     <div
-      className='fixed right-0 bottom-0 left-0 z-50 flex items-center gap-3 bg-white px-4 py-4 shadow-md transition-transform duration-300 lg:justify-between lg:px-8 lg:py-4'
+      className='fixed right-0 bottom-0 left-0 z-30 flex items-center gap-3 bg-white px-4 py-4 shadow-md transition-transform duration-300 lg:justify-between lg:px-8 lg:py-4'
       style={{ transform: visible ? 'translateY(0)' : 'translateY(100%)' }}
     >
       <div
@@ -61,7 +61,7 @@ export const ProductBottomBar = ({
             <img
               src={product.main_image}
               alt={product.name}
-              className='h-16 w-16 object-cover shadow-md'
+              className='h-[clamp(40px,calc(40px+(100vw-240px)*24/60),64px)] w-[clamp(40px,calc(40px+(100vw-240px)*24/60),64px)] object-cover shadow-md'
             />
           )}
           {isDesktop && (
@@ -96,7 +96,10 @@ export const ProductBottomBar = ({
           isDesktop ? 'flex-grow-0' : 'flex-grow'
         )}
       >
-        {`ADD TO BAG - $${product.price_dollars}`}
+        ADD TO BAG
+        <span className='hidden min-[300px]:inline'>
+          {` - $${product.price_dollars}`}
+        </span>
       </button>
     </div>
   );

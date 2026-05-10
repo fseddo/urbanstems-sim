@@ -74,7 +74,7 @@ export const MobileSearchOverlay = () => {
                 params={{ slug: 'all' }}
                 search={{ search: searchTerm }}
                 onClick={() => setTimeout(close, 80)}
-                className='text-brand-primary text-xs font-bold tracking-action underline underline-offset-4 hover:opacity-60'
+                className='text-brand-primary tracking-action text-xs font-bold underline underline-offset-4 hover:opacity-60'
               >
                 VIEW ALL
               </Link>
@@ -90,7 +90,7 @@ export const MobileSearchOverlay = () => {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className='w-[35%] min-w-[140px] shrink-0'
+                    className='w-[35%] min-w-[180px] shrink-0'
                     onClick={() => setTimeout(close, 80)}
                   >
                     <ProductCard product={product} compact />

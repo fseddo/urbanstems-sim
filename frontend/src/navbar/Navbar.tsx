@@ -78,7 +78,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder='Search Here'
-              className='text-brand-primary font-mulish flex-1 bg-transparent text-xl outline-none placeholder:text-gray-400'
+              className='text-brand-primary font-mulish min-w-0 flex-1 bg-transparent text-xl outline-none placeholder:text-gray-400'
             />
             <button
               onClick={toggleSearch}
@@ -131,7 +131,7 @@ export const Navbar = ({ ref }: { ref?: Ref<HTMLElement> }) => {
 
             {/* Centered Logo */}
             <div
-              className='absolute left-1/2 -translate-x-1/2 transform'
+              className='absolute left-1/2 hidden -translate-x-1/2 transform min-[300px]:block'
               onMouseEnter={() => setShopOpen(false)}
             >
               <Link to='/'>

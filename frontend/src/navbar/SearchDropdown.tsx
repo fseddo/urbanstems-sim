@@ -120,7 +120,7 @@ export const SearchDropdown = () => {
                 params={{ slug: 'all' }}
                 search={{ search: searchTerm }}
                 onClick={() => setTimeout(close, 80)}
-                className='text-brand-primary text-xs font-bold tracking-action underline underline-offset-4 hover:opacity-60'
+                className='text-brand-primary tracking-action text-xs font-bold underline underline-offset-4 hover:opacity-60'
               >
                 VIEW ALL
               </Link>

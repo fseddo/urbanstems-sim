@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { FiX } from 'react-icons/fi';
-import { Link } from '@tanstack/react-router';
 import { tw } from '../common/utils/tw';
 import { useIsTouch } from '../common/hooks/useIsTouch';
 import { useDismissable } from '../common/hooks/useDismissable';

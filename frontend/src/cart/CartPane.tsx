@@ -2,7 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { FiX } from 'react-icons/fi';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import { CgSpinner } from 'react-icons/cg';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useIsFetching } from '@tanstack/react-query';
 import { checkoutKeys } from '@/api/checkout/checkoutQueries';
 import { SlidePane } from '../common/components/SlidePane';
@@ -119,6 +119,8 @@ export const CartPane = () => {
 const CartLineRow = ({ line }: { line: CartLine }) => {
   const setQuantity = useSetAtom(setLineQuantityAtom);
   const removeLine = useSetAtom(removeLineAtom);
+  const setOpen = useSetAtom(cartOpenAtom);
+  const closeCart = () => setOpen(false);
   const { item, quantity } = line;
   const lineTotal = item.price_dollars * quantity;
   const originalLineTotal =
@@ -129,16 +131,30 @@ const CartLineRow = ({ line }: { line: CartLine }) => {
   return (
     <div className='border-background-alt flex gap-4 border-b py-5'>
       {item.main_image && (
-        <img
-          src={imageAtWidth(item.main_image, 400)}
-          alt={item.name}
-          className='h-24 w-24 shrink-0 rounded-sm object-cover'
-        />
+        <Link
+          to='/products/$slug'
+          params={{ slug: item.slug }}
+          onClick={closeCart}
+          className='shrink-0'
+        >
+          <img
+            src={imageAtWidth(item.main_image, 400)}
+            alt={item.name}
+            className='h-24 w-24 rounded-sm object-cover'
+          />
+        </Link>
       )}
       <div className='flex flex-1 flex-col justify-between'>
         <div className='flex items-start justify-between gap-2'>
           <div className='flex flex-col gap-0.5'>
-            <div className='text-base leading-tight font-bold'>{item.name}</div>
+            <Link
+              to='/products/$slug'
+              params={{ slug: item.slug }}
+              onClick={closeCart}
+              className='text-base leading-tight font-bold'
+            >
+              {item.name}
+            </Link>
             {item.variant_type && (
               <div className='text-sm'>
                 Size: {capitalizeString(item.variant_type)}

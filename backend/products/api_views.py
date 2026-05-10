@@ -65,6 +65,14 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
             return ProductListSerializer
         return ProductDetailSerializer
 
+    def filter_queryset(self, queryset):
+        # Detail lookups bypass ProductFilter's default add-on exclusion so
+        # /api/products/<slug>/ resolves for add-on rows too — the modal's
+        # "Learn More" view fetches via the same endpoint as the regular PDP.
+        if self.action == 'retrieve':
+            return queryset
+        return super().filter_queryset(queryset)
+
     def get_queryset(self) -> Any:
         request = cast(Request, self.request)
         queryset = Product.objects.all().distinct()
@@ -118,7 +126,9 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         Response shape groups available tag slugs by facet slug, plus
         price_range + vase_included presence.
         """
-        queryset = Product.objects.all()
+        # Add-ons are excluded from listings everywhere, so the filter
+        # sidebar's option counts (and price_range) ignore them too.
+        queryset = Product.objects.filter(addon_type__isnull=True)
 
         # Scope filters: the URL-context landing tag + free-text search
         for facet_slug in LANDING_FACET_SLUGS:

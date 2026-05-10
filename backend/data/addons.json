@@ -1,0 +1,154 @@
+{
+  "addon_types": [
+    {
+      "addon_type": "vase",
+      "label": "Add A Vase",
+      "info": "Enhance Your Bouquet With The Perfect Vase",
+      "image": "https://urbanstems.com/cdn/shop/files/HavenVase_MainImage_PDP.jpg?v=1776356779&width=800"
+    },
+    {
+      "addon_type": "gift",
+      "label": "Add Something Extra",
+      "info": "New Premium Add Ons Available",
+      "image": "https://urbanstems.com/cdn/shop/files/LemonPoppy_Cookies_MainImage_PDP.jpg?v=1770480201&width=800"
+    }
+  ],
+  "addons": [
+    {
+      "name": "Haven Vase",
+      "subtitle": "3.75\" x 8\" White Ceramic Vase with a Speckled, Demi-Gloss Finish",
+      "description": "The Haven Vase's white textured ceramic feels effortlessly elegant—simple enough to let your flowers shine, beautiful enough to stand alone. Sometimes the best design choices are the ones that feel completely natural.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/HavenVase_MainImage_PDP.jpg?v=1776356779&width=420",
+      "price": 2800,
+      "addon_type": "vase"
+    },
+    {
+      "name": "Ice Blue Roseland Vase",
+      "subtitle": "5\" x 8\" Ice Blue Textured Glass Vase",
+      "description": "Where classic meets chic, this cut glass beauty adds a touch of timeless to any bouquet. In an icy shade of turquoise-blue, this vase has just the right amount of eye-catching texture in a tone that blends seamlessly with any decor, no matter how festive or how minimal. The flared shape helps show your florals to their fullest and most glamorous effect.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/GreenRoseland_Vase_MainImage_PDP.jpg?v=1762543495&width=420",
+      "price": 2800,
+      "addon_type": "vase"
+    },
+    {
+      "name": "Glass Vase",
+      "subtitle": "4\" x 8\" Clear Glass Vase",
+      "description": "Let your flowers do the talking. This streamlined glass vase is the perfect blank canvas, allowing your stems to shine and effortlessly complement any bouquet.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/GlassVase_MainImage_PDP.jpg?v=1776356762&width=420",
+      "price": 1400,
+      "addon_type": "vase"
+    },
+    {
+      "name": "Meringue Vase",
+      "subtitle": "5.25\"x 7.25\" Ecru Ceramic Vase",
+      "description": "A natural ceramic vase defined by its soft beige tone and sculptural silhouette. This vase pairs effortlessly with any bouquet, offering warmth without distraction. Timeless, versatile, and quietly refined. A true floral staple.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/Meringue_Vase_MainImage_PDP.jpg?v=1770727859&width=420",
+      "price": 2800,
+      "addon_type": "vase"
+    },
+    {
+      "name": "Douglas Sweets Vanilla Lemon Poppy Cookies",
+      "subtitle": "Douglas Sweets 4.5 oz. Vanilla Lemon Poppy Shortbread Cookies",
+      "description": "A buttery, small-batch shortbread with bright lemon zest, smooth vanilla, and a delicate crunch from poppy seeds. Light and crisp with a true melt-in-your-mouth finish, each cookie balances richness with freshness. Thoughtfully baked by a mother-daughter–led Vermont bakery, these cookies reflect a deep care for craft, ingredients, and flavor. A refined treat that feels comforting, intentional, and genuinely special.\n\nContains milk and wheat. Crafted in a facility that processes wheat, peanuts, tree nuts, and soy and dairy.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/LemonPoppy_Cookies_MainImage_PDP.jpg?v=1770480201&width=420",
+      "price": 900,
+      "addon_type": "gift"
+    },
+    {
+      "name": "Apotheke Hinoki Lavender Petite Candle",
+      "subtitle": "Apotheke 5 oz. Hinoki Lavender Petite Candle",
+      "description": "Stimulate the senses with the crisp, aromatic hit of Hinoki Lavender. This luxury candle from Apotheke is poured with a premium soy-wax blend and a mix of essential and perfume-grade oils for a clean, refined burn. Housed in a cheerful translucent glass vessel, it sets the mood without overwhelming the room.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/Apotheke_HinokiLavender_Candle_MainImage_PDP.jpg?v=1764788147&width=420",
+      "price": 3000,
+      "addon_type": "gift"
+    },
+    {
+      "name": "milk + honey bath bomb trio",
+      "subtitle": "milk + honey bath bomb trio including Lavender and Eucalyptus, Pink Grapefruit, Bergamot, Cardamom, and Blood Orange, Ginger, and Lemongrass",
+      "description": "Transform your bathtime into a luxurious experience with the milk + honey Bath Bomb set. Each bomb delivers an invigorating fizz and comes in three delightful scents: calming lavender and eucalyptus, zesty pink grapefruit with bergamot and cardamom, and vibrant blood orange paired with ginger and lemongrass. These warm and refreshing notes are designed to uplift your spirits as you unwind after a long day. Elegantly packaged in a charming gift box, this set makes for a perfect present or a well-deserved treat for yourself.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/BathBombs_MainImage.jpg?v=1778176554&width=420",
+      "price": 1800,
+      "addon_type": "gift"
+    },
+    {
+      "name": "Mother's Day Bouquet Card",
+      "subtitle": "9\" x 3.75\" Mother's Day Pop-Up Card",
+      "description": "A playful, beautifully detailed card designed to make a lasting impression. This panoramic pop-up features a vibrant bouquet of flowers with butterflies that slide back and forth for an interactive surprise. Finished in full color with delicate gold foil accents and “Happy Mother’s Day” messaging, it opens to reveal a striking horizontal scene. Thoughtful, cheerful, and made to be displayed long after the flowers arrive.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/Mother_sDayCard_MainImage_PDP.gif?v=1770566395&width=420",
+      "price": 1200,
+      "addon_type": "gift"
+    },
+    {
+      "name": "Ticket Chocolate Classic 4 Piece Truffle Box",
+      "subtitle": "Ticket Chocolate 4 Piece Petite Classic Chocolate Truffle Box with Cappuccino, Raspberry, Milk Chocolate, and Grand Marnier flavors",
+      "description": "These European style dome-shaped truffles have four different flavors packed inside. Every box is tied in a bow and comes with truffles featuring milk chocolate, raspberry, Grand Marnier, and cappuccino flavors. Ticket Chocolate truffles are perfect for every gourmet chocolate lover for every season.\n\nContains milk and soy. Crafted in a facility that processes wheat, peanuts, tree nuts, and sesame.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/Truffles_MainImage_PDP.jpg?v=1770480204&width=420",
+      "price": 1600,
+      "addon_type": "gift"
+    },
+    {
+      "name": "Yuzu Matcha Clay Facial Mask",
+      "subtitle": "Yuzu Matcha Clay Facial Mask",
+      "description": "A detoxifying facial mask designed to refresh and rebalance the skin. Japanese matcha delivers antioxidant benefits while vitamin C–rich yuzu helps brighten and clarify. Kaolin and bentonite clays draw out impurities and refine texture, leaving skin feeling clean, calm, and revitalized. A thoughtful self-care essential for oily to combination skin.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/MatchaFaceMask_MainImage_PDP.jpg?v=1772037217&width=420",
+      "price": 1000,
+      "addon_type": "gift"
+    },
+    {
+      "name": "True Hue Crushed Salt + Mist Votive",
+      "subtitle": "True Hue 2 oz. Crushed Salt + Mist Votive Candle",
+      "description": "A fresh, transportive scent inspired by sailing through white-capped waves, sea mist rising toward the mast. Notes of lily of the valley, crisp green leaves, and a touch of pine create a clean, invigorating fragrance that feels both calm and expansive. Poured with a premium soy coconut wax blend and fine, Prop 65–approved fragrance oils, this votive is crafted to burn beautifully and thoughtfully. Made by True Hue, a Minneapolis-based brand founded in 2017, each candle is designed as a sensory portal that’s eco-conscious, indulgent, and rooted in intention.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/CrushedSalt_Votive_MainImage.jpg?v=1770422089&width=420",
+      "price": 1400,
+      "addon_type": "gift"
+    },
+    {
+      "name": "NEST Sunlit Yuzu & Neroli Classic Candle",
+      "subtitle": "NEST 8.1oz. Sunlit Yuzu & Neroli Classic Candle",
+      "description": "Embrace the joy and uplift your spirits with this delightful candle featuring notes of sunlit yuzu, mandarin, and neroli blossom. A happy blend that makes every day brighter. Crafted from soy wax, this candle offers a clean burn with a 60-hour burn time, perfect for prolonged enjoyment.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/SunlitCandle_MainImage_PDP.jpg?v=1773088779&width=420",
+      "price": 4800,
+      "addon_type": "gift"
+    },
+    {
+      "name": "lil sweet treat x UrbanStems Flower Gummies",
+      "subtitle": "lil sweet treat x UrbanStems Flower Gummy Assortment with Raspberry, Orange, and Pineapple flavors",
+      "description": "Our Lil Sweet Treat gummies come in exclusive UrbanStems packaging for a curated, polished gift. Bright raspberry, orange, and pineapple flower gummies add a playful, delicious touch to any bouquet. Clean finish, zero effort.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/LST_Gummies_MainImage.jpg?v=1778176564&width=420",
+      "price": 1200,
+      "addon_type": "gift"
+    },
+    {
+      "name": "Kate McLeod Mini Daily Stone Lotion Bar",
+      "subtitle": "Kate McLeod 1 oz. Mini Daily Stone Lotion Bar",
+      "description": "Gift the Kate McLeod Mini Daily Lotion Stone, a luxurious body stone designed to deeply nourish and condition dry skin. Infused with the soothing scents of rose, frankincense, and neroli, this bar is packed with rich cocoa butter, while sweet almond oil, abundant in Vitamin D, soothes irritation and strengthens your skin barrier. Lightweight apricot kernel oil smoothes and enhances skin texture, leaving it visibly soft, supple, and glowing. Experience a deep conditioning body treatment with the Mini Daily Lotion Stone.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/DailyStone_MainImage.jpg?v=1768585475&width=420",
+      "price": 1400,
+      "addon_type": "gift"
+    },
+    {
+      "name": "Poppy & Pout Lemon Bloom Lip Balm",
+      "subtitle": "Poppy & Pout Lemon Bloom Lip Balm",
+      "description": "A fresh squeeze of sunshine for your lips. Lemon Bloom delivers bright citrus flavor with a clean, smooth formula made from natural ingredients. Housed in a recyclable cardboard tube, it’s as thoughtful as it is effective. A cheerful essential that keeps lips soft, hydrated, and ready for spring.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/Poppy_Pout_MainImage_PDP_cbbf5862-f0e3-4ed9-80cb-4a2b72715363.jpg?v=1770480207&width=420",
+      "price": 1000,
+      "addon_type": "gift"
+    },
+    {
+      "name": "Candle Birthday Card",
+      "subtitle": "5\" x 7\" Meri Meri Candle Folding Card with Happy Birthday Insert",
+      "description": "This vibrant birthday candle card from Meri Meri is ideal for someone who embraces their age with joy. Featuring the phrase \"Who's counting anyway?\", the card opens to reveal a striking array of candles adorned with gold foil details. Paired with a coordinating blue envelope, it reflects the spirit of the occasion. Inside, a simple \"Happy Birthday\" message adds a personal touch. Measuring 7 x 5 inches, this card combines sustainability with style, making it a thoughtful way to celebrate any birthday.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/BirthdayCard_MainImage.jpg?v=1777330764&width=420",
+      "price": 800,
+      "addon_type": "gift"
+    },
+    {
+      "name": "UrbanStems Floral Shears",
+      "subtitle": "6.5\" x 4\" UrbanStems Floral Shears",
+      "description": "Handcrafted in Japan, these shears are a favorite among professional florists worldwide. Featuring teflon-coated carbon steel blades and comfortable thermoplastic elastomer handles, they effortlessly cut through even the toughest stems. Upgrade your floral arrangements and leave the craft scissors behind with these top-quality shears, exclusively from UrbanStems.",
+      "img_src": "https://urbanstems.com/cdn/shop/files/Shears_MainImage.gif?v=1778176550&width=420",
+      "price": 4500,
+      "addon_type": "gift"
+    }
+  ]
+}

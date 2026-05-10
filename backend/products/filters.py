@@ -27,6 +27,7 @@ class ProductFilter(django_filters.FilterSet):
     vase_included = django_filters.CharFilter(method='_filter_vase_included')
     badge_text = django_filters.CharFilter(field_name='badge_text')
     variant_type = django_filters.CharFilter(field_name='variant_type')
+    addon_type = django_filters.CharFilter(field_name='addon_type')
 
     # Price input is in dollars; stored as cents.
     min_price = django_filters.NumberFilter(method='_filter_min_price')
@@ -82,6 +83,18 @@ class ProductFilter(django_filters.FilterSet):
 
     def _filter_max_price(self, queryset, name, value):
         return queryset.filter(price__lte=int(value) * 100)
+
+    @property
+    def qs(self):
+        # Default behavior: exclude add-ons from listings/search. Callers opt in
+        # by sending `?addon_type=vase|gift` (the modal selectors do this); the
+        # explicit param keeps that branch alive while every other listing —
+        # collections, occasions, search, the homepage carousels — gets only
+        # standalone bouquets.
+        queryset = super().qs
+        if self.request and 'addon_type' not in self.request.GET:
+            queryset = queryset.filter(addon_type__isnull=True)
+        return queryset
 
 
 class TagFilter(django_filters.FilterSet):

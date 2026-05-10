@@ -118,6 +118,14 @@ class Command(BaseCommand):
             help='Path to the products JSON file (default: data/products.json)'
         )
         parser.add_argument(
+            '--addons-file',
+            type=str,
+            default='data/addons.json',
+            help='Path to the add-ons JSON file (default: data/addons.json). '
+                 'Add-ons seed as Product rows with addon_type set; they share '
+                 'the catalog table but are filtered out of normal listings.'
+        )
+        parser.add_argument(
             '--clear',
             action='store_true',
             help='Clear existing data before seeding'
@@ -326,11 +334,46 @@ class Command(BaseCommand):
                     }
                 )
 
+        # Add-ons (vases + gifts) — Product rows with addon_type set, no tags,
+        # no reviews. The `addon_types` array in the JSON is UI-row metadata
+        # consumed by the frontend's ADDON_TYPE_META constants — not seeded.
+        addons_file = options['addons_file']
+        if os.path.exists(addons_file):
+            self.stdout.write(f'\nLoading add-ons from {addons_file}...')
+            with open(addons_file, 'r') as f:
+                addons_data = json.load(f).get('addons', [])
+            for entry in addons_data:
+                slug = slugify(entry['name'])
+                Product.objects.get_or_create(
+                    external_id=f'addon-{slug}',
+                    defaults={
+                        'name': entry['name'],
+                        'slug': slug,
+                        # Add-ons have no size variants, no sibling group, no
+                        # source URL on a marketing site.
+                        'variant_type': None,
+                        'base_name': entry['name'],
+                        'url': None,
+                        'price': entry['price'],
+                        'main_image': strip_width_param(entry.get('img_src')),
+                        'subtitle': entry.get('subtitle'),
+                        'description': entry.get('description'),
+                        'addon_type': entry['addon_type'],
+                    },
+                )
+            self.stdout.write(f'  Seeded {len(addons_data)} add-ons')
+        else:
+            self.stdout.write(
+                self.style.WARNING(f'\nAdd-ons file not found at {addons_file}, skipping.')
+            )
+
         # Summary
         self.stdout.write(
             self.style.SUCCESS(
                 f'\nSuccessfully seeded:\n'
-                f'  Products: {Product.objects.count()}\n'
+                f'  Products: {Product.objects.count()} '
+                f'({Product.objects.filter(addon_type__isnull=True).count()} bouquets, '
+                f'{Product.objects.filter(addon_type__isnull=False).count()} add-ons)\n'
                 f'  Facets: {Facet.objects.count()}\n'
                 f'  Tags: {Tag.objects.count()} '
                 f'({ProductTag.objects.count()} product-tag links)\n'

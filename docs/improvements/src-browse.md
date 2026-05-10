@@ -33,6 +33,11 @@ Punch list for browsing/discovery components.
 - Location: `frontend/src/landing/occasionCarousel/OccasionCard.tsx:14`.
 - Fix: add `alt={occasion.name}` and `object-cover` (or `aspect-*` on the wrapper).
 
+### `price_range` from `filter-options/` is fetched but never rendered
+- Location: backend serves `price_range: { min, max }` from [`api_views.filter_options`](../../backend/products/api_views.py); frontend declares it in [`FilterOptions.ts`](../../frontend/api/products/FilterOptions.ts) but no sidebar component reads it.
+- The data is per-scope-correct (excludes add-ons after the slice 1 fix) — just unsurfaced. The `min_price` / `max_price` filter spec exists but has no UI bound to it.
+- Fix: add a price-range filter spec entry that surfaces a slider or two-input min/max bound to the served `price_range` values, writing into the existing `min_price` / `max_price` URL search params.
+
 ### Low severity
 - **`BestSellers` hardcoded categories** — `FEATURED_CATEGORY_SLUGS = ['flowers', 'plants']`. Sim-acceptable; drive from a backend "is featured" flag if marketing wants editorial control.
 - **`DELIVERY_STEP_INFO` rename layer** — `products/constants.ts` exports as one name, consumer aliases on import. Pick one.

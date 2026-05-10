@@ -18,6 +18,11 @@ class FacetKind(models.TextChoices):
     FILTER = "filter", "Filter"      # only used as a sidebar filter (color/stem_type)
 
 
+class AddonType(models.TextChoices):
+    VASE = "vase", "Vase"
+    GIFT = "gift", "Gift"
+
+
 # The 5 facets the project ships. Single source of truth for the seed
 # command and any other live-state code that needs to ensure these exist.
 # (Past migrations keep their own frozen snapshots — migrations should be
@@ -38,7 +43,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     variant_type = models.CharField(max_length=10, choices=VariantType.choices, null=True, blank=True)
     base_name = models.CharField(max_length=200)
-    url = models.URLField()
+    url = models.URLField(null=True, blank=True)
 
     # Pricing (stored in cents)
     price = models.PositiveIntegerField(null=True, blank=True, help_text="Price in cents")
@@ -72,6 +77,15 @@ class Product(models.Model):
 
     # Derived flags
     vase_included = models.BooleanField(default=False, help_text="Product comes with a vase/vessel (derived from text at seed time)")
+
+    # Add-on classification. `null` means this is a normal bouquet; otherwise
+    # the row is an add-on (vase/gift) attachable to a parent bouquet's cart
+    # line. Add-ons are excluded from the default `/api/products/` listing
+    # via `ProductFilter` so they don't leak into search/listings — only
+    # `?addon_type=vase|gift` opts them in.
+    addon_type = models.CharField(
+        max_length=10, choices=AddonType.choices, null=True, blank=True
+    )
 
     # Facet membership. Each ProductTag carries `position` for curated
     # ordering within a single landing-kind tag (used by ProductViewSet

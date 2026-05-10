@@ -4,6 +4,36 @@ Punch list for the commerce-flow + shared infrastructure.
 
 ## Pending
 
+### 🚧 Priority: Checkout polish
+
+These are the next items to tackle — grouped at top so they're not buried under older audit-cycle items.
+
+#### Mobile order summary as collapsible at top
+- Location: [`<CheckoutPage>`](../../frontend/src/checkout/CheckoutPage.tsx).
+- Below `lg`, replace the right-column summary with a collapsible bar at the top of the page. Collapsed: `Order Summary` + total. Expanded: cart line items below.
+- Fix: use [`<CollapsiblePanel>`](../../frontend/src/common/components/CollapsiblePanel.tsx) for the open/close transition. Desktop right column unchanged.
+- Cross-ref: [`improvements/dynamic-sizing.md`](dynamic-sizing.md#checkout) tracks this under the dynamic-sizing workstream too — fix once, both lists clear.
+
+#### Drop bank payment option from Stripe `<PaymentElement>`
+- Location: `frontend/src/checkout/CheckoutForm.tsx` (Stripe `<PaymentElement>` config) — root fix is on the backend PaymentIntent creation.
+- Bank-redirect option clutters the picker. Cleanest fix is server-side: set `payment_method_types: ['card']` (or whatever subset we want) when creating the PaymentIntent. The picker shape derives from the PI's `payment_method_types`, so `<PaymentElement>` will only render those.
+- Alternative if backend can't change: `<PaymentElement options={{ paymentMethodOrder: [...] }} />` on the frontend — works but less authoritative.
+
+#### Placeholder text on Stripe inputs
+- Location: `frontend/src/checkout/CheckoutForm.tsx`.
+- Stripe's `<PaymentElement>` / `<AddressElement>` support label and field-level customization via the `appearance` API + element options. Currently no placeholders.
+- Fix: pass placeholder values through Stripe's `appearance.labels` or per-field `placeholder` options where supported. Reference: https://stripe.com/docs/elements/appearance-api. Inputs Stripe manages directly (CC field) keep their defaults.
+
+#### Form validation + first-error focus
+- Location: `frontend/src/checkout/CheckoutForm.tsx` (and `<AddressForm>`, `<DeliveryForm>` etc.).
+- Today, submitting an incomplete form likely fails silently or surfaces a Stripe-side error after submission. Want pre-submit validation that:
+  1. Marks the offending input red (border + helper text below) — reuse `--error` / `--error-bg` tokens already in `globals.css`.
+  2. **Focuses the first invalid input** on submit-fail (scroll-into-view + `.focus()` on the topmost element with an error).
+- Implementation sketch: a small `useFormErrors<T>()` hook holding `errors: Partial<Record<keyof T, string>>` + a `focusFirstError(refsByKey)` action. Or pull in `react-hook-form` if a second form lands needing the same shape. For now, hand-rolled is fine.
+- Stripe's `<PaymentElement>` has its own validation-on-submit via `stripe.confirmPayment({ ...elements })` — surface the returned `error.message` next to the element rather than just toasting.
+
+---
+
 ### Hex color in `SearchDropdown`
 - Location: `frontend/src/navbar/SearchDropdown.tsx:49`.
 - `bg-[#f5f5f3]` — neither in the palette nor a sanctioned arbitrary value.

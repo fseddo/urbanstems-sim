@@ -45,14 +45,14 @@ export const DeliveryInformation = ({ product }: { product: Product }) => {
       <div className='font-bold'>Delivery Information</div>
       {bumpedFrom && (
         <div className='text-error text-xs'>
-          Delivery date was changed to {formatDeliveryDate(deliveryDate)} — the
-          earliest available — because this product can't be delivered on{' '}
-          {formatDeliveryDate(bumpedFrom)}.
+          This Product Is Not Available On The Date You Selected{' '}
+          {formatDeliveryDate(bumpedFrom)}, We Updated The Date To The Closest
+          Available Of {formatDeliveryDate(earliestDate)}.
         </div>
       )}
       <div className='border-background-alt flex rounded-md border'>
         <DatePicker
-          className='flex flex-1'
+          className='flex min-w-[160px] flex-1'
           value={deliveryDate}
           onChange={handleChange}
           minDate={earliestDate}

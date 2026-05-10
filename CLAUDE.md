@@ -24,6 +24,7 @@ Auto-loaded CLAUDE files are not enough for area-specific work — read the rele
 | `frontend/src/landing/` or the `/` route | [`docs/frontend/features/landing.md`](docs/frontend/features/landing.md) |
 | `frontend/src/address/`, `frontend/api/places/`, anything geo | [`docs/frontend/features/places.md`](docs/frontend/features/places.md) |
 | `frontend/api/` (any new query/mutation) | [`docs/frontend/architecture/data-fetching.md`](docs/frontend/architecture/data-fetching.md) |
+| Any form with custom validation (uses `useForm`) | [`docs/frontend/architecture/forms.md`](docs/frontend/architecture/forms.md) |
 | Any responsive sizing work | [`docs/frontend/architecture/dynamic-sizing.md`](docs/frontend/architecture/dynamic-sizing.md) + the relevant feature doc |
 | `backend/products/` | [`docs/backend/features/products.md`](docs/backend/features/products.md) |
 | `backend/checkout/` | [`docs/backend/features/checkout.md`](docs/backend/features/checkout.md) |

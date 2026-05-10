@@ -171,6 +171,6 @@ Full list: https://docs.stripe.com/testing#cards.
 - `frontend/api/checkout/checkoutQueries.ts` — TanStack Query options for the endpoint.
 - `frontend/routes/checkout/index.tsx` — page shell, creates the intent on mount and mounts `<Elements>`.
 - `frontend/routes/checkout/success.tsx` — confirms the intent, clears the cart.
-- `frontend/src/checkout/CheckoutForm.tsx` — the form (Address + Payment + email + submit).
+- `frontend/src/checkout/CheckoutForm.tsx` — the form (Address + Payment + email + submit). The email field is the one input we own; it uses [`useForm`](../../../frontend/src/common/hooks/useForm.tsx) / `<form.Field>` for validation + error styling that matches the Stripe iframes (see [`architecture/forms.md`](../architecture/forms.md)). Address and Payment inputs are Stripe iframes and validate themselves at `confirmPayment` time.
 - `frontend/src/checkout/CheckoutSummary.tsx` — the right-hand order summary.
 - `frontend/src/checkout/stripeClient.ts` — singleton `loadStripe` wrapper.

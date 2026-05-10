@@ -28,6 +28,7 @@ docs/
 - **Touching checkout** → [`frontend/features/checkout.md`](frontend/features/checkout.md).
 - **Touching the address picker / geo / Google Places** → [`frontend/features/places.md`](frontend/features/places.md).
 - **Touching the API layer / queries / mutations** → [`frontend/architecture/data-fetching.md`](frontend/architecture/data-fetching.md).
+- **Building or editing a form with custom validation** → [`frontend/architecture/forms.md`](frontend/architecture/forms.md).
 - **Adding responsive behavior** → [`frontend/architecture/dynamic-sizing.md`](frontend/architecture/dynamic-sizing.md), then the relevant `features/<area>.md` for area-specific token + breakpoint specifics.
 - **Adding a backend feature / model / endpoint** → [`backend/architecture.md`](backend/architecture.md) + the relevant [`backend/features/<area>.md`](backend/features/).
 

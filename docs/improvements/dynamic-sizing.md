@@ -13,7 +13,17 @@ This doc is the punch list of remaining work. **It does not document how anythin
 
 ### Checkout
 
-[`<CheckoutPage>`](../../frontend/src/checkout/CheckoutPage.tsx) is a 2-col grid (`lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)]`) with form on the left, summary on the right. On mobile they should stack — form first, summary either collapsible at top or fixed at bottom. Internal forms ([`AddressForm`](../../frontend/src/checkout/AddressForm.tsx), payment) likely also need spacing tightening.
+[`<CheckoutPage>`](../../frontend/src/checkout/CheckoutPage.tsx) is a 2-col grid (`lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)]`) with form on the left, summary on the right.
+
+#### Mobile order summary as collapsible at top
+Below `lg`, replace the right-side summary column with a collapsible bar at the top of the page (below the navbar). Two states:
+- **Collapsed (default):** `Order Summary` left, total right. Single row, click to expand.
+- **Expanded:** the cart line items render below the header row.
+
+Use [`<CollapsiblePanel>`](../../frontend/src/common/components/CollapsiblePanel.tsx) for the open/close transition (the codebase's `grid-template-rows: 0fr ↔ 1fr` slide pattern). Desktop right-column summary is unchanged at `lg+`.
+
+#### Internal form spacing
+[`<AddressForm>`](../../frontend/src/checkout/AddressForm.tsx) and the payment block likely need spacing tightening on mobile (current padding is sized for the 440px desktop column).
 
 ## Future improvements (deferred until repetition forces them)
 

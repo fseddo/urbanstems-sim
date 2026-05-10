@@ -22,10 +22,10 @@ export const ProductDetailVariantOptions = ({
                 to='/products/$slug'
                 params={{ slug: variant.slug }}
                 className={tw(
-                  'relative flex grow flex-col items-center justify-center gap-2 rounded-sm p-4',
+                  'relative flex grow flex-col items-center justify-center gap-2 rounded-sm p-4 transition-colors duration-200',
                   variant.variant_type === product?.variant_type
                     ? 'border-brand-primary cursor-default border-2'
-                    : 'border-background-alt cursor-pointer border'
+                    : 'border-background-alt hover:border-brand-primary cursor-pointer border'
                 )}
                 key={variant.id}
               >

@@ -153,7 +153,7 @@ export const HorizontalScrollbar = ({
       return () => cancelAnimationFrame(id);
     }
     setVisible(false);
-    const id = window.setTimeout(() => setMounted(false), FADE_DURATION_MS);
+    const id = setTimeout(() => setMounted(false), FADE_DURATION_MS);
     return () => window.clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasOverflow]);
@@ -167,7 +167,7 @@ export const HorizontalScrollbar = ({
         'bg-background-alt relative self-center rounded-4xl transition-opacity duration-200',
         width,
         height,
-        visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        visible ? 'opacity-100' : 'pointer-events-none opacity-0'
       )}
     >
       <div

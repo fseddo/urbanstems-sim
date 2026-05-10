@@ -16,13 +16,12 @@ export const CheckoutResultPage = () => {
           <p className='mb-2 text-base'>Your order is confirmed.</p>
           {formattedAmount && (
             <p className='mb-6 text-sm opacity-70'>
-              We charged {formattedAmount} to your card. A receipt is on its
-              way to your inbox.
+              A receipt is on its way to your inbox.
             </p>
           )}
           <Link
             to='/'
-            className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-action text-white/90 transition-opacity hover:opacity-90'
+            className='bg-brand-primary tracking-action inline-block rounded-md px-10 py-4 text-xs font-black text-white/90 transition-opacity hover:opacity-90'
           >
             CONTINUE SHOPPING
           </Link>
@@ -41,16 +40,14 @@ export const CheckoutResultPage = () => {
 
       {result.kind === 'failed' && (
         <>
-          <h1 className='font-crimson mb-4 text-4xl'>
-            Something went wrong
-          </h1>
+          <h1 className='font-crimson mb-4 text-4xl'>Something went wrong</h1>
           <p className='mb-6 text-sm opacity-70'>
-            Your payment didn&apos;t go through. Your cart is still saved —
-            give it another try.
+            Your payment didn&apos;t go through. Your cart is still saved — give
+            it another try.
           </p>
           <Link
             to='/checkout'
-            className='bg-brand-primary inline-block rounded-md px-10 py-4 text-xs font-black tracking-action text-white/90'
+            className='bg-brand-primary tracking-action inline-block rounded-md px-10 py-4 text-xs font-black text-white/90'
           >
             BACK TO CHECKOUT
           </Link>

@@ -10,8 +10,8 @@ export const HomePage = () => {
       <LandingHero />
       <OccasionCarousel />
       <Reviews />
-      <AboutUs />
       <BestSellers />
+      <AboutUs />
     </div>
   );
 };

@@ -79,32 +79,24 @@ html {
     300px
   );
 
-  /* Product-card type — two variants, mirroring the `compact` prop on
-   * <ProductCard>. The default (non-compact) variant is used in the
-   * listing grid; the compact variant is used in carousels and search
-   * dropdowns. They have intentionally different ramp shapes:
-   *
-   * Default (listing grid) — single continuous clamp, dramatic ramp
-   * since cards in the grid scale aggressively with viewport width.
+  /* Product-card type, default (listing grid) — single continuous clamp,
+   * dramatic ramp since grid cells scale aggressively with viewport.
    *   ~<1000px : 15 name / 12 price (floor)
    *   1000–2000px : 15→30 / 12→18 (continuous, slope 1.5vw)
    *   ≥2000px : 30 / 18 (ceiling)
-   * Consumed via `text-product-card-name` / `text-product-card-price`.
-   *
-   * Compact (carousels, search results) — flat mobile floor, then
-   * switches to a desktop clamp at 1024 (defined in the 1024 media
-   * query). Both ramps captured from the reference design:
-   * - Name: `clamp(16px, 1.39vw, 30px)` — 16 floor below ~1150sw,
-   *   ramps to 30 at ~2158sw.
-   * - Price: `clamp(16px, 0.9259vw, 20.8px)` — 16 floor below ~1728sw,
-   *   ramps to 20.8 at ~2247sw.
-   * Both share the same 12px mobile floor below 1024sw.
-   *   <1024px : 12 / 12 (name / price)
-   *   1024sw onward : per the clamps above
-   * Consumed via `text-product-card-compact-name` /
-   * `text-product-card-compact-price`. */
+   * Consumed via `text-product-card-name` / `text-product-card-price`. */
   --product-card-name-size: clamp(15px, 1.5vw, 30px);
   --product-card-price-size: clamp(12px, 1.5vw, 18px);
+
+  /* Product-card type, compact (carousels, search dropdowns) — flat
+   * mobile floor, then desktop clamps captured from the reference design.
+   * Defined in the 1024 media query.
+   *   <1024px : 12 / 12 (name / price floor)
+   *   ≥1024px : `clamp(16px, 1.39vw, 30px)` name (16 floor below 1150sw,
+   *             30 at 2158sw) / `clamp(16px, 0.9259vw, 20.8px)` price
+   *             (16 floor below 1728sw, 20.8 at 2247sw)
+   * Consumed via `text-product-card-compact-name` /
+   * `text-product-card-compact-price`. */
   --product-card-compact-name-size: 12px;
   --product-card-compact-price-size: 12px;
 
@@ -210,7 +202,7 @@ html {
    *   ≥1024px : pt 24, pb 54, hero-pb 24
    * Consumed via `pt-landing-section`, `pb-landing-section`,
    * `pb-landing-hero`. */
-  --landing-section-pt: 16px;
+  --landing-section-pt: 18px;
   --landing-section-pb: 30px;
   --landing-hero-pb: 16px;
 
@@ -223,6 +215,34 @@ html {
    *   ≥1400px : 80
    * Consumed via `py-pdp-section`. */
   --pdp-section-py: 40px;
+
+  /* PDP section headers (currently used by the Delivery Instructions
+   * "How Your Package Will Arrive At Your Door" header). Caps higher
+   * than `--landing-section-header-size` because PDP section headers
+   * are visually larger by design. The first ramp starts at 880sw
+   * (where the delivery-steps row stops overflowing) — earlier than the
+   * usual 1024 anchor — so the ramp lives in `:root` via viewport math
+   * rather than inside `@media (min-width: 1024px)`.
+   *   <880px : floor (28px)
+   *   880–1400px : first ramp, 28→48
+   *   1400–2250px : second ramp, 48→60
+   *   ≥2250px : ceiling (60px)
+   * Consumed via `text-pdp-section-header`. */
+  --pdp-section-header-size: clamp(
+    28px,
+    calc(28px + (100vw - 880px) * 20 / 520),
+    48px
+  );
+
+  /* Delivery-step description text — sits below the step image and
+   * the numbered circle. Single ramp from a tight mobile floor to a
+   * comfortable desktop reading size; matches the shape of
+   * `--review-description-size`.
+   *   <1024px : floor (14px)
+   *   1024–1400px : ramp 14→18
+   *   ≥1400px : ceiling (18px)
+   * Consumed via `text-delivery-step-description`. */
+  --delivery-step-description-size: 14px;
 
   /* AboutUs is a "statement" section — symmetric, generous vertical
    * padding (each side, not split) and stepwise at fixed breakpoints.
@@ -329,6 +349,11 @@ html {
     --landing-section-pb: 54px;
     --landing-hero-pb: 24px;
     --pdp-section-py: 60px;
+    --delivery-step-description-size: clamp(
+      14px,
+      calc(14px + (100vw - 1024px) * 4 / 376),
+      18px
+    );
     --about-us-py: 124px;
     --hero-overlay: linear-gradient(
       to top right,
@@ -404,6 +429,11 @@ html {
     --collection-hero-pt: 28px;
     --collection-hero-pb: 62px;
     --pdp-section-py: 80px;
+    --pdp-section-header-size: clamp(
+      48px,
+      calc(48px + (100vw - 1400px) * 12 / 850),
+      60px
+    );
   }
 }
 
@@ -446,6 +476,8 @@ html {
   --text-product-card-price: var(--product-card-price-size);
   --text-product-card-compact-name: var(--product-card-compact-name-size);
   --text-product-card-compact-price: var(--product-card-compact-price-size);
+  --text-pdp-section-header: var(--pdp-section-header-size);
+  --text-delivery-step-description: var(--delivery-step-description-size);
 
   /* Letter-spacing for action text — uppercase CTAs like ADD TO BAG,
    * SHOP ALL, GOT IT, AnimatedButton labels. Use `tracking-action`

@@ -77,11 +77,6 @@ export const ProductHeroGallery = ({ product }: { product: Product }) => {
 
   const badges = (
     <>
-      {product.badge_text && (
-        <div className='border-brand-primary absolute top-[5%] left-[5%] max-w-[90%] truncate rounded-2xl border-1 bg-white/90 px-4 py-1 text-sm font-bold'>
-          {product.badge_text}
-        </div>
-      )}
       {product.badge_image_src && (
         <img
           src={imageAtWidth(product.badge_image_src, 240)}

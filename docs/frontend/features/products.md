@@ -53,10 +53,11 @@ The date side enforces the product's `delivery_lead_time` via `minDate` on `<Dat
 
 ## Trailer (shared)
 
-Below the main section, both viewports render the same:
-- [`<ProductReviews>`](../../../frontend/src/products/ProductReviews.tsx)
-- [`<ProductRecommendations>`](../../../frontend/src/products/ProductRecommendations.tsx)
-- [`<ProductDeliveryInstructions>`](../../../frontend/src/products/ProductDeliveryInstructions.tsx)
+Below the main section, both viewports render the same trailer. The vertical-rhythm sections share the `py-pdp-section` token (40 / 60 / 80 across the three breakpoints) for consistent breathing — except `<ProductReviews>`, which still uses static `py-20`.
+
+- [`<ProductReviews>`](../../../frontend/src/products/ProductReviews.tsx) — symmetric padding, header + rating + WRITE A REVIEW button.
+- [`<ProductRecommendations>`](../../../frontend/src/products/ProductRecommendations.tsx) — header + horizontal product carousel. Section uses `pl-page` only; the carousel extends off the right edge of the viewport via [`<HorizontalList>`](../../../frontend/src/common/components/HorizontalList.tsx), mirroring the [`<BestSellers>`](../../../frontend/src/landing/bestSellers/BestSellers.tsx) pattern on the landing page. Header uses `text-landing-section-header`. The "SHOP ALL" link uses `tracking-action` (the shared CTA letter-spacing token, 1.68px) and ramps `text-[12px] lg:text-[14px]`.
+- [`<ProductDeliveryInstructions>`](../../../frontend/src/products/ProductDeliveryInstructions.tsx) — header + 3-step horizontal-scrolling list. Section uses `pl-page` only; the cards are wrapped in [`<HorizontalList>`](../../../frontend/src/common/components/HorizontalList.tsx) with `min-w-[280px] flex-1` per cell — at viewports where 3 cards don't fit (~<880sw), the row scrolls horizontally; at ≥lg the cards distribute equally and the scrollbar auto-hides (see [`<HorizontalScrollbar>`](../../../frontend/src/common/components/HorizontalScrollbar.tsx) — it tracks `container.scrollWidth > clientWidth` and fades out over 200ms when content fits). Header copy splits into two `<span className='block'>` elements so the line break is structural, not width-driven. Header uses `text-pdp-section-header` (28 → 48 → 60); step description uses `text-delivery-step-description` (14 → 18).
 - [`<ProductBottomBar>`](../../../frontend/src/products/ProductBottomBar.tsx) — sticky-bottom add-to-cart that slides in (`translate-y-100% → 0`) once the in-flow add-to-cart button has scrolled above the viewport (detected via `IntersectionObserver` on `addToCartRef`). Sets `--bottom-bar-height` so other sticky elements can reserve space for it.
 
 ## Data flow

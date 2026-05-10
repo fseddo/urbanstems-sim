@@ -8,7 +8,7 @@ export const DeliveryStepDetail = ({
   description: string;
 }) => {
   return (
-    <div className='min-w-0 flex-1'>
+    <div className='min-w-[280px] flex-1'>
       <div className='relative'>
         <div className='overflow-hidden rounded-md'>
           <img
@@ -21,7 +21,9 @@ export const DeliveryStepDetail = ({
           <span className='text-lg font-bold'>{id}</span>
         </div>
       </div>
-      <div className='mt-8 px-6 text-center'>{description}</div>
+      <div className='text-delivery-step-description mt-8 px-6 text-center'>
+        {description}
+      </div>
     </div>
   );
 };

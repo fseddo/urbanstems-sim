@@ -13,7 +13,7 @@ export const ProductRecommendations = () => {
   );
 
   return (
-    <section className='py-pdp-section pl-page flex w-full flex-col gap-6'>
+    <section className='py-pdp-section pl-page flex w-full flex-col gap-6 md:gap-8 lg:gap-10'>
       <div className='pr-page flex w-full items-end justify-between leading-none'>
         <div className='font-crimson text-landing-section-header font-medium'>
           You May Also Like
@@ -29,7 +29,7 @@ export const ProductRecommendations = () => {
       <HorizontalList
         scrollRef={scrollRef}
         className='gap-2 lg:gap-4'
-        outerClassName='gap-10'
+        outerClassName='gap-10 lg:gap-14'
         scrollbar={{ width: 'w-[50%]' }}
       >
         {flowerData?.data?.map((product) => (

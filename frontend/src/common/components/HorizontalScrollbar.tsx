@@ -1,6 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import { tw } from '../utils/tw';
 
+// Matches the `duration-200` class on the track and the codebase's
+// `--animate-fade-in/out` tokens. Keep these aligned: setTimeout drives
+// the unmount, the class drives the visual fade — both must match.
+const FADE_DURATION_MS = 200;
+
 export interface HorizontalScrollbarProps {
   targetRef: React.RefObject<HTMLDivElement | null>;
   height?: string;
@@ -18,14 +23,28 @@ export const HorizontalScrollbar = ({
   const [thumbWidth, setThumbWidth] = useState(0);
   const [thumbLeft, setThumbLeft] = useState(0);
   const [dragging, setDragging] = useState(false);
+  // Delayed-unmount fade. The mounted→visible split via RAF lets the
+  // opacity-0 initial paint commit before flipping to opacity-100 so the
+  // CSS transition has a from→to to interpolate.
+  const [hasOverflow, setHasOverflow] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
   const dragStartX = useRef(0);
   const scrollStart = useRef(0);
 
-  // Update thumb size & position
+  // Update thumb size & position. Also flips `hasOverflow` so the bar
+  // unmounts when content fits without scrolling — see early-return below.
   const updateThumb = () => {
     const container = targetRef.current;
+    if (!container) return;
+
+    // +1 fudge factor for sub-pixel rounding on fractional widths.
+    const overflows = container.scrollWidth > container.clientWidth + 1;
+    setHasOverflow(overflows);
+    if (!overflows) return;
+
     const track = trackRef.current;
-    if (!container || !track) return;
+    if (!track) return;
 
     const ratio = container.clientWidth / container.scrollWidth;
     setThumbWidth(Math.max(ratio * track.clientWidth, 20)); // min 20px
@@ -123,13 +142,32 @@ export const HorizontalScrollbar = ({
     scrollStart.current = targetRef.current?.scrollLeft || 0;
   };
 
+  useEffect(() => {
+    if (hasOverflow) {
+      setMounted(true);
+      const id = requestAnimationFrame(() => {
+        setVisible(true);
+        // Track just mounted; recompute thumb against its real width.
+        updateThumb();
+      });
+      return () => cancelAnimationFrame(id);
+    }
+    setVisible(false);
+    const id = window.setTimeout(() => setMounted(false), FADE_DURATION_MS);
+    return () => window.clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasOverflow]);
+
+  if (!mounted) return null;
+
   return (
     <div
       ref={trackRef}
       className={tw(
-        'bg-background-alt relative self-center rounded-4xl',
+        'bg-background-alt relative self-center rounded-4xl transition-opacity duration-200',
         width,
-        height
+        height,
+        visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       )}
     >
       <div

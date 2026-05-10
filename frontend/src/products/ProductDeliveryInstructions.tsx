@@ -1,22 +1,26 @@
+import { useRef } from 'react';
 import { DELIVERY_STEP_INFO as DELIVERY_INSTRUCTION_STEPS } from './constants';
 import { DeliveryStepDetail } from './ProductDeliveryStepDetails';
+import { HorizontalList } from '../common/components/HorizontalList';
 
 export const ProductDeliveryInstructions = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   return (
-    // TODO: gutter is `px-page` for now to avoid horizontal overflow at
-    // narrow viewports. The design has a wider-than-page gutter at desktop
-    // (more indented than `<ProductRecommendations>`) and a page-aligned
-    // gutter at mobile — when revisiting, introduce a dedicated token
-    // rather than reusing `px-page`. See `docs/frontend/features/products.md`.
-    <div className='border-brand-primary py-pdp-section flex flex-col gap-12 border-t px-page'>
-      <div className='font-crimson w-[40%] text-6xl'>
-        How Your Package Will Arrive At Your Door
+    <div className='border-brand-primary py-pdp-section pl-page flex flex-col gap-5 border-t md:gap-8 lg:gap-12'>
+      <div className='font-crimson text-pdp-section-header leading-tight'>
+        <span className='block'>How Your Package Will</span>
+        <span className='block'>Arrive At Your Door</span>
       </div>
-      <div className='flex gap-5'>
+      <HorizontalList
+        scrollRef={scrollRef}
+        className='gap-5'
+        outerClassName='gap-8'
+      >
         {DELIVERY_INSTRUCTION_STEPS.map((step) => (
           <DeliveryStepDetail key={step.id} {...step} />
         ))}
-      </div>
+      </HorizontalList>
     </div>
   );
 };

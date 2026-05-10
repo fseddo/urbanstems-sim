@@ -4,6 +4,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Catch-all safety net for ultra-narrow viewports — below 250sw the body
+ * holds its 250px minimum and the browser shows a horizontal scrollbar.
+ * In-flow page content stays usable; fixed bars (navbar, ProductBottomBar)
+ * remain viewport-bound, which is intentional. */
+body {
+  min-width: 250px;
+}
+
 :root {
   --background: #f8f8f8;
   --background-alt: #dfdfdf;

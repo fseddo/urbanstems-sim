@@ -21,7 +21,10 @@ docs/
 ## Reading order, by task
 
 - **Touching the collection / listing page** → [`frontend/features/collections.md`](frontend/features/collections.md).
-- **Touching the navbar / search / mobile menu** → `frontend/features/navbar.md` (TBD; write as a side effect when next touched).
+- **Touching the PDP** → [`frontend/features/products.md`](frontend/features/products.md).
+- **Touching the navbar / search / mobile menu** → [`frontend/features/navbar.md`](frontend/features/navbar.md).
+- **Touching the cart** → [`frontend/features/cart.md`](frontend/features/cart.md).
+- **Touching the landing page (`/` route)** → [`frontend/features/landing.md`](frontend/features/landing.md).
 - **Touching checkout** → [`frontend/features/checkout.md`](frontend/features/checkout.md).
 - **Touching the address picker / geo / Google Places** → [`frontend/features/places.md`](frontend/features/places.md).
 - **Touching the API layer / queries / mutations** → [`frontend/architecture/data-fetching.md`](frontend/architecture/data-fetching.md).

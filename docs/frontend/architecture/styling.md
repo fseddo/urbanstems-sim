@@ -71,3 +71,9 @@ Don't:
 - Reach for arbitrary Tailwind palette colors (`bg-red-50`, `text-amber-600`, `border-gray-200`) without confirming.
 
 Pre-existing violations are tracked in [`docs/improvements/src-commerce-shared.md`](../../improvements/src-commerce-shared.md) — fix as you touch the relevant components, but don't sweep them all in one go without alignment on what each gray means semantically.
+
+## Letter-spacing for action text
+
+Uppercase CTAs (buttons + tracked text-link CTAs like "SHOP ALL", "GOT IT", "ADD TO BAG", "VIEW ALL") share a single letter-spacing token: `tracking-action` = `1.68px`. Defined in [`globals.css`](../../../frontend/src/globals.css)'s `@theme inline` and applied uniformly across [`<AnimatedButton>`](../../../frontend/src/common/components/AnimatedButton.tsx), all ADD TO BAG / ADD TO CART buttons, checkout / cart CTAs, navbar dropdown SHOP NOW links, modal "GOT IT" buttons, and similar surfaces.
+
+When adding a new uppercase action element, use `tracking-action` rather than a one-off `tracking-wider` / `tracking-widest` / arbitrary `tracking-[Xpx]`. The token exists so the action-text rhythm stays consistent across the app.

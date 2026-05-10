@@ -29,6 +29,10 @@ Component-internal responsive logic is allowed to introduce **local breakpoints*
 
 The bias is still away from a tablet *tier* — there's no `md`-shaped layout tier in app code. Per-component values exist where the visual transition happens at a different point than the global `lg`.
 
+### Document-level safety net
+
+`body { min-width: 250px }` in [`globals.css`](../../../frontend/src/globals.css) ensures the page never collapses below a usable width. Below 250sw the browser auto-renders a horizontal scrollbar and in-flow content holds at the 250px floor. Fixed-positioned elements (navbar, ProductBottomBar) are anchored to the viewport rather than the body, so they stay viewport-wide at sub-250 widths — intentionally, since extending fixed bars past the visible viewport edge is worse than letting them sit flush to the scroll position.
+
 ## Fluid token system
 
 For per-component responsive **sizing** (widths, font sizes, gaps that should scale continuously rather than flip stepwise), the project uses CSS custom properties that all follow the same canonical curve, documented at the top of [`globals.css`](../../../frontend/src/globals.css):

@@ -47,6 +47,7 @@ export interface Product {
 // Product (tags loaded) — under-offers if tags are missing rather than
 // risking a vase offer on a plant.
 export const isVaseAddonEligible = (product: Product): boolean => {
+  if (product.addon_type !== null) return false;
   if (product.vase_included) return false;
   if (
     product.tags?.some(

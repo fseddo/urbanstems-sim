@@ -1,15 +1,19 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { Product } from '@/api/products/Product';
-import { CartItem, addToCartAtom } from '@/src/cart/cartAtoms';
+import { addToCartAtom } from '@/src/cart/cartAtoms';
 import {
   clearPendingForProductAtom,
   pendingAddonsAtom,
 } from '@/src/addons/addonAtoms';
 
-// Bundles pending add-on selections for `product` into the new cart line
-// and clears pending on add. Shared by the in-flow PDP button and the
-// sticky `ProductBottomBar` button so the bundled price + add-clear
-// behavior stays in one place.
+// Bundles pending add-ons for `product` into the next ADD TO BAG. Vase
+// attaches to the bouquet's set line; gifts split into their own
+// independent cart lines (each gift's `count` becomes that line's
+// quantity). Pending is cleared after the add.
+//
+// `setPrice` reflects the bundled total — bouquet + vase + (gift price ×
+// count) — so the button reads as the user's total intent at click time,
+// even though gifts will end up as separate cart lines.
 
 export const useAddToBagButton = (product: Product) => {
   const pending =
@@ -17,18 +21,26 @@ export const useAddToBagButton = (product: Product) => {
   const addToCart = useSetAtom(addToCartAtom);
   const clearPending = useSetAtom(clearPendingForProductAtom);
 
-  const addons: CartItem[] = [
-    ...(pending.vase ? [pending.vase] : []),
-    ...pending.gifts,
-  ];
+  const giftSum = pending.gifts.reduce(
+    (s, g) => s + g.item.price_dollars * g.count,
+    0
+  );
   const setPrice =
     (product.price_dollars ?? 0) +
-    addons.reduce((s, a) => s + a.price_dollars, 0);
+    (pending.vase?.price_dollars ?? 0) +
+    giftSum;
+  const addonCount =
+    (pending.vase ? 1 : 0) +
+    pending.gifts.reduce((s, g) => s + g.count, 0);
 
   const addToBag = () => {
-    addToCart({ product, addons });
-    if (addons.length > 0) clearPending(product.slug);
+    addToCart({
+      product,
+      vase: pending.vase,
+      gifts: pending.gifts,
+    });
+    if (addonCount > 0) clearPending(product.slug);
   };
 
-  return { setPrice, addonCount: addons.length, addToBag };
+  return { setPrice, addonCount, addToBag };
 };

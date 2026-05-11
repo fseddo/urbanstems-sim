@@ -2,15 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import { FiX } from 'react-icons/fi';
-import { CgSpinner } from 'react-icons/cg';
 import { AddonType } from '@/api/products/AddonType';
 import { Product } from '@/api/products/Product';
 import { productQueries } from '@/api/products/productQueries';
+import { List } from '@/src/common/components/List';
 import { SlidePane } from '@/src/common/components/SlidePane';
 import { tw } from '@/src/common/utils/tw';
-import { addonSelectorAtom } from './addonAtoms';
+import {
+  AddonSelectorState,
+  addonSelectorAtom,
+  clearPendingVaseAtom,
+  decrementPendingGiftAtom,
+  pendingAddonsAtom,
+} from './addonAtoms';
 import { ADDON_TYPE_META } from './addonTypeMeta';
-import { AddonRow } from './AddonRow';
+import { AddonRow, AddonRowAction } from './AddonRow';
 import { AddonDetail } from './AddonDetail';
 import { useAddAddon } from './useAddAddon';
 
@@ -27,9 +33,8 @@ export const AddonSelectorPane = () => {
   const closeSelector = useSetAtom(addonSelectorAtom);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [exiting, setExiting] = useState(false);
-  // Last seen type kept around so the slide-out renders the same content
-  // the user just had open (atom goes null on close before SlidePane has
-  // finished sliding offscreen).
+  // Last-seen type — keeps slide-out content stable while the atom is
+  // already null but the pane is still visible.
   const [renderType, setRenderType] = useState<AddonType>('vase');
   const handleAdd = useAddAddon();
   const listScrollRef = useRef<HTMLDivElement>(null);
@@ -37,13 +42,11 @@ export const AddonSelectorPane = () => {
 
   const isOpen = state !== null;
   const isDetail = selectedSlug !== null;
-  const meta = ADDON_TYPE_META[renderType];
 
   useEffect(() => {
     if (state) setRenderType(state.type);
   }, [state]);
 
-  // Reset session state on any close (X, ADD, backdrop) so reopen is fresh.
   useEffect(() => {
     if (!isOpen) {
       setSelectedSlug(null);
@@ -86,73 +89,128 @@ export const AddonSelectorPane = () => {
             onBack={back}
           />
         ) : (
-          <>
-            <div className='flex items-start justify-end px-5 pt-4 pb-2'>
-              <button
-                onClick={close}
-                className='border-brand-primary hover:bg-brand-primary rounded-full border p-1.5 transition-colors duration-400 hover:text-white'
-                aria-label='Close'
-              >
-                <FiX size={18} />
-              </button>
-            </div>
-            <ListView
-              scrollRef={listScrollRef}
-              addonType={renderType}
-              meta={meta}
-              onSelectDetail={showDetail}
-              onAdd={handleAdd}
-            />
-          </>
+          <AddonSelectorListView
+            scrollRef={listScrollRef}
+            renderType={renderType}
+            state={state}
+            onSelectDetail={showDetail}
+            onAdd={handleAdd}
+            onClose={close}
+          />
         )}
       </div>
     </SlidePane>
   );
 };
 
-const ListView = ({
+const AddonSelectorListView = ({
   scrollRef,
-  addonType,
-  meta,
+  renderType,
+  state,
   onSelectDetail,
   onAdd,
+  onClose,
 }: {
   scrollRef: React.RefObject<HTMLDivElement | null>;
-  addonType: AddonType;
-  meta: (typeof ADDON_TYPE_META)[AddonType];
+  renderType: AddonType;
+  state: AddonSelectorState | null;
   onSelectDetail: (slug: string) => void;
   onAdd: (product: Product) => void;
+  onClose: () => void;
 }) => {
+  const meta = ADDON_TYPE_META[renderType];
   const { data, isPending } = useQuery(
-    productQueries.list({ addon_type: addonType })
+    productQueries.list({ addon_type: renderType })
   );
   const products = data?.data ?? [];
 
-  return (
-    <>
-      <div className='flex flex-col items-center gap-1 px-7 pb-4 text-center'>
-        <h2 className='font-crimson text-4xl'>{meta.modalTitle}</h2>
-        <div className='text-sm'>{meta.modalSubtitle}</div>
-      </div>
+  // Per-row selection state — only meaningful in PDP context.
+  const pendingForProduct = useAtomValue(pendingAddonsAtom);
+  const clearPendingVase = useSetAtom(clearPendingVaseAtom);
+  const decrementPendingGift = useSetAtom(decrementPendingGiftAtom);
 
-      <div ref={scrollRef} className='min-h-0 flex-1 overflow-y-auto px-7 pb-8'>
-        {isPending ? (
-          <div className='flex h-full items-center justify-center'>
-            <CgSpinner className='animate-spin opacity-60' size={28} />
+  const actionFor = (product: Product): AddonRowAction => {
+    if (state?.context.kind !== 'pdp') {
+      return { kind: 'add', onAdd: () => onAdd(product) };
+    }
+    const parentSlug = state.context.parentSlug;
+    const pending = pendingForProduct[parentSlug] ?? { gifts: [] };
+    if (renderType === 'vase') {
+      const isPending = pending.vase?.slug === product.slug;
+      return isPending
+        ? { kind: 'remove', onRemove: () => clearPendingVase(parentSlug) }
+        : { kind: 'add', onAdd: () => onAdd(product) };
+    }
+    const giftEntry = pending.gifts.find(
+      (g) => g.item.slug === product.slug
+    );
+    if (!giftEntry) {
+      return { kind: 'add', onAdd: () => onAdd(product) };
+    }
+    return {
+      kind: 'stepper',
+      count: giftEntry.count,
+      onIncrement: () => onAdd(product),
+      onDecrement: () =>
+        decrementPendingGift({
+          parentSlug,
+          giftSlug: product.slug,
+        }),
+    };
+  };
+
+  // Gifts-only sticky footer: lets the user dismiss after picking.
+  // Vase ADD-and-close doesn't need it.
+  const giftFooterTotal =
+    renderType === 'gift' && state?.context.kind === 'pdp'
+      ? (
+          pendingForProduct[state.context.parentSlug]?.gifts ?? []
+        ).reduce((s, g) => s + g.item.price_dollars * g.count, 0)
+      : 0;
+
+  return (
+    <List
+      items={products}
+      isLoading={isPending}
+      getKey={(p) => p.slug}
+      scrollRef={scrollRef}
+      scrollClassName='px-7 pb-8'
+      header={
+        <>
+          <div className='flex items-start justify-end px-5 pt-4 pb-2'>
+            <button
+              onClick={onClose}
+              className='border-brand-primary hover:bg-brand-primary rounded-full border p-1.5 transition-colors duration-400 hover:text-white'
+              aria-label='Close'
+            >
+              <FiX size={18} />
+            </button>
           </div>
-        ) : (
-          <div className='flex flex-col gap-3'>
-            {products.map((product) => (
-              <AddonRow
-                key={product.slug}
-                product={product}
-                onAdd={() => onAdd(product)}
-                onLearnMore={() => onSelectDetail(product.slug)}
-              />
-            ))}
+          <div className='flex flex-col items-center gap-1 px-7 pb-4 text-center'>
+            <h2 className='font-crimson text-4xl'>{meta.modalTitle}</h2>
+            <div className='text-sm'>{meta.modalSubtitle}</div>
           </div>
-        )}
-      </div>
-    </>
+        </>
+      }
+      footer={
+        giftFooterTotal > 0 && (
+          <div className='bg-white px-10 pt-6 pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.03)] min-[1020px]:rounded-b-md'>
+            <button
+              onClick={onClose}
+              className='bg-brand-primary hover:border-brand-primary hover:text-brand-primary w-full rounded-md border py-5 text-xs font-black tracking-action text-white/90 transition-colors duration-300 hover:bg-white active:scale-[0.99]'
+            >
+              {`ADD SELECTED - $${giftFooterTotal}`}
+            </button>
+          </div>
+        )
+      }
+      renderItem={(product) => (
+        <AddonRow
+          product={product}
+          action={actionFor(product)}
+          onLearnMore={() => onSelectDetail(product.slug)}
+        />
+      )}
+    />
   );
 };

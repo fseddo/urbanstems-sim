@@ -1,4 +1,4 @@
-import type { ColumnCount } from '@/src/common/components/List';
+import type { ColumnCount } from '@/src/common/components/InfiniteList';
 import { useIsDesktop } from '@/src/common/hooks/useIsDesktop';
 import { useIsSticky } from '@/src/common/hooks/useIsSticky';
 import { tw } from '@/src/common/utils/tw';

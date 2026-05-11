@@ -7,7 +7,7 @@ Composition top-down, in [`CollectionPage.tsx`](../../../frontend/src/collection
 1. [`<NavigationBreadcrumbs>`](../../../frontend/src/common/components/NavigationBreadcrumbs.tsx) — Home → page name. Only renders when there's a `pageTag` (omitted on /collections/all and search-results).
 2. [`<CollectionHero>`](../../../frontend/src/collections/CollectionHero.tsx) — title + subtitle, branches per render path.
 3. [`<CollectionListHeader>`](../../../frontend/src/collections/CollectionListHeader.tsx) — filter trigger, delivery date, sending-to, column chooser.
-4. [`<List>`](../../../frontend/src/common/components/List.tsx) — virtualized infinite grid of [`<ProductCard>`](../../../frontend/src/common/components/ProductCard.tsx).
+4. [`<InfiniteList>`](../../../frontend/src/common/components/InfiniteList.tsx) — virtualized infinite grid of [`<ProductCard>`](../../../frontend/src/common/components/ProductCard.tsx).
 
 [`<FilterSidebar>`](../../../frontend/src/filters/FilterSidebar.tsx) is mounted at the page level and toggled by the filter cell.
 
@@ -68,7 +68,7 @@ URL is the source of truth — sidebar writes via `navigate({ search })`. No loc
 
 ## Product grid
 
-[`<List>`](../../../frontend/src/common/components/List.tsx) is a virtualized infinite grid in `common/`; collections is currently the only consumer. Each row is a CSS grid with `gridTemplateColumns: repeat(N, minmax(0, 1fr))` where N = `columnCount`.
+[`<InfiniteList>`](../../../frontend/src/common/components/InfiniteList.tsx) is a virtualized infinite grid in `common/`; collections is currently the only consumer. Each row is a CSS grid with `gridTemplateColumns: repeat(N, minmax(0, 1fr))` where N = `columnCount`. (For non-virtualized vertical scrolling lists with optional header/footer slots — e.g. modal panes — use the sibling [`<List>`](../../../frontend/src/common/components/List.tsx).)
 
 Spacing:
 - Outer pt/pb — `pt-[40px] pb-[47px] lg:pt-[53px] lg:pb-[64px]`. Combined with each row's `py-[17px] lg:py-[27px]`, the visual top/bottom from the outer edge to the first/last card content lands at 57/64 mobile, 80/91 desktop.

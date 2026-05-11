@@ -13,40 +13,45 @@ Files: [`frontend/src/cart/`](../../../frontend/src/cart/) — two of them, [`ca
 | `cartItemsAtom` | The persistent line list. `atomWithStorage` keyed `urbanstems-cart`, with `getOnInit: true` so route loaders see the persisted value on hard refresh, not the empty initial. |
 | `cartOpenAtom` | Whether the slide-in pane is open. |
 | `cartCountAtom` | Derived: total quantity across lines. Used by the navbar's cart-icon badge. |
-| `cartTotalAtom` | Derived: `Σ lineSetPrice(line) × line.quantity` — includes addon prices. |
-| `lineSetPrice(line)` | Per-set unit price (parent + addons, before quantity). Exported for both cart and checkout consumers. |
-| `lineFingerprint(line)` | Stable per-line identity (`parentSlug + sorted addon slugs`). Used as React key, line-mutation atom payload, and merge bucket. |
-| `addToCartAtom` (write-only) | Adds a bouquet, optionally with addons. Same-fingerprint lines merge (qty++); different addon configs stay as separate lines. **Also opens the pane.** |
+| `cartTotalAtom` | Derived: `Σ lineSetPrice(line) × line.quantity`. Includes attached vase prices; gift lines contribute their own line totals. |
+| `lineSetPrice(line)` | Per-set unit price (parent + vase, before quantity). Exported for both cart and checkout. |
+| `lineFingerprint(line)` | Stable per-line identity (`parentSlug + vase slug`). Used as React key, line-mutation atom payload, and merge bucket. |
+| `addToCartAtom` (write-only) | Adds a bouquet (with optional vase) as one set line, AND splits each pending gift into its own independent cart line with `quantity = count`. Same-fingerprint lines merge (qty++). **Also opens the pane.** |
 | `setLineQuantityAtom` (write-only) | Updates a line's quantity by `lineId`. Quantity ≤ 0 removes the line. |
 | `removeLineAtom` (write-only) | Removes a line by `lineId`. |
-| `attachAddonToLineAtom` (write-only) | Vase: 1-max per set, replaces existing. Gift: unlimited, appends. |
-| `removeAddonFromLineAtom` (write-only) | Removes the first addon match by slug — gifts can repeat, the per-row trash is one click per addon. |
-| `snapshotAddon(product)` | Selector callers convert a vase/gift `Product` to `CartItem` before passing to attach. |
+| `setLineVaseAtom` (write-only) | Sets/replaces the vase on a bouquet line, or clears with `vase: null`. (Gifts are independent lines and don't attach.) |
+| `snapshotAddon(product)` | Selector callers convert a vase/gift `Product` to `CartItem` before attaching to a line or staging in pending. |
 
 Why `atomWithStorage` with `getOnInit: true`: the checkout route's loader reads the cart synchronously to compute its payment intent. Without `getOnInit`, the loader fires before React mount has had a chance to hydrate the atom, so on hard refresh the loader would see `[]` and treat the cart as empty.
 
 `CartLine` is a deliberate snapshot of the product, not a reference. Storing the price/name/image at add-time means the cart doesn't desync when the catalog changes — if a price drops between add-to-cart and checkout, the cart shows what the user agreed to. Backend reconciles at checkout.
 
-## `CartLine` shape — sets
+## `CartLine` shape — sets vs. standalone vs. gifts
 
 ```ts
 interface CartLine {
-  item: CartItem;        // parent bouquet
-  quantity: number;       // applies to the whole set
-  addons: CartItem[];     // attached vases/gifts; empty = plain bouquet
+  item: CartItem;
+  quantity: number;
+  vase?: CartItem;  // only on bouquet lines that have a vase attached
 }
 ```
 
-The same `CartItem` shape covers both parent bouquets and addons — the role is implied by where the item sits (`item` vs. `addons[]`). `CartItem.addon_type` is `null` on parents, set on addons. `CartItem.vase_addon_eligible` is snapshotted on the parent at add time so the cart never re-derives from `vase_included` + tags.
+Three line flavors share the same shape:
 
-A `CartLine` shape change on a persisted cart would crash derived atoms reading `line.addons`. A one-shot module-load shape check in [`cartAtoms.ts`](../../../frontend/src/cart/cartAtoms.ts) clears the storage if the persisted shape predates `addons: []`. Drop the guard once enough time has passed that no live carts could still be on the old shape.
+- **Standalone bouquet** — `vase` undefined. Renders as a plain row.
+- **Set (bouquet + vase)** — `vase` set. Renders with a "Set" name + parent + vase sub-rows; per-vase trash on the sub-row writes `setLineVaseAtom` with `vase: null`.
+- **Gift** — independent cart line; `item.addon_type === 'gift'`, `vase` always undefined. Renders as a plain row with its own qty stepper.
+
+`CartItem.vase_addon_eligible` is snapshotted on the parent at add time so the cart never re-derives from `vase_included` + tags. `CartItem.addon_type` is `null` for bouquets, `'vase'` when the item is on `line.vase`, and `'gift'` when the item is itself a gift line's `item`.
+
+A `CartLine` shape change on a persisted cart would crash derived atoms. A one-shot module-load shape check in [`cartAtoms.ts`](../../../frontend/src/cart/cartAtoms.ts) clears the storage if the persisted shape still has the legacy `addons: []` field. Drop the guard once enough time has passed that no live carts could still be on the old shape.
 
 ## `lineFingerprint` — line identity
 
-Slug alone isn't unique once a parent can appear in multiple lines with different addon configs (e.g. "The Sorbet" alone AND "The Sorbet Set + vase" can coexist as two distinct lines). `lineFingerprint(line)` returns `parentSlug|addon1Slug,addon2Slug` (sorted). Used as:
+Slug alone isn't unique once a parent can appear in multiple lines with different vase configs (e.g. "The Sorbet" alone AND "The Sorbet Set + vase" coexist as two distinct lines). `lineFingerprint(line)` returns `parentSlug|vaseSlug?`. Used as:
 
 - React keys in [`<CartLineRow>`](../../../frontend/src/cart/CartPane.tsx) and [`<CheckoutSummary>`](../../../frontend/src/checkout/CheckoutSummary.tsx)
-- Payload for `setLineQuantityAtom` / `removeLineAtom` / `attachAddonToLineAtom` / `removeAddonFromLineAtom`
+- Payload for `setLineQuantityAtom` / `removeLineAtom` / `setLineVaseAtom`
 - Merge bucket in `addToCartAtom`
 
 Quantity is excluded — qty changes shouldn't remount the row or split the merge bucket.
@@ -77,14 +82,14 @@ This matches the codebase's "read pending state from the source of truth" rule �
 
 `<CartLineRow>` is defined in the same file. Receives `lineId` from the parent map (computed via `lineFingerprint`) and uses it for every line-mutation atom call.
 
-Two render modes branching on `line.addons.length > 0`:
+Two render modes branching on whether `line.vase` is attached:
 
-- **Plain bouquet**: image, name, variant type ("Size: Standard"), qty stepper, line total, trash.
-- **Set**: image (parent's), name becomes `${item.name} Set`, then a vertical stack of `<SetSubRow>` (parent + each addon — small thumb + "1 × Name", per-addon trash on addon rows only). Qty stepper applies to the whole set; line total = `lineSetPrice(line) × quantity`.
+- **Standalone (bouquet OR gift)**: image, name, variant type ("Size: Standard") if applicable, qty stepper, line total, trash.
+- **Set (bouquet + vase)**: image (parent's), name becomes `${item.name} Set`, then a vertical stack of `<SetSubRow>` for parent + vase — small thumb + "1 × Name", trash on the vase sub-row writes `setLineVaseAtom` with `vase: null`. Qty stepper applies to the whole set; line total = `lineSetPrice(line) × quantity`.
 
 ### Cart-line trigger
 
-When `item.vase_addon_eligible && no vase in line.addons`, the line renders an "ADD A VASE" pill below the qty/total row. Click writes `addonSelectorAtom` with `{ type: 'vase', context: { kind: 'cart-line', lineId } }`. Gifts have no cart-line trigger — they're PDP-only.
+When `item.addon_type === null && item.vase_addon_eligible && !line.vase`, the line renders an "ADD A VASE" pill below the qty/total row. Click writes `addonSelectorAtom` with `{ type: 'vase', context: { kind: 'cart-line', lineId } }`. The `addon_type === null` gate keeps the trigger off gift cart lines. Gifts have no cart-line trigger.
 
 ## SlidePane integration
 

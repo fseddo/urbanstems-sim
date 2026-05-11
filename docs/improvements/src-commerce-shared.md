@@ -59,7 +59,7 @@ These are the next items to tackle — grouped at top so they're not buried unde
 - Fix: keep dropdown mounted until navigation completes (`await navigate(...)`), or use `pointer-events-none` + opacity on close so the click still lands.
 
 ### `useColumns` hardcoded `1024` breakpoint
-- Location: `frontend/src/common/components/List.tsx`.
+- Location: `frontend/src/common/components/InfiniteList.tsx`.
 - Magic number that must match Tailwind's `lg:`. If `globals.css` ever moves the breakpoint, this drifts.
 - Fix: read from CSS via `getComputedStyle(...)`, or add a comment pinning it to `lg:`.
 

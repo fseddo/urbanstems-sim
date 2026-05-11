@@ -1,25 +1,106 @@
 # UrbanStems Sim
 
-**UrbanStems Sim** is a web-based simulation and clone of the UrbanStems floral e-commerce platform.  
-It’s designed to replicate core product listing and browsing features, built from scratch for learning, prototyping, and experimentation.
+A from-scratch web reconstruction of the [UrbanStems](https://urbanstems.com) floral e-commerce experience — Django + React, Postgres-backed, Stripe-wired, deployable via Docker. Built as a learning sandbox for production-shape patterns rather than a 1:1 functional clone.
 
-This project scrapes real product data to seed its database, aiming to mimic the look and feel of UrbanStems while serving as a foundation for exploring modern web development techniques.
+The catalog is seeded from a real scrape of UrbanStems' product data (`backend/data/products.json` + `addons.json`); the visual design closely tracks the original; the architectural choices (taxonomy system, payment intents, address autocomplete, configurator add-ons, dynamic responsive sizing tokens) were all included deliberately to practice patterns that show up on bigger teams.
 
-## Features
+## Status
 
-- Dynamic product listing and filtering based on scraped data  
-- Responsive UI inspired by UrbanStems design  
-- Support for multiple product occasions and collections  
-- Easy-to-extend codebase for experimenting with new features  
+**Approaching v1 completion.** The catalog, product detail, cart, checkout, and add-ons flows are all built end-to-end. Last v1 item is the About Us page.
 
-## Tech Stack
+What's working today:
 
-- **Python 3.8+**
-- **Django**
-- **React**
+- **Browse** — landing page with curated carousels (best sellers, occasions, reviews, About Us); listing pages for categories, collections, occasions, plus search; faceted filtering with multi-select (color, stem type, price range, vase included, badges) and column-count chooser.
+- **Product detail (PDP)** — hero gallery (touch swipe vs mouse grid), variant chooser, delivery date + address pickers, description / care accordions, recommendations carousel, sticky bottom bar, reviews with local-only review submission.
+- **Add-ons configurator** — vase + gift selectors with PDP staging via `pendingAddonsAtom`; vases attach to a bouquet's set, gifts split into independent cart lines on add. Modal-as-management with REMOVE / stepper UI per row.
+- **Cart** — slide-in pane with set rendering (parent + vase sub-rows), per-line qty stepper, free-shipping progress, persistent localStorage with shape-versioned guards.
+- **Checkout** — Stripe Payment Element, address autocomplete (Google Places via a server-side proxy with throttling + IP biasing), order-confirmation email via Resend, Stripe webhook with idempotency.
+- **Navbar** — desktop dropdown with category cards + occasion grid, mobile slide-in menu, search autosuggest tied to landing-page tags, view-transition morphs between desktop search bar and dropdown panel.
 
+## Tech stack
 
-## Ethical Use and Disclaimer
+**Backend** ([`backend/`](backend/))
 
-This project is for **personal, educational, and prototyping purposes only**.  
-It is **not affiliated with or endorsed by UrbanStems**.  
+- Python 3.11 / Django 5.0 / Django REST Framework + django-filter
+- PostgreSQL 15
+- Redis (idempotency cache for the Stripe webhook)
+- Stripe (PaymentIntent + Elements)
+- Resend (transactional email)
+- whitenoise (static), gunicorn (prod)
+
+**Frontend** ([`frontend/`](frontend/))
+
+- React 19 + TypeScript + Vite 6
+- TanStack Router (file-based routes) + TanStack Query (server state) + TanStack Virtual (the catalog grid)
+- Jotai (cross-tree client state — cart, navbar, address, addons)
+- Tailwind 4
+- Stripe Elements
+
+**Infra**
+
+- Docker Compose (Postgres + Django + Vite for local dev; same images for prod)
+
+## Repo layout
+
+```
+backend/                   # Django project + REST API
+  products/                # catalog, facets/tags taxonomy, reviews, seed
+  checkout/                # Stripe PaymentIntent, webhook, order email
+  places/                  # Google Places proxy with throttling
+  data/                    # scraped product + addon JSON (seed input)
+  manage.py
+frontend/
+  api/                     # TanStack Query queryOptions, types
+  routes/                  # file-based TanStack Router routes
+  src/
+    landing/               # / route components
+    collections/           # /collections/<slug> + filtering
+    products/              # /products/<slug> PDP
+    cart/                  # cart pane + atoms
+    checkout/              # /checkout flow + summary
+    addons/                # vase + gift selector pane + atoms
+    navbar/                # navbar, dropdowns, mobile menu, search
+    address/               # address picker
+    date/                  # date picker (delivery)
+    filters/               # filter sidebar + URL search-params
+    common/                # shared components, hooks, utils
+docs/                      # area-scoped feature + architecture docs
+docker-compose.yml
+```
+
+## Running locally
+
+Requires Docker + Docker Compose.
+
+```bash
+# Start everything (Postgres + Django + Vite frontend)
+docker compose up
+
+# Reseed the catalog + add-ons after editing data files
+docker compose exec web python manage.py seed_products --clear
+# or, from backend/:
+pnpm run reseed
+```
+
+Once up:
+
+- Frontend at <http://localhost:3000>
+- Backend API at <http://localhost:8000/api>
+- Postgres at `localhost:5432`
+
+For Stripe / Resend / Google Places to actually work, set the corresponding env vars in `backend/.env` and `frontend/.env` (see [`docs/frontend/features/checkout.md`](docs/frontend/features/checkout.md) and [`docs/frontend/features/places.md`](docs/frontend/features/places.md) for setup details).
+
+## Where to read
+
+[`docs/`](docs/) is organized for selective reading — pull in only the doc relevant to the area you're touching, not the whole catalog. Start with [`docs/README.md`](docs/README.md) for the routing table.
+
+The agent-facing entry points:
+- Repo-wide rules + the area routing table → [`CLAUDE.md`](CLAUDE.md)
+- Frontend-specific rules → [`frontend/CLAUDE.md`](frontend/CLAUDE.md)
+- Backend-specific rules → [`backend/CLAUDE.md`](backend/CLAUDE.md)
+
+Per-feature deep dives live under [`docs/frontend/features/`](docs/frontend/features/) and [`docs/backend/features/`](docs/backend/features/); cross-cutting principles (responsive sizing, data fetching, forms, styling) under [`docs/frontend/architecture/`](docs/frontend/architecture/).
+
+## Ethical use & disclaimer
+
+This project is for **personal, educational, and prototyping purposes only**. It is **not affiliated with or endorsed by UrbanStems**. Product data scraped from urbanstems.com is used to seed the local catalog; no transactions are processed against any real UrbanStems system.

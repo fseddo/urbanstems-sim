@@ -18,9 +18,9 @@ import {
   cartTotalAtom,
   lineFingerprint,
   lineSetPrice,
-  removeAddonFromLineAtom,
   removeLineAtom,
   setLineQuantityAtom,
+  setLineVaseAtom,
 } from './cartAtoms';
 
 const FREE_SHIPPING_THRESHOLD = 140;
@@ -134,12 +134,12 @@ const CartLineRow = ({
 }) => {
   const setQuantity = useSetAtom(setLineQuantityAtom);
   const removeLine = useSetAtom(removeLineAtom);
-  const removeAddon = useSetAtom(removeAddonFromLineAtom);
+  const setLineVase = useSetAtom(setLineVaseAtom);
   const openSelector = useSetAtom(addonSelectorAtom);
   const setOpen = useSetAtom(cartOpenAtom);
   const closeCart = () => setOpen(false);
-  const { item, quantity, addons } = line;
-  const hasAddons = addons.length > 0;
+  const { item, quantity, vase } = line;
+  const isSet = vase != null;
   const setPrice = lineSetPrice(line);
   const lineTotal = setPrice * quantity;
   const originalLineTotal =
@@ -147,10 +147,10 @@ const CartLineRow = ({
       ? item.discounted_price_dollars * quantity
       : null;
 
-  // Hidden once the set has a vase OR when the parent isn't vase-eligible.
-  // Gifts are PDP-only.
+  // Bouquet lines only (gift lines never get the trigger), and only if
+  // there's no vase already + the parent allows one.
   const showVaseTrigger =
-    item.vase_addon_eligible && !addons.some((a) => a.addon_type === 'vase');
+    item.addon_type === null && item.vase_addon_eligible && !vase;
 
   return (
     <div className='border-background-alt flex gap-4 border-b py-5'>
@@ -177,9 +177,9 @@ const CartLineRow = ({
               onClick={closeCart}
               className='text-base leading-tight font-bold'
             >
-              {hasAddons ? `${item.name} Set` : item.name}
+              {isSet ? `${item.name} Set` : item.name}
             </Link>
-            {!hasAddons && item.variant_type && (
+            {!isSet && item.variant_type && (
               <div className='text-sm'>
                 Size: {capitalizeString(item.variant_type)}
               </div>
@@ -194,19 +194,13 @@ const CartLineRow = ({
           </button>
         </div>
 
-        {hasAddons && (
+        {isSet && (
           <div className='flex flex-col gap-1.5'>
             <SetSubRow item={item} />
-            {addons.map((addon, i) => (
-              // Gifts can repeat — slug isn't unique; index keeps key stable.
-              <SetSubRow
-                key={`${addon.slug}-${i}`}
-                item={addon}
-                onRemove={() =>
-                  removeAddon({ lineId, addonSlug: addon.slug })
-                }
-              />
-            ))}
+            <SetSubRow
+              item={vase}
+              onRemove={() => setLineVase({ lineId, vase: null })}
+            />
           </div>
         )}
 

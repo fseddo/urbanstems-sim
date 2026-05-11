@@ -2,7 +2,10 @@ import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import { useCallback, useEffect, useState } from 'react';
 import type { Product } from '@/api/products/Product';
 import { productQueries } from '@/api/products/productQueries';
-import { List, type ColumnCount } from '@/src/common/components/List';
+import {
+  InfiniteList,
+  type ColumnCount,
+} from '@/src/common/components/InfiniteList';
 import { NavigationBreadcrumbs } from '@/src/common/components/NavigationBreadcrumbs';
 import { ProductCard } from '@/src/common/components/ProductCard';
 import { useIsDesktop } from '@/src/common/hooks/useIsDesktop';
@@ -88,7 +91,7 @@ export const CollectionPage = () => {
         columnCount={columnCount}
         onColumnCountChange={setColumnCount}
       />
-      <List
+      <InfiniteList
         queryOptions={productQueries.infiniteList(filters)}
         columnCount={columnCount}
         renderItem={(product) => (

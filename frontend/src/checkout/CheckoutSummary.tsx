@@ -27,7 +27,7 @@ interface Totals {
 const LineList = ({ lines }: { lines: CartLine[] }) => (
   <ul className='flex flex-col gap-5'>
     {lines.map((line) => {
-      const hasAddons = line.addons.length > 0;
+      const isSet = line.vase != null;
       const total = lineSetPrice(line) * line.quantity;
       return (
         <li key={lineFingerprint(line)} className='flex items-start gap-4'>
@@ -45,15 +45,12 @@ const LineList = ({ lines }: { lines: CartLine[] }) => (
           </div>
           <div className='min-w-0 flex-1'>
             <div className='text-sm font-bold'>
-              {hasAddons ? `${line.item.name} Set` : line.item.name}
+              {isSet ? `${line.item.name} Set` : line.item.name}
             </div>
-            {hasAddons ? (
+            {isSet && line.vase ? (
               <div className='mt-1.5 flex flex-col gap-1'>
                 <SetComponentRow item={line.item} />
-                {line.addons.map((a, i) => (
-                  // Slug isn't unique within addons (gifts can repeat); index suffix.
-                  <SetComponentRow key={`${a.slug}-${i}`} item={a} />
-                ))}
+                <SetComponentRow item={line.vase} />
               </div>
             ) : (
               line.item.variant_type && (

@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { FiChevronDown } from 'react-icons/fi';
-import { HiOutlineTrash } from 'react-icons/hi2';
 import { AddonType } from '@/api/products/AddonType';
 import { Product, isVaseAddonEligible } from '@/api/products/Product';
 import {
   addonSelectorAtom,
-  clearPendingVaseAtom,
   pendingAddonsAtom,
-  removePendingGiftAtom,
+  type PendingGift,
 } from '@/src/addons/addonAtoms';
 import { ADDON_TYPE_META, addonCtaLabel } from '@/src/addons/addonTypeMeta';
 import { CartItem } from '@/src/cart/cartAtoms';
@@ -18,15 +16,14 @@ import { tw } from '@/src/common/utils/tw';
 
 // PDP add-ons section: collapsible vase + gift configurator. Selections
 // write into `pendingAddonsAtom` and bundle into the next ADD TO BAG via
-// `useAddToBagButton`. Vase row hides via `isVaseAddonEligible(product)`.
+// `useAddToBagButton`. All add/remove/quantity adjustments happen inside
+// the selector modal — the PDP rows are summary surfaces with an Edit CTA.
 
 export const AddOns = ({ product }: { product: Product }) => {
   const pending = useAtomValue(pendingAddonsAtom)[product.slug] ?? {
     gifts: [],
   };
   const openSelector = useSetAtom(addonSelectorAtom);
-  const clearVase = useSetAtom(clearPendingVaseAtom);
-  const removeGift = useSetAtom(removePendingGiftAtom);
 
   const showVase = isVaseAddonEligible(product);
   const [open, setOpen] = useState(true);
@@ -50,29 +47,23 @@ export const AddOns = ({ product }: { product: Product }) => {
       <CollapsiblePanel open={open}>
         <div className='flex flex-col pt-3'>
           {showVase && (
-            <AddOnSection
-              addonType='vase'
-              selected={pending.vase ? [pending.vase] : []}
-              onAdd={() =>
+            <VaseRow
+              vase={pending.vase}
+              onOpen={() =>
                 openSelector({
                   type: 'vase',
                   context: { kind: 'pdp', parentSlug: product.slug },
                 })
               }
-              onRemove={() => clearVase(product.slug)}
             />
           )}
-          <AddOnSection
-            addonType='gift'
-            selected={pending.gifts}
-            onAdd={() =>
+          <GiftRow
+            gifts={pending.gifts}
+            onOpen={() =>
               openSelector({
                 type: 'gift',
                 context: { kind: 'pdp', parentSlug: product.slug },
               })
-            }
-            onRemove={(giftSlug) =>
-              removeGift({ parentSlug: product.slug, giftSlug })
             }
           />
         </div>
@@ -81,79 +72,115 @@ export const AddOns = ({ product }: { product: Product }) => {
   );
 };
 
-const AddOnSection = ({
-  addonType,
-  selected,
-  onAdd,
-  onRemove,
+const VaseRow = ({
+  vase,
+  onOpen,
 }: {
-  addonType: AddonType;
-  selected: CartItem[];
-  onAdd: () => void;
-  onRemove: (slug: string) => void;
+  vase: CartItem | undefined;
+  onOpen: () => void;
 }) => {
-  const meta = ADDON_TYPE_META[addonType];
-  const isEmpty = selected.length === 0;
-  // Vase: 1-max → "Edit" reopens selector; new pick replaces via the
-  // useAddAddon hook. Gift: unlimited → "Add Another" appends.
-  const reopenLabel = addonType === 'vase' ? 'Edit' : 'Add Another';
-
+  const meta = ADDON_TYPE_META.vase;
+  if (!vase) return <EmptyRow addonType='vase' onOpen={onOpen} />;
   return (
     <div className='border-b-background-alt border-b border-dashed py-3'>
-      {isEmpty ? (
-        <button
-          type='button'
-          onClick={onAdd}
-          className='flex w-full items-center justify-between gap-3 text-left'
-        >
-          <span className='flex items-center gap-3'>
-            <img
-              src={meta.rowThumbnail}
-              alt={meta.modalTitle}
-              width={40}
-              height={80}
-              className='shrink-0 object-cover'
-            />
-            <span className='text-xs'>{meta.rowSubtitle}</span>
-          </span>
-          <span className='text-brand-primary min-w-[68px] text-xs font-bold underline'>
-            {addonCtaLabel(addonType)}
-          </span>
-        </button>
-      ) : (
-        <div className='flex flex-col gap-2'>
-          {selected.map((item, i) => (
-            // Slug isn't unique within gifts (user can attach the same gift
-            // twice); index suffix keeps the React key stable.
-            <div key={`${item.slug}-${i}`} className='flex items-center gap-3'>
-              {item.main_image && (
-                <img
-                  src={imageAtWidth(item.main_image, 200)}
-                  alt={item.name}
-                  className='h-10 w-10 shrink-0 rounded-sm object-cover'
-                />
-              )}
-              <div className='flex-1 text-xs leading-tight'>
-                <div className='font-bold'>{item.name}</div>
-                <div className='opacity-60'>${item.price_dollars}</div>
-              </div>
-              <button
-                onClick={() => onRemove(item.slug)}
-                aria-label={`Remove ${item.name}`}
-                className='shrink-0 transition-opacity hover:opacity-60'
-              >
-                <HiOutlineTrash size={16} />
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={onAdd}
-            className='text-brand-primary self-end text-xs font-bold underline'
-          >
-            {reopenLabel}
-          </button>
+      <div className='flex items-center gap-3'>
+        {vase.main_image && (
+          <img
+            src={imageAtWidth(vase.main_image, 200)}
+            alt={vase.name}
+            className='h-10 w-10 shrink-0 rounded-sm object-cover'
+          />
+        )}
+        <div className='flex-1 text-xs leading-tight'>
+          <div className='font-bold'>{vase.name}</div>
+          <div className='opacity-60'>${vase.price_dollars}</div>
         </div>
-      )}
+        <button
+          onClick={onOpen}
+          className='text-brand-primary text-xs font-bold underline'
+          aria-label={`Edit ${meta.modalTitle}`}
+        >
+          Edit
+        </button>
+      </div>
     </div>
+  );
+};
+
+const GiftRow = ({
+  gifts,
+  onOpen,
+}: {
+  gifts: PendingGift[];
+  onOpen: () => void;
+}) => {
+  const total = gifts.reduce((s, g) => s + g.count, 0);
+  if (total === 0) return <EmptyRow addonType='gift' onOpen={onOpen} />;
+  const first = gifts[0].item;
+  const others = total - 1;
+  const totalPrice = gifts.reduce(
+    (s, g) => s + g.item.price_dollars * g.count,
+    0
+  );
+  return (
+    <div className='border-b-background-alt border-b border-dashed py-3'>
+      <div className='flex items-center gap-3'>
+        {first.main_image && (
+          <img
+            src={imageAtWidth(first.main_image, 200)}
+            alt={first.name}
+            className='h-10 w-10 shrink-0 rounded-sm object-cover'
+          />
+        )}
+        <div className='flex-1 text-xs leading-tight'>
+          <div className='font-bold'>
+            {first.name}
+            {others > 0 && (
+              <span className='font-normal opacity-70'>
+                {` + ${others} other ${others === 1 ? 'gift' : 'gifts'}`}
+              </span>
+            )}
+          </div>
+          <div className='opacity-60'>${totalPrice}</div>
+        </div>
+        <button
+          onClick={onOpen}
+          className='text-brand-primary text-xs font-bold underline'
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const EmptyRow = ({
+  addonType,
+  onOpen,
+}: {
+  addonType: AddonType;
+  onOpen: () => void;
+}) => {
+  const meta = ADDON_TYPE_META[addonType];
+  return (
+    <button
+      type='button'
+      onClick={onOpen}
+      className='border-b-background-alt flex w-full items-center justify-between gap-3 border-b border-dashed py-3 text-left'
+    >
+      <span className='flex items-center gap-3'>
+        <img
+          src={meta.rowThumbnail}
+          alt={meta.modalTitle}
+          width={40}
+          height={80}
+          className='shrink-0 object-cover'
+        />
+        <span className='text-xs'>{meta.rowSubtitle}</span>
+      </span>
+      <span className='text-brand-primary min-w-[68px] text-xs font-bold underline'>
+        {addonCtaLabel(addonType)}
+      </span>
+    </button>
   );
 };

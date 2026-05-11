@@ -4,19 +4,6 @@ A from-scratch web reconstruction of the [UrbanStems](https://urbanstems.com) fl
 
 The catalog is seeded from a real scrape of UrbanStems' product data (`backend/data/products.json` + `addons.json`); the visual design closely tracks the original; the architectural choices (taxonomy system, payment intents, address autocomplete, configurator add-ons, dynamic responsive sizing tokens) were all included deliberately to practice patterns that show up on bigger teams.
 
-## Status
-
-**Approaching v1 completion.** The catalog, product detail, cart, checkout, and add-ons flows are all built end-to-end. Last v1 item is the About Us page.
-
-What's working today:
-
-- **Browse** — landing page with curated carousels (best sellers, occasions, reviews, About Us); listing pages for categories, collections, occasions, plus search; faceted filtering with multi-select (color, stem type, price range, vase included, badges) and column-count chooser.
-- **Product detail (PDP)** — hero gallery (touch swipe vs mouse grid), variant chooser, delivery date + address pickers, description / care accordions, recommendations carousel, sticky bottom bar, reviews with local-only review submission.
-- **Add-ons configurator** — vase + gift selectors with PDP staging via `pendingAddonsAtom`; vases attach to a bouquet's set, gifts split into independent cart lines on add. Modal-as-management with REMOVE / stepper UI per row.
-- **Cart** — slide-in pane with set rendering (parent + vase sub-rows), per-line qty stepper, free-shipping progress, persistent localStorage with shape-versioned guards.
-- **Checkout** — Stripe Payment Element, address autocomplete (Google Places via a server-side proxy with throttling + IP biasing), order-confirmation email via Resend, Stripe webhook with idempotency.
-- **Navbar** — desktop dropdown with category cards + occasion grid, mobile slide-in menu, search autosuggest tied to landing-page tags, view-transition morphs between desktop search bar and dropdown panel.
-
 ## Tech stack
 
 **Backend** ([`backend/`](backend/))
@@ -92,9 +79,8 @@ For Stripe / Resend / Google Places to actually work, set the corresponding env 
 
 ## Where to read
 
-[`docs/`](docs/) is organized for selective reading — pull in only the doc relevant to the area you're touching, not the whole catalog. Start with [`docs/README.md`](docs/README.md) for the routing table.
+[`docs/`](docs/) is organized for selective reading. Start with [`docs/README.md`](docs/README.md) for the routing table.
 
-The agent-facing entry points:
 - Repo-wide rules + the area routing table → [`CLAUDE.md`](CLAUDE.md)
 - Frontend-specific rules → [`frontend/CLAUDE.md`](frontend/CLAUDE.md)
 - Backend-specific rules → [`backend/CLAUDE.md`](backend/CLAUDE.md)

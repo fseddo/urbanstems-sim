@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root';
 import { Route as IndexRouteImport } from './routes/index';
+import { Route as AboutRouteImport } from './routes/about';
 import { Route as CollectionsIndexRouteImport } from './routes/collections/index';
 import { Route as CheckoutIndexRouteImport } from './routes/checkout/index';
 import { Route as CheckoutResultRouteImport } from './routes/checkout/result';
@@ -19,6 +20,11 @@ import { Route as CollectionsSlugRouteImport } from './routes/collections/$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any);
 const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
@@ -49,6 +55,7 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
+  '/about': typeof AboutRoute;
   '/collections/$slug': typeof CollectionsSlugRoute;
   '/products/$slug': typeof ProductsSlugRoute;
   '/checkout/result': typeof CheckoutResultRoute;
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
+  '/about': typeof AboutRoute;
   '/collections/$slug': typeof CollectionsSlugRoute;
   '/products/$slug': typeof ProductsSlugRoute;
   '/checkout/result': typeof CheckoutResultRoute;
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   '/': typeof IndexRoute;
+  '/about': typeof AboutRoute;
   '/collections/$slug': typeof CollectionsSlugRoute;
   '/products/$slug': typeof ProductsSlugRoute;
   '/checkout/result': typeof CheckoutResultRoute;
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
+    | '/about'
     | '/collections/$slug'
     | '/products/$slug'
     | '/checkout/result'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
+    | '/about'
     | '/collections/$slug'
     | '/products/$slug'
     | '/checkout/result'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/collections/$slug'
     | '/products/$slug'
     | '/checkout/result'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  AboutRoute: typeof AboutRoute;
   CollectionsSlugRoute: typeof CollectionsSlugRoute;
   ProductsSlugRoute: typeof ProductsSlugRoute;
   CheckoutResultRoute: typeof CheckoutResultRoute;
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/';
       fullPath: '/';
       preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    '/about': {
+      id: '/about';
+      path: '/about';
+      fullPath: '/about';
+      preLoaderRoute: typeof AboutRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     '/collections/': {
@@ -157,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   CheckoutResultRoute: CheckoutResultRoute,

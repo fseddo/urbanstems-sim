@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { tw } from '../common/utils/tw';
 
 export const AboutUs = () => {
@@ -9,14 +10,15 @@ export const AboutUs = () => {
         <span className='whitespace-nowrap'>New York</span> and delivered
         nationwide.
       </header>
-      <div
+      <Link
+        to='/about'
         className={tw(
-          'hover:text-foreground/60 tracking-action flex cursor-pointer font-extrabold underline underline-offset-6',
+          'hover:text-foreground/60 tracking-action flex font-extrabold underline underline-offset-6',
           'text-[12px] lg:text-[16px]'
         )}
       >
         LEARN MORE
-      </div>
+      </Link>
     </section>
   );
 };

@@ -21,6 +21,27 @@ logger = logging.getLogger(__name__)
 
 EMAIL_SENT_TTL_S = 24 * 60 * 60
 
+# The recipient is whatever `receipt_email` the browser handed Stripe, and the
+# sim runs on test-mode keys — so anyone can pay with 4242… and point the
+# confirmation at an arbitrary inbox. Cap sends per recipient per day so the
+# endpoint can't be used to spam a third party from our sending domain.
+MAX_EMAILS_PER_RECIPIENT_PER_DAY = 5
+RECIPIENT_WINDOW_S = 24 * 60 * 60
+
+
+def _recipient_over_limit(to: str) -> bool:
+    """Increment the per-recipient counter; True once it exceeds the cap."""
+    key = f'order_email_recipient:{to.strip().lower()}'
+    # add() is a no-op if the key exists, so the window starts on first send.
+    cache.add(key, 0, timeout=RECIPIENT_WINDOW_S)
+    try:
+        count = cache.incr(key)
+    except ValueError:
+        # Key expired between add() and incr(); treat as a fresh window.
+        cache.set(key, 1, timeout=RECIPIENT_WINDOW_S)
+        count = 1
+    return count > MAX_EMAILS_PER_RECIPIENT_PER_DAY
+
 
 def _format_cents(cents: int | None) -> str:
     if cents is None:
@@ -109,7 +130,11 @@ _DARK_TEXT = '#3d3628'
 def _item_block(line: dict, image_map: dict[str, str]) -> str:
     slug = line.get('slug', '')
     img_url = _image_url_for(slug, image_map)
-    name = line.get('name', '')
+    # Metadata is server-written today, but it round-trips through Stripe —
+    # escape anyway so a future metadata writer can't inject markup.
+    name = html.escape(str(line.get('name', '')))
+    qty = html.escape(str(line.get('qty', 1)))
+    img_url = html.escape(img_url, quote=True)
     img_html = (
         f'<img src="{img_url}" alt="{name}" width="120" height="120" '
         f'style="width:120px;height:120px;border-radius:3px;display:block;'
@@ -131,7 +156,7 @@ def _item_block(line: dict, image_map: dict[str, str]) -> str:
                           {name}
                         </p>
                         <p style="margin:0;font-family:{_BODY_FONT};font-size:13px;color:{_MUTED};">
-                          Qty: {line.get("qty", 1)}
+                          Qty: {qty}
                         </p>
                       </td>
                       <td align="right" style="vertical-align:middle;white-space:nowrap;">
@@ -380,6 +405,12 @@ def send_order_confirmation(intent: dict) -> bool:
         logger.info('Email already sent for intent %s; skipping.', intent.get('id'))
         return False
 
+    if _recipient_over_limit(to):
+        logger.warning(
+            'Recipient daily email cap hit for intent %s; skipping.', intent.get('id')
+        )
+        return False
+
     resend.api_key = settings.RESEND_API_KEY
     try:
         resend.Emails.send({
@@ -393,5 +424,5 @@ def send_order_confirmation(intent: dict) -> bool:
         return False
 
     cache.set(cache_key, True, timeout=EMAIL_SENT_TTL_S)
-    logger.info('Sent order confirmation for intent %s to %s.', intent.get('id'), to)
+    logger.info('Sent order confirmation for intent %s.', intent.get('id'))
     return True

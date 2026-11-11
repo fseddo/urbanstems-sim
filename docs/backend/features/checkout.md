@@ -10,13 +10,15 @@ POST endpoint that takes `{line_items: [{slug, quantity}, ...]}` and returns a S
 
 **Server-side re-pricing.** The request body carries only `slug` and `quantity` — never prices. The view re-prices from the DB in `_compute_totals`. Discount wins when set, with an explicit `is None` check so a 0-cent discount doesn't fall through to full price.
 
-**Validation via DRF Serializer.** `CreatePaymentIntentSerializer` (with a nested `LineItemSerializer`) replaces hand-rolled `request.data.get(...)` + `isinstance(list)` checks. Structured field-level 400s for free.
+**Validation via DRF Serializer.** `CreatePaymentIntentSerializer` (with a nested `LineItemSerializer`) replaces hand-rolled `request.data.get(...)` + `isinstance(list)` checks. Structured field-level 400s for free. Bounded: `quantity ≤ 99` per line, `≤ 50` lines per request.
+
+**Throttled per client IP** (`checkout-create-intent`, 10/min) via `RealClientIPThrottle` — each call is a Stripe API request, and a confirmed intent triggers an email.
 
 **Tax + shipping helpers** (`_tax_cents`, `_shipping_cents`) are pure functions of `subtotal_cents` against settings (`CHECKOUT_TAX_RATE_PCT`, `CHECKOUT_FREE_SHIPPING_THRESHOLD_CENTS`, `CHECKOUT_FLAT_SHIPPING_CENTS`). Easy to swap for a real tax/shipping provider — the call sites stay the same.
 
 **Stripe metadata.** Subtotal / shipping / tax / item count and a `lines` JSON blob (slug + name + qty + cents per line) are stamped onto the PaymentIntent so the webhook can render the email without re-querying. The blob is truncated at 500 chars (Stripe's per-value limit) — known failure mode for long carts is documented in [improvements](../../improvements/backend.md).
 
-**Stripe error handling.** `StripeError` is logged with `logger.exception('PaymentIntent.create failed')` (full traceback server-side) and the client gets a 502 with Stripe's `user_message` (or the exception string fallback).
+**Stripe error handling.** `StripeError` is logged with `logger.exception('PaymentIntent.create failed')` (full traceback server-side) and the client gets a 502 with Stripe's customer-safe `user_message`, or a generic `Payment provider error.` — never `str(e)`.
 
 ## Stripe SDK init
 
@@ -37,6 +39,8 @@ POST endpoint that takes `{line_items: [{slug, quantity}, ...]}` and returns a S
 [`checkout/emails.py`](../../../backend/checkout/emails.py). Built from the PaymentIntent metadata + shipping fields + an `expand=['latest_charge']` re-fetch (one extra Stripe call) to get billing/payment-method details. Sent via Resend.
 
 **HTML escaping.** All user-supplied strings (customer name, address, etc.) pass through `html.escape()` before interpolation into the template — see `_format_address` and the `_build_html` body. Stripe sanitizes addresses upstream, but defense-in-depth treats anything from outside the system as untrusted.
+
+**Per-recipient cap.** The recipient is the browser-supplied `receipt_email`, and test-mode cards let anyone complete a payment — so `send_order_confirmation` caps sends at `MAX_EMAILS_PER_RECIPIENT_PER_DAY` (5) per address via a cache counter. Stops the endpoint being used to spam a third-party inbox from our sending domain. Recipient addresses are not logged.
 
 **Shipping vs billing fall-through.** If the expanded charge doesn't include billing details (Stripe's `expand` support varies), the email shows "Same as shipping address" instead of breaking.
 

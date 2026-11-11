@@ -148,7 +148,15 @@ REST_FRAMEWORK = {
         'places-autocomplete': '30/min',
         'places-details': '20/min',
         'places-detect': '10/min',
+        'checkout-create-intent': '10/min',
     },
+    # Browsable API only in dev; prod serves plain JSON (smaller surface, no
+    # HTML rendering of request data).
+    'DEFAULT_RENDERER_CLASSES': (
+        ['rest_framework.renderers.JSONRenderer', 'rest_framework.renderers.BrowsableAPIRenderer']
+        if DEBUG
+        else ['rest_framework.renderers.JSONRenderer']
+    ),
 }
 
 # Per-app log level: verbose in dev, quiet in prod.
@@ -192,13 +200,44 @@ CORS_ALLOWED_ORIGINS = config(
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
-CORS_ALLOW_CREDENTIALS = True
+# The API is anonymous (no cookies, no auth headers), so cross-origin
+# requests never need credentials. Leaving this on would let any allowed
+# origin read responses made with the admin session cookie.
+CORS_ALLOW_CREDENTIALS = False
 
 # Number of trusted proxy hops between the public internet and Django. Used
 # by rate-limiting and IP geolocation to identify the real client IP from
 # X-Forwarded-For. 0 = no proxy (use REMOTE_ADDR). 1 = single proxy (Railway,
 # nginx). See docs/places-and-geo.md "Railway deployment" for details.
 TRUSTED_PROXY_HOPS = config('TRUSTED_PROXY_HOPS', default=0, cast=int)
+
+# Path the Django admin is mounted at. Override in prod with something
+# non-guessable to keep the login form out of drive-by credential stuffing.
+ADMIN_URL = config('ADMIN_URL', default='admin/')
+
+# Production transport hardening. Only applied when DEBUG is off so local
+# http://localhost dev keeps working.
+if not DEBUG:
+    # Behind a TLS-terminating proxy (Railway), trust its X-Forwarded-Proto
+    # so request.is_secure() is right. Only when a proxy is declared —
+    # otherwise a client could spoof the header.
+    if TRUSTED_PROXY_HOPS > 0:
+        SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # Opt-in: platform health checks often hit plain http internally.
+    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = 'same-origin'
+    X_FRAME_OPTIONS = 'DENY'
+# Admin login over HTTPS behind a proxy needs the public origin listed.
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='',
+    cast=lambda v: [s.strip() for s in v.split(',') if s.strip()],
+)
 
 # Cache backend. Redis is required as soon as Django runs in more than one
 # process (multiple workers, multiple containers): without it, throttle

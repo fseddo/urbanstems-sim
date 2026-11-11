@@ -1,5 +1,6 @@
 import ipaddress
 import logging
+import re
 from pathlib import Path
 
 import geoip2.database
@@ -10,50 +11,21 @@ from django.core.cache import cache
 from rest_framework import status
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
-from rest_framework.throttling import AnonRateThrottle
+
+from urbanstems_backend.throttling import RealClientIPThrottle, real_client_ip
 
 logger = logging.getLogger(__name__)
 
 
-def _real_client_ip(request) -> str | None:
-    """Pick the original client IP from X-Forwarded-For when behind exactly
-    `settings.TRUSTED_PROXY_HOPS` trusted proxies. Returns None when XFF
-    cannot be trusted (no proxy configured, header missing, or fewer entries
-    than hops) — callers chain their own fallback (REMOTE_ADDR for plain
-    reads, DRF's `super().get_ident()` for throttle keys).
-    """
-    hops = getattr(settings, 'TRUSTED_PROXY_HOPS', 0)
-    if hops <= 0:
-        return None
-    xff = request.META.get('HTTP_X_FORWARDED_FOR')
-    if not xff:
-        return None
-    ips = [ip.strip() for ip in xff.split(',') if ip.strip()]
-    if len(ips) < hops:
-        return None
-    return ips[-hops]
-
-
-class _RealClientIPThrottle(AnonRateThrottle):
-    """
-    Honors X-Forwarded-For when behind a known number of trusted proxies
-    (settings.TRUSTED_PROXY_HOPS). Picks ips[-N] — the entry written by the
-    outermost trusted proxy, which is the original client IP assuming that
-    proxy strips client-supplied XFF entries.
-    """
-    def get_ident(self, request):
-        return _real_client_ip(request) or super().get_ident(request)
-
-
-class _AutocompleteThrottle(_RealClientIPThrottle):
+class _AutocompleteThrottle(RealClientIPThrottle):
     scope = 'places-autocomplete'
 
 
-class _DetailsThrottle(_RealClientIPThrottle):
+class _DetailsThrottle(RealClientIPThrottle):
     scope = 'places-details'
 
 
-class _DetectThrottle(_RealClientIPThrottle):
+class _DetectThrottle(RealClientIPThrottle):
     scope = 'places-detect'
 
 PLACES_AUTOCOMPLETE_URL = 'https://places.googleapis.com/v1/places:autocomplete'
@@ -69,6 +41,22 @@ UPSTREAM_TIMEOUT_S = 5
 
 AUTOCOMPLETE_CACHE_TTL_S = 60 * 60
 DETAILS_CACHE_TTL_S = 24 * 60 * 60
+
+# Input bounds. place_id is interpolated into the upstream URL path, so it
+# must be a bare token — anything else (`/`, `..`, `?`, `#`) could steer the
+# API-keyed request at a different Google endpoint. Google place IDs are
+# URL-safe base64-ish strings well under 1KB.
+PLACE_ID_RE = re.compile(r'^[A-Za-z0-9_-]{1,512}$')
+# Session tokens are client-generated UUIDs; reject anything not token-shaped.
+SESSION_TOKEN_RE = re.compile(r'^[A-Za-z0-9_-]{1,64}$')
+MAX_QUERY_LEN = 200
+
+
+def _session_token(request) -> str | None:
+    session = request.query_params.get('session')
+    if session and SESSION_TOKEN_RE.match(session):
+        return session
+    return None
 
 
 def _missing_key_response() -> Response:
@@ -86,7 +74,7 @@ def autocomplete(request):
         return _missing_key_response()
 
     query = request.query_params.get('q', '').strip().lower()
-    if len(query) < 3:
+    if len(query) < 3 or len(query) > MAX_QUERY_LEN:
         return Response({'predictions': []})
 
     lat_raw = request.query_params.get('lat')
@@ -117,7 +105,7 @@ def autocomplete(request):
 
     body: dict = {'input': query}
 
-    session = request.query_params.get('session')
+    session = _session_token(request)
     if session:
         body['sessionToken'] = session
 
@@ -184,9 +172,9 @@ def details(request):
         return _missing_key_response()
 
     place_id = request.query_params.get('place_id', '').strip()
-    if not place_id:
+    if not PLACE_ID_RE.match(place_id):
         return Response(
-            {'detail': 'place_id is required.'},
+            {'detail': 'A valid place_id is required.'},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -196,7 +184,7 @@ def details(request):
         return Response(cached)
 
     params = {}
-    session = request.query_params.get('session')
+    session = _session_token(request)
     if session:
         params['sessionToken'] = session
 
@@ -258,8 +246,8 @@ def _get_geoip_reader() -> geoip2.database.Reader | None:
 
 
 def _client_ip(request) -> str | None:
-    # See _real_client_ip / _RealClientIPThrottle for the trust-boundary logic.
-    return _real_client_ip(request) or request.META.get('REMOTE_ADDR')
+    # See urbanstems_backend.throttling for the trust-boundary logic.
+    return real_client_ip(request) or request.META.get('REMOTE_ADDR')
 
 
 def _fallback_payload(source: str) -> dict:

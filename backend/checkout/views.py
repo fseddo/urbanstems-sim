@@ -3,8 +3,10 @@ import logging
 
 from django.conf import settings
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
+
+from urbanstems_backend.throttling import RealClientIPThrottle
 
 from products.models import Product
 
@@ -12,6 +14,13 @@ from .serializers import CreatePaymentIntentSerializer
 from .stripe_client import stripe
 
 logger = logging.getLogger(__name__)
+
+
+class _CreatePaymentIntentThrottle(RealClientIPThrottle):
+    # Each PaymentIntent is a Stripe API call, and a confirmed one triggers an
+    # outbound email — rate-limit per client IP so the open endpoint can't be
+    # scripted into a Stripe/Resend quota drain or email cannon.
+    scope = 'checkout-create-intent'
 
 
 def _missing_key_response() -> Response:
@@ -75,6 +84,7 @@ def _tax_cents(subtotal_cents: int) -> int:
 
 
 @api_view(['POST'])
+@throttle_classes([_CreatePaymentIntentThrottle])
 def create_payment_intent(request):
     if not settings.STRIPE_SECRET_KEY:
         return _missing_key_response()
@@ -125,8 +135,10 @@ def create_payment_intent(request):
         )
     except stripe.error.StripeError as e:
         logger.exception('PaymentIntent.create failed')
+        # Only Stripe's customer-safe `user_message` reaches the client; the
+        # full `str(e)` (request IDs, param names, account hints) stays in logs.
         return Response(
-            {'detail': f'Stripe error: {e.user_message or str(e)}'},
+            {'detail': e.user_message or 'Payment provider error.'},
             status=status.HTTP_502_BAD_GATEWAY,
         )
 

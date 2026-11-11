@@ -17,15 +17,17 @@ Two endpoints, both backed by Google's Places API v1:
 - Autocomplete: 1h TTL, key includes the lowercased query and rounded lat/lng (~1km bucket). **Cache key intentionally excludes the session token** — same input from two sessions hits the same cache entry.
 - Details: 24h TTL, keyed on `place_id` only.
 
+**Input shape validation.** `place_id` must match `^[A-Za-z0-9_-]{1,512}$` — it is interpolated into the upstream URL path, so `/`, `..`, `?` etc. could otherwise redirect the API-keyed request to another Google endpoint. `session` tokens must be token-shaped (≤64 chars) or are dropped; autocomplete queries over 200 chars return empty.
+
 **lat/lng range validation.** After casting to `float`, out-of-range coords (lat ∉ [-90, 90] or lng ∉ [-180, 180]) drop the location bias instead of forwarding bogus values upstream.
 
 **Upstream errors are scrubbed.** Both `RequestException` and non-2xx responses log the full detail server-side (`logger.exception` / `logger.warning`) and return a generic `{'detail': 'Upstream error.'}` to the client. No leaking provider error text (could include API-key hints, project IDs).
 
 ## Throttling + client IP
 
-Three throttle classes (`_AutocompleteThrottle`, `_DetailsThrottle`, `_DetectThrottle`) all subclass `_RealClientIPThrottle`, which honors `X-Forwarded-For` when behind exactly `settings.TRUSTED_PROXY_HOPS` trusted proxies. Picks `ips[-N]` — the entry written by the outermost trusted proxy, on the assumption that proxy strips client-supplied XFF.
+Three throttle classes (`_AutocompleteThrottle`, `_DetailsThrottle`, `_DetectThrottle`) all subclass `RealClientIPThrottle` (in `urbanstems_backend/throttling.py`), which honors `X-Forwarded-For` when behind exactly `settings.TRUSTED_PROXY_HOPS` trusted proxies. Picks `ips[-N]` — the entry written by the outermost trusted proxy, on the assumption that proxy strips client-supplied XFF.
 
-The XFF parsing lives in one helper, [`_real_client_ip`](../../../backend/places/views.py), consumed by both the throttle's `get_ident` and the GeoIP `_client_ip` lookup. Single trust-boundary policy.
+The XFF parsing lives in one helper, [`real_client_ip`](../../../backend/urbanstems_backend/throttling.py), consumed by both the throttle's `get_ident` and the GeoIP `_client_ip` lookup. Single trust-boundary policy.
 
 Per-endpoint rates wired via `scope` on each subclass (`places-autocomplete`, `places-details`, `places-detect`) — configured under `DEFAULT_THROTTLE_RATES` in `REST_FRAMEWORK`.
 

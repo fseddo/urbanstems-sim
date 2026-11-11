@@ -57,7 +57,7 @@ Don't store sibling/related data on a row as a JSONField unless there's a mainta
 
 ## Trusted-proxy / XFF parsing in one helper
 
-`TRUSTED_PROXY_HOPS`-aware XFF parsing serves both throttle `get_ident` and any view reading client IP. One function, both call sites consume it. Reference: [`places._real_client_ip`](places/views.py).
+`TRUSTED_PROXY_HOPS`-aware XFF parsing serves both throttle `get_ident` and any view reading client IP. One function, both call sites consume it. Reference: [`urbanstems_backend.throttling.real_client_ip`](urbanstems_backend/throttling.py) + `RealClientIPThrottle` (subclassed by places and checkout throttles).
 
 ## External SDK init in one per-provider module
 

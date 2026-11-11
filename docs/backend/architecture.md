@@ -21,9 +21,11 @@ Production-relevant settings have **no insecure defaults**:
 - `SECRET_KEY = config('SECRET_KEY')` — raises at boot if missing.
 - `DEBUG = config('DEBUG', default=False, cast=bool)` — defaults the safe direction.
 
+When `DEBUG` is off, settings also turn on secure/HttpOnly cookies, HSTS, nosniff, `X-Frame-Options: DENY`, and (if `TRUSTED_PROXY_HOPS > 0`) `SECURE_PROXY_SSL_HEADER`. Opt-in env vars: `SECURE_SSL_REDIRECT`, `SECURE_HSTS_SECONDS`, `CSRF_TRUSTED_ORIGINS`, and `ADMIN_URL` (admin mount path, default `admin/` — set something non-guessable in prod). The browsable API renderer is dev-only; prod serves JSON only. `CORS_ALLOW_CREDENTIALS` is off — the API is anonymous.
+
 DRF declares auth and permission classes explicitly even when the value is `AllowAny`, so a future write endpoint can't silently inherit. `LOGGING` is configured with per-app levels (`checkout`, `places`, `products`) tied to `DEBUG` — verbose in dev, quiet in prod.
 
-`TRUSTED_PROXY_HOPS` is a settings-level escape hatch the throttle and IP-detection logic both consume (via [`places._real_client_ip`](../../backend/places/views.py)). Lets you switch from "no proxy" to "single proxy (Railway)" with one env var.
+`TRUSTED_PROXY_HOPS` is a settings-level escape hatch the throttle and IP-detection logic both consume (via [`urbanstems_backend.throttling.real_client_ip`](../../backend/urbanstems_backend/throttling.py)). Lets you switch from "no proxy" to "single proxy (Railway)" with one env var.
 
 ## URLs
 
@@ -31,7 +33,7 @@ Mounted at the project root:
 - `''` → `products.urls` (which mounts itself under `api/`)
 - `api/places/` → `places.urls`
 - `api/checkout/` → `checkout.urls`
-- `admin/` → Django admin
+- `settings.ADMIN_URL` (default `admin/`) → Django admin
 
 (The path inconsistency — products mounts internally vs. places/checkout mount externally — is intentional-but-ugly; flagged in [improvements](../improvements/backend.md).)
 

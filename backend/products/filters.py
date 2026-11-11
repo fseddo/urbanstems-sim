@@ -12,6 +12,15 @@ ALL_FACET_SLUGS = ('category', 'collection', 'occasion', 'color', 'stem_type')
 LANDING_FACET_SLUGS = ('category', 'collection', 'occasion')
 
 
+# Clamp for the dollar price params. Unbounded input (`?min_price=1e30`)
+# overflows the integer column on Postgres and 500s the request.
+MAX_PRICE_DOLLARS = 1_000_000
+
+
+def _dollars_to_cents(value) -> int:
+    return max(0, min(int(value), MAX_PRICE_DOLLARS)) * 100
+
+
 class ProductFilter(django_filters.FilterSet):
     """Per-facet multi-select via repeated query params (`?color=red&color=pink`)
     or comma-separated (`?color=red,pink`). OR within a facet, AND across
@@ -79,10 +88,10 @@ class ProductFilter(django_filters.FilterSet):
         return queryset.filter(vase_included=True) if value == 'true' else queryset
 
     def _filter_min_price(self, queryset, name, value):
-        return queryset.filter(price__gte=int(value) * 100)
+        return queryset.filter(price__gte=_dollars_to_cents(value))
 
     def _filter_max_price(self, queryset, name, value):
-        return queryset.filter(price__lte=int(value) * 100)
+        return queryset.filter(price__lte=_dollars_to_cents(value))
 
     @property
     def qs(self):
